@@ -50505,9 +50505,7 @@ var Sketch = /*#__PURE__*/function () {
       _this.pivot1 = new THREE.Group();
 
       _this.pivot1.add(_this.face1); // this.pivot1.position.x =1;
-
-
-      _this.scene.add(_this.pivot1); // this.scene.add(this.face1);
+      // this.scene.add(this.face1);
 
 
       gltf.scene.traverse(function (o) {
@@ -50521,28 +50519,30 @@ var Sketch = /*#__PURE__*/function () {
           o.rotateX(-Math.PI / 2); // o.rotation.z = Math.PI/2;
         }
       });
+
+      _this.scene.add(_this.pivot1);
     });
     this.loader.load(_mouth.default, function (gltf) {
       console.log(gltf);
       _this.face2 = gltf.scene;
       _this.pivot2 = new THREE.Group();
 
-      _this.pivot2.add(_this.face2); // this.pivot2.position.x =5;
+      _this.pivot2.add(_this.face2);
 
-
-      _this.scene.add(_this.pivot2); // this.scene.add(this.face2);
-
+      _this.pivot2.position.x = 5; // this.scene.add(this.face2);
 
       gltf.scene.traverse(function (o) {
         if (o.isMesh) {
           o.geometry.center();
           o.scale.set(0.2, 0.2, 0.2);
           o.material = _this.material2;
-          o.position.y = -0.1; // o.position.z=-2;
+          o.position.y = -0.1; // o.position.x=-5;
 
           o.rotateZ(0.5);
           o.rotateX(-Math.PI / 2);
         }
+
+        _this.scene.add(_this.pivot2);
       });
 
       _this.loader.load(_eyes.default, function (gltf) {
@@ -50552,19 +50552,19 @@ var Sketch = /*#__PURE__*/function () {
 
         _this.pivot3.add(_this.face3);
 
-        _this.pivot3.position.x = 10;
-
-        _this.scene.add(_this.pivot3); // this.scene.add(this.face3);
-
+        _this.pivot3.position.x = 10; // this.scene.add(this.face3);
 
         gltf.scene.traverse(function (o) {
           if (o.isMesh) {
             o.geometry.center();
             o.scale.set(0.17, 0.17, 0.17);
             o.material = _this.material3;
-            o.rotateX(-PI / 2.1); // o.translate = (12,0,0);
+            o.rotateX(-PI / 2.1); // o.position.x=-10;
+            // o.translate = (12,0,0);
           }
         });
+
+        _this.scene.add(_this.pivot3);
       });
     });
   }
@@ -53718,7 +53718,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62025" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62883" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
