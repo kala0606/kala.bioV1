@@ -171,7 +171,7 @@ span {
 }
 
 .section .social {
-  margin-top: 40vh;
+  padding-top: 50vh;
   height: auto;
   display: -webkit-box;
   display: -ms-flexbox;
