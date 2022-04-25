@@ -99,7 +99,7 @@ h1, h3, h4, h5 {
 
 h2 {
   font-family: sans-serif;
-  font-size: 3rem;
+  font-size: 2rem;
   color: black;
   display: block;
 }
@@ -125,8 +125,8 @@ span {
   width: 100%;
   padding-top: 10em;
   font-family: sans-serif;
-  font-size: 2rem;
-  line-height: 3rem;
+  font-size: 1.2rem;
+  line-height: 2.5rem;
   color: black;
 }
 
@@ -170,10 +170,19 @@ span {
     border: red; */
 }
 
-.section svg {
+.section .social {
   margin-top: 40vh;
-  margin-left: 15vw;
   height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.section .social svg {
+  width: 100%;
 }
 
 #test {
@@ -251,7 +260,7 @@ span {
     padding-top: 10em;
     margin-left: 25%;
     font-family: sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 3rem;
     color: black;
   }
