@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1755" height="858" viewBox="0 0 1755 858">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="30" y="-75" width="1755" height="858" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Scroll_Group_1" data-name="Scroll Group 1" transform="translate(-30 75)" opacity="0.9" clip-path="url(#clip-path)" style="isolation: isolate">
+    <text id="INTEGRATED" transform="translate(19 106)" font-size="187" font-family="BaunkRegular, Baunk"><tspan x="0" y="0">INTEGRATED</tspan></text>
+    <text id="DIGITAL" transform="translate(0 354)" font-size="334" font-family="NeueMetanaNextFreePersonal-Sm, Neue Metana Next Free Personal" letter-spacing="0.041em"><tspan x="0" y="0">DIGITAL</tspan></text>
+    <text id="DESIGNER" transform="translate(15 719)" font-size="500" font-family="Thunder-MediumHC, Thunder" font-weight="500" letter-spacing="0.12em"><tspan x="0" y="0">DESIGNER</tspan></text>
+  </g>
+</svg>
