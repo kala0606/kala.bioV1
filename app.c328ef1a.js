@@ -50511,7 +50511,7 @@ var Sketch = /*#__PURE__*/function () {
       gltf.scene.traverse(function (o) {
         if (o.isMesh) {
           o.geometry.center();
-          o.scale.set(0.7, 0.7, 0.7);
+          o.scale.set(0.4, 0.4, 0.4);
           o.material = _this.material;
           o.position.y = -0.1; // o.position.z=-2;
           // o.rotateZ(-Math.PI/2);
@@ -50534,7 +50534,7 @@ var Sketch = /*#__PURE__*/function () {
       gltf.scene.traverse(function (o) {
         if (o.isMesh) {
           o.geometry.center();
-          o.scale.set(0.2, 0.2, 0.2);
+          o.scale.set(0.4, 0.4, 0.4);
           o.material = _this.material2;
           o.position.y = -0.1; // o.position.x=-5;
 
@@ -50557,7 +50557,7 @@ var Sketch = /*#__PURE__*/function () {
         gltf.scene.traverse(function (o) {
           if (o.isMesh) {
             o.geometry.center();
-            o.scale.set(0.17, 0.17, 0.17);
+            o.scale.set(0.4, 0.4, 0.4);
             o.material = _this.material3;
             o.rotateX(-PI / 2.1); // o.position.x=-10;
             // o.translate = (12,0,0);
@@ -50566,10 +50566,9 @@ var Sketch = /*#__PURE__*/function () {
 
         _this.scene.add(_this.pivot3);
       });
-    });
-    this.geometry = new THREE.SphereGeometry(1, 30, 60);
-    this.sphere = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.sphere);
+    }); // this.geometry = new THREE.SphereGeometry( 1, 30, 60 );
+    // this.sphere = new THREE.Mesh( this.geometry, this.material ); 
+    // this.scene.add( this.sphere );     
   }
 
   _createClass(Sketch, [{
@@ -53686,11 +53685,11 @@ _gsap.gsap.to(o, {
       // if (sketch.face2) sketch.face2.position.x = MathUtils.mapLinear(self.progress, 0, 0.25, 0, -sketch.width/200); 
       // if (sketch.face2) sketch.face3.position.x = MathUtils.mapLinear(self.progress, 0, 0.25, 0, -sketch.width/200)*1.4;; 
       // if (sketch.pivot) sketch.pivot.position.x = -5.9*self.progress*3.14; 
-      if (sketch.pivot1) sketch.pivot1.position.x = _three.MathUtils.lerp(0, -10, self.progress * 1.5); // if (sketch.pivot1) sketch.pivot1.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
+      if (sketch.pivot1) sketch.pivot1.position.x = _three.MathUtils.lerp(0, -15, self.progress * 1.5); // if (sketch.pivot1) sketch.pivot1.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
 
-      if (sketch.pivot2) sketch.pivot2.position.x = _three.MathUtils.lerp(5, -5, self.progress * 1.5); // if (sketch.pivot2) sketch.pivot2.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
+      if (sketch.pivot2) sketch.pivot2.position.x = _three.MathUtils.lerp(10, -15, self.progress * 1.5); // if (sketch.pivot2) sketch.pivot2.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
 
-      if (sketch.pivot3) sketch.pivot3.position.x = _three.MathUtils.lerp(10, -5, self.progress * 1); // if (sketch.pivot3) sketch.pivot3.position.z = MathUtils.lerp(0,10,self.progress*1); 
+      if (sketch.pivot3) sketch.pivot3.position.x = _three.MathUtils.lerp(30, -15, self.progress * 1); // if (sketch.pivot3) sketch.pivot3.position.z = MathUtils.lerp(0,10,self.progress*1); 
       // if (sketch.face3) sketch.face3.position.x = -5.1*self.progress*3.14; 
       // 2.*self.progress*3.14;
     }
@@ -53724,7 +53723,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49329" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59773" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
