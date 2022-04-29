@@ -50367,8 +50367,8 @@ TweenMaxWithCSS = gsapWithCSS.core.Tween;
 
 exports.TweenMax = TweenMaxWithCSS;
 exports.default = exports.gsap = gsapWithCSS;
-},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"../model/Sky.glb":[function(require,module,exports) {
-module.exports = "/Sky.ee450653.glb";
+},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"../model/ears.glb":[function(require,module,exports) {
+module.exports = "/ears.a738bc70.glb";
 },{}],"../model/mouth.glb":[function(require,module,exports) {
 module.exports = "/mouth.2d88b404.glb";
 },{}],"../model/eyes.glb":[function(require,module,exports) {
@@ -50401,7 +50401,7 @@ var _GLTFLoader = require("three/examples/jsm/loaders/GLTFLoader.js");
 
 var _gsap = require("gsap");
 
-var _Sky = _interopRequireDefault(require("../model/Sky.glb"));
+var _ears = _interopRequireDefault(require("../model/ears.glb"));
 
 var _mouth = _interopRequireDefault(require("../model/mouth.glb"));
 
@@ -50409,7 +50409,7 @@ var _eyes = _interopRequireDefault(require("../model/eyes.glb"));
 
 var _eyes2 = _interopRequireDefault(require("/images/eyes.png"));
 
-var _ears = _interopRequireDefault(require("/images/ears.png"));
+var _ears2 = _interopRequireDefault(require("/images/ears.png"));
 
 var _mouth2 = _interopRequireDefault(require("/images/mouth.png"));
 
@@ -50499,7 +50499,7 @@ var Sketch = /*#__PURE__*/function () {
     this.setupResize(); // this.settings();
 
     this.loader = new _GLTFLoader.GLTFLoader();
-    this.loader.load(_Sky.default, function (gltf) {
+    this.loader.load(_ears.default, function (gltf) {
       console.log(gltf);
       _this.face1 = gltf.scene;
       _this.pivot1 = new THREE.Group();
@@ -50540,8 +50540,9 @@ var Sketch = /*#__PURE__*/function () {
 
           o.rotateZ(0.5);
           o.rotateX(-Math.PI / 2);
-        } // this.scene.add( this.pivot2 );  
+        }
 
+        _this.scene.add(_this.pivot2);
       });
 
       _this.loader.load(_eyes.default, function (gltf) {
@@ -50561,9 +50562,14 @@ var Sketch = /*#__PURE__*/function () {
             o.rotateX(-PI / 2.1); // o.position.x=-10;
             // o.translate = (12,0,0);
           }
-        }); // this.scene.add( this.pivot3 );  
+        });
+
+        _this.scene.add(_this.pivot3);
       });
     });
+    this.geometry = new THREE.SphereGeometry(1, 30, 60);
+    this.sphere = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.sphere);
   }
 
   _createClass(Sketch, [{
@@ -50699,7 +50705,7 @@ var Sketch = /*#__PURE__*/function () {
           },
           mountain: {
             type: "t",
-            value: new THREE.TextureLoader().load(_ears.default)
+            value: new THREE.TextureLoader().load(_ears2.default)
           },
           resolution: {
             type: "v4",
@@ -50774,7 +50780,7 @@ var Sketch = /*#__PURE__*/function () {
 
 
 exports.default = Sketch;
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader.js":"../../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../model/Sky.glb":"../model/Sky.glb","../model/mouth.glb":"../model/mouth.glb","../model/eyes.glb":"../model/eyes.glb","/images/eyes.png":"images/eyes.png","/images/ears.png":"images/ears.png","/images/mouth.png":"images/mouth.png","/sounds/sound.mp3":"sounds/sound.mp3","./shaders/fragment.glsl":"shaders/fragment.glsl","./shaders/vertex.glsl":"shaders/vertex.glsl"}],"../node_modules/gsap/Observer.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader.js":"../../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../model/ears.glb":"../model/ears.glb","../model/mouth.glb":"../model/mouth.glb","../model/eyes.glb":"../model/eyes.glb","/images/eyes.png":"images/eyes.png","/images/ears.png":"images/ears.png","/images/mouth.png":"images/mouth.png","/sounds/sound.mp3":"sounds/sound.mp3","./shaders/fragment.glsl":"shaders/fragment.glsl","./shaders/vertex.glsl":"shaders/vertex.glsl"}],"../node_modules/gsap/Observer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53680,8 +53686,8 @@ _gsap.gsap.to(o, {
       // if (sketch.face2) sketch.face2.position.x = MathUtils.mapLinear(self.progress, 0, 0.25, 0, -sketch.width/200); 
       // if (sketch.face2) sketch.face3.position.x = MathUtils.mapLinear(self.progress, 0, 0.25, 0, -sketch.width/200)*1.4;; 
       // if (sketch.pivot) sketch.pivot.position.x = -5.9*self.progress*3.14; 
-      // if (sketch.pivot1) sketch.pivot1.position.x = MathUtils.lerp(0,-10,self.progress*1.5); 
-      if (sketch.pivot1) sketch.pivot1.position.z = _three.MathUtils.lerp(0, 10, self.progress * 1.5);
+      if (sketch.pivot1) sketch.pivot1.position.x = _three.MathUtils.lerp(0, -10, self.progress * 1.5); // if (sketch.pivot1) sketch.pivot1.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
+
       if (sketch.pivot2) sketch.pivot2.position.x = _three.MathUtils.lerp(5, -5, self.progress * 1.5); // if (sketch.pivot2) sketch.pivot2.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
 
       if (sketch.pivot3) sketch.pivot3.position.x = _three.MathUtils.lerp(10, -5, self.progress * 1); // if (sketch.pivot3) sketch.pivot3.position.z = MathUtils.lerp(0,10,self.progress*1); 
@@ -53718,7 +53724,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58724" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49329" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
