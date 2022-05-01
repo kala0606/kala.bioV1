@@ -50413,7 +50413,7 @@ var _ears2 = _interopRequireDefault(require("/images/ears.png"));
 
 var _mouth2 = _interopRequireDefault(require("/images/mouth.png"));
 
-var _sound = _interopRequireDefault(require("/sounds/sound.mp3"));
+var _sound = _interopRequireDefault(require("https://cdn.jsdelivr.net/gh/kala0606/kala.bioV1@main/sound.63cda73b.mp3"));
 
 var _fragment = _interopRequireDefault(require("./shaders/fragment.glsl"));
 
