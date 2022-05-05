@@ -20,7 +20,7 @@
 
 body {
   background: white;
-  margin: 0em;
+  margin: 1em;
 }
 
 a {
@@ -452,7 +452,7 @@ img {
 }
 
 /* The dots/bullets/indicators */
-.dot1, .dot2, .dot3, .dot4, .dot5, .dot6, .dot7, .dot8, .dot9, .dot10, .dot11 {
+.dot1, .dot2, .dot3, .dot4, .dot5, .dot6, .dot7, .dot8, .dot9, .dot10, .dot11, .dot12, .dot13 {
   cursor: pointer;
   height: 10px;
   width: 10px;
