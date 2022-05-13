@@ -53687,7 +53687,7 @@ _gsap.gsap.to(o, {
       // if (sketch.pivot) sketch.pivot.position.x = -5.9*self.progress*3.14; 
       if (sketch.pivot1) sketch.pivot1.position.x = _three.MathUtils.lerp(0, -15, self.progress * 1.5); // if (sketch.pivot1) sketch.pivot1.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
 
-      if (sketch.pivot2) sketch.pivot2.position.x = _three.MathUtils.lerp(10, -15, self.progress); // if (sketch.pivot2) sketch.pivot2.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
+      if (sketch.pivot2) sketch.pivot2.position.x = _three.MathUtils.lerp(20, -15, self.progress); // if (sketch.pivot2) sketch.pivot2.position.z = MathUtils.lerp(0,10,self.progress*1.5); 
 
       if (sketch.pivot3) sketch.pivot3.position.x = _three.MathUtils.lerp(20, 0, self.progress); // if (sketch.pivot3) sketch.pivot3.position.z = MathUtils.lerp(0,10,self.progress*1); 
       // if (sketch.face3) sketch.face3.position.x = -5.1*self.progress*3.14; 
