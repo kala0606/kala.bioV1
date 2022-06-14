@@ -50511,7 +50511,7 @@ var Sketch = /*#__PURE__*/function () {
       gltf.scene.traverse(function (o) {
         if (o.isMesh) {
           o.geometry.center();
-          o.scale.set(0.4, 0.4, 0.4);
+          o.scale.set(0.3, 0.3, 0.3);
           o.material = _this.material;
           o.position.y = -0.1; // o.position.z=-2;
           // o.rotateZ(-Math.PI/2);
@@ -50534,7 +50534,7 @@ var Sketch = /*#__PURE__*/function () {
       gltf.scene.traverse(function (o) {
         if (o.isMesh) {
           o.geometry.center();
-          o.scale.set(0.4, 0.4, 0.4);
+          o.scale.set(0.3, 0.3, 0.3);
           o.material = _this.material2;
           o.position.y = -0.1; // o.position.x=-5;
 
@@ -50557,7 +50557,7 @@ var Sketch = /*#__PURE__*/function () {
         gltf.scene.traverse(function (o) {
           if (o.isMesh) {
             o.geometry.center();
-            o.scale.set(0.4, 0.4, 0.4);
+            o.scale.set(0.3, 0.3, 0.3);
             o.material = _this.material3;
             o.rotateX(-PI / 2.1); // o.position.x=-10;
             // o.translate = (12,0,0);
@@ -53723,7 +53723,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49735" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59206" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
