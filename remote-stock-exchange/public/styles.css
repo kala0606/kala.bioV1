@@ -5,9 +5,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background: #f5f5f5;
+  padding: 30px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
   box-sizing: border-box;
+  color: #495057;
 }
 
 .screen {
@@ -16,8 +17,8 @@ body {
   text-align: center;
 }
 
-h1, h2, h3 {
-  color: #333;
+h1, h2, h3, h4 {
+  color: #343a40;
 }
 
 h1 {
@@ -44,24 +45,119 @@ h1 {
 }
 
 button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 4px;
-  background: #2196F3;
-  color: white;
+  padding: 15px 30px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #ffffff, #f3f4f7);
+  color: #337ab7;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 500;
+  border: none;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease-in-out;
 }
 
 button:hover {
-  background: #1976D2;
+  background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+button:active,
+button:focus {
+  background: linear-gradient(145deg, #e9ecef, #f8f9fa);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+  outline: none;
+}
+
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+  background: #f8f9fa;
+  cursor: not-allowed;
+  color: #999;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  transform: none;
+}
+
+#startGame,
+#confirm {
+  color: #28a745;
+}
+
+#startGame:hover,
+#confirm:hover {
+  color: #218838;
+}
+
+#cancel {
+  color: #dc3545;
+}
+
+#cancel:hover {
+  color: #c82333;
+}
+
+#advancePeriod {
+  color: #fd7e14;
+}
+
+#advancePeriod:hover {
+  color: #d39e00;
+}
+
+.admin-controls button {
+  color: #ffc107;
+  background: linear-gradient(145deg, #f5f5f5, #ffffff);
+  padding: 8px 15px;
+  font-size: 12px;
+  border-radius: 10px;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-controls button:hover {
+  color: #e68a00;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+}
+
+.admin-controls button:active,
+.admin-controls button:focus {
+  color: #ffc107;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.player-row button.kick {
+  color: #f44336;
+}
+
+.player-row button.kick:hover {
+  color: #d32f2f;
 }
 
 input, select {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 15px 20px;
+  color: #495057;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.modal-content select {
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .game-layout {
@@ -81,12 +177,14 @@ input, select {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-  background: #e9ecef;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  margin-bottom: 25px;
   font-size: 0.95em;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 #info-bar > span {
@@ -102,23 +200,14 @@ input, select {
 
 .action-buttons {
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .admin-action-buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-bottom: 20px;
-}
-
-#advancePeriod {
-  background-color: #FFC107;
-  color: #000;
-}
-
-#advancePeriod:hover {
-  background-color: #FFA000;
 }
 
 #hand-section {
@@ -214,11 +303,14 @@ input, select {
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  min-width: 300px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background: #ffffff;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 30px;
+  border-radius: 25px;
+  min-width: 350px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content h2 {
@@ -227,19 +319,11 @@ input, select {
   color: #333;
 }
 
-.modal-content select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
 .button-group {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 25px;
 }
 
 .button-group button {
@@ -249,23 +333,14 @@ input, select {
   cursor: pointer;
 }
 
-#confirm {
-  background-color: #4CAF50;
-  color: white;
-}
-
-#cancel {
-  background-color: #f44336;
-  color: white;
-}
-
 #playerList {
-  background: #f9f9f9;
-  padding: 15px 20px;
-  border-radius: 4px;
-  margin-bottom: 0;
-  width: 100%;
-  border: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
   text-align: left;
 }
 
@@ -278,43 +353,46 @@ input, select {
 }
 
 .panel {
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(5px);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
 }
 
 .leaderboard-content {
-  margin-top: 15px;
+  margin-top: 20px;
   display: grid;
-  gap: 20px;
+  gap: 25px;
 }
 
 .player-stats {
-  padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .player-name {
   font-weight: bold;
   font-size: 1.15em;
   color: #343a40;
-  margin-bottom: 10px;
-  display: block;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .player-cash {
   color: #28a745;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .player-portfolio {
-  margin: 10px 0;
+  margin: 15px 0;
   font-size: 0.9em;
 }
 
@@ -328,10 +406,10 @@ input, select {
 .portfolio-entry {
   display: grid;
   grid-template-columns: minmax(60px, auto) 1fr minmax(80px, auto);
-  gap: 10px;
-  padding: 6px 0;
+  gap: 15px;
+  padding: 8px 0;
   align-items: center;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px dotted #dee2e6;
 }
 
 .portfolio-entry:last-child {
@@ -399,16 +477,6 @@ input, select {
   gap: 10px;
 }
 
-.admin-controls button {
-  padding: 5px 10px;
-  font-size: 12px;
-  background: #ff9800;
-}
-
-.admin-controls button:hover {
-  background: #f57c00;
-}
-
 .admin-badge {
   background: #2196F3;
   color: white;
@@ -416,14 +484,6 @@ input, select {
   border-radius: 12px;
   font-size: 12px;
   margin-left: 10px;
-}
-
-.player-row button.kick {
-  background: #f44336;
-}
-
-.player-row button.kick:hover {
-  background: #d32f2f;
 }
 
 .session-restore {
@@ -491,15 +551,6 @@ input, select {
     background: rgba(76, 175, 80, 0.1);
 }
 
-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-button:disabled:hover {
-    background: #bbb;
-}
-
 /* Lobby Specific Styles */
 #lobby {
   display: flex;
@@ -520,4 +571,66 @@ button:disabled:hover {
 
 #startGame:hover {
   background-color: #45a049;
+}
+
+/* --- Price Log Panel --- */
+#price-log-panel {
+    /* Inherits .panel neumorphic style */
+    /* max-height: 200px; overflow-y: auto; margin-top: 15px; */ /* These are from inline styles, keep if needed */
+}
+
+/* --- Price Log Table --- */
+#price-log-panel h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#price-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+#price-log-table th,
+#price-log-table td {
+    border: 1px solid #dee2e6;
+    padding: 6px 8px;
+    text-align: right;
+}
+
+#price-log-table th {
+    background-color: transparent;
+    background-color: #e9ecef;
+    font-weight: bold;
+    position: sticky; /* Keep header visible when scrolling */
+    top: 0;
+}
+
+#price-log-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#price-log-table .price-change {
+    font-size: 0.9em;
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+#price-log-table .price-up {
+    color: #28a745; /* Green */
+}
+
+#price-log-table .price-down {
+    color: #dc3545; /* Red */
+}
+
+#price-log-table .price-no-change {
+    color: #6c757d; /* Grey */
+}
+
+/* Update specific panel styles if needed */
+#hand-summary {
+  /* display: none; */ /* Handled by JS */
 }

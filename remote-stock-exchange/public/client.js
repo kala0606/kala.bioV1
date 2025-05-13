@@ -3,6 +3,7 @@ const socket = io();
 
 // Game Constants
 const SHARE_LOTS = [500, 1000, 5000, 10000];
+const MAX_SHARES_PER_COMPANY_CLIENT = 200000; // *** ADD SHARE LIMIT CONSTANT (Client) ***
 
 // Track connection state
 let isConnected = false;
@@ -14,6 +15,8 @@ let isYourTurn = false;
 // Define playerHand on the window object so it's accessible from sketch.js
 window.playerHand = [];
 window.companyNames = {}; // *** STORE COMPANY NAMES ***
+window.activeSuspensions = {};
+let priceLog = []; // *** STORE PRICE LOG DATA ***
 
 // Track modal state
 let modalState = {
@@ -88,6 +91,9 @@ const rightsCompanySelect = document.getElementById('rightsCompanySelect');
 const rightsCostInfoDiv = document.getElementById('rights-cost-info');
 const confirmRightsIssueBtn = document.getElementById('confirmRightsIssue');
 const cancelRightsIssueBtn = document.getElementById('cancelRightsIssue');
+const priceLogTable = document.getElementById('price-log-table');
+const priceLogTableHeader = priceLogTable?.querySelector('thead tr');
+const priceLogTableBody = priceLogTable?.querySelector('tbody');
 
 // Hide modals by default
 transactionModal.style.display = 'none';
@@ -388,6 +394,24 @@ confirmBtn.addEventListener('click', () => {
         return;
     }
 
+    // *** CLIENT-SIDE SHARE LIMIT VALIDATION (for BUY action) ***
+    if (currentTransaction.action === 'buy') {
+        const currentOwnedShares = player.portfolio ? (player.portfolio[selectedCompany] || 0) : 0;
+        if (currentOwnedShares + quantity > MAX_SHARES_PER_COMPANY_CLIENT) {
+            const canBuy = MAX_SHARES_PER_COMPANY_CLIENT - currentOwnedShares;
+            let alertMessage = `Cannot buy ${quantity.toLocaleString()} shares. This would exceed the ${MAX_SHARES_PER_COMPANY_CLIENT.toLocaleString()} share limit for ${getCompanyName(selectedCompany)}.`;
+            if (canBuy > 0) {
+                alertMessage += ` You can buy up to ${canBuy.toLocaleString()} more shares.`;
+            } else {
+                alertMessage += ` You already own the maximum allowed.`;
+            }
+            alert(alertMessage);
+            quantityInput.focus();
+            return;
+        }
+    }
+    // *** END CLIENT-SIDE SHARE LIMIT VALIDATION ***
+
     if (currentTransaction.action === 'buy') {
         const cost = quantity * price;
         if (cost > player.cash) {
@@ -511,6 +535,32 @@ socket.on('gameState', state => {
     // Store active suspensions globally for sketch.js
     window.activeSuspensions = state.state?.activeSuspensions || {};
     console.log('[gameState] Updated window.activeSuspensions:', window.activeSuspensions);
+
+    // *** LOG PRICE DATA AT START OF PERIOD ***
+    const statePeriod = state.state?.period;
+    const stateRound = state.state?.roundNumberInPeriod;
+    const lastLogEntry = priceLog.length > 0 ? priceLog[priceLog.length - 1] : null;
+
+    // Log if period changed OR if it's the very first state (log initial prices)
+    // OR if it's the start of round 1 in any period > 1 (covers state after period resolution)
+    const shouldLog = !lastLogEntry || 
+                      statePeriod > lastLogEntry.period || 
+                      (statePeriod === lastLogEntry.period && stateRound === 1 && lastLogEntry.round !== 1);
+
+    if (shouldLog && state.state?.prices && statePeriod !== undefined && stateRound !== undefined) {
+        console.log(`[gameState] Logging prices for Period ${statePeriod}, Round ${stateRound}`);
+        priceLog.push({
+            period: statePeriod,
+            round: stateRound, // Log which round this state represents (usually 1)
+            prices: { ...state.state.prices } // Store a copy
+        });
+        // Keep only the last N entries? Optional for performance later.
+        // const MAX_LOG_ENTRIES = 20;
+        // if (priceLog.length > MAX_LOG_ENTRIES) {
+        //     priceLog = priceLog.slice(-MAX_LOG_ENTRIES);
+        // }
+        updatePriceLogTable(); // Update the display
+    }
 
     // Switch screens if necessary (e.g., game start)
     if (lobbyScreen.style.display !== 'none') {
@@ -1009,3 +1059,76 @@ cancelRightsIssueBtn.addEventListener('click', () => {
     rightsCostInfoDiv.innerHTML = '';
     cardBeingPlayed = null;
 });
+
+// *** FUNCTION TO UPDATE PRICE LOG TABLE ***
+function updatePriceLogTable() {
+    if (!priceLogTableHeader || !priceLogTableBody || Object.keys(window.companyNames).length === 0) {
+        // Don't update if elements aren't ready or company names unknown
+        return;
+    }
+
+    // --- Update Header --- 
+    // Clear existing company headers (keep first 'Period' header)
+    while (priceLogTableHeader.children.length > 1) {
+        priceLogTableHeader.removeChild(priceLogTableHeader.lastChild);
+    }
+    // Add company names to header (consistent order)
+    const companyIds = Object.keys(window.companyNames).sort();
+    companyIds.forEach(id => {
+        const th = document.createElement('th');
+        th.textContent = getCompanyName(id); 
+        priceLogTableHeader.appendChild(th);
+    });
+
+    // --- Update Body --- 
+    priceLogTableBody.innerHTML = ''; // Clear existing rows
+
+    // Use initial prices for the first comparison
+    let previousPrices = initialPrices || {}; 
+
+    // Iterate through log entries (newest first is often better, but chronological makes sense here)
+    priceLog.forEach((logEntry, index) => {
+        const currentPrices = logEntry.prices;
+        const tr = document.createElement('tr');
+
+        // Period/Round cell
+        const tdPeriod = document.createElement('td');
+        // Show only period number for simplicity now
+        tdPeriod.textContent = `${logEntry.period}`; 
+        // tdPeriod.textContent = `${logEntry.period} | ${logEntry.round}`; 
+        tr.appendChild(tdPeriod);
+
+        // Company price cells
+        companyIds.forEach(id => {
+            const tdPrice = document.createElement('td');
+            const currentPrice = currentPrices[id] !== undefined ? currentPrices[id] : '--';
+            
+            let changeText = '';
+            let changeClass = 'price-no-change';
+
+            // Calculate change from the *actual* previous log entry's prices
+            // Except for the very first log entry, compare it to initialPrices
+            const comparePrices = index === 0 ? initialPrices : priceLog[index - 1].prices;
+            const previousPrice = comparePrices[id];
+
+            if (previousPrice !== undefined && currentPrice !== '--') {
+                const change = currentPrice - previousPrice;
+                const percentChange = previousPrice > 0 ? (change / previousPrice) * 100 : 0;
+
+                if (Math.abs(change) > 0.01) { // Avoid showing 0.0% for tiny float differences
+                    changeText = `(${percentChange.toFixed(1)}%)`;
+                    changeClass = change > 0 ? 'price-up' : 'price-down';
+                }
+            }
+            
+            tdPrice.innerHTML = `₹${currentPrice} <span class="price-change ${changeClass}">${changeText}</span>`;
+            tr.appendChild(tdPrice);
+        });
+
+        priceLogTableBody.appendChild(tr); // Add row to table
+    });
+}
+
+// Initial population attempt in case gameState arrives before names?
+// Or rely on first update in gameState handler.
+// updatePriceLogTable(); 
