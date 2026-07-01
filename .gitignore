@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw project sources (web-sized copies live in public/work/) + local tooling
+/projects
+/.claude
+/out
+logo.svg

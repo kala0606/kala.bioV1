@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Grain FFT Shader Particles</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #121212;
+      color: #f1f1f1;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+    }
+
+    #ui {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(20, 20, 20, 0.56);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    #ui button,
+    #ui label {
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f4f4f4;
+      padding: 7px 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 120ms ease;
+    }
+
+    #ui button:hover,
+    #ui label:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    #info {
+      font-size: 11px;
+      opacity: 0.85;
+      margin-left: 4px;
+      white-space: nowrap;
+    }
+  </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/",
+      "tone": "https://esm.sh/tone@14.8.49"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="ui">
+    <button id="playBtn" type="button">Play/Pause</button>
+    <label for="fileInput">Load Audio</label>
+    <input id="fileInput" type="file" accept="audio/*" />
+    <button id="micBtn" type="button">Use Mic</button>
+    <button id="randomiserBtn" type="button">Randomise</button>
+    <button id="saveBtn" type="button">Save preset</button>
+    <input id="presetInput" type="file" accept=".json,application/json" style="display:none" />
+    <label for="presetInput" id="loadPresetLabel">Load preset</label>
+    <div id="info">No source loaded (particles animate anyway).</div>
+    <div id="presetHint" style="font-size:10px;opacity:0.7;margin-top:4px;">0–9 load from presets/ · Shift+0–9 save to slot</div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

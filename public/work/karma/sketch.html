@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Karma — live</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #f2eee2; /* --paper */
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- p5 global-mode build + the verbatim sketch. A fresh hash is generated
+         on every load, so the piece reseeds each time the iframe mounts. -->
+    <script src="p5.min.js"></script>
+    <script>
+      // silence p5's per-frame "two vectors of different sizes" friendly warning
+      if (window.p5) p5.disableFriendlyErrors = true;
+    </script>
+    <script src="sketch.js"></script>
+  </body>
+</html>

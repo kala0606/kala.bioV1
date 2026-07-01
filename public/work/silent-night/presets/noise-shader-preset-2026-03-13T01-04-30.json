@@ -1,0 +1,52 @@
+{
+  "params": {
+    "background": "#000000",
+    "baseSize": 2.31,
+    "brightness": 1.56,
+    "grainAmount": 0.33,
+    "ridgeScale": 0.94,
+    "ridgeThreshold": 0.04,
+    "warpScale": 0.17,
+    "warpStrength": 0.08,
+    "heightScale": 0.175,
+    "heightAmp": 0.99,
+    "tintTeal": "#000000",
+    "tintBlue": "#ffffff",
+    "fftSmoothing": 0.74,
+    "lowEndHz": 81,
+    "midEndHz": 2893,
+    "highEndHz": 17888,
+    "lowGain": 1.03,
+    "midGain": 0.57,
+    "highGain": 1.14,
+    "energyLowMix": 0.24000000000000002,
+    "energyMidMix": 0.43000000000000005,
+    "energyHighMix": 0.37,
+    "fftResponse": 0.635,
+    "soundAccumAdd": 0.35,
+    "flowSpeed": 0.2,
+    "noiseZScale": 0.015
+  },
+  "postParams": {
+    "bloomStrength": 2.34,
+    "bloomStrength2": 2.88,
+    "grainAmount": 0.67,
+    "grainSize": 3.3000000000000003,
+    "glowIntensity": 1.77,
+    "vignetteStrength": 0.01,
+    "exposure": 1.98,
+    "contrast": 1.21
+  },
+  "camera": {
+    "position": {
+      "x": -2.9559789763197787e-7,
+      "y": 4.599999999997699,
+      "z": 0.000004590697443660669
+    },
+    "target": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

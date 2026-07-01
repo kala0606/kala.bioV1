@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RIDDLE — Nested WFC</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0e0e0e;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #666;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 32px;
+      gap: 14px;
+    }
+
+    h1 { letter-spacing: 0.55em; font-size: 10px; color: #444; text-transform: uppercase; }
+
+    #layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #canvas-wrap { box-shadow: 0 0 60px rgba(0,0,0,0.9); flex-shrink: 0; }
+    canvas { display: block; }
+
+    /* ── Panel ─────────────────────────────────────────── */
+    #panel {
+      width: 214px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .panel-title {
+      font-size: 9px; letter-spacing: 0.35em; color: #333;
+      text-transform: uppercase; border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 8px; margin-bottom: 2px;
+    }
+
+    .param-row { padding: 8px 0 6px; border-bottom: 1px solid #181818; }
+
+    .param-header {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;
+    }
+    .param-label { font-size: 9px; letter-spacing: 0.16em; color: #4a4a4a; text-transform: uppercase; }
+    .param-value { font-size: 10px; color: #777; min-width: 36px; text-align: right; }
+    .param-hint  { font-size: 8px; color: #2d2d2d; margin-top: 3px; letter-spacing: 0.04em; }
+
+    input[type=range] {
+      -webkit-appearance: none; width: 100%; height: 2px;
+      background: #202020; outline: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 10px; height: 10px; background: #555; cursor: pointer;
+    }
+    input[type=range]:hover::-webkit-slider-thumb { background: #999; }
+
+    /* Segmented controls */
+    .seg-control { display: flex; gap: 3px; margin-top: 2px; }
+    .seg-btn {
+      flex: 1; background: #161616; border: 1px solid #222; color: #383838;
+      font-family: 'Courier New', monospace; font-size: 10px; padding: 4px 0;
+      cursor: pointer; text-align: center; letter-spacing: 0.05em; user-select: none;
+    }
+    .seg-btn.active { background: #242424; color: #999; border-color: #444; }
+
+    /* Tip toggle row */
+    .tip-row { padding: 8px 0 6px; border-bottom: 1px solid #181818; }
+    .tip-label { font-size: 9px; letter-spacing: 0.16em; color: #4a4a4a; text-transform: uppercase; margin-bottom: 6px; }
+    .tip-control { display: flex; gap: 3px; }
+    .tip-btn {
+      flex: 1; background: #161616; border: 1px solid #222; color: #383838;
+      font-family: 'Courier New', monospace; font-size: 9px; padding: 5px 0;
+      cursor: pointer; text-align: center; letter-spacing: 0.1em; user-select: none;
+      text-transform: uppercase;
+    }
+    .tip-btn.active { background: #242424; color: #aaa; border-color: #555; }
+
+    /* Nib angle row — hidden when fine tip active */
+    #nib-rows { overflow: hidden; transition: max-height 0.25s ease; max-height: 0; }
+    #nib-rows.visible { max-height: 140px; }
+
+    /* Action buttons */
+    .actions { margin-top: 14px; display: flex; flex-direction: column; gap: 5px; }
+    button.action {
+      background: #141414; color: #555; border: 1px solid #222;
+      padding: 8px 0; font-family: 'Courier New', monospace;
+      font-size: 9px; letter-spacing: 0.2em; cursor: pointer; text-transform: uppercase; width: 100%;
+    }
+    button.action:hover { background: #1c1c1c; color: #ccc; border-color: #555; }
+
+    .legend { display: flex; gap: 12px; margin-top: 12px; font-size: 8px; color: #333; letter-spacing: 0.07em; }
+    .legend span::before { content: '▪ '; }
+    .legend .d0::before { color: #6a8a6a; }
+    .legend .d1::before { color: #5a7a9a; }
+    .legend .d2::before { color: #9a7a5a; }
+    #status { font-size: 8px; color: #2e2e2e; letter-spacing: 0.12em; height: 12px; margin-top: 7px; }
+  </style>
+</head>
+<body>
+  <h1>RIDDLE</h1>
+
+  <div id="layout">
+    <div id="canvas-wrap"><canvas id="c"></canvas></div>
+
+    <div id="panel">
+      <div class="panel-title">Parameters</div>
+
+      <!-- Tip type -->
+      <div class="tip-row">
+        <div class="tip-label">Tip</div>
+        <div class="tip-control" id="tip-control">
+          <div class="tip-btn active" data-tip="fine">Fine</div>
+          <div class="tip-btn" data-tip="flat">Flat / Calli</div>
+        </div>
+      </div>
+
+      <!-- Nib angle (flat only) -->
+      <div id="nib-rows">
+        <div class="param-row">
+          <div class="param-header">
+            <span class="param-label">Nib Angle</span>
+            <span class="param-value" id="val-nibangle">45°</span>
+          </div>
+          <input type="range" id="sl-nibangle" min="0" max="180" step="1" value="45">
+          <div class="param-hint">nib held angle (0=horizontal)</div>
+        </div>
+        <div class="param-row">
+          <div class="param-header">
+            <span class="param-label">Contrast</span>
+            <span class="param-value" id="val-contrast">6.0</span>
+          </div>
+          <input type="range" id="sl-contrast" min="1" max="12" step="0.5" value="6">
+          <div class="param-hint">thin-to-thick ratio</div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Grid</span>
+          <span class="param-value" id="val-grid">10</span>
+        </div>
+        <input type="range" id="sl-grid" min="5" max="18" step="1" value="10">
+        <div class="param-hint">root columns</div>
+      </div>
+
+      <!-- Depth -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Depth</span>
+        </div>
+        <div class="seg-control" id="seg-depth">
+          <div class="seg-btn" data-d="0">0</div>
+          <div class="seg-btn active" data-d="1">1</div>
+          <div class="seg-btn active" data-d="2">2</div>
+        </div>
+        <div class="param-hint">max recursion levels</div>
+      </div>
+
+      <!-- Subdivide -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Subdivide</span>
+          <span class="param-value" id="val-sub">1.00</span>
+        </div>
+        <input type="range" id="sl-sub" min="0.05" max="2.2" step="0.05" value="1.0">
+        <div class="param-hint">subdivision probability</div>
+      </div>
+
+      <!-- Openness -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Openness</span>
+          <span class="param-value" id="val-blank">5</span>
+        </div>
+        <input type="range" id="sl-blank" min="1" max="14" step="1" value="5">
+        <div class="param-hint">blank tile weight</div>
+      </div>
+
+      <!-- Spatial bias -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Spatial Bias</span>
+          <span class="param-value" id="val-spatial">1.0</span>
+        </div>
+        <input type="range" id="sl-spatial" min="0" max="2.5" step="0.1" value="1.0">
+        <div class="param-hint">centre vs edge density pull</div>
+      </div>
+
+      <!-- Decay -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Decay</span>
+          <span class="param-value" id="val-decay">0.45</span>
+        </div>
+        <input type="range" id="sl-decay" min="0.1" max="1.0" step="0.05" value="0.45">
+        <div class="param-hint">subdivision drop per level</div>
+      </div>
+
+      <!-- Weight -->
+      <div class="param-row">
+        <div class="param-header">
+          <span class="param-label">Weight</span>
+          <span class="param-value" id="val-weight">1.0</span>
+        </div>
+        <input type="range" id="sl-weight" min="0.2" max="3.0" step="0.1" value="1.0">
+        <div class="param-hint">stroke thickness scale</div>
+      </div>
+
+      <!-- Symmetry -->
+      <div class="tip-row">
+        <div class="tip-label">Symmetry</div>
+        <div class="tip-control" id="sym-control">
+          <div class="tip-btn active" data-sym="none">None</div>
+          <div class="tip-btn" data-sym="h">↔ H</div>
+          <div class="tip-btn" data-sym="v">↕ V</div>
+          <div class="tip-btn" data-sym="4">✦ 4×</div>
+        </div>
+        <div class="param-hint" style="margin-top:5px">mirror around page centre</div>
+      </div>
+
+      <div class="actions">
+        <button class="action" onclick="regenerate()">↻  Regenerate</button>
+        <button class="action" onclick="exportSVG()">↓  Export SVG</button>
+      </div>
+
+      <div class="legend">
+        <span class="d0">coarse</span>
+        <span class="d1">medium</span>
+        <span class="d2">fine</span>
+      </div>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <script>
+  // ── Geometry ─────────────────────────────────────────────────
+  const MM     = 3.7795275591;
+  // embed: fill the hero viewport (cells stay square, rows derive from aspect)
+  let A4W, A4H, MARGIN, CW, CH;
+  function computeDims() {
+    A4W    = Math.max(1, Math.round(window.innerWidth));
+    A4H    = Math.max(1, Math.round(window.innerHeight));
+    MARGIN = Math.round(Math.min(A4W, A4H) * 0.06); // thick white margin on all 4 edges
+    CW     = A4W - 2 * MARGIN;
+    CH     = A4H - 2 * MARGIN;
+  }
+  computeDims();
+  const SUB_N  = [5, 4];
+
+  // ── Tile catalogue ────────────────────────────────────────────
+  const TILES = [
+    { id:'blank',   e:[0,0,0,0], wBase:5, c:0 },
+    { id:'cross',   e:[1,1,1,1], wBase:1, c:4 },
+    { id:'hline',   e:[0,1,0,1], wBase:3, c:2 },
+    { id:'vline',   e:[1,0,1,0], wBase:3, c:2 },
+    { id:'corn_tr', e:[1,1,0,0], wBase:2, c:2 },
+    { id:'corn_br', e:[0,1,1,0], wBase:2, c:2 },
+    { id:'corn_bl', e:[0,0,1,1], wBase:2, c:2 },
+    { id:'corn_tl', e:[1,0,0,1], wBase:2, c:2 },
+    { id:'tee_0',   e:[1,1,1,0], wBase:1, c:3 },
+    { id:'tee_1',   e:[1,1,0,1], wBase:1, c:3 },
+    { id:'tee_2',   e:[0,1,1,1], wBase:1, c:3 },
+    { id:'tee_3',   e:[1,0,1,1], wBase:1, c:3 },
+    { id:'dot',     e:[0,0,0,0], wBase:1, c:0, dot:true },
+  ];
+
+  // ── Parameters ────────────────────────────────────────────────
+  const P = {
+    tipType:   'fine',    // 'fine' | 'flat'
+    nibAngle:  45,        // degrees, flat nib orientation
+    contrast:  6,         // thin:thick ratio for flat nib
+    symmetry:  '4',    // 'none' | 'h' | 'v' | '4' — hero always 4× symmetric
+    gridCols:  10,
+    maxDepth:  2,
+    subdivide: 1.0,
+    blankW:    5,
+    spatial:   1.0,
+    decay:     0.45,
+    weight:    1.6,
+  };
+
+  function tileWeights() {
+    return TILES.map((t, i) => i === 0 ? P.blankW : t.wBase);
+  }
+
+  // ── WFC solver ────────────────────────────────────────────────
+  function runWFC(rows, cols, borderEdges) {
+    const wts   = tileWeights();
+    const total = rows * cols;
+    const wave  = Array.from({length: total}, () => new Set(TILES.map((_,i) => i)));
+
+    const idx  = (r,c) => r*cols + c;
+    const toRC = i => [Math.floor(i/cols), i%cols];
+
+    function clampEdge(wi, edgeIdx, required) {
+      for (const t of [...wave[wi]]) {
+        if (TILES[t].e[edgeIdx] !== required) wave[wi].delete(t);
+      }
+      if (wave[wi].size === 0) wave[wi].add(0);
+    }
+
+    function propagate(stack) {
+      while (stack.length) {
+        const cur = stack.pop();
+        const [r,c] = toRC(cur);
+        for (const [dr,dc,myE,theirE] of [[-1,0,0,2],[0,1,1,3],[1,0,2,0],[0,-1,3,1]]) {
+          const nr=r+dr, nc=c+dc;
+          if (nr<0||nr>=rows||nc<0||nc>=cols) continue;
+          const ni = idx(nr,nc);
+          if (wave[ni].size <= 1) continue;
+          const myVals = new Set();
+          for (const t of wave[cur]) myVals.add(TILES[t].e[myE]);
+          const before = wave[ni].size;
+          for (const t of [...wave[ni]]) {
+            if (!myVals.has(TILES[t].e[theirE])) wave[ni].delete(t);
+          }
+          if (wave[ni].size === 0) wave[ni].add(0);
+          if (wave[ni].size < before) stack.push(ni);
+        }
+      }
+    }
+
+    if (borderEdges) {
+      const seeds = [];
+      for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) {
+        const wi=idx(r,c); let s=false;
+        if (r===0)      { clampEdge(wi,0,borderEdges[0]); s=true; }
+        if (c===cols-1) { clampEdge(wi,1,borderEdges[1]); s=true; }
+        if (r===rows-1) { clampEdge(wi,2,borderEdges[2]); s=true; }
+        if (c===0)      { clampEdge(wi,3,borderEdges[3]); s=true; }
+        if (s) seeds.push(wi);
+      }
+      propagate(seeds);
+    }
+
+    for (let iter=0; iter<total; iter++) {
+      let minE=Infinity, minI=-1;
+      for (let i=0;i<total;i++) {
+        if (wave[i].size<=1) continue;
+        const e=wave[i].size+Math.random()*0.01;
+        if (e<minE) { minE=e; minI=i; }
+      }
+      if (minI===-1) break;
+      const opts=[...wave[minI]];
+      const ws=opts.map(t=>wts[t]);
+      const sum=ws.reduce((a,b)=>a+b,0);
+      let rv=Math.random()*sum, chosen=opts[opts.length-1];
+      for (let k=0;k<opts.length;k++) { rv-=ws[k]; if(rv<=0){chosen=opts[k];break;} }
+      wave[minI]=new Set([chosen]);
+      propagate([minI]);
+    }
+
+    const g=[];
+    for (let r=0;r<rows;r++) {
+      g[r]=[];
+      for (let c=0;c<cols;c++) {
+        const s=wave[idx(r,c)];
+        g[r][c]=s.size ? [...s][0] : 0;
+      }
+    }
+    return g;
+  }
+
+  // ── Subdivision ───────────────────────────────────────────────
+  function shouldSubdivide(tileIdx, depth, cx, cy) {
+    if (depth >= P.maxDepth) return false;
+    const tile = TILES[tileIdx];
+    if (tile.dot) return false;
+    const nx=(cx-A4W/2)/(A4W/2), ny=(cy-A4H/2)/(A4H/2);
+    const spatial = 1.0 + P.spatial*(0.15 - 0.35*(nx*nx+ny*ny));
+    const depthDecay = depth===0 ? 1.0 : Math.pow(P.decay, depth);
+    if (tile.c===0) return depth===0 && Math.random()<0.06*P.subdivide*spatial;
+    return Math.random() < (tile.c/4)*0.82*P.subdivide*spatial*depthDecay;
+  }
+
+  // ── Stroke width ──────────────────────────────────────────────
+  // For fine tip: uniform thin line with minimal natural variation.
+  // For flat nib: width = f(angle between stroke and nib axis).
+  //   Stroke parallel to nib → thin; perpendicular → thick.
+
+  const FINE_BASE = [0.65, 0.65, 0.65]; // uniform weight at every depth
+  const FLAT_MIN  = [0.12, 0.06, 0.03];
+  const FLAT_MAX  = [2.0,  1.0,  0.5 ];
+
+  function strokeWidth(x1, y1, x2, y2, depth) {
+    const d = Math.min(depth, 2);
+    if (P.tipType === 'fine') {
+      // Tiny natural variation mimics marker ink flow
+      return P.weight * FINE_BASE[d] * (1 + (Math.random()-0.5)*0.07);
+    }
+    // Flat / calligraphic
+    const strokeAngle = Math.atan2(y2-y1, x2-x1);
+    const nibRad      = P.nibAngle * Math.PI / 180;
+    // How perpendicular is the stroke to the nib edge?
+    const t = Math.abs(Math.sin(strokeAngle - nibRad));
+    const minW = P.weight * FLAT_MIN[d];
+    const maxW = P.weight * FLAT_MAX[d] / (12 / P.contrast);
+    return minW + (maxW - minW) * t * (1 + (Math.random()-0.5)*0.06);
+  }
+
+  // ── Stroke collector ─────────────────────────────────────────
+  let strokes = [];
+
+  function pushStroke(x1, y1, x2, y2, depth) {
+    strokes.push({ x1, y1, x2, y2, w: strokeWidth(x1,y1,x2,y2,depth), depth });
+  }
+
+  // ── Symmetry mirror ───────────────────────────────────────────
+  // Called after WFC strokes are collected, before title is added.
+  // Keeps the "source" half/quadrant and reflects it across the
+  // page centre. Flat-tip widths are recomputed for mirrored angles.
+
+  function mirrorW(x1,y1,x2,y2,s) {
+    return P.tipType==='flat' ? strokeWidth(x1,y1,x2,y2,s.depth) : s.w;
+  }
+
+  function applySymmetry() {
+    if (P.symmetry === 'none') return;
+    const cx = A4W / 2, cy = A4H / 2;
+
+    // Assign each stroke to a region by its midpoint
+    const mx = s => (s.x1+s.x2)/2, my = s => (s.y1+s.y2)/2;
+
+    let source = strokes;
+    const extra = [];
+
+    if (P.symmetry === 'h') {
+      source = strokes.filter(s => mx(s) <= cx);
+      for (const s of source) {
+        const x1=2*cx-s.x1, x2=2*cx-s.x2;
+        extra.push({...s, x1, x2, y1:s.y1, y2:s.y2, w:mirrorW(x1,s.y1,x2,s.y2,s)});
+      }
+    } else if (P.symmetry === 'v') {
+      source = strokes.filter(s => my(s) <= cy);
+      for (const s of source) {
+        const y1=2*cy-s.y1, y2=2*cy-s.y2;
+        extra.push({...s, x1:s.x1, x2:s.x2, y1, y2, w:mirrorW(s.x1,y1,s.x2,y2,s)});
+      }
+    } else if (P.symmetry === '4') {
+      source = strokes.filter(s => mx(s) <= cx && my(s) <= cy);
+      for (const s of source) {
+        const rx1=2*cx-s.x1, rx2=2*cx-s.x2; // H-flipped x
+        const ry1=2*cy-s.y1, ry2=2*cy-s.y2; // V-flipped y
+        // H mirror
+        extra.push({...s, x1:rx1, x2:rx2, y1:s.y1, y2:s.y2, w:mirrorW(rx1,s.y1,rx2,s.y2,s)});
+        // V mirror
+        extra.push({...s, x1:s.x1, x2:s.x2, y1:ry1, y2:ry2, w:mirrorW(s.x1,ry1,s.x2,ry2,s)});
+        // HV mirror
+        extra.push({...s, x1:rx1, x2:rx2, y1:ry1, y2:ry2, w:mirrorW(rx1,ry1,rx2,ry2,s)});
+      }
+    }
+
+    strokes = [...source, ...extra];
+  }
+
+  // ── Emitter — smart path decomposition ───────────────────────
+  // Lines (opposing edges): single through-stroke, no center stop.
+  // Cross: two perpendicular through-strokes.
+  // Tee: through-stroke on the opposite pair + one arm from center.
+  // Corner: two arms from center.
+  // Dot: small cross mark.
+
+  function emitStrokes(tileIdx, x, y, w, h, depth) {
+    const tile = TILES[tileIdx];
+    if (tile.dot) {
+      const cx=x+w/2, cy=y+h/2, d=Math.min(w,h)*0.14;
+      pushStroke(cx-d, cy,   cx+d, cy,   depth);
+      pushStroke(cx,   cy-d, cx,   cy+d, depth);
+      return;
+    }
+
+    const e = tile.e;  // [top, right, bottom, left]
+    // Edge midpoints: 0=top 1=right 2=bottom 3=left
+    const pts = [
+      [x+w/2, y    ],
+      [x+w,   y+h/2],
+      [x+w/2, y+h  ],
+      [x,     y+h/2],
+    ];
+    const cx=x+w/2, cy=y+h/2;
+
+    const active = [0,1,2,3].filter(i => e[i]);
+
+    if (active.length === 0) return;
+
+    // Helper: are two edge indices opposite?
+    const opp = (a,b) => (a+2)%4 === b;
+
+    if (active.length === 4) {
+      // Cross — two through-strokes
+      pushStroke(...pts[0], ...pts[2], depth);
+      pushStroke(...pts[1], ...pts[3], depth);
+      return;
+    }
+
+    if (active.length === 2 && opp(active[0], active[1])) {
+      // Straight line — single through-stroke
+      pushStroke(...pts[active[0]], ...pts[active[1]], depth);
+      return;
+    }
+
+    if (active.length === 3) {
+      // Tee — find the opposing pair, draw through + one arm
+      for (let i=0; i<3; i++) for (let j=i+1; j<3; j++) {
+        if (opp(active[i], active[j])) {
+          pushStroke(...pts[active[i]], ...pts[active[j]], depth);
+          const arm = active.find((_,k)=>k!==i&&k!==j);
+          pushStroke(cx, cy, ...pts[arm], depth);
+          return;
+        }
+      }
+    }
+
+    // Corner (2 adjacent) or single — arms from center
+    for (const i of active) pushStroke(cx, cy, ...pts[i], depth);
+  }
+
+  // ── Recursive cell processor ──────────────────────────────────
+  function processCell(tileIdx, x, y, w, h, depth) {
+    if (shouldSubdivide(tileIdx, depth, x+w/2, y+h/2)) {
+      const N = SUB_N[Math.min(depth, SUB_N.length-1)];
+      const sw=w/N, sh=h/N;
+      const sub = runWFC(N, N, TILES[tileIdx].e);
+      for (let r=0;r<N;r++) for (let c=0;c<N;c++) {
+        processCell(sub[r][c], x+c*sw, y+r*sh, sw, sh, depth+1);
+      }
+    } else {
+      emitStrokes(tileIdx, x, y, w, h, depth);
+    }
+  }
+
+  // ── Title ─────────────────────────────────────────────────────
+  function addTitle() {
+    const F = {
+      R:[[0,0,4,0],[0,0,0,6],[0,3,3,3],[3,3,4,6]],
+      I:[[1,0,3,0],[2,0,2,6],[1,6,3,6]],
+      D:[[0,0,3,0],[0,0,0,6],[3,0,4,2],[4,2,4,4],[3,6,4,4],[0,6,3,6]],
+      L:[[0,0,0,6],[0,6,4,6]],
+      E:[[0,0,4,0],[0,0,0,6],[0,3,3,3],[0,6,4,6]],
+    };
+    const word=['R','I','D','D','L','E'], sc=2.6, lw=6;
+    const bx=A4W/2-word.length*lw*sc/2, by=A4H-MARGIN*0.48;
+    let xOff=0;
+    for (const ch of word) {
+      for (const [x1,y1,x2,y2] of (F[ch]||[])) {
+        const ax=bx+(xOff+x1)*sc, ay=by+(y1-6)*sc;
+        const bxx=bx+(xOff+x2)*sc, byy=by+(y2-6)*sc;
+        strokes.push({x1:ax,y1:ay,x2:bxx,y2:byy, w:strokeWidth(ax,ay,bxx,byy,0)*1.05, depth:0});
+      }
+      xOff+=lw;
+    }
+  }
+
+  // ── Canvas ────────────────────────────────────────────────────
+  const canvas = document.getElementById('c');
+  const ctx    = canvas.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2); // crisp on retina
+  function sizeCanvas() {
+    canvas.width  = Math.round(A4W * DPR);
+    canvas.height = Math.round(A4H * DPR);
+    canvas.style.width  = '100vw';
+    canvas.style.height = '100vh';
+  }
+  sizeCanvas();
+  // re-fit + regenerate on resize/orientation change
+  let _riddleRT;
+  window.addEventListener('resize', () => {
+    clearTimeout(_riddleRT);
+    _riddleRT = setTimeout(() => { computeDims(); sizeCanvas(); regenerate(); }, 250);
+  });
+
+  const DEPTH_INK = [
+    'rgba(14,10,6,',    // coarse — warm deep black
+    'rgba(22,28,38,',   // medium — cool dark
+    'rgba(55,42,32,',   // fine   — warm brown-grey
+  ];
+
+  function draw() {
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); // draw in CSS px onto the DPR-scaled bitmap
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,A4W,A4H);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    for (const s of strokes) {
+      const ink = DEPTH_INK[s.depth] ?? DEPTH_INK[2];
+      ctx.strokeStyle = ink + '1)';
+      ctx.lineWidth   = s.w;
+      ctx.beginPath();
+      ctx.moveTo(s.x1,s.y1);
+      ctx.lineTo(s.x2,s.y2);
+      ctx.stroke();
+    }
+  }
+
+  // ── SVG export — layered ──────────────────────────────────────
+  function exportSVG() {
+    const COLORS=['#0e0a06','#161c26','#37291e'];
+    const byD=[[],[],[]];
+    for (const s of strokes) (byD[s.depth]??byD[2]).push(s);
+    const lines=[
+      `<?xml version="1.0" encoding="UTF-8"?>`,
+      `<!-- RIDDLE · tip:${P.tipType}${P.tipType==='flat'?` nib:${P.nibAngle}° contrast:${P.contrast}`:''} · depth:${P.maxDepth} · grid:${P.gridCols} -->`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 ${A4W} ${A4H}">`,
+    ];
+    const labels=['coarse','medium','fine'];
+    for (let d=0;d<3;d++) {
+      if (!byD[d].length) continue;
+      lines.push(`  <g id="${labels[d]}" stroke="${COLORS[d]}" stroke-linecap="round" stroke-linejoin="round" fill="none">`);
+      for (const s of byD[d]) {
+        lines.push(`    <line x1="${s.x1.toFixed(2)}" y1="${s.y1.toFixed(2)}" x2="${s.x2.toFixed(2)}" y2="${s.y2.toFixed(2)}" stroke-width="${s.w.toFixed(2)}"/>`);
+      }
+      lines.push(`  </g>`);
+    }
+    lines.push(`</svg>`);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'image/svg+xml'}));
+    a.download=`riddle_${Date.now()}.svg`;
+    a.click();
+  }
+
+  // ── Regenerate ────────────────────────────────────────────────
+  function regenerate() {
+    document.getElementById('status').textContent = 'generating…';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      strokes=[];
+      const cols=P.gridCols, rows=Math.round(cols*(CH/CW));
+      const cw0=CW/cols, ch0=CH/rows;
+      const root=runWFC(rows,cols,null);
+      for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) {
+        processCell(root[r][c], MARGIN+c*cw0, MARGIN+r*ch0, cw0, ch0, 0);
+      }
+      applySymmetry();
+      draw();
+      document.getElementById('status').textContent=`${strokes.length.toLocaleString()} strokes`;
+    }));
+  }
+
+  // ── Wiring ────────────────────────────────────────────────────
+  let debounce=null;
+  const sched=()=>{ clearTimeout(debounce); debounce=setTimeout(regenerate,320); };
+
+  function wireSlider(id, valId, key, fmt) {
+    const sl=document.getElementById(id), vl=document.getElementById(valId);
+    sl.addEventListener('input',()=>{ P[key]=parseFloat(sl.value); vl.textContent=fmt?fmt(P[key]):P[key]; sched(); });
+  }
+  wireSlider('sl-grid',     'val-grid',     'gridCols',  v=>v);
+  wireSlider('sl-sub',      'val-sub',      'subdivide', v=>v.toFixed(2));
+  wireSlider('sl-blank',    'val-blank',    'blankW',    v=>v);
+  wireSlider('sl-spatial',  'val-spatial',  'spatial',   v=>v.toFixed(1));
+  wireSlider('sl-decay',    'val-decay',    'decay',     v=>v.toFixed(2));
+  wireSlider('sl-weight',   'val-weight',   'weight',    v=>v.toFixed(1));
+  wireSlider('sl-nibangle', 'val-nibangle', 'nibAngle',  v=>v+'°');
+  wireSlider('sl-contrast', 'val-contrast', 'contrast',  v=>v.toFixed(1));
+
+  // Depth segmented control
+  document.getElementById('seg-depth').addEventListener('click', e=>{
+    const btn=e.target.closest('.seg-btn'); if(!btn) return;
+    const d=parseInt(btn.dataset.d); P.maxDepth=d;
+    document.querySelectorAll('#seg-depth .seg-btn').forEach(b=>{
+      b.classList.toggle('active', parseInt(b.dataset.d)<=d);
+    });
+    sched();
+  });
+
+  // Symmetry toggle
+  document.getElementById('sym-control').addEventListener('click', e=>{
+    const btn=e.target.closest('.tip-btn'); if(!btn) return;
+    P.symmetry=btn.dataset.sym;
+    document.querySelectorAll('#sym-control .tip-btn').forEach(b=>b.classList.toggle('active',b.dataset.sym===P.symmetry));
+    sched();
+  });
+
+  // Tip type toggle
+  document.getElementById('tip-control').addEventListener('click', e=>{
+    const btn=e.target.closest('.tip-btn'); if(!btn) return;
+    P.tipType=btn.dataset.tip;
+    document.querySelectorAll('.tip-btn').forEach(b=>b.classList.toggle('active',b.dataset.tip===P.tipType));
+    document.getElementById('nib-rows').classList.toggle('visible', P.tipType==='flat');
+    sched();
+  });
+
+  regenerate();
+  window.__reroll = regenerate; // expose for the embed refresh button
+  </script>
+
+  <!-- embed: hide the dev chrome, fit the A4 canvas to the hero, add a refresh -->
+  <style>
+    body { padding: 0 !important; margin: 0; min-height: 100vh; overflow: hidden; background: #fff; }
+    h1, #panel, .panel-title { display: none !important; }
+    #layout, #canvas-wrap { margin: 0 !important; padding: 0 !important; gap: 0 !important; box-shadow: none !important; }
+    /* fill the hero edge-to-edge; bitmap aspect already matches the viewport */
+    #c {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      box-shadow: none;
+    }
+    #riddle-reroll {
+      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+      z-index: 30; width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06); color: #eee;
+      border: 1px solid rgba(255,255,255,0.28);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      cursor: pointer; font-size: 19px; line-height: 1;
+      transition: background 0.2s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    #riddle-reroll:hover { background: rgba(255,255,255,0.14); }
+    #riddle-reroll:active { transform: translateX(-50%) rotate(360deg); }
+  </style>
+  <button id="riddle-reroll" title="New riddle" aria-label="New riddle"
+          onclick="window.__reroll && window.__reroll();">↻</button>
+</body>
+</html>

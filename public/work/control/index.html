@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control — live</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { overflow: hidden; background: #0a0c12; height: 100%; }
+      main { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+      canvas { display: block; }
+      /* hide the dev control panel in the embed */
+      #param-panel { display: none !important; }
+      #reroll {
+        position: fixed; left: 50%; bottom: 22px; z-index: 20;
+        transform: translateX(-50%);
+        width: 42px; height: 42px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.06); color: #eef1f6;
+        border: 1px solid rgba(255,255,255,0.28);
+        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+        cursor: pointer; font-size: 19px; line-height: 1;
+        transition: background 0.2s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      }
+      #reroll:hover { background: rgba(255,255,255,0.14); }
+      #reroll:active { transform: translateX(-50%) rotate(360deg); }
+    </style>
+  </head>
+  <body>
+    <main></main>
+    <div id="param-panel"></div>
+    <button id="reroll" title="New field" aria-label="New field"
+            onclick="event.stopPropagation(); window.__reroll && window.__reroll();">↻</button>
+    <!-- the artist's original sketch, verbatim. Click regenerates a new field;
+         each load is unique. -->
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-delaunay@6.0.4/dist/d3-delaunay.min.js"></script>
+    <script src="letters.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
