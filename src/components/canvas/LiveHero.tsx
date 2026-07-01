@@ -17,7 +17,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="raga.fm — live generative raga"
-        src={`/work/raga-fm/index.html?s=${rand.current}`}
+        src={`/work/raga-fm/live.html?s=${rand.current}`}
         allow="autoplay"
         style={{
           width: "100%",
@@ -34,7 +34,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="Riddle — live nested WFC"
-        src={`/work/riddle/index.html?s=${rand.current}`}
+        src={`/work/riddle/live.html?s=${rand.current}`}
         style={{
           width: "100%",
           height: "100%",
@@ -50,7 +50,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="Control — live generative field"
-        src={`/work/control/index.html?s=${rand.current}`}
+        src={`/work/control/live.html?s=${rand.current}`}
         style={{
           width: "100%",
           height: "100%",
@@ -66,7 +66,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="The Yoni Project — live generative sketch"
-        src={`/work/the-yoni-project/index.html?s=${rand.current}`}
+        src={`/work/the-yoni-project/live.html?s=${rand.current}`}
         style={{
           width: "100%",
           height: "100%",
@@ -82,7 +82,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="Timelines — live generative timepiece"
-        src={`/work/timelines/index.html?s=${rand.current}`}
+        src={`/work/timelines/live.html?s=${rand.current}`}
         style={{
           width: "100%",
           height: "100%",
@@ -98,7 +98,7 @@ export default function LiveHero({ slug }: { slug: string }) {
     return (
       <iframe
         title="Silent Night — live audio-reactive sketch"
-        src={`/work/silent-night/index.html?ui=0&sound=1&preset=${rand.current}`}
+        src={`/work/silent-night/live.html?ui=0&sound=1&preset=${rand.current}`}
         allow="microphone"
         style={{
           width: "100%",

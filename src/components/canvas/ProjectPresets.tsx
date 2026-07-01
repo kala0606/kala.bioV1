@@ -46,7 +46,7 @@ function PresetCell({ slug, index }: { slug: string; index: number }) {
       {show ? (
         <iframe
           title={`${slug} preset ${index}`}
-          src={`/work/${slug}/index.html?ui=0&lite=1&preset=${index}`}
+          src={`/work/${slug}/live.html?ui=0&lite=1&preset=${index}`}
           loading="lazy"
         />
       ) : null}
