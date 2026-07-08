@@ -10,6 +10,8 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   axes: ["opsz", "SOFT", "WONK"],
+  // real italics — the writing pages set long-form prose in Fraunces
+  style: ["normal", "italic"],
 });
 
 const hanken = Hanken_Grotesk({

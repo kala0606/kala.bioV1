@@ -27,8 +27,9 @@ function Clock() {
 
 const LINKS = [
   { href: "/#work", label: "Work", n: "01" },
-  { href: "/#about", label: "About", n: "02" },
-  { href: "/#kala", label: "Order of Kala", n: "03" },
+  { href: "/writing", label: "Writing", n: "02" },
+  { href: "/#about", label: "About", n: "03" },
+  { href: "/#kala", label: "Order of Kala", n: "04" },
 ];
 
 export default function Nav() {
