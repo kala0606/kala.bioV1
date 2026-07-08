@@ -21,6 +21,10 @@ export type Story = {
   chapters: StoryChapter[];
   sign?: string;
   endnote?: string;
+  /** A live embed shown before the colophon — e.g. the money-press note that
+   *  closes "The Impossible Green". `src` points at a self-contained HTML page
+   *  hosting the artist's original engine (isolated iframe, never re-implemented). */
+  note?: { src: string; kicker?: string; caption?: string };
 };
 
 export const stories: Story[] = [
@@ -36,6 +40,11 @@ export const stories: Story[] = [
       "One afternoon, a door, an impossible green, and an email that hasn't been answered. A true story in eleven chapters.",
     sign: "— KALA",
     endnote: "(end of part one)",
+    note: {
+      src: "/writing/the-impossible-green/note.html",
+      kicker: "In my own denomination",
+      caption: "The issuer has signed. The bearer's line is left open.",
+    },
     chapters: [
       {
         title: "The Door",

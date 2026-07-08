@@ -143,6 +143,57 @@ export default async function StoryPage({
           );
         })}
 
+        {/* the note — the story's issued promise, minted live by the press */}
+        {s.note && (
+          <section style={{ marginTop: "clamp(4.5rem, 10vh, 7rem)" }}>
+            {s.note.kicker && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.9rem",
+                  marginBottom: "1.8rem",
+                }}
+              >
+                <span aria-hidden style={{ width: "0.7rem", height: "0.7rem", background: "var(--mond-red)", flexShrink: 0 }} />
+                <span className="mono" style={{ color: "var(--ash)", whiteSpace: "nowrap" }}>
+                  {s.note.kicker}
+                </span>
+                <span style={{ flex: 1, height: "1px", background: "var(--line)" }} />
+              </div>
+            )}
+            <iframe
+              title={`${s.title} — the note`}
+              src={s.note.src}
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "clamp(320px, 58vw, 500px)",
+                border: "none",
+                display: "block",
+                background: "transparent",
+              }}
+            />
+            {s.note.caption && (
+              <p
+                style={{
+                  ...serif,
+                  fontStyle: "italic",
+                  color: "var(--bone-dim)",
+                  fontSize: "var(--step-0)",
+                  lineHeight: 1.6,
+                  marginTop: "1.8rem",
+                  maxWidth: "42ch",
+                  marginInline: "auto",
+                  textAlign: "center",
+                }}
+              >
+                {s.note.caption}
+              </p>
+            )}
+          </section>
+        )}
+
         {/* colophon */}
         <footer
           style={{
