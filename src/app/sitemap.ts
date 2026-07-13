@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/lib/projects";
-import { stories } from "@/lib/writing";
+// import { stories } from "@/lib/writing"; // writing section hidden
 
 export const dynamic = "force-static";
 
@@ -21,17 +21,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     },
-    {
-      url: `${base}/writing`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    ...stories.map((s) => ({
-      url: `${base}/writing/${s.slug}`,
-      lastModified: now,
-      changeFrequency: "yearly" as const,
-      priority: 0.7,
-    })),
+    // writing section hidden — omitted from sitemap
   ];
 }
