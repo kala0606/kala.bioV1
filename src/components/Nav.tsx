@@ -27,10 +27,10 @@ function Clock() {
 
 const LINKS = [
   { href: "/#work", label: "Work", n: "01" },
-  { href: "/studio", label: "Studio", n: "02" },
+  // { href: "/studio", label: "Studio", n: "02" }, // hidden — un-comment to restore
   // { href: "/writing", label: "Writing", n: "03" }, // hidden — un-comment to restore
-  { href: "/#about", label: "About", n: "03" },
-  { href: "/#kala", label: "Order of Kala", n: "04" },
+  { href: "/#about", label: "About", n: "02" },
+  { href: "/#kala", label: "Order of Kala", n: "03" },
 ];
 
 export default function Nav() {
