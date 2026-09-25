@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMI26 · Creative Coding Crash Course</title>
+<meta name="description" content="A light, interactive crash course in creative coding with p5.js: variables and memory, vector vs image data, loops, functions, arrays, Perlin noise in depth, CPU vs GPU and GLSL shaders, objects and classes. Every example is editable in the page.">
+<meta property="og:title" content="SMI26 · Creative Coding Crash Course">
+<meta property="og:description" content="From variables to classes, via Perlin noise and shaders. Editable p5.js examples on every page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151515'/%3E%3Crect x='3' y='3' width='16' height='12' fill='%23d7261e'/%3E%3Crect x='21' y='3' width='8' height='12' fill='%23f4efe6'/%3E%3Crect x='3' y='17' width='16' height='12' fill='%23f4efe6'/%3E%3Crect x='21' y='17' width='8' height='12' fill='%231d4fbd'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="topbar">
+  <b>SMI26 · crash course</b>
+  <select id="chapter-select" aria-label="Chapter"></select>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="#start">
+      <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+      <b>Creative Coding<br>Crash Course</b>
+      <span>SMI26 · CCGA studio · p5.js</span>
+    </a>
+    <ul class="toc" id="toc"></ul>
+    <div class="foot">
+      ← → keys move between chapters.<br>
+      Every code box runs in the page: edit, then <b>▶ Run</b> or <kbd>⌘</kbd>+<kbd>↵</kbd>.<br><br>
+      Companion module: <a href="history.html">Generative Art, a history you can run</a>.<br><br>
+      Built by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a> for the Creative Coding &amp; Generative Art studio, Srishti Manipal Institute. Leans heavily on <a href="https://thecodingtrain.com" target="_blank" rel="noopener">The Coding Train</a>.
+    </div>
+  </aside>
+
+  <main class="main">
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="start" data-title="Start here">
+    <div class="chapter-head">
+      <div class="eyebrow">SMI26 · a crash course in ten short chapters</div>
+      <h1>Creative Coding, lightly.</h1>
+      <p class="lede">Enough programming to make things move, wobble and surprise you. We go from "what is a variable" to "what is a class", and take a long, playable detour through Perlin noise and shaders on the way.</p>
+    </div>
+
+    <p>This page is <b>language agnostic in spirit</b> and <b>p5.js in practice</b>. Every idea here (variables, loops, functions, objects) exists in Python, C, Java, Rust, whatever you meet next. We use <a href="https://p5js.org" target="_blank" rel="noopener">p5.js</a> because it is JavaScript that draws, it runs in a browser tab with zero setup, and it is the language of the best free programming teacher on the internet.</p>
+
+    <div class="callout train">
+      <p>Everything here is a compressed, interactive companion to Dan Shiffman's videos. If a chapter clicks, go watch the long version. If it doesn't click, <em>definitely</em> go watch the long version.</p>
+      <ul>
+        <li><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js" target="_blank" rel="noopener">Code! Programming with p5.js</a> · the beginner track (chapters 1 to 5 and 8 here)</li>
+        <li><a href="https://natureofcode.com" target="_blank" rel="noopener">The Nature of Code</a> · the free book (noise, vectors, particles, physics)</li>
+        <li><a href="https://thecodingtrain.com/challenges" target="_blank" rel="noopener">Coding Challenges</a> · one idea, one hour, one sketch</li>
+      </ul>
+    </div>
+
+    <h2>The two functions you will write forever</h2>
+    <p>A p5 sketch is a program with two special functions. <code>setup()</code> runs once. <code>draw()</code> runs again and again, about 60 times a second, and each run paints one frame. Animation is just "draw something slightly different each frame".</p>
+
+    <div class="sketch" data-title="Hello, circle" data-height="300">
+      <script type="text/plain" class="code">
+        function setup() {
+          createCanvas(400, 300);   // runs once: make a canvas 400 wide, 300 tall
+        }
+
+        function draw() {
+          background(244, 239, 230); // runs every frame: wipe the canvas
+          fill(215, 38, 30);         // red, as R,G,B
+          noStroke();
+          circle(mouseX, mouseY, 60); // a circle where the mouse is
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Comment out <code>background(...)</code> with <code>//</code> and run again. Why does the circle leave a trail?</li>
+        <li>Change <code>60</code> to <code>mouseX</code>. Now the size is a variable too.</li>
+        <li>Break it on purpose: delete a bracket, press Run, read the console under the canvas. Errors are normal. Reading them is the skill.</li>
+      </ul>
+    </div>
+
+    <h2>The canvas is a grid of numbers</h2>
+    <p>Before variables, one fact: the origin (0, 0) is the <b>top left</b>, x grows right, y grows <b>down</b>. Every drawing command is just numbers on this grid.</p>
+    <div class="demo" data-demo="coords" data-title="Where is (x, y)?" data-foot="Every shape you ever draw is a few numbers on this grid. That sentence is the whole of computer graphics."></div>
+
+    <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/1-intro/3-shapes-drawing" target="_blank" rel="noopener">🚂 Shapes &amp; Drawing</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/1-intro/4-color" target="_blank" rel="noopener">🚂 Color</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/1-intro/5-errors" target="_blank" rel="noopener">🚂 Errors &amp; the console</a> · <a href="https://p5js.org/reference/" target="_blank" rel="noopener">p5.js reference</a> (bookmark this).</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="variables" data-title="Variables &amp; memory">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 1</div>
+      <h1>Variables &amp; memory</h1>
+      <p class="lede">A variable is a labelled box in the computer's memory. That's it. Everything else is detail.</p>
+    </div>
+
+    <p>Your computer's RAM is billions of tiny numbered slots. A program that says <code>let x = 50</code> asks for a slot, writes 50 in it, and remembers that the slot is called <code>x</code>. Later, <code>x = x + 3</code> reads the box, adds 3, and writes the result back into the same box. The label stays, the contents change. That is why they are called variables.</p>
+
+    <div class="demo" data-demo="memory" data-title="Watch the boxes while the ball bounces" data-foot="Left: the program. Right: what the computer is actually keeping. A box lights up when it is written to."></div>
+
+    <h3>Three kinds of things you'll put in boxes (for now)</h3>
+    <ul>
+      <li><b>Numbers</b>: <code>3</code>, <code>-0.5</code>, <code>400</code>. In JavaScript every number is a 64-bit float (8 bytes). Other languages make you choose: <code>int</code> vs <code>float</code>.</li>
+      <li><b>Strings</b> (text): <code>"hello"</code>. Roughly 2 bytes per character.</li>
+      <li><b>Booleans</b>: <code>true</code> or <code>false</code>. One bit of information, though it usually gets a whole byte because memory is handed out in bytes.</li>
+    </ul>
+    <p><code>let</code> makes a box you can change. <code>const</code> makes a box you promise not to change. Use <code>const</code> by default and <code>let</code> when something needs to move.</p>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">let x = 50;          // a box called x, holding 50
+const speed = 3;     // a box you promise not to change
+let name = "ball";
+let bouncing = false;
+x = x + speed;       // read, add, write back
+x += speed;          // same thing, shorter</pre>
+      <pre data-lang="Python">x = 50               # no keyword; the box appears when you first write to it
+speed = 3
+name = "ball"
+bouncing = False
+x = x + speed
+x += speed</pre>
+      <pre data-lang="C">int x = 50;          /* the box is exactly 4 bytes, for whole numbers only */
+const float speed = 3.0f;
+char name[] = "ball";
+int bouncing = 0;    /* old C has no bool; 0 is false */
+x = x + speed;</pre>
+      <pre data-lang="Java">int x = 50;
+final double speed = 3;
+String name = "ball";
+boolean bouncing = false;
+x = x + (int) speed;  // Java makes you say when you mix types</pre>
+    </div>
+    <p class="small">The lesson from the tabs: the <em>idea</em> is identical. Only the spelling and how picky the language is about box sizes changes. Languages like C make you declare the size (which is why they are fast and unforgiving). JavaScript and Python decide for you (which is why they are friendly and a little slower).</p>
+
+    <h3>Now make something move</h3>
+    <div class="sketch" data-title="Bouncing ball" data-height="300">
+      <script type="text/plain" class="code">
+        let x = 50;        // position, changes every frame
+        let speed = 3;     // how much x changes per frame
+
+        function setup() {
+          createCanvas(400, 300);
+        }
+
+        function draw() {
+          background(244, 239, 230);
+
+          x = x + speed;             // move
+          if (x > width || x < 0) {  // hit an edge?
+            speed = speed * -1;      // flip direction
+          }
+
+          fill(29, 79, 189);
+          noStroke();
+          circle(x, height / 2, 48);
+        }
+      </script>
+    </div>
+    <div class="callout try">
+      <ul>
+        <li>Add a <code>let y</code> and a <code>let ySpeed</code>. Make it bounce in both directions.</li>
+        <li>Add <code>speed = speed * 1.1</code> inside the <code>if</code>. What happens to the box over time? Why does it eventually break?</li>
+        <li>Move <code>let x = 50</code> <em>inside</em> <code>draw()</code>. Why does the ball stop moving? (Hint: a new box every frame.)</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>Scope, in one breath.</b> A box made at the top of the file lives as long as the sketch (global). A box made inside a function is thrown away when the function ends (local). The ball froze above because you kept making a brand new <code>x</code> every frame and throwing it away.</p>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/2-variables/1-mouseX-mouseY" target="_blank" rel="noopener">Using variables: mouseX &amp; mouseY</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/2-variables/2-define-variables" target="_blank" rel="noopener">Define your own variables</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/2-variables/3-incrementation" target="_blank" rel="noopener">Incrementation operators</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/2-variables/5-map" target="_blank" rel="noopener">map()</a>, the most useful function in creative coding.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="data" data-title="Vector vs image data">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 2</div>
+      <h1>Vector vs image data</h1>
+      <p class="lede">There are exactly two ways to store a picture: as a list of instructions, or as a grid of numbers. Everything visual you'll ever make is one, the other, or a conversion between them.</p>
+    </div>
+
+    <p><b>Vector</b> data is a recipe: "circle at (200,150), radius 30, red. Line from here to there." It is tiny, and it is resolution independent: zoom in forever, it stays crisp, because the computer redraws it from the recipe. SVG files, fonts, pen plotter paths, and every <code>circle()</code> you write in p5 are vector data.</p>
+    <p><b>Raster</b> (image, bitmap, pixel) data is a grid. Each cell is a pixel with four numbers: red, green, blue, alpha, each from 0 to 255. It stores <em>any</em> picture, including photographs that no recipe could describe, but it has a fixed size and zooming in shows the blocks. PNG, JPG, the camera, your screen, and p5's <code>pixels[]</code> array are raster data.</p>
+
+    <div class="demo" data-demo="vectorraster" data-title="Same picture, two kinds of data. Zoom in." data-foot="Left is redrawn from four instructions every frame. Right is a 64×48 grid of numbers, stretched. Note the byte counts in the toolbar."></div>
+
+    <h3>Inside a raster image: one long list</h3>
+    <p>The grid is a lie. Memory is one dimensional, so the image is really one long list of numbers, row after row. To find pixel (x, y) you compute an index: <code>(x + y * width) * 4</code>. The <code>* 4</code> is because each pixel takes four slots: R, G, B, A.</p>
+    <div class="demo" data-demo="pixelgrid" data-title="Hover a pixel to find it in the list" data-foot="This index formula is the single most reused line in image processing. Shaders in chapter 7 do the same thing, but for every pixel at once."></div>
+
+    <div class="two">
+      <div>
+    <div class="sketch" data-title="Vector: instructions" data-height="300" data-width="300">
+      <script type="text/plain" class="code">
+        // A picture as a recipe.
+        // Change any number and it redraws,
+        // crisp at any size.
+        function setup() {
+          createCanvas(300, 300);
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          strokeWeight(3);
+          stroke(21);
+          fill(215, 38, 30);
+          circle(150, 130, 120);
+          fill(240, 192, 46);
+          rect(40, 200, 100, 60);
+          stroke(29, 79, 189);
+          line(170, 200, 270, 270);
+        }
+      </script>
+    </div>
+      </div>
+      <div>
+    <div class="sketch" data-title="Raster: pixels[]" data-height="300" data-width="300">
+      <script type="text/plain" class="code">
+        // A picture as a grid of numbers.
+        // We visit every pixel and decide its colour.
+        function setup() {
+          createCanvas(300, 300);
+          pixelDensity(1); // 1 pixel = 1 slot (retina screens double it)
+        }
+
+        function draw() {
+          loadPixels(); // copy the canvas into pixels[]
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              let i = (x + y * width) * 4;   // find the pixel in the list
+              pixels[i]     = x / width * 255;  // R grows to the right
+              pixels[i + 1] = y / height * 255; // G grows downward
+              pixels[i + 2] = 150;              // B constant
+              pixels[i + 3] = 255;              // A opaque
+            }
+          }
+          updatePixels(); // send the list back to the screen
+        }
+      </script>
+    </div>
+      </div>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>In the raster sketch, replace the blue line with <code>pixels[i + 2] = mouseX</code>. Then try <code>(x * y) % 255</code> for a channel.</li>
+        <li>Make a checkerboard: <code>if ((floor(x/20) + floor(y/20)) % 2 === 0)</code> paint white, else black. (Loops and ifs are chapter 3, feel free to peek.)</li>
+        <li>Try <code>createCanvas(3000, 3000)</code> in the raster sketch and watch it crawl. That is 36 million numbers per frame on one CPU core. Remember this feeling for chapter 7.</li>
+      </ul>
+    </div>
+
+    <h3>When to use which</h3>
+    <table class="cheat">
+      <tr><th></th><th>Vector</th><th>Raster</th></tr>
+      <tr><td>Stores</td><td>instructions (shapes, paths)</td><td>a grid of pixel colours</td></tr>
+      <tr><td>Size</td><td>tiny, grows with detail</td><td>fixed: width × height × 4 bytes</td></tr>
+      <tr><td>Zoom</td><td>always crisp</td><td>blocky past 1:1</td></tr>
+      <tr><td>Good for</td><td>logos, type, plotters, laser cutters, diagrams, generative geometry</td><td>photos, noise, textures, anything "painted" or filtered</td></tr>
+      <tr><td>In p5</td><td><code>circle()</code>, <code>line()</code>, <code>beginShape()</code>, <code>p5.svg</code></td><td><code>pixels[]</code>, <code>loadImage()</code>, <code>createGraphics()</code>, shaders</td></tr>
+    </table>
+    <p class="small">The screen is always raster in the end: the GPU <em>rasterises</em> your vector instructions into pixels every frame. Chapter 7 is about who does that work.</p>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/2-variables/6-createGraphics" target="_blank" rel="noopener">createGraphics()</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/7-arrays/8-objects-images" target="_blank" rel="noopener">Objects &amp; images</a> · the <a href="https://p5js.org/reference/p5/pixels/" target="_blank" rel="noopener">pixels[] reference</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="flow" data-title="Loops &amp; conditionals">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 3</div>
+      <h1>Loops &amp; conditionals</h1>
+      <p class="lede">Computers are dumb but tireless. Conditionals let a program choose. Loops let it repeat. Together they turn ten lines into ten thousand shapes.</p>
+    </div>
+
+    <p><b>If</b> asks a yes/no question about a box and does something only when the answer is yes. You already used one: <code>if (x > width)</code>. <b>For</b> counts: start a counter, run the block, bump the counter, check if we're done. A loop inside a loop walks a grid, which is why you saw it in the pixels sketch.</p>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">for (let i = 0; i < 10; i++) {
+  if (i % 2 === 0) {
+    console.log(i, "is even");
+  } else {
+    console.log(i, "is odd");
+  }
+}</pre>
+      <pre data-lang="Python">for i in range(10):
+    if i % 2 == 0:
+        print(i, "is even")
+    else:
+        print(i, "is odd")</pre>
+      <pre data-lang="C">for (int i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+        printf("%d is even\n", i);
+    } else {
+        printf("%d is odd\n", i);
+    }
+}</pre>
+      <pre data-lang="GLSL (shaders)">/* same loop, runs once per pixel, on the GPU */
+for (int i = 0; i < 10; i++) {
+    if (mod(float(i), 2.0) == 0.0) {
+        col += 0.1;
+    }
+}</pre>
+    </div>
+
+    <div class="sketch" data-title="A grid, with a rule" data-height="320">
+      <script type="text/plain" class="code">
+        function setup() {
+          createCanvas(400, 320);
+          noStroke();
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          let cell = 40;
+
+          for (let y = 0; y < height; y += cell) {      // every row
+            for (let x = 0; x < width; x += cell) {     // every column in it
+              let d = dist(x, y, mouseX, mouseY);       // how far from the mouse?
+
+              if (d < 100) {
+                fill(215, 38, 30);          // close: red
+              } else if ((x + y) / cell % 2 === 0) {
+                fill(29, 79, 189);          // checker: blue
+              } else {
+                fill(240, 192, 46);         // checker: yellow
+              }
+
+              circle(x + cell / 2, y + cell / 2, cell * 0.8);
+            }
+          }
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Replace <code>cell * 0.8</code> with <code>map(d, 0, 300, cell, 4)</code>. Now distance controls size. This is half of all generative art.</li>
+        <li>Change <code>x += cell</code> to <code>x += cell * 1.5</code>. Then to <code>x += random(20, 60)</code>. What happens to the grid?</li>
+        <li>Add a third loop for <code>let z</code>... no wait, don't. A nested loop 3 deep with 400×320×N iterations will hurt. Understanding <em>why</em> it hurts is chapter 7.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>Booleans are also boxes.</b> <code>let paused = false;</code> then <code>if (paused) return;</code> at the top of <code>draw()</code>, and <code>function keyPressed() { paused = !paused; }</code>. Three lines, a pause button. Conditionals don't have to compare numbers; they just need a true or false.</p>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/3-conditionals/1-conditionals" target="_blank" rel="noopener">Conditional statements</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/3-conditionals/2-bouncing" target="_blank" rel="noopener">The bouncing ball</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/4-loops/1-while-for" target="_blank" rel="noopener">while &amp; for loops</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/4-loops/2-nested" target="_blank" rel="noopener">Nested loops</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="functions" data-title="Functions">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 4</div>
+      <h1>Functions</h1>
+      <p class="lede">A function is a recipe with a name. You write it once, you call it a hundred times, and you can hand it ingredients.</p>
+    </div>
+
+    <p>You have been <em>calling</em> functions since line one: <code>circle(x, y, d)</code> is a function someone at p5 wrote, and <code>x, y, d</code> are its parameters. Now you write your own. Two reasons to bother: <b>reuse</b> (draw a flower in one place, then draw fifty) and <b>naming</b> (a block called <code>drawFlower</code> is easier to read than twelve lines of trig).</p>
+    <p>Some functions also <b>return</b> a value: <code>dist()</code> hands you back a number. Think of it as a box that briefly exists at the place you called it.</p>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">function flower(x, y, size) {   // parameters: x, y, size
+  for (let a = 0; a < TWO_PI; a += TWO_PI / 6) {
+    circle(x + cos(a) * size, y + sin(a) * size, size);
+  }
+}
+
+function area(r) {
+  return PI * r * r;           // hands a value back
+}
+
+flower(200, 150, 30);          // a call, with arguments
+let a = area(10);</pre>
+      <pre data-lang="Python">import math
+
+def flower(x, y, size):
+    a = 0
+    while a < 2 * math.pi:
+        circle(x + math.cos(a) * size, y + math.sin(a) * size, size)
+        a += 2 * math.pi / 6
+
+def area(r):
+    return math.pi * r * r
+
+flower(200, 150, 30)
+a = area(10)</pre>
+      <pre data-lang="C">/* C makes you name the type of every parameter and of the answer */
+void flower(float x, float y, float size) {
+    for (float a = 0; a < 6.283f; a += 6.283f / 6) {
+        circle(x + cosf(a) * size, y + sinf(a) * size, size);
+    }
+}
+
+float area(float r) {
+    return 3.14159f * r * r;
+}</pre>
+    </div>
+
+    <div class="sketch" data-title="Write once, call many" data-height="320">
+      <script type="text/plain" class="code">
+        function setup() {
+          createCanvas(400, 320);
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          flower(100, 100, 30, color(215, 38, 30));
+          flower(300, 120, 45, color(29, 79, 189));
+          flower(200, 240, 20, color(240, 192, 46));
+          flower(mouseX, mouseY, 25 + sin(frameCount * 0.05) * 10, color(21));
+        }
+
+        // our own function: 4 parameters in, nothing returned
+        function flower(x, y, size, col) {
+          push();                    // save drawing state
+          translate(x, y);           // move the origin to the flower
+          rotate(frameCount * 0.01); // spin slowly
+          noStroke();
+          fill(col);
+          for (let i = 0; i < 6; i++) {
+            circle(size, 0, size);   // one petal...
+            rotate(TWO_PI / 6);      // ...then turn 60°
+          }
+          fill(21);
+          circle(0, 0, size * 0.6);  // centre
+          pop();                     // restore drawing state
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Add a fifth parameter <code>petals</code> and use it instead of <code>6</code>. Call it with 3, 8, 24.</li>
+        <li>Write <code>function wobble(t) { return sin(t) * 10; }</code> and use it for the size of the black flower.</li>
+        <li>Call <code>flower()</code> from inside <code>flower()</code> with <code>size / 3</code>. That is recursion. Guard it with <code>if (size < 4) return;</code> or the browser tab will regret it.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b><code>push()</code> / <code>pop()</code></b> save and restore "where is the origin, which way is up, what colour is the pen". Every function that translates or rotates should be wrapped in them, or it leaks its transformation into the next thing you draw.</p>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/5-functions/1-basics" target="_blank" rel="noopener">Function basics</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/5-functions/2-arguments" target="_blank" rel="noopener">Parameters and arguments</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/5-functions/3-return" target="_blank" rel="noopener">Functions &amp; return</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="arrays" data-title="Arrays">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 5</div>
+      <h1>Arrays</h1>
+      <p class="lede">One box holds one thing. An array is a row of numbered boxes under one name. It is how "a ball" becomes "five hundred balls" without writing five hundred variables.</p>
+    </div>
+
+    <p>You met an array already: <code>pixels[]</code> is one, a very long one. Arrays are indexed from <b>0</b>, so the first item is <code>xs[0]</code>, and the last is <code>xs[xs.length - 1]</code>. A for loop from 0 to <code>length</code> visits every one. <code>push()</code> adds to the end, <code>splice(i, 1)</code> removes item i.</p>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">let xs = [10, 40, 90];     // three boxes, one name
+xs.push(200);              // now four
+xs[0] = 15;                // change the first
+for (let i = 0; i < xs.length; i++) {
+  circle(xs[i], 100, 20);
+}
+for (let x of xs) {        // shorter, when you don't need i
+  circle(x, 100, 20);
+}</pre>
+      <pre data-lang="Python">xs = [10, 40, 90]          # a list
+xs.append(200)
+xs[0] = 15
+for x in xs:
+    circle(x, 100, 20)</pre>
+      <pre data-lang="C">float xs[4] = {10, 40, 90, 200};   /* fixed size, decided up front */
+xs[0] = 15;
+for (int i = 0; i < 4; i++) {
+    circle(xs[i], 100, 20);
+}
+/* growing it means asking the OS for new memory: malloc / realloc */</pre>
+    </div>
+
+    <div class="sketch" data-title="Many balls, two arrays" data-height="320">
+      <script type="text/plain" class="code">
+        let xs = [];      // one array for positions...
+        let speeds = [];  // ...a parallel array for speeds (we'll fix this in chapter 8)
+
+        function setup() {
+          createCanvas(400, 320);
+          for (let i = 0; i < 12; i++) {
+            xs.push(random(width));
+            speeds.push(random(1, 4));
+          }
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          noStroke();
+          for (let i = 0; i < xs.length; i++) {
+            xs[i] += speeds[i];
+            if (xs[i] > width) xs[i] = 0;     // wrap around
+            fill(i % 2 === 0 ? color(215, 38, 30) : color(29, 79, 189));
+            circle(xs[i], 20 + i * 25, 20);
+          }
+          fill(21);
+          text(xs.length + " balls. click to add.", 10, height - 10);
+        }
+
+        function mousePressed() {
+          xs.push(mouseX);
+          speeds.push(random(1, 4));
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Instead of wrapping, remove balls that leave the screen: <code>xs.splice(i, 1); speeds.splice(i, 1); i--;</code>. Why the <code>i--</code>?</li>
+        <li>Store 2D positions: <code>let ys = []</code> too. Feel how annoying it gets to keep three arrays in step. That annoyance is the reason objects exist.</li>
+        <li>Add a keyboard handler: on <kbd>space</kbd>, <code>xs = []; speeds = [];</code>.</li>
+      </ul>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/7-arrays/1-arrays" target="_blank" rel="noopener">Arrays</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/7-arrays/2-arrays-loops" target="_blank" rel="noopener">Arrays and loops</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/7-arrays/5-removing-elements" target="_blank" rel="noopener">Removing objects from arrays</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="noise" data-title="Perlin noise, in depth">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 6 · the long one</div>
+      <h1>Random, then Perlin noise</h1>
+      <p class="lede">Randomness is how a program surprises you. Perlin noise is randomness that has learned manners. It is the single most important tool in this whole course, so we take it slowly, with things to play with.</p>
+    </div>
+
+    <h2>random() jumps. noise() strolls.</h2>
+    <p><code>random()</code> gives you a fresh, unrelated number every call, which looks like static. <code>noise(t)</code> gives you a number that depends on <code>t</code>, and neighbouring <code>t</code>s give neighbouring numbers. Move <code>t</code> a little, the value moves a little. That one property (smoothness) is what makes it look like clouds, terrain, wood grain, wind, handwriting, life.</p>
+
+    <div class="demo" data-demo="noisevsrandom" data-title="random() vs noise(t)" data-foot="Both live between 0 and 1. Slide the step: small steps = gentle drift, big steps = it starts to look random again. noise() with a huge step IS random."></div>
+
+    <div class="callout note">
+      <p><b>Two facts to remember.</b> (1) <code>noise()</code> returns 0 to 1, but in practice hugs the middle (0.3 to 0.7). Use <code>map()</code> to stretch it. (2) It is <b>deterministic</b>: <code>noise(4.2)</code> is the same value every time you ask, until you <code>noiseSeed()</code>. That is what makes it a texture you can look up, not a dice roll.</p>
+    </div>
+
+    <h2>How it actually works (the anatomy)</h2>
+    <p>Ken Perlin invented this in 1983 for the film <em>Tron</em>, because computer graphics looked too clean, and got an Academy Award for it. The idea is tiny:</p>
+    <ol>
+      <li>Put a <b>lattice</b> of points along the number line (in 1D), or a grid (2D), or a cube grid (3D).</li>
+      <li>Give each lattice point a fixed random thing. The simple version stores a random <b>height</b> (that's called <em>value noise</em>). Perlin's trick is to store a random <b>slope</b> (a gradient) instead, so the bumps don't sit exactly on the grid.</li>
+      <li>For any position in between, <b>blend</b> the neighbours. Not linearly, because straight lines have visible corners at the lattice, but with a <b>fade curve</b>: <code>6t⁵ − 15t⁴ + 10t³</code>, which is flat at both ends. That is where the smoothness comes from.</li>
+    </ol>
+
+    <div class="demo" data-demo="noiseanatomy" data-title="Noise, taken apart (1D)" data-foot="Hover along the curve to see the blend happening. Switch linear ↔ smooth to see why the fade curve matters. Switch heights ↔ slopes to see Perlin's actual trick: with slopes, every lattice point is a zero crossing of the bump, so the grid disappears."></div>
+
+    <p>The <b>lattice spacing</b> in the demo is the same thing as the <b>step</b> you use in code: <code>noise(t)</code> has lattice points at every whole number, so <code>t += 0.01</code> means 100 frames between lattice points (slow, smooth) and <code>t += 0.5</code> means two frames per lattice point (jittery). You never change the lattice, you change how fast you walk across it.</p>
+
+    <h2>Octaves: noise stacked on noise</h2>
+    <p>One layer of noise is smooth but boring, like a rolling hill. Real terrain has hills on the hills, and pebbles on those. So you add layers (<b>octaves</b>): each one at double the frequency and a fraction of the amplitude (the <b>falloff</b>, usually 0.5). The sum has big shapes and small detail. This is also called fractal or fBm noise, and in p5 it is <code>noiseDetail(octaves, falloff)</code>.</p>
+
+    <div class="demo" data-demo="octaves" data-title="Octaves and falloff" data-foot="Grey lines are the individual octaves. Red is their sum, which is what noise() returns. High falloff = rough. Low falloff = smooth."></div>
+
+    <h2>Noise in 2D and 3D</h2>
+    <p><code>noise(x, y)</code> looks up a 2D lattice: a cloud. <code>noise(x, y, t)</code> looks up a 3D one, and if you slowly move <code>t</code> the cloud <em>evolves</em> instead of scrolling. Almost every "organic" animation you have ever seen on a screen is this: 3D noise with time as the third axis.</p>
+
+    <div class="demo" data-demo="noise2d" data-title="A 2D noise field, four ways" data-foot="Grey is the raw values. Terrain paints them by height (sea level slider). Contours draw lines where the value crosses a threshold: the same trick a map maker uses. Threshold is the simplest: above or below one number. Every view is the same numbers."></div>
+
+    <div class="sketch" data-title="2D noise with pixels[]" data-height="300">
+      <script type="text/plain" class="code">
+        // Chapter 2's pixel loop, but the colour comes from noise.
+        let scale = 0.02;   // the step: smaller = smoother, bigger zoom
+        let t = 0;          // time, the third dimension
+
+        function setup() {
+          createCanvas(400, 300);
+          pixelDensity(1);
+          noiseDetail(4, 0.5);   // octaves, falloff
+        }
+
+        function draw() {
+          loadPixels();
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              let n = noise(x * scale, y * scale, t);   // 0..1
+              let bright = map(n, 0.3, 0.7, 0, 255);    // stretch the middle
+              let i = (x + y * width) * 4;
+              pixels[i] = bright;
+              pixels[i + 1] = bright;
+              pixels[i + 2] = bright;
+              pixels[i + 3] = 255;
+            }
+          }
+          updatePixels();
+          t += 0.01;
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Threshold it: <code>let bright = n > 0.5 ? 255 : 0;</code>. Congratulations, you made islands.</li>
+        <li>Make <code>scale</code> depend on <code>mouseX</code>: <code>let scale = map(mouseX, 0, width, 0.002, 0.1);</code> (inside <code>draw</code>).</li>
+        <li>Colour by band: <code>let band = floor(n * 8);</code> then pick a colour per band. This is the contour view.</li>
+      </ul>
+    </div>
+
+    <h2>Playable noise systems</h2>
+    <p>Three things to actually make with it. Each one is "noise controls one parameter of something simple".</p>
+
+    <h3>1 · Flow field: noise controls an angle</h3>
+    <p>Fill the canvas with an invisible grid of arrows. Each arrow's angle is <code>noise(x, y) × some multiple of π</code>. Drop particles in and let the arrows push them. Because noise is smooth, neighbouring arrows agree, and the particles flow like water or wind. This is Coding Challenge 24 and it is still the best afternoon you can spend with p5.</p>
+    <div class="demo" data-demo="flowfield" data-title="Flow field · noise → angle" data-foot="Angle range is the multiplier on π. Small = lazy river, large = turbulence. Field drift moves through the 3rd dimension of noise so the field itself changes. Press the mouse to push particles away."></div>
+
+    <div class="sketch" data-title="Flow field, the code (simplified from CC#24)" data-height="320">
+      <script type="text/plain" class="code">
+        // After Daniel Shiffman's Coding Challenge #24.
+        let particles = [];
+        let scale = 0.01;
+        let t = 0;
+
+        function setup() {
+          createCanvas(400, 320);
+          background(244, 239, 230);
+          for (let i = 0; i < 600; i++) {
+            particles.push({ x: random(width), y: random(height) });
+          }
+        }
+
+        function draw() {
+          stroke(29, 79, 189, 20);
+          for (let p of particles) {
+            let angle = noise(p.x * scale, p.y * scale, t) * TWO_PI * 2; // noise → angle
+            let nx = p.x + cos(angle) * 1.5;
+            let ny = p.y + sin(angle) * 1.5;
+            line(p.x, p.y, nx, ny);
+            p.x = nx; p.y = ny;
+            // fell off the edge? respawn.
+            if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
+              p.x = random(width); p.y = random(height);
+            }
+          }
+          t += 0.002;
+        }
+      </script>
+    </div>
+
+    <h3>2 · Wobbly circle: noise controls a radius</h3>
+    <p>Walk around a circle. At each angle, look up noise at <code>(cos(a), sin(a))</code>, so the lookup is itself a circle and the start joins the end seamlessly. Add the value to the radius. You get a blob. Add time and it breathes.</p>
+    <div class="demo" data-demo="noiseblob" data-title="Noise blob · noise → radius" data-foot="Detail is how big a circle we walk on the noise field; small = one soft bump, big = crinkly. Rings just repeat the trick at different sizes."></div>
+
+    <h3>3 · Noise walker: noise controls a position</h3>
+    <div class="sketch" data-title="Noise walker" data-height="300">
+      <script type="text/plain" class="code">
+        let tx = 0;      // two different places on the noise line...
+        let ty = 10000;  // ...so x and y don't move together
+
+        function setup() {
+          createCanvas(400, 300);
+          background(244, 239, 230);
+        }
+
+        function draw() {
+          let x = map(noise(tx), 0, 1, 0, width);   // noise → position
+          let y = map(noise(ty), 0, 1, 0, height);
+          noStroke();
+          fill(215, 38, 30, 40);
+          circle(x, y, 24);
+          tx += 0.01;
+          ty += 0.01;
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>In the walker, make the circle size <code>map(noise(tx + 500), 0, 1, 5, 60)</code>. Everything can be noise.</li>
+        <li>In the flow field code, change <code>TWO_PI * 2</code> to <code>TWO_PI * 8</code>, then <code>PI * 0.5</code>. Then replace <code>noise(...)</code> with <code>random()</code> to feel what you'd lose.</li>
+        <li>Colour the flow field by angle: <code>stroke(angle * 40 % 255, 80, 200, 20)</code>.</li>
+      </ul>
+    </div>
+
+    <div class="callout train">
+      <p>The Coding Train Perlin noise series is the definitive version of this chapter:
+      <a href="https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/intro-to-perlin-noise" target="_blank" rel="noopener">Intro to Perlin noise</a> ·
+      <a href="https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/noise-vs-random" target="_blank" rel="noopener">noise() vs random()</a> ·
+      <a href="https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise" target="_blank" rel="noopener">Graphing 1D noise</a> ·
+      <a href="https://thecodingtrain.com/challenges/24-perlin-noise-flow-field/" target="_blank" rel="noopener">Coding Challenge 24: Flow field</a> ·
+      and the book chapter, <a href="https://natureofcode.com/random/" target="_blank" rel="noopener">Nature of Code, chapter 0: Randomness</a>.
+      For the maths, Ken Perlin's own <a href="https://mrl.cs.nyu.edu/~perlin/paper445.pdf" target="_blank" rel="noopener">Improving Noise (2002)</a> is two pages long.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="gpu" data-title="CPU, GPU &amp; shaders">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 7</div>
+      <h1>CPU vs GPU, and GLSL shaders</h1>
+      <p class="lede">Remember the pixel loop crawling at 3000×3000? Here is why, and here is the fix: a different kind of processor, and a tiny language to talk to it.</p>
+    </div>
+
+    <h2>One brilliant worker vs. ten thousand simple ones</h2>
+    <p>The <b>CPU</b> is a handful of very smart, very fast workers. Your <code>draw()</code> runs on one of them, and it does things <em>in order</em>: this pixel, then the next, then the next. 120,000 pixels per frame is fine. 36 million is not.</p>
+    <p>The <b>GPU</b> is thousands of very simple workers. Each one can only do small maths, and none of them can talk to each other, but they all work <em>at the same time</em>. Give every pixel its own worker, and a 4K frame takes about as long as a single pixel would.</p>
+
+    <div class="demo" data-demo="cpugpu" data-title="The race" data-foot="Both panels compute the same gradient. The CPU side is one worker, deliberately slowed to a few hundred pixels per frame so you can watch it. The GPU side is what a shader does: every pixel at once, one frame."></div>
+
+    <h2>A shader is a function that runs once per pixel</h2>
+    <p>That is the whole mental model. You write one small function. Its input is "which pixel am I?" (<code>gl_FragCoord</code>). Its output is one colour (<code>gl_FragColor</code>). The GPU runs it for every pixel simultaneously. Because of that, there are rules:</p>
+    <ul>
+      <li>You <b>cannot loop over the image</b>. You are already inside the loop. You are one pixel.</li>
+      <li>You <b>cannot read your neighbour's answer</b>. Everyone is answering at the same moment.</li>
+      <li>You <b>can</b> read shared inputs called <b>uniforms</b>: the canvas size, the time, the mouse, an image. Same value for every pixel.</li>
+      <li>The language is <b>GLSL</b>: C-like, strictly typed. <code>float</code>, <code>vec2</code>, <code>vec3</code>, <code>vec4</code>. <code>1</code> and <code>1.0</code> are different things and it will shout at you. Colours are <code>vec4(r, g, b, a)</code> from 0.0 to 1.0, not 0 to 255.</li>
+    </ul>
+    <p>There are two shaders in a pipeline: the <b>vertex</b> shader (runs per corner of your geometry, positions it) and the <b>fragment</b> shader (runs per pixel, colours it). For "paint the whole canvas" work, the vertex shader is boilerplate. We give you that one. You write fragments.</p>
+
+    <div class="sketch" data-mode="glsl" data-title="Fragment shader lab" data-height="320">
+      <script type="text/plain" data-preset="Gradient">
+        // Runs once for EVERY pixel, all at the same time.
+        precision mediump float;
+
+        uniform vec2 u_resolution;  // canvas size in pixels
+        uniform float u_time;       // seconds since start
+        uniform vec2 u_mouse;       // mouse, in pixels, y up
+
+        void main() {
+          // which pixel am I? scale to 0..1
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+
+          // red grows to the right, green grows upward
+          // (exactly chapter 2's pixels[] loop, without the loop)
+          gl_FragColor = vec4(uv.x, uv.y, 0.6, 1.0);
+        }
+      </script>
+      <script type="text/plain" data-preset="Circle">
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+          vec2 m = u_mouse / u_resolution;
+          float aspect = u_resolution.x / u_resolution.y;
+          uv.x *= aspect;  m.x *= aspect;     // keep circles round
+
+          float d = distance(uv, m);           // how far am I from the mouse?
+          float r = 0.2 + 0.05 * sin(u_time * 3.0);
+          float inside = smoothstep(r, r - 0.01, d);   // 1 inside, 0 outside, soft edge
+
+          vec3 paper = vec3(0.957, 0.937, 0.902);
+          vec3 red = vec3(0.843, 0.149, 0.118);
+          gl_FragColor = vec4(mix(paper, red, inside), 1.0);
+        }
+      </script>
+      <script type="text/plain" data-preset="Waves">
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+
+          // a sine wave in x, that moves with time, and bends with y
+          float wave = sin(uv.x * 20.0 + u_time * 2.0 + sin(uv.y * 6.0 + u_time) * 2.0);
+          float stripes = step(0.0, wave);     // hard edge: 0 or 1
+
+          vec3 blue = vec3(0.114, 0.310, 0.741);
+          vec3 yellow = vec3(0.941, 0.753, 0.180);
+          gl_FragColor = vec4(mix(blue, yellow, stripes), 1.0);
+        }
+      </script>
+      <script type="text/plain" data-preset="Noise (fBm)">
+        // Chapter 6, rebuilt from scratch on the GPU.
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        // 1. a "random" number for a lattice point (a hash, deterministic)
+        float hash(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+        }
+
+        // 2. value noise: blend the 4 lattice corners with the fade curve
+        float noise(vec2 p) {
+          vec2 i = floor(p);           // which lattice cell
+          vec2 f = fract(p);           // where inside it, 0..1
+          vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);  // Perlin's fade
+          float a = hash(i);
+          float b = hash(i + vec2(1.0, 0.0));
+          float c = hash(i + vec2(0.0, 1.0));
+          float d = hash(i + vec2(1.0, 1.0));
+          return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+        }
+
+        // 3. octaves: noiseDetail(5, 0.5)
+        float fbm(vec2 p) {
+          float sum = 0.0, amp = 0.5;
+          for (int i = 0; i < 5; i++) {
+            sum += noise(p) * amp;
+            p *= 2.0;      // double the frequency
+            amp *= 0.5;    // halve the amplitude
+          }
+          return sum;
+        }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+          uv.x *= u_resolution.x / u_resolution.y;
+          float scale = 4.0 + u_mouse.x / u_resolution.x * 12.0;   // mouse x = zoom
+          float n = fbm(uv * scale + u_time * 0.2);
+          gl_FragColor = vec4(vec3(n), 1.0);
+        }
+      </script>
+      <script type="text/plain" data-preset="Mondrian">
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+          vec2 cells = vec2(6.0, 4.0);
+          vec2 id = floor(uv * cells);          // which cell am I in
+          vec2 f = fract(uv * cells);           // where inside the cell
+
+          float r = hash(id + floor(u_time * 0.5));   // one random per cell, changes every 2s
+          vec3 col = vec3(0.957, 0.937, 0.902);        // paper
+          if (r > 0.85) col = vec3(0.843, 0.149, 0.118);
+          else if (r > 0.72) col = vec3(0.941, 0.753, 0.180);
+          else if (r > 0.60) col = vec3(0.114, 0.310, 0.741);
+
+          // black grid lines: near a cell edge?
+          float line = step(f.x, 0.06) + step(f.y, 0.06);
+          col = mix(col, vec3(0.08), clamp(line, 0.0, 1.0));
+          gl_FragColor = vec4(col, 1.0);
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>In <b>Gradient</b>, change to <code>vec4(uv.x, uv.x, uv.x, 1.0)</code>. Then <code>vec4(fract(uv.x * 10.0), ...)</code>. <code>fract</code>, <code>step</code>, <code>smoothstep</code>, <code>mix</code>, <code>sin</code>: that is 80% of shader art.</li>
+        <li>In <b>Noise</b>, change the loop to 1 octave. Then 8. Compare with chapter 6's octaves demo. It's the same maths, just 130,000 times in parallel.</li>
+        <li>Write <code>1</code> instead of <code>1.0</code> somewhere. Read the compile error in the console. GLSL is strict because the GPU has no time to guess.</li>
+      </ul>
+    </div>
+
+    <h3>How p5 wires it up</h3>
+    <p>The lab hides the JavaScript side. Here it is, so you can do it in your own sketches: make a WEBGL canvas, build the shader from two strings, set uniforms every frame, draw a rectangle that covers the screen.</p>
+    <div class="sketch" data-title="Shader boilerplate in p5.js" data-height="300">
+      <script type="text/plain" class="code">
+        // Vertex shader: positions the rectangle's 4 corners. Boilerplate.
+        const vert = `
+          attribute vec3 aPosition;
+          void main() {
+            vec4 p = vec4(aPosition, 1.0);
+            p.xy = p.xy * 2.0 - 1.0;   // p5 gives 0..1, GPU wants -1..1
+            gl_Position = p;
+          }`;
+
+        // Fragment shader: colours every pixel. This is where you play.
+        const frag = `
+          precision mediump float;
+          uniform vec2 u_resolution;
+          uniform float u_time;
+          void main() {
+            vec2 uv = gl_FragCoord.xy / u_resolution;
+            float v = 0.5 + 0.5 * sin(uv.x * 10.0 + u_time);
+            gl_FragColor = vec4(v, uv.y, 0.4, 1.0);
+          }`;
+
+        let sh;
+        function setup() {
+          createCanvas(400, 300, WEBGL);   // WEBGL mode: the GPU is now in charge
+          pixelDensity(1);
+          sh = createShader(vert, frag);   // compile both programs
+          noStroke();
+        }
+
+        function draw() {
+          shader(sh);                                  // use it
+          sh.setUniform('u_resolution', [width, height]);
+          sh.setUniform('u_time', millis() / 1000);
+          rect(0, 0, width, height);                   // something to draw ON
+        }
+      </script>
+    </div>
+
+    <h3>When to reach for the GPU</h3>
+    <table class="cheat">
+      <tr><th>Use the CPU (plain p5)</th><th>Use a shader</th></tr>
+      <tr><td>a few hundred shapes, plotter output, anything with a story from frame to frame</td><td>per-pixel effects on the whole canvas: noise, gradients, blur, colour grading, feedback</td></tr>
+      <tr><td>logic that needs memory ("this particle hit that one")</td><td>millions of identical, independent calculations</td></tr>
+      <tr><td>you want <code>console.log</code> and readable errors</td><td>you're OK debugging by painting values as colours</td></tr>
+    </table>
+    <p class="small">Modern generative art usually mixes both: the CPU decides <em>what</em>, the GPU paints <em>how</em>. p5's <code>filter()</code>, <code>createFilterShader()</code> and libraries like three.js are all this idea with nicer handles.</p>
+
+    <div class="callout train">
+      <p>Dan's own shader videos live in the <a href="https://thecodingtrain.com/tracks/webgl/" target="_blank" rel="noopener">WebGL track</a>. Then: <a href="https://thebookofshaders.com" target="_blank" rel="noopener">The Book of Shaders</a> by Patricio Gonzalez Vivo (the best next step, and the source of the noise code above) · the <a href="https://itp-xstory.github.io/p5js-shaders/" target="_blank" rel="noopener">p5.js Shaders guide</a> by Casey Conchinha and Louise Lessél · <a href="https://www.shadertoy.com" target="_blank" rel="noopener">Shadertoy</a> to see how far one fragment shader can go · <a href="https://p5js.org/reference/p5/createShader/" target="_blank" rel="noopener">createShader() reference</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="objects" data-title="Objects &amp; classes">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 8</div>
+      <h1>Objects &amp; classes</h1>
+      <p class="lede">Chapter 5 left you juggling parallel arrays: xs, ys, speeds, colours. An object bundles the boxes that belong together. A class is the recipe for making those bundles.</p>
+    </div>
+
+    <h3>Step 1: an object is a box of boxes</h3>
+    <p>Instead of <code>xs[3]</code> and <code>ys[3]</code> and <code>speeds[3]</code>, keep one thing: <code>ball.x</code>, <code>ball.y</code>, <code>ball.speed</code>. The flow field code in chapter 6 already did this with <code>{ x: ..., y: ... }</code>. Those are object literals: variables with a dot.</p>
+    <pre class="block">let ball = { x: 50, y: 100, speed: 3 };   // one box holding three labelled boxes
+ball.x += ball.speed;                     // the dot reaches inside</pre>
+
+    <h3>Step 2: a class is a recipe for objects</h3>
+    <p>When you want many objects with the same shape <em>and the same behaviour</em>, you write a class. Two parts: the <code>constructor</code> sets up the boxes (the <b>data</b>), and methods are functions that belong to the object (the <b>behaviour</b>). <code>this</code> means "the particular object we're talking about right now". <code>new Ball()</code> runs the recipe and hands you one.</p>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">class Ball {
+  constructor(x, y) {        // runs on "new Ball(...)"
+    this.x = x;              // this = the object being built
+    this.y = y;
+    this.speed = random(1, 4);
+  }
+  update() {                 // behaviour
+    this.x += this.speed;
+  }
+  show() {
+    circle(this.x, this.y, 20);
+  }
+}
+
+let b = new Ball(50, 100);
+b.update();
+b.show();</pre>
+      <pre data-lang="Python">import random
+
+class Ball:
+    def __init__(self, x, y):       # constructor
+        self.x = x                  # self = this
+        self.y = y
+        self.speed = random.uniform(1, 4)
+
+    def update(self):
+        self.x += self.speed
+
+    def show(self):
+        circle(self.x, self.y, 20)
+
+b = Ball(50, 100)
+b.update()
+b.show()</pre>
+      <pre data-lang="Java">class Ball {
+  float x, y, speed;              // declare the boxes and their types
+
+  Ball(float x_, float y_) {      // constructor
+    x = x_; y = y_;
+    speed = random(1, 4);
+  }
+  void update() { x += speed; }
+  void show() { circle(x, y, 20); }
+}
+
+Ball b = new Ball(50, 100);   // this is Processing, p5's older sibling
+b.update();
+b.show();</pre>
+      <pre data-lang="C (no classes)">/* C has structs (data) but no methods; you pass the struct to functions */
+typedef struct { float x, y, speed; } Ball;
+
+void ball_update(Ball *b) { b->x += b->speed; }
+void ball_show(Ball *b)   { circle(b->x, b->y, 20); }
+
+Ball b = { 50, 100, 2.5 };
+ball_update(&b);
+ball_show(&b);</pre>
+    </div>
+    <p class="small">Same idea everywhere: data + behaviour, bundled. The languages differ on how much they make you declare. A struct in C is the "data" half of a class; the "behaviour" half is just functions that take the struct as the first argument, which is exactly what <code>self</code> in Python and <code>this</code> in JavaScript secretly are.</p>
+
+    <div class="sketch" data-title="From arrays to objects" data-height="320">
+      <script type="text/plain" class="code">
+        // Chapter 5's balls, rewritten. Notice: one array, not three.
+        class Ball {
+          constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.speed = random(1, 4);
+            this.col = random() < 0.5 ? color(215, 38, 30) : color(29, 79, 189);
+          }
+
+          update() {
+            this.x += this.speed;
+            if (this.x > width) this.x = 0;
+          }
+
+          show() {
+            noStroke();
+            fill(this.col);
+            circle(this.x, this.y, 20);
+          }
+        }
+
+        let balls = [];   // an array of Ball objects
+
+        function setup() {
+          createCanvas(400, 320);
+          for (let i = 0; i < 12; i++) {
+            balls.push(new Ball(random(width), 20 + i * 25));
+          }
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          for (let b of balls) {
+            b.update();     // each ball knows how to move itself
+            b.show();       // and draw itself
+          }
+        }
+
+        function mousePressed() {
+          balls.push(new Ball(mouseX, mouseY));
+        }
+      </script>
+    </div>
+
+    <h3>Step 3: a particle system, using everything</h3>
+    <p>Variables, loops, functions, arrays, noise, a class. This is the shape of most generative sketches you will ever write: an array of objects, each updated and shown every frame, born on some event, removed when done.</p>
+
+    <div class="sketch" data-title="Particle system + noise flow" data-height="340">
+      <script type="text/plain" class="code">
+        class Particle {
+          constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.life = 255;                 // fades every frame
+            this.seed = random(1000);        // its own place on the noise line
+          }
+
+          update() {
+            // chapter 6: noise → angle
+            let a = noise(this.x * 0.005, this.y * 0.005, frameCount * 0.003) * TWO_PI * 2;
+            this.x += cos(a) * 1.5;
+            this.y += sin(a) * 1.5;
+            this.life -= 2;
+          }
+
+          isDead() {                          // returns a boolean
+            return this.life < 0;
+          }
+
+          show() {
+            noStroke();
+            fill(215, 38, 30, this.life);
+            circle(this.x, this.y, map(this.life, 0, 255, 0, 8));
+          }
+        }
+
+        let particles = [];
+
+        function setup() {
+          createCanvas(400, 340);
+        }
+
+        function draw() {
+          background(244, 239, 230, 40);      // translucent wipe = trails
+
+          if (mouseIsPressed) {
+            for (let i = 0; i < 5; i++) particles.push(new Particle(mouseX, mouseY));
+          } else if (frameCount % 3 === 0) {
+            particles.push(new Particle(width / 2, height / 2));
+          }
+
+          for (let i = particles.length - 1; i >= 0; i--) {  // backwards, because we remove
+            particles[i].update();
+            particles[i].show();
+            if (particles[i].isDead()) particles.splice(i, 1);
+          }
+
+          fill(21); noStroke();
+          text(particles.length + " particles · hold the mouse", 10, height - 10);
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Give each particle its own colour in the constructor. Then its own size. Then its own <code>speed</code> multiplier.</li>
+        <li>Add a method <code>applyForce(fx, fy)</code> that nudges velocity. Call it with a wind. (You are now writing <em>The Nature of Code</em> chapter 2.)</li>
+        <li>Make a second class, <code>Emitter</code>, with an array of particles inside it and its own <code>run()</code>. Make three emitters. Objects can hold arrays of objects. It's boxes all the way down.</li>
+        <li>Extra credit: <code>class Spark extends Particle</code> with a different <code>show()</code>. That is inheritance, and it's all you need to know about it today.</li>
+      </ul>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/6-objects/1-intro" target="_blank" rel="noopener">Object-Oriented Programming with ES6</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/6-objects/2-classes" target="_blank" rel="noopener">Classes in ES6</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/6-objects/3-constructor" target="_blank" rel="noopener">Constructor arguments</a> · <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js/code/7-arrays/3-arrays-objects" target="_blank" rel="noopener">Arrays of objects</a> · <a href="https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/4-particles/1-particle-system" target="_blank" rel="noopener">Particle systems</a> · <a href="https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/4-particles/3-particle-inheritance" target="_blank" rel="noopener">Particle inheritance</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="next" data-title="Playground &amp; where next">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 9</div>
+      <h1>Playground, cheat sheet, where next</h1>
+      <p class="lede">That is the crash course. Here is a blank canvas, the ten lines you'll forget, and the doors this opens.</p>
+    </div>
+
+    <div class="sketch" data-title="Playground · your sketch" data-height="420" data-autorun="false">
+      <script type="text/plain" class="code">
+        // Blank page. Everything from the course is available.
+        // ▶ Run, or Cmd/Ctrl + Enter. Copy your code out before you leave the page.
+
+        function setup() {
+          createCanvas(400, 420);
+          background(244, 239, 230);
+        }
+
+        function draw() {
+
+        }
+      </script>
+    </div>
+    <p class="small">Nothing here is saved. For real work, use the <a href="https://editor.p5js.org" target="_blank" rel="noopener">p5.js Web Editor</a>: same language, free account, sketches saved and shareable.</p>
+
+    <h2>Cheat sheet</h2>
+    <table class="cheat">
+      <tr><th>Idea</th><th>Shape of it</th><th>Chapter</th></tr>
+      <tr><td>Variable</td><td><code>let x = 5;</code> a labelled box. <code>const</code> if it won't change.</td><td>1</td></tr>
+      <tr><td>Vector / raster</td><td>instructions vs. a grid of numbers. <code>pixels[(x + y*width)*4]</code></td><td>2</td></tr>
+      <tr><td>Condition</td><td><code>if (a > b) { } else { }</code></td><td>3</td></tr>
+      <tr><td>Loop</td><td><code>for (let i = 0; i < n; i++) { }</code></td><td>3</td></tr>
+      <tr><td>Function</td><td><code>function name(a, b) { return a + b; }</code></td><td>4</td></tr>
+      <tr><td>Array</td><td><code>let xs = []; xs.push(v); xs[i]; xs.length</code></td><td>5</td></tr>
+      <tr><td>Noise</td><td><code>noise(x*scale, y*scale, t)</code> → 0..1, smooth, deterministic. <code>noiseDetail(oct, fall)</code></td><td>6</td></tr>
+      <tr><td>Shader</td><td>one function per pixel: <code>gl_FragCoord</code> in, <code>gl_FragColor</code> out. Uniforms shared.</td><td>7</td></tr>
+      <tr><td>Class</td><td><code>class A { constructor() { this.x = 0; } update() { } }</code> · <code>new A()</code></td><td>8</td></tr>
+      <tr><td>The pattern</td><td>array of objects → for each: update, show → remove when done</td><td>8</td></tr>
+    </table>
+
+    <h2>Where next</h2>
+    <div class="cover-grid">
+      <a href="history.html"><span class="n">📜 companion module</span><b>Generative Art, a history you can run</b><small>kolam, Sol LeWitt, the masters, Art Blocks. Same studio, editable code for every artist.</small></a>
+      <a href="https://thecodingtrain.com/tracks/code-programming-with-p5-js" target="_blank" rel="noopener"><span class="n">🚂 track</span><b>Code! Programming with p5.js</b><small>the full beginner course this page compresses</small></a>
+      <a href="https://natureofcode.com" target="_blank" rel="noopener"><span class="n">📗 book, free</span><b>The Nature of Code</b><small>vectors, forces, particles, autonomous agents, fractals, cellular automata, neural nets</small></a>
+      <a href="https://thecodingtrain.com/challenges" target="_blank" rel="noopener"><span class="n">🚂 challenges</span><b>Coding Challenges</b><small>flow fields, fractal trees, snowflakes, Mandelbrot, all in an hour each</small></a>
+      <a href="https://thebookofshaders.com" target="_blank" rel="noopener"><span class="n">📕 book, free</span><b>The Book of Shaders</b><small>chapter 7 of this page, done properly</small></a>
+      <a href="https://p5js.org/reference/" target="_blank" rel="noopener"><span class="n">📖 reference</span><b>p5.js reference</b><small>every function, with a runnable example</small></a>
+      <a href="https://p5js.org/tutorials/" target="_blank" rel="noopener"><span class="n">📖 tutorials</span><b>p5.js tutorials</b><small>official, including WebGL and accessibility</small></a>
+      <a href="https://www.shadertoy.com" target="_blank" rel="noopener"><span class="n">🎨 gallery</span><b>Shadertoy</b><small>what one fragment shader can do when it grows up</small></a>
+      <a href="https://openprocessing.org" target="_blank" rel="noopener"><span class="n">🎨 gallery</span><b>OpenProcessing</b><small>thousands of sketches with source. Read other people's code.</small></a>
+    </div>
+
+    <h2>Language agnostic, one last time</h2>
+    <p>You now know variables, conditionals, loops, functions, arrays and classes. That is the same set of ideas underneath Python, Java, C, C++, Rust, Swift, Go. Pick up any of them and the first week is spelling. The GLSL detour was your proof: you already read a second language in this course without noticing.</p>
+    <p>What changes between languages is mostly <b>where the boxes live and who cleans them up</b> (memory), <b>how strictly types are checked</b>, and <b>whether the work is sequential or parallel</b>. You've now touched all three.</p>
+    <p class="small">Made for the CCGA studio, SMI26, by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a>. All the good pedagogy is Dan Shiffman's; the mistakes are ours. Code on this page is yours to copy.</p>
+  </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.10/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
