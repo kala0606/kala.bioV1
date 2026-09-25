@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The masters — Generative Art · CCGA SMI26</title>
+<meta name="description" content="Laposky, Noll, Nees, Nake, Vera Molnár and Manfred Mohr — the first generative artists, each reproduced as an editable p5.js sketch.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="schotter">
+  <canvas aria-label="A grid of squares that grows disorderly from left to right, after Georg Nees" role="img"></canvas>
+  <div class="plot-meta"><span class="hash"></span><button type="button" class="rehash">↻ new hash</button></div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Chapter 2 · <b>1950 – 1975</b></p>
+  <h1>The <em>masters</em></h1>
+  <p class="lede">An oscilloscope in Iowa. A plotter in Stuttgart. A room at Bell Labs. Then two people in Paris — Vera Molnár and Manfred Mohr — who decided to spend the rest of their lives on it. <strong>Every work on this page is a program. Here they are again, as programs.</strong></p>
+</header>
+
+<main>
+  <section class="prose sec">
+    <p class="when">1950</p>
+    <h2>Ben Laposky and the electronic abstraction</h2>
+    <p>Before there was a computer to draw with, there was an oscilloscope. Ben Laposky (1914–2000), a mathematician and draftsman in Cherokee, Iowa, wired sine-wave generators into a cathode-ray tube and photographed the glowing trace. He called them <i>Oscillons</i> and exhibited them in 1953 as "Electronic Abstractions". They are the first images made by electronic means and shown as art — and they are, precisely, Lissajous curves.</p>
+  </section>
+
+  <div class="playground" data-title="Oscillon" data-after="after Ben Laposky, 1950 — Lissajous curves on a cathode-ray tube">
+<script type="text/plain" class="src">
+// Ben Laposky — Oscillons (1950 onward)
+// Two sine waves, one for x and one for y. Their frequencies are whole
+// numbers; the phase between them drifts slowly. The tube glows green.
+//   x = sin(A·t)     y = sin(B·t + phase)
+
+let A = 3, B = 4;     // frequencies — try 5 and 7, or 1 and 2
+let TURNS = 180;      // how long the shutter stays open
+
+function setup() {
+  createCanvas(720, 500);
+  randomSeed(SEED);
+  background(8, 10, 14);
+  stroke(120, 255, 190, 28);   // phosphor
+  strokeWeight(1.2);
+  noFill();
+  let phase = random(TWO_PI);
+  let drift = random(0.004, 0.02);
+  for (let k = 0; k < TURNS; k++) {
+    beginShape();
+    for (let t = 0; t < TWO_PI; t += 0.01) {
+      let x = width / 2 + sin(A * t) * 230;
+      let y = height / 2 + sin(B * t + phase) * 190;
+      vertex(x, y);
+    }
+    endShape();
+    phase += drift;              // the beam slowly turns
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>A = 1, B = 1</code> gives a circle turning into a line — that is a phase shift you can see. Add a third wave: <code>x += sin(9 * t) * 20</code>.</p>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">1965</p>
+    <h2>Three N's, three exhibitions, one year</h2>
+    <p>Georg <b>N</b>ees, Frieder <b>N</b>ake, A. Michael <b>N</b>oll. None of them called themselves artists at first. All three showed computer drawings in 1965, and nobody had done that before.</p>
+    <ul>
+      <li><b>February 1965, Stuttgart.</b> Georg Nees, a mathematician at Siemens, shows plotter drawings at the Studiengalerie of the Technische Hochschule, on the invitation of philosopher <b>Max Bense</b>. Bense's booklet for the show is the first text on computer art. At the opening a painter asks Nees whether his machine could make art the way he does. Nees: "No — but it can make what you make." Legend has it half the room walked out.</li>
+      <li><b>April 1965, New York.</b> Noll and Béla Julesz show at the Howard Wise Gallery. "Computer-Generated Pictures." Reviewed politely, bought by no one.</li>
+      <li><b>November 1965, Stuttgart.</b> Nees and Nake together at Galerie Wendelin Niedlich. Nake's <i>Hommage à Paul Klee</i> comes out of the Zuse Graphomat here.</li>
+    </ul>
+    <p>Nees's 1969 doctoral thesis, supervised by Bense, was titled <i>Generative Computergrafik</i>. That is where our name comes from.</p>
+  </section>
+
+  <div class="playground" data-title="Gaussian-Quadratic" data-after="after A. Michael Noll, Bell Labs, 1963">
+<script type="text/plain" class="src">
+// A. Michael Noll — Gaussian-Quadratic (1963), Bell Telephone Laboratories
+// 99 points, joined in order. x comes from a Gaussian (bell-curve) random
+// number. y rises quadratically and wraps to the top when it runs off.
+// Noll showed it next to Mondrian's Composition with Lines; most people
+// preferred the computer's version.
+
+let N = 99;
+let SPREAD = 80;    // width of the bell curve
+
+function setup() {
+  createCanvas(560, 700);
+  randomSeed(SEED);
+  background(252);
+  stroke(25); strokeWeight(1.3); noFill();
+  beginShape();
+  for (let i = 0; i < N; i++) {
+    let x = width / 2 + randomGaussian() * SPREAD;   // clustered near the middle
+    let y = (i * i * 0.12) % (height - 60) + 30;     // quadratic, wrapping
+    vertex(x, y);
+  }
+  endShape();
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> replace <code>randomGaussian() * SPREAD</code> with <code>random(-SPREAD, SPREAD)</code>. Uniform randomness looks different from Gaussian — flatter, less "natural". Noll chose the bell curve on purpose.</p>
+  </div>
+
+  <div class="playground" data-title="Schotter" data-after="after Georg Nees, 1968 — 'gravel'">
+<script type="text/plain" class="src">
+// Georg Nees — Schotter ("Gravel", 1968–70)
+// 12 columns × 22 rows of squares, plotted in ink. Going down the page,
+// each square is allowed a little more random shift and rotation.
+// Order slides into disorder. The most reproduced computer artwork ever.
+
+let COLS = 12, ROWS = 22, S = 28;
+let CHAOS = 1.0;     // try 0.3, or 3
+
+function setup() {
+  createCanvas(COLS * S + 80, ROWS * S + 80);
+  randomSeed(SEED);
+  background(252);
+  stroke(25); strokeWeight(1); noFill();
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      let k = (r / ROWS) * CHAOS;      // 0 at the top → CHAOS at the bottom
+      push();
+      translate(40 + c * S + S / 2 + random(-k, k) * S * 0.7,
+                40 + r * S + S / 2 + random(-k, k) * S * 0.7);
+      rotate(random(-k, k) * HALF_PI);
+      rect(-S / 2, -S / 2, S, S);
+      pop();
+    }
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> make chaos grow left-to-right instead: <code>let k = (c / COLS) * CHAOS;</code>. Or from the centre: <code>let k = abs(r - ROWS/2) / ROWS * 2 * CHAOS;</code>.</p>
+  </div>
+
+  <div class="playground" data-title="Hommage à Paul Klee" data-after="after Frieder Nake, 13/9/65 Nr. 2">
+<script type="text/plain" class="src">
+// Frieder Nake — Hommage à Paul Klee, 13/9/65 Nr. 2 (1965)
+// Nake looked at Klee's "Highroads and Byroads" (1929) and wrote rules:
+// horizontal bands whose edges tilt at random; inside some bands, vertical
+// "fences" of varying spacing; a few circles scattered. Drawn by a Zuse
+// Graphomat Z64 flatbed plotter.
+
+let BANDS = 8;
+
+function setup() {
+  createCanvas(700, 560);
+  randomSeed(SEED);
+  background(252);
+  stroke(25); strokeWeight(1); noFill();
+  let m = 40, w = width - 2 * m;
+
+  // band edges: each is a line with a random tilt
+  let edges = [];
+  for (let i = 0; i <= BANDS; i++) {
+    let base = m + (height - 2 * m) * i / BANDS;
+    edges.push({ l: base + random(-25, 25), r: base + random(-25, 25) });
+  }
+  edges[0] = { l: m, r: m };
+  edges[BANDS] = { l: height - m, r: height - m };
+  for (let e of edges) line(m, e.l, m + w, e.r);
+
+  // some bands get a fence of verticals
+  for (let i = 0; i < BANDS; i++) {
+    if (random() < 0.55) {
+      let n = floor(random(4, 26));
+      for (let j = 0; j < n; j++) {
+        let t = (j + 0.5) / n, x = m + t * w;
+        let y1 = lerp(edges[i].l, edges[i].r, t);
+        let y2 = lerp(edges[i + 1].l, edges[i + 1].r, t);
+        line(x, y1, x, y2);
+      }
+    }
+  }
+
+  // a few circles, Klee's "byroads"
+  let circles = floor(random(4, 9));
+  for (let i = 0; i < circles; i++) {
+    let d = random(10, 60);
+    circle(random(m + d, m + w - d), random(m + d, height - m - d), d);
+  }
+}
+</script>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">1924–2023</p>
+    <h2>Vera Molnár</h2>
+    <p>Born Vera Gács in Budapest, 1924. Trained as a painter; moved to Paris in 1947 and stayed for the next 76 years. From 1959 she worked with what she called the <i>machine imaginaire</i>: she would set a rule, then carry it out by hand, exhaustively, on paper — every variation, in order — as if she were a computer. In 1968 she got access to an actual one, at the Sorbonne's computing centre in Orsay, and a Benson plotter. She was 44.</p>
+    <p>Her subject, for the next fifty-five years, was a single question: <b>how much disorder does the eye want?</b> She called it "1% de désordre". A grid of squares is boring; a pile of squares is noise; somewhere in between there is a place where the picture starts to breathe, and she wanted to find it by measurement, not by taste.</p>
+    <blockquote>The computer helps, but it does not do the work. It's like a shovel — a wonderful tool, but you have to dig.<cite>Vera Molnár</cite></blockquote>
+    <p>She sold her first work to a museum in her 70s, had her first major retrospective at 88 (Centre Pompidou, 2012), and in 2023, at 99, released a generative NFT series, <i>Thèmes et variations</i>, with Sotheby's. She died in Paris on 7 December 2023, a month before her hundredth birthday.</p>
+  </section>
+
+  <div class="playground" data-title="Interruptions" data-after="after Vera Molnár, 1968–69 — her first plotter work">
+<script type="text/plain" class="src">
+// Vera Molnár — Interruptions (1968–69)
+// A grid of short lines, each turned a little at random. Then, here and
+// there, the program simply leaves lines out. Those gaps are the
+// "interruptions" — silence inside a texture.
+
+let N = 40;          // lines per side
+let TURN = 0.9;      // how far each line may rotate, in radians
+let HOLES = 0.38;    // higher = more interruptions (0.25 – 0.5 is interesting)
+
+function setup() {
+  createCanvas(640, 640);
+  randomSeed(SEED);
+  noiseSeed(SEED);
+  background(252);
+  stroke(25); strokeWeight(1.1);
+  let m = 40, s = (width - 2 * m) / N, len = s * 1.5;
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      // noise() makes the holes come in patches, not single cells
+      if (noise(i * 0.12, j * 0.12) < HOLES) continue;
+      let a = HALF_PI + random(-TURN, TURN);
+      let x = m + i * s + s / 2, y = m + j * s + s / 2;
+      line(x - cos(a) * len / 2, y - sin(a) * len / 2,
+           x + cos(a) * len / 2, y + sin(a) * len / 2);
+    }
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>TURN = 0.05</code> — almost all vertical, and the holes become the whole picture. Then <code>TURN = PI</code>. Where is 1% of disorder?</p>
+  </div>
+
+  <div class="playground" data-title="(Dés)Ordres" data-after="after Vera Molnár, 1974">
+<script type="text/plain" class="src">
+// Vera Molnár — (Dés)Ordres (1974)
+// Nested squares in a strict grid. Then a small, measured amount of
+// disorder is let into every corner. A few cells get more than the rest.
+// Order / disorder, in one word, with parentheses.
+
+let GRID = 10, RINGS = 8;
+let DISORDER = 1.0;     // pixels of jitter per corner — try 0, 0.3, 4
+
+function setup() {
+  createCanvas(640, 640);
+  randomSeed(SEED);
+  background(252);
+  stroke(25); strokeWeight(1); noFill();
+  let m = 30, s = (width - 2 * m) / GRID;
+  for (let i = 0; i < GRID; i++) {
+    for (let j = 0; j < GRID; j++) {
+      let cx = m + i * s + s / 2, cy = m + j * s + s / 2;
+      let d = DISORDER * (random() < 0.15 ? 5 : 1);   // the unlucky 15%
+      for (let k = 1; k <= RINGS; k++) {
+        let h = (s / 2 - 3) * k / RINGS;
+        beginShape();
+        vertex(cx - h + random(-d, d), cy - h + random(-d, d));
+        vertex(cx + h + random(-d, d), cy - h + random(-d, d));
+        vertex(cx + h + random(-d, d), cy + h + random(-d, d));
+        vertex(cx - h + random(-d, d), cy + h + random(-d, d));
+        endShape(CLOSE);
+      }
+    }
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>DISORDER = 0</code>. Perfect. Dead. Now <code>0.5</code>. Molnár's claim is that your eye can tell the difference between 0.5 and 1 — check it.</p>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">b. 1938</p>
+    <h2>Manfred Mohr</h2>
+    <p>Born in Pforzheim, Germany, 1938. A jazz saxophonist first, then a painter of hard-edged abstractions in Paris. In 1969, after reading Max Bense and meeting the composer Pierre Barbaud, he taught himself FORTRAN and got night-time access to a plotter at the Paris meteorological institute. From then on, he said, he would let the computer make decisions he could not make himself — and the drawings became <i>more</i> personal, not less.</p>
+    <p>In 1971 the ARC at the Musée d'Art Moderne de la Ville de Paris gave him <i>Une Esthétique Programmée</i> — the first solo exhibition of computer-generated art in a museum. Then, from 1973 to 1975, he started on the object he has been taking apart ever since: the cube.</p>
+    <p><b>Cubic Limit.</b> A cube has twelve edges. Treat them as an alphabet. Rotate the cube, remove edges according to a rule, and what remains on the page is a sign — a letter from a language that has never been spoken. Mohr made hundreds of these, then films of them, then moved into four, five, six, eleven dimensions (a hypercube in eleven dimensions has 11,264 edges). He is still working, in New York, at 88.</p>
+    <blockquote>I did not want to be an artist who uses a computer. I wanted to think with it.<cite>Manfred Mohr</cite></blockquote>
+  </section>
+
+  <div class="playground" data-title="Cubic Limit" data-after="after Manfred Mohr, 1973–75">
+<script type="text/plain" class="src">
+// Manfred Mohr — Cubic Limit (1973–75)
+// A cube's twelve edges are an alphabet. Each cube is turned at random,
+// then edges are removed — more of them the further right you go —
+// until only a sign remains.
+
+let COLS = 8, ROWS = 6;
+let SPIN = false;      // true: the cubes turn (Mohr made films of this)
+
+const V = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
+           [-1,-1, 1],[1,-1, 1],[1,1, 1],[-1,1, 1]];       // 8 corners
+const E = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],
+           [0,4],[1,5],[2,6],[3,7]];                        // 12 edges
+let cubes = [];
+
+function setup() {
+  createCanvas(760, 560);
+  randomSeed(SEED);
+  stroke(25); strokeWeight(1.6); noFill();
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      let keep = [0,1,2,3,4,5,6,7,8,9,10,11];
+      shuffleEdges(keep);
+      let n = round(map(c, 0, COLS - 1, 12, 3));    // 12 edges on the left → 3 on the right
+      cubes.push({ c, r, rx: random(TWO_PI), ry: random(TWO_PI), edges: keep.slice(0, n) });
+    }
+  }
+  if (!SPIN) noLoop();
+}
+
+function draw() {
+  background(252);
+  let s = width / COLS, h = height / ROWS;
+  for (let q of cubes) {
+    let rx = q.rx + (SPIN ? frameCount * 0.01 : 0);
+    let ry = q.ry + (SPIN ? frameCount * 0.013 : 0);
+    // rotate each corner in 3D, then drop z (orthographic projection)
+    let p = V.map(([x, y, z]) => {
+      let y1 = y * cos(rx) - z * sin(rx), z1 = y * sin(rx) + z * cos(rx);
+      let x2 = x * cos(ry) + z1 * sin(ry);
+      return [x2 * s * 0.26, y1 * s * 0.26];
+    });
+    push();
+    translate(q.c * s + s / 2, q.r * h + h / 2);
+    for (let i of q.edges) line(p[E[i][0]][0], p[E[i][0]][1], p[E[i][1]][0], p[E[i][1]][1]);
+    pop();
+  }
+}
+
+function shuffleEdges(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = floor(random(i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>SPIN = true</code>. Then change the projection: multiply by <code>(1 + z1 * 0.15)</code> for a little perspective. Then ask what a "cube" is once only three edges are left.</p>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">ALSO</p>
+    <h2>Names you should know</h2>
+    <div class="people">
+      <div class="person"><b>Harold Cohen</b><span class="years">1928–2016 · AARON, from 1973</span><p>Painter who spent forty years teaching a program to draw and paint. AARON knew about arms, plants, and perspective. Cohen: "The most interesting thing I ever did was to make something that could surprise me."</p></div>
+      <div class="person"><b>Lillian Schwartz</b><span class="years">1927–2024 · Bell Labs, from 1968</span><p>Films — <i>Pixillation</i> (1970), <i>Mutations</i> — that were the first computer-generated art shown at MoMA. Also proved, with a computer, that the Mona Lisa's face matches Leonardo's self-portrait.</p></div>
+      <div class="person"><b>Herbert W. Franke</b><span class="years">1927–2022 · Vienna / Munich</span><p>Physicist, science-fiction novelist, and the one who wrote the first history of the field (<i>Computer Graphics – Computer Art</i>, 1971) while it was still happening. Kept working into his 90s; released NFTs in 2022.</p></div>
+      <div class="person"><b>Hiroshi Kawano</b><span class="years">1925–2012 · Tokyo</span><p>Philosopher who made Markov-chain paintings on an OKITAC 5090 from 1964 — before the three N's, but unknown in the West until ZKM rediscovered him.</p></div>
+      <div class="person"><b>Roman Verostko</b><span class="years">1929–2024 · Minneapolis</span><p>Former Benedictine monk; plotter drawings with brushes taped to the pen. In 1995 he named the tribe: <i>Algorists</i>. "If (creation &amp;&amp; object of art &amp;&amp; algorithm &amp;&amp; one's own algorithm) { include * an algorist * }."</p></div>
+      <div class="person"><b>Colette &amp; Charles Bangert</b><span class="years">from 1967 · Kansas</span><p>She painted; he programmed; they signed jointly. Plotter drawings of grasses and fields — the first generative <i>landscapes</i>.</p></div>
+      <div class="person"><b>John Whitney</b><span class="years">1917–1995 · Los Angeles</span><p>Repurposed a WWII anti-aircraft gun director into a motion-control camera. The title sequence of Hitchcock's <i>Vertigo</i> (1958) is Lissajous curves. <i>Arabesque</i> (1975) is the first computer film that is unmistakably beautiful.</p></div>
+      <div class="person"><b>Charles Csuri</b><span class="years">1922–2022 · Ohio State</span><p><i>Sine Curve Man</i> (1967), <i>Hummingbird</i> (1967, animated, bought by MoMA). Built the lab where much of computer animation was invented.</p></div>
+    </div>
+  </section>
+
+  <nav class="pager">
+    <a href="01-before-computers.html"><span class="k">← Chapter 1</span><span class="t">Before computers</span></a>
+    <a class="next" href="03-moments.html"><span class="k">Chapter 3 →</span><span class="t">Moments</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · built with p5.js</span>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moments — Generative Art · CCGA SMI26</title>
+<meta name="description" content="The exhibitions, papers and tools that shaped generative art: Cybernetic Serendipity, New Tendencies, Conway's Life, Mandelbrot, Perlin noise, Processing, p5.js.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="life">
+  <canvas aria-label="Conway's Game of Life after forty generations from a random start" role="img"></canvas>
+  <div class="plot-meta"><span class="hash"></span><button type="button" class="rehash">↻ new hash</button></div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Chapter 3 · <b>1961 – 2019</b></p>
+  <h1>Moments that <em>bent</em> the line</h1>
+  <p class="lede">A history is not a list of artists. It is also the rooms where people met, the papers that gave them new materials, and the tools that let a painter type. <strong>Here are the ones that mattered most</strong> — with two of the materials, Life and noise, for you to handle.</p>
+</header>
+
+<main>
+  <section class="prose">
+    <ul class="timeline">
+      <li><span class="when">1961–1973 · ZAGREB</span><span class="what">New Tendencies (Nove tendencije)</span><p>Five exhibitions in a city on the far side of the Iron Curtain, where Western constructivists, kinetic artists and, from 1968, computer artists could meet. The 1968–69 edition, <i>Computers and Visual Research</i>, was the first international show devoted to the subject, with a journal, <i>bit international</i>. Molnár, Mohr, Nake and Nees all passed through.</p></li>
+      <li><span class="when">1965 · NEW YORK</span><span class="what">The Responsive Eye, MoMA</span><p>Op art: Bridget Riley, Victor Vasarely, Josef Albers. Not computer art — but pictures made from rules, grids and systematic variation, seen by 180,000 people. It made the audience for what followed.</p></li>
+      <li class="big"><span class="when">1968 · LONDON</span><span class="what">Cybernetic Serendipity, ICA</span><p>Curated by Jasia Reichardt. Sixty thousand visitors. Computer poems, drawing machines, Nake, Nees, Noll, Csuri, John Whitney's films, Gordon Pask's <i>Colloquy of Mobiles</i>, a robot by Bruce Lacey, and the first exhibited computer music. The catalogue is still in print. It was the moment the public met the idea.</p></li>
+      <li><span class="when">1968 · UTRECHT</span><span class="what">Aristid Lindenmayer publishes L-systems</span><p>A biologist describes plant growth as string rewriting: start with <code>A</code>, replace <code>A→AB</code> and <code>B→A</code> every generation. Read the string as turtle commands and you get a fern. Every generative tree, branch and coral since owes him.</p></li>
+      <li><span class="when">1970 · CAMBRIDGE, UK</span><span class="what">John Conway's Game of Life</span><p>Published in Martin Gardner's <i>Scientific American</i> column, October 1970. Four rules on a grid. Gliders, guns, and eventually a working computer built inside it. The single most-run program in generative art. Below.</p></li>
+      <li><span class="when">1970 · NEW YORK</span><span class="what">Software, Jewish Museum</span><p>Jack Burnham's exhibition proposed that art was becoming information: instructions, systems, feedback. Half the machines broke. The idea did not.</p></li>
+      <li><span class="when">1975 / 1982</span><span class="what">Benoît Mandelbrot names the fractal</span><p><i>The Fractal Geometry of Nature</i> (1982) gave artists a word for the self-similar roughness of coastlines and clouds, and a set — the Mandelbrot set — that a home computer could draw for the first time in 1985. A generation learned to program by rendering it.</p></li>
+      <li class="big"><span class="when">1983 · NEW YORK</span><span class="what">Ken Perlin invents noise</span><p>Working on <i>Tron</i>, Perlin wanted textures that looked natural rather than machine-made. He wrote a function that returns smooth, continuous randomness — <code>noise(x, y, z)</code>. He got a Technical Academy Award for it in 1997. It is the most-used function in this course. Below.</p></li>
+      <li><span class="when">1983</span><span class="what">Stephen Wolfram classifies cellular automata</span><p>Rule 30, Rule 110, and the claim that simple programs can be as complex as anything in nature. <i>A New Kind of Science</i> followed in 2002.</p></li>
+      <li><span class="when">1986</span><span class="what">Craig Reynolds's Boids</span><p>Three rules — separate, align, cohere — and a screen full of dots becomes a flock. Used in <i>Batman Returns</i> (1992) for the bats. Used in KARMA (2023) by your instructor. See chapter 5.</p></li>
+      <li><span class="when">1995</span><span class="what">The Algorists</span><p>Roman Verostko, Jean-Pierre Hébert and Helaman Ferguson name the movement at SIGGRAPH: artists who write their own algorithms. A manifesto in the form of an <code>if</code> statement.</p></li>
+      <li><span class="when">1999</span><span class="what">John Maeda, Design By Numbers</span><p>At the MIT Media Lab, a tiny programming language and a book meant for designers, not engineers. Two of his students take the idea further.</p></li>
+      <li class="big"><span class="when">2001 · MIT</span><span class="what">Processing</span><p>Casey Reas and Ben Fry. Free, open-source, one window, a <b>run</b> button, and a sketchbook metaphor. For the first time, an art student could write a generative program in an afternoon. Reas's own work — <i>Process</i> series, <i>Software Structures</i> (2004, a direct homage to LeWitt's instructions) — proved the tool with art.</p></li>
+      <li><span class="when">2003</span><span class="what">Philip Galanter defines the term</span><p>"Generative art refers to any art practice where the artist uses a system, such as a set of natural language rules, a computer program, a machine, or other procedural invention, which is set into motion with some degree of autonomy contributing to or resulting in a completed work of art." Still the definition most people cite.</p></li>
+      <li><span class="when">2005</span><span class="what">openFrameworks</span><p>Zach Lieberman, Theo Watson and Arturo Castro: Processing's ideas in C++, for installations that need to run fast. Lieberman's daily sketches, posted for years, are a course in themselves.</p></li>
+      <li><span class="when">2013</span><span class="what">p5.js</span><p>Lauren Lee McCarthy, with the Processing Foundation: Processing for the browser, in JavaScript, with a community code of conduct written before the first release. This is the tool you are using. Daniel Shiffman's <i>The Coding Train</i> videos, from 2015, are how most of the world learned it.</p></li>
+      <li><span class="when">2019</span><span class="what">Autoglyphs</span><p>Larva Labs put a generative program <i>on</i> the Ethereum blockchain, so that the chain itself draws the picture. 512 outputs, then the generator turned itself off. Chapter 4 begins here.</p></li>
+    </ul>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">1970</p>
+    <h2>Life</h2>
+    <p>Four rules. A live cell with two or three live neighbours survives. A dead cell with exactly three comes alive. Everything else dies or stays dead. Click cells to toggle them; press play.</p>
+  </section>
+
+  <div class="demo" data-demo="life">
+    <canvas width="900" height="450" aria-label="Conway's Game of Life, click to toggle cells"></canvas>
+    <div class="demo-bar">
+      <button type="button" class="play">play</button>
+      <button type="button" class="step">step</button>
+      <button type="button" class="soup">random soup</button>
+      <button type="button" class="clear">clear</button>
+      <output>gen 0</output>
+      <span>click a cell to toggle it</span>
+    </div>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">1983</p>
+    <h2>Noise</h2>
+    <p><code>random()</code> gives you a different number every time — jagged, unrelated. <code>noise(x)</code> gives you a number that is <i>close to</i> the one at <code>x − 0.01</code>. That single property — continuity — is why a flow field looks like water and not static. Below, three thousand particles each take sixty steps, and at every step ask <code>noise(x, y)</code> which way to turn.</p>
+  </section>
+
+  <div class="playground" data-title="Flow field" data-after="Perlin noise, 1983 — as used by nearly everyone since">
+<script type="text/plain" class="src">
+// Ken Perlin's noise (1983): the texture behind every flow field.
+// Thousands of particles walk a field of angles given by noise(x, y).
+
+let N = 3000;        // particles
+let SCALE = 0.004;   // zoom of the noise — try 0.001 or 0.02
+let STEPS = 60;      // how far each particle walks
+
+function setup() {
+  createCanvas(800, 520);
+  randomSeed(SEED);
+  noiseSeed(SEED);
+  background(252);
+  stroke(35, 56, 200, 60);
+  strokeWeight(1);
+  noFill();
+  for (let i = 0; i < N; i++) {
+    let x = random(width), y = random(height);
+    beginShape();
+    for (let s = 0; s < STEPS; s++) {
+      vertex(x, y);
+      let a = noise(x * SCALE, y * SCALE) * TWO_PI * 2;   // an angle from the field
+      x += cos(a) * 2;
+      y += sin(a) * 2;
+    }
+    endShape();
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> replace <code>noise(...)</code> with <code>random()</code> in the angle line. That is the whole difference between 1983 and before. Then put <code>noise</code> back and change <code>TWO_PI * 2</code> to <code>TWO_PI * 8</code>.</p>
+  </div>
+
+  <div class="playground" data-title="L-system plant" data-after="Aristid Lindenmayer, 1968 — strings that grow">
+<script type="text/plain" class="src">
+// Lindenmayer system (1968). A string grows by replacing letters with rules.
+// Then the string is read as instructions for a turtle:
+//   F = draw forward   + = turn right   - = turn left   [ = save   ] = restore
+
+let AXIOM = "X";
+let RULES = { X: "F+[[X]-X]-F[-FX]+X", F: "FF" };   // a classic fern
+let GENERATIONS = 5;    // try 3, or 6 (slow)
+let ANGLE = 25;         // degrees — try 15, 45, 90
+
+function setup() {
+  createCanvas(600, 700);
+  randomSeed(SEED);
+  background(252);
+  stroke(30, 90, 50); strokeWeight(1);
+
+  // grow the string
+  let s = AXIOM;
+  for (let g = 0; g < GENERATIONS; g++) {
+    let next = "";
+    for (let ch of s) next += RULES[ch] || ch;
+    s = next;
+  }
+
+  // draw it
+  let len = 700 / pow(2, GENERATIONS) * 1.1;
+  translate(width / 2, height - 20);
+  for (let ch of s) {
+    if (ch === "F") { line(0, 0, 0, -len); translate(0, -len); }
+    else if (ch === "+") rotate(radians(ANGLE + random(-4, 4)));   // a little wobble
+    else if (ch === "-") rotate(radians(-ANGLE + random(-4, 4)));
+    else if (ch === "[") push();
+    else if (ch === "]") pop();
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>RULES = { F: "F[+F]F[-F]F" }</code> with <code>AXIOM = "F"</code>, <code>GENERATIONS = 4</code>, <code>ANGLE = 25</code>. Then invent your own rule. Every plant in every generative garden is one of these.</p>
+  </div>
+
+  <nav class="pager">
+    <a href="02-masters.html"><span class="k">← Chapter 2</span><span class="t">The masters</span></a>
+    <a class="next" href="04-artblocks.html"><span class="k">Chapter 4 →</span><span class="t">Art Blocks &amp; the money</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · built with p5.js</span>
+</div></footer>
+</body>
+</html>

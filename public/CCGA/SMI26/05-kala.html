@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KALA — Generative Art · CCGA SMI26</title>
+<meta name="description" content="KALA (Ujjwal Agarwal), briefly: KARMA on Art Blocks, The Yoni Project on fx(hash), Raga.fm and Songs of Utopia — and the flock KARMA is built from, as editable code.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="flock">
+  <canvas aria-label="Trails left by a flock of sixty boids, a still from the idea behind KARMA" role="img"></canvas>
+  <div class="plot-meta"><span class="hash"></span><button type="button" class="rehash">↻ new hash</button></div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Chapter 5 · <b>2022 – now · Bangalore</b></p>
+  <h1><em>KALA</em></h1>
+  <p class="lede">Your instructor, briefly. <strong>KALA</strong> is the name Ujjwal Agarwal works under as a generative artist. The word means <i>art</i> in Hindi and <i>time</i> in Sanskrit; he means both.</p>
+</header>
+
+<main>
+  <section class="prose">
+    <p>Computer engineering at MNIT Jaipur; an MA in Computational Arts at Goldsmiths, University of London; then a decade of installations, sound, and real-time work — a clock tower in Jodhpur turned into a timeline, a flying machine, rooms that listen. He has taught at SMI since 2024. He describes the practice as one "where algorithm, chance and the present moment become something you can feel," and organises it under a made-up belief system, the <a href="https://orderofkala.org">Order of Kala</a>, which reveres Time as the ultimate power and truth. Take that as seriously as you like.</p>
+    <p>The part that belongs in this history is small and specific: three long-form generative series, on the two platforms from chapter 4.</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">JAN 2023</p>
+    <h2>KARMA — Art Blocks Presents</h2>
+    <p><b>33 editions.</b> A flock. Craig Reynolds's boids, in the version Daniel Shiffman teaches, with colour tricks learned from Joshua Davis. The work is interactive: click and hold anywhere and the flock draws; press the down arrow and the canvas clears. The statement calls karma "the original algorithm of Indian thought. Action, inaction, randomness, will — all are ground in its maw to determine the manifest shape of the next moment." Which is also, exactly, a description of a flocking simulation.</p>
+    <p class="small"><a href="https://www.artblocks.io/collections/presents/projects/0x99a9b7c1116f9ceeb1652de04d5969cce509b069/414">KARMA on Art Blocks →</a></p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">FEB 2023</p>
+    <h2>The Yoni Project — fx(hash)</h2>
+    <p><b>800 editions, on Tezos.</b> An homage to Shakti, the divine feminine — forms grown by code around the oldest symbol there is. Shown at the India Art Fair, New Delhi, 9–12 February 2023, with Tezos India: four artists, four eight-foot kiosks, 3,200 generative works given away free to visitors who set up a wallet on the spot. For many of them it was the first generative artwork they had ever owned, and it cost nothing. Compare chapter 4.</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">2024 – 2025</p>
+    <h2>Raga.fm and Songs of Utopia — Art Blocks Studio</h2>
+    <p><b>Raga.fm</b> is a generative raga engine. Each token draws one of 45 ragas from its hash and performs it live in the browser — the permitted notes, the ascending and descending paths, the characteristic phrases, the time of day — through a sampled ensemble in Tone.js, with a p5 visual field that moves with the music. Correct to tradition; never the same twice; authored by no single hand. It runs at <a href="https://raga.fm">raga.fm</a>. <b>Songs of Utopia</b> (200 editions, January 2025) continues the idea: "an infinite composition of music in time, each unique and each personal."</p>
+    <p class="small"><a href="https://www.ujjwalagarwal.com/work/raga-fm/">Raga.fm →</a> · <a href="https://www.artblocks.io/marketplace/collections/songs-of-utopia-by-kala">Songs of Utopia on Art Blocks →</a> · <a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com →</a></p>
+  </section>
+
+  <section class="prose">
+    <h2>What KARMA is made of</h2>
+    <p>Below is the flock. Three rules per bird per frame — move away from anyone too close, steer towards the average heading of your neighbours, drift toward their centre — and nothing else. There is no picture in the code; only the trail of the decisions. Hold the mouse down to pull them. Press any key to clear.</p>
+  </section>
+
+  <div class="playground" data-title="Flock" data-after="Reynolds 1986 → Shiffman → KARMA 2023">
+<script type="text/plain" class="src">
+// The flock inside KARMA. Craig Reynolds' Boids (1986), in the version
+// Daniel Shiffman teaches on The Coding Train. Three rules:
+//   separate — don't crowd your neighbours
+//   align    — steer the way they are going
+//   cohere   — drift toward their centre
+// Nothing is drawn but the trail of the decision.
+
+let N = 120;
+let SIGHT = 60, TOO_CLOSE = 24;
+let boids = [];
+
+function setup() {
+  createCanvas(800, 520);
+  pixelDensity(1);
+  randomSeed(SEED);
+  colorMode(HSB, 360, 100, 100, 100);
+  background(230, 30, 6);
+  for (let i = 0; i < N; i++)
+    boids.push({ p: createVector(random(width), random(height)),
+                 v: p5.Vector.random2D().mult(2) });
+}
+
+function draw() {
+  // no background() here: the trails accumulate
+  for (let b of boids) {
+    let sep = createVector(), ali = createVector(), coh = createVector(), n = 0;
+    for (let o of boids) {
+      if (o === b) continue;
+      let d = p5.Vector.dist(b.p, o.p);
+      if (d < SIGHT) {
+        ali.add(o.v); coh.add(o.p); n++;
+        if (d < TOO_CLOSE) sep.add(p5.Vector.sub(b.p, o.p).div(d));
+      }
+    }
+    if (n > 0) {
+      ali.div(n).setMag(2).sub(b.v).limit(0.05);
+      coh.div(n).sub(b.p).setMag(2).sub(b.v).limit(0.03);
+      b.v.add(ali).add(coh);
+    }
+    b.v.add(sep.limit(0.08));
+    if (mouseIsPressed) {
+      // the hand: the whole flock leans toward the mouse
+      b.v.add(p5.Vector.sub(createVector(mouseX, mouseY), b.p).setMag(0.15));
+    }
+    b.v.limit(2.5);
+    b.p.add(b.v);
+    b.p.x = (b.p.x + width) % width;
+    b.p.y = (b.p.y + height) % height;
+
+    let hue = (frameCount * 0.3 + b.p.x * 0.3) % 360;
+    stroke(hue, 70, 95, 40);
+    strokeWeight(1.5);
+    point(b.p.x, b.p.y);
+  }
+}
+
+function keyPressed() { background(230, 30, 6); }
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>SIGHT = 200</code> — one flock. <code>SIGHT = 20</code> — none. Remove the <code>ali</code> line: they gather but never agree. Then decide which of the three rules is "karma".</p>
+  </div>
+
+  <section class="prose">
+    <h2>Where this leaves you</h2>
+    <p>Sunflower, kolam, LeWitt, Molnár, Mohr, Snowfro, KALA. Different centuries, one move: write the rule, let it run, look hard at what comes out, change the rule. From next week you will do exactly that, in this room, with p5.js. The history is finished. Yours is not.</p>
+  </section>
+
+  <nav class="pager">
+    <a href="04-artblocks.html"><span class="k">← Chapter 4</span><span class="t">Art Blocks &amp; the money</span></a>
+    <a class="next" href="history.html"><span class="k">↑ Start</span><span class="t">A history you can run</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · built with p5.js</span>
+</div></footer>
+</body>
+</html>

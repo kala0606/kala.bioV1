@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generative Art, a history you can run — CCGA · SMI26</title>
+<meta name="description" content="Creative Coding and Generative Art, SMI Bangalore 2026. Five chapters, from kolam and Sol LeWitt to Art Blocks — with editable code for every master.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="lines">
+  <canvas aria-label="Ten thousand short lines, placed by a seeded random number generator" role="img"></canvas>
+  <div class="plot-meta">
+    <span class="hash"></span>
+    <button type="button" class="rehash" title="Draw it again from a new hash">↻ new hash</button>
+  </div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Creative Coding and Generative Art · Cycle 2 Studio · <b>SMI Bangalore, 2026</b></p>
+  <h1>A history you can <em>run</em>.</h1>
+  <p class="lede">Generative art is older than the computer and newer than yesterday. Five chapters, from a rice-flour kolam to a token on a blockchain. <strong>Every master gets a program you can edit.</strong> The drawing above was made from the hash in its corner — press <em>new hash</em> and it will never be the same again.</p>
+</header>
+
+<main>
+  <ol class="toc">
+    <li><a href="01-before-computers.html"><span class="n">01</span><span><span class="t">Before computers</span><span class="d">Sunflowers, seashells, kolam, dice, torn paper, and Sol LeWitt's paragraphs. The system came first; the machine came later.</span></span><span class="arrow">→</span></a></li>
+    <li><a href="02-masters.html"><span class="n">02</span><span><span class="t">The masters</span><span class="d">1965, three exhibitions, three N's. Then Vera Molnár and Manfred Mohr, who spent fifty years each on the question. Eight sketches to reproduce their work and break it.</span></span><span class="arrow">→</span></a></li>
+    <li><a href="03-moments.html"><span class="n">03</span><span><span class="t">Moments</span><span class="d">Cybernetic Serendipity, Conway's Life, Perlin's noise, Processing. The shows, papers and tools that changed what the art form could be.</span></span><span class="arrow">→</span></a></li>
+    <li><a href="04-artblocks.html"><span class="n">04</span><span><span class="t">Art Blocks &amp; the money</span><span class="d">Squiggles, Fidenza, a $69M JPEG and a $2.9M tweet that later attracted a top bid of $280. Live ETH price, so the numbers keep moving while you read.</span></span><span class="arrow">→</span></a></li>
+    <li><a href="05-kala.html"><span class="n">05</span><span><span class="t">KALA</span><span class="d">Your instructor, briefly: KARMA on Art Blocks, The Yoni Project on fx(hash), Raga.fm. Plus the flock that KARMA is made of, for you to edit.</span></span><span class="arrow">→</span></a></li>
+  </ol>
+
+  <section class="prose" style="margin-top:3em">
+    <h2>How to use these pages</h2>
+    <p>Each chapter has boxes like the one below. The left side is code (p5.js — the same library you will use all semester). The right side is the drawing it makes. Change a number, press <b>run</b>, and see what happens. <b>Reset code</b> brings the original back. <b>New hash</b> keeps your code but changes the random seed — which is exactly how a generative artwork on Art Blocks gets its 999 different outputs from one program.</p>
+    <p class="small">Nothing you do here is saved, so break things freely. Copy anything you like into the p5.js web editor to keep it.</p>
+  </section>
+
+  <div class="playground" data-title="Try it: 16 squares" data-after="the exercise from day 1, as code">
+<script type="text/plain" class="src">
+// Day 1, on paper: a square. Divide it into 16.
+// In each: leave it empty, OR draw one diagonal.
+// This is the same rule, written for a machine.
+
+let N = 4;              // 4 × 4 = 16 squares. Try 8, or 40.
+let CHANCE = 0.5;       // chance of a diagonal in each square
+
+function setup() {
+  createCanvas(600, 600);
+  randomSeed(SEED);     // the seed comes from the hash above
+  background(252);
+  stroke(20);
+  let s = width / N;
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      let x = i * s, y = j * s;
+      noFill(); strokeWeight(0.5); rect(x, y, s, s);
+      strokeWeight(2);
+      if (random() < CHANCE) {
+        // which diagonal? flip another coin
+        if (random() < 0.5) line(x, y, x + s, y + s);
+        else                line(x + s, y, x, y + s);
+      }
+    }
+  }
+}
+</script>
+  </div>
+
+  <section class="prose">
+    <h2>The one idea</h2>
+    <blockquote>The idea becomes a machine that makes the art.<cite>Sol LeWitt, "Paragraphs on Conceptual Art", Artforum, June 1967</cite></blockquote>
+    <p>Hold on to that sentence. It is the whole course. LeWitt wrote it about pencil and wall; you will read it with a laptop. Nothing else changes.</p>
+  </section>
+
+  <nav class="pager">
+    <span></span>
+    <a class="next" href="01-before-computers.html"><span class="k">Chapter 1 →</span><span class="t">Before computers</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · built with p5.js</span>
+</div></footer>
+</body>
+</html>

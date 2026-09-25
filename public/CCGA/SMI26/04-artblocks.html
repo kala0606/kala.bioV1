@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Blocks &amp; the money — Generative Art · CCGA SMI26</title>
+<meta name="description" content="The history of Art Blocks, Beeple's $69M sale, the $2.9M tweet, Fidenza, Ringers and The Goose — with a live ETH price so the numbers keep moving.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+<script defer src="assets/money.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="squiggle">
+  <canvas aria-label="A single rainbow-coloured squiggle line, after Snowfro" role="img"></canvas>
+  <div class="plot-meta"><span class="hash"></span><button type="button" class="rehash">↻ new hash</button></div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Chapter 4 · <b>2017 – today</b></p>
+  <h1>Art Blocks &amp; the <em>money</em></h1>
+  <p class="lede">For fifty years generative art was plotter drawings in flat files that almost nobody bought. Then, in about eighteen months, it became the most expensive art being made by living artists. <strong>The numbers below are real, and they move</strong> — because the currency they were paid in has never stopped moving.</p>
+</header>
+
+<main>
+  <section class="prose">
+    <h2>First, the currency</h2>
+    <p>Almost everything on this page was paid in <b>ether (ETH)</b>, the currency of the Ethereum blockchain. Its price against the dollar and the rupee changes every second. Every figure below is therefore two figures: what it was worth on the day, and what the same number of ETH is worth right now.</p>
+  </section>
+
+  <div class="ticker">
+    <div class="tick live"><div class="l">1 ETH, now</div><div class="v" id="p-usd">$—</div><div class="small" id="p-when">loading…</div></div>
+    <div class="tick live"><div class="l">1 ETH, in rupees</div><div class="v" id="p-inr">₹—</div></div>
+    <div class="tick"><div class="l">All-time high</div><div class="v">$4,953<small>24 Aug 2025</small></div></div>
+    <div class="tick"><div class="l">When Art Blocks launched</div><div class="v">≈ $600<small>27 Nov 2020</small></div></div>
+  </div>
+
+  <div class="sim">
+    <div class="sim-row">
+      <span>what if 1 ETH were</span>
+      <input type="range" id="slider" min="100" max="10000" step="10" value="2690" aria-label="Imagined ETH price in US dollars">
+      <output id="slider-out">$2,690</output>
+      <button type="button" id="mode-live" class="on">↺ back to live</button>
+      <button type="button" data-price="600">Nov 2020</button>
+      <button type="button" data-price="4878">Nov 2021 peak</button>
+      <button type="button" data-price="1000">Jun 2022 crash</button>
+    </div>
+    <p>Drag it. Every "now" figure on this page, and the dashed line on the chart, will follow. This is the part of the lesson that no textbook can print.</p>
+  </div>
+
+  <section class="prose">
+    <h2>The timeline, with receipts</h2>
+    <ul class="timeline">
+      <li><span class="when">JUNE 2017</span><span class="what">CryptoPunks</span><p>Matt Hall and John Watkinson of Larva Labs generate 10,000 pixel-art faces and put them on Ethereum. Free to claim; you paid only the transaction fee. Most went unclaimed for days. In 2021 a single Punk sold for $11.8M. The Centre Pompidou acquired one in 2023.</p></li>
+      <li><span class="when">APRIL 2019</span><span class="what">Autoglyphs</span><p>Larva Labs again. This time the <i>program</i> lives on the blockchain; the chain draws the picture. 512 outputs for a creation fee of 0.2 ETH (about $35), donated to a climate charity, then the generator shut itself off. Generative art was now on-chain, and scarce by construction.</p></li>
+      <li class="big"><span class="when">27 NOV 2020</span><span class="what">Art Blocks launches — Chromie Squiggle #0</span><p>Erick Calderon — <b>Snowfro</b> — a tile importer in Houston who had been making generative art in Processing for years, builds a platform with one rule: the artist uploads a program, the collector pays to mint, and only <i>then</i> does the program run, seeded by the transaction hash. Nobody, including the artist, knows what they will get. Project #0 is his own <i>Chromie Squiggle</i>: one line, walking a noise field, coloured along the spectrum. 10,000 planned; 9,000 released; the rest kept in reserve. Early mints cost a few dollars' worth of ETH.</p></li>
+      <li><span class="when">JAN 2021</span><span class="what">Ringers, Archetype</span><p>Dmitri Cherniak's <i>Ringers</i>: "an almost infinite number of ways to wrap a string around a set of pegs." Kjetil Golid's <i>Archetype</i>. Both 1,000 editions. The Art Blocks "Curated" tier begins to mean something.</p></li>
+      <li class="big"><span class="when">11 MAR 2021</span><span class="what">Beeple at Christie's</span><p>Mike Winkelmann had posted one image a day for 13½ years. Christie's sells the collage of all 5,000 as an NFT for <span class="money">$69,346,250 — 42,329 ETH</span>, to Vignesh Sundaresan, a Singapore-based crypto investor from Tamil Nadu, who bid as "MetaKovan". It is the third-highest price ever paid for a living artist. Not generative art — but it is the day the world learned what an NFT was. The same 42,329 ETH today: <b id="beeple-now">—</b>.</p></li>
+      <li><span class="when">22 MAR 2021</span><span class="what">The first tweet</span><p>Jack Dorsey's "just setting up my twttr" (21 Mar 2006), sold as an NFT for <span class="money">1,630.58 ETH ≈ $2.9M</span> to Sina Estavi, a Malaysia-based crypto executive. Dorsey gave the money to charity. Hold this thought.</p></li>
+      <li class="big"><span class="when">11 JUN 2021</span><span class="what">Fidenza</span><p>Tyler Hobbs, an Austin painter-programmer, releases 999 flow-field compositions at <span class="money">0.17 ETH (~$400)</span>. Sold out in about 25 minutes. Within two months, single Fidenzas were trading for the price of a house. The mint price, in today's ETH: <b id="fidenza-mint-now">—</b>.</p></li>
+      <li><span class="when">AUG – OCT 2021</span><span class="what">The summer</span><p>Fidenza #313: <span class="money">1,000 ETH ($3.3M)</span>, bought at mint for $1,400. Ringers #879, "The Goose", to the hedge fund Three Arrows Capital: <span class="money">1,800 ETH ($5.66M)</span>. Chromie Squiggle #7583: <span class="money">945 ETH ($2.89M)</span>. Ringers #109: <span class="money">2,100 ETH ($6.93M)</span>, still the highest Art Blocks sale. Art Blocks does $294M of trading in August 2021 alone; by year-end, over $1.1 billion. Sotheby's runs its first generative-art sale. Matt DesLauriers's <i>Meridian</i>, Emily Xie, Zancan, William Mapan, Casey Reas himself.</p></li>
+      <li><span class="when">NOV 2021</span><span class="what">fx(hash) — and the peak</span><p>On the Tezos chain, where a transaction costs a fraction of a cent, the artist ciphrd launches <b>fx(hash)</b>: no curation, no application, anyone can publish. It becomes the place for experiment, for artists outside the US and Europe, and for editions of 800 at a few tez each. On 10 Nov, ETH hits $4,878. Nobody knows it is the top.</p></li>
+      <li class="big"><span class="when">APR 2022</span><span class="what">The tweet, again</span><p>Sina Estavi lists the Dorsey tweet NFT for <span class="money">$48 million</span>, promising half to charity. The week-long auction closes with seven bids. The highest is <span class="money">0.09 ETH — about $280</span>. The NFT has since been passed around and mocked; it has never sold again. Nothing about the tweet changed. Everything about the room did.</p></li>
+      <li><span class="when">MAY – NOV 2022</span><span class="what">The crash</span><p>Terra/Luna collapses in May. Three Arrows Capital — owner of The Goose — is bankrupt by June. ETH falls to about $1,000. FTX collapses in November. NFT trading volume falls by more than 90%. Most projects go to zero. The good ones do not.</p></li>
+      <li><span class="when">JAN – FEB 2023</span><span class="what">KALA</span><p><i>KARMA</i>, 33 editions, on Art Blocks. <i>The Yoni Project</i>, 800 editions on fx(hash), shown on eight-foot kiosks at the India Art Fair with Tezos India. See chapter 5.</p></li>
+      <li><span class="when">15 JUN 2023</span><span class="what">The Goose, again</span><p>Sotheby's auctions the bankrupt hedge fund's collection as <i>Grails</i>. The Goose sells for <span class="money">$6.2M</span> — a gain in dollars over the $5.66M paid, and since ETH was at ~$1,750, about <b id="goose-eth-now">—</b> in ETH terms at today's price. Which number is the "real" one? Also in 2023: LACMA accepts 22 works including Squiggles as a gift; the Pompidou acquires a CryptoPunk and an Autoglyph; Vera Molnár, at 99, releases a generative series through Sotheby's.</p></li>
+      <li><span class="when">2024 – 2026</span><span class="what">Now</span><p>Art Blocks reorganises into Curated, Presents, and artist-run <b>Studio</b> contracts. fx(hash) adds Ethereum and Base. Volumes are a fraction of 2021; the artists who were serious in 2019 are still working. ETH makes a new high of $4,953 in August 2025, falls below $1,700 by mid-2026, and is wherever the ticker at the top says it is.</p></li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>The same sales, re-priced right now</h2>
+    <p class="small">"Then" is what was reported on the day, in dollars and (approximately) in rupees. "Now" is the same amount of ETH at the price in the ticker — or at the price you set with the slider. The last column is now ÷ then.</p>
+  </section>
+  <div class="tablewrap">
+    <table class="sales" id="sales">
+      <thead><tr><th>Date</th><th>Sale</th><th style="text-align:right">Paid</th><th style="text-align:right">Worth then</th><th style="text-align:right">Same ETH, now</th><th style="text-align:right">×</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <section class="prose">
+    <h2>The price of a currency, 2020 – 2026</h2>
+    <p class="small">Approximate month-end ETH/USD; the last twelve months from CoinGecko, earlier from public price histories. The dashed red line is the price in the ticker, or the one you imagine.</p>
+  </section>
+  <div class="chart" id="chart"><svg role="img" aria-label="ETH price chart 2020 to 2026 with key sales marked"></svg></div>
+
+  <section class="prose">
+    <h2>What the numbers are for</h2>
+    <p>Not for envy, and not for cynicism — both are cheap. Three things worth taking from them:</p>
+    <ul>
+      <li><b>Value is a system too.</b> A Fidenza did not change between June and August 2021. The room did. Art has always worked this way — Van Gogh sold one painting — but the blockchain made the ledger public, so for the first time everyone could watch the system run.</li>
+      <li><b>The hash is a formal idea, not a financial one.</b> Seed a program with a number nobody chose, and the output is honest in a way a hand-picked "best of 1,000" is not. That is the idea Art Blocks borrowed from Molnár and LeWitt. It works whether or not anyone pays for it.</li>
+      <li><b>The tweet is the lesson.</b> $2.9M, then $280. Same object, same chain, same owner. If your work only means what it last sold for, it means nothing. Make the thing that would still be worth making at $280.</li>
+    </ul>
+  </section>
+
+  <div class="playground" data-title="Squiggle" data-after="after Snowfro — Chromie Squiggle, Art Blocks project #0, 2020">
+<script type="text/plain" class="src">
+// after Snowfro — Chromie Squiggle (Art Blocks #0, 27 Nov 2020)
+// One line, walked by noise, coloured by walking the hue wheel.
+// The real thing reads every number from the token hash. Here, SEED is the hash.
+
+let SEGMENTS = 160;
+let STEPS = 10;      // the original's "steps" feature: how fast the hue turns
+let WOBBLE = 1.1;    // how far the line strays from the middle
+
+function setup() {
+  createCanvas(800, 300);
+  randomSeed(SEED);
+  noiseSeed(SEED);
+  colorMode(HSB, 360, 100, 100);
+  background(0, 0, 100);
+  strokeWeight(14); strokeCap(ROUND); noFill();
+  let hue0 = random(360), t = random(1000), prev = null;
+  for (let i = 0; i < SEGMENTS; i++) {
+    let x = map(i, 0, SEGMENTS - 1, 40, width - 40);
+    let y = height / 2 + (noise(t + i * 0.08) - 0.5) * height * WOBBLE;
+    let h = (hue0 + i * (360 / SEGMENTS) * STEPS / 10) % 360;
+    stroke(h, 80, 95);
+    if (prev) line(prev.x, prev.y, x, y);
+    prev = { x, y };
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>STEPS = 40</code> — the rare "hyper-rainbow" trait. Then draw circles instead of lines: replace the <code>line(...)</code> with <code>circle(x, y, 14)</code> and see the "dots" trait appear. Snowfro's features are just branches in the code.</p>
+  </div>
+
+  <div class="playground" data-title="Ringers" data-after="after Dmitri Cherniak — Ringers, Art Blocks, 2021">
+<script type="text/plain" class="src">
+// after Dmitri Cherniak — Ringers (Jan 2021)
+// "There are an almost infinite number of ways to wrap a string around a set of pegs."
+// Pegs on a grid; one continuous string; a few colours. The Goose is #879.
+
+let PEGS = 6;          // per side — try 4, or 9
+let COLOURS = ["#f2ecdc", "#1a1a1a", "#c8321f", "#2338c8", "#e2a72e"];
+
+function setup() {
+  createCanvas(600, 600);
+  randomSeed(SEED);
+  let bg = random(COLOURS), fg = random(COLOURS);
+  while (fg === bg) fg = random(COLOURS);
+  background(bg);
+  let m = 90, s = (width - 2 * m) / (PEGS - 1), pegs = [];
+  for (let i = 0; i < PEGS; i++)
+    for (let j = 0; j < PEGS; j++) pegs.push(createVector(m + i * s, m + j * s));
+
+  // the string: visit a random subset of pegs, in a random order, and close the loop
+  shuffleList(pegs);
+  let n = floor(random(5, pegs.length));
+  let path = pegs.slice(0, n);
+  stroke(fg); strokeWeight(s * 0.32); strokeJoin(ROUND); noFill();
+  beginShape();
+  curveVertex(path[n - 1].x, path[n - 1].y);
+  for (let p of path) curveVertex(p.x, p.y);
+  curveVertex(path[0].x, path[0].y);
+  curveVertex(path[1].x, path[1].y);
+  endShape();
+
+  // the pegs, on top
+  noStroke(); fill(bg);
+  for (let p of pegs) circle(p.x, p.y, s * 0.28);
+  fill(fg);
+  for (let p of path) circle(p.x, p.y, s * 0.12);
+}
+
+function shuffleList(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = floor(random(i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>strokeWeight(s * 0.8)</code> — the string becomes the picture. Then keep only 3 pegs. Cherniak's real algorithm wraps the string tangentially around each peg; this one cheats with a curve. Can you see the difference?</p>
+  </div>
+
+  <nav class="pager">
+    <a href="03-moments.html"><span class="k">← Chapter 3</span><span class="t">Moments</span></a>
+    <a class="next" href="05-kala.html"><span class="k">Chapter 5 →</span><span class="t">KALA</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · prices via CoinGecko</span>
+</div></footer>
+</body>
+</html>

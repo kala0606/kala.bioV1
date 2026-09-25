@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before computers — Generative Art · CCGA SMI26</title>
+<meta name="description" content="Generative systems before the computer: phyllotaxis, Turing patterns, kolam, Islamic geometry, Mozart's dice, Arp's chance, Cage, and Sol LeWitt's wall drawings — with editable code.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Chapters">
+  <div class="topbar-in">
+    <a class="brand" href="history.html"><b>CCGA</b> · SMI26 · Generative Art</a>
+    <div class="chapters">
+      <a href="01-before-computers.html"><span>1</span>Before computers</a>
+      <a href="02-masters.html"><span>2</span>The masters</a>
+      <a href="03-moments.html"><span>3</span>Moments</a>
+      <a href="04-artblocks.html"><span>4</span>Art Blocks &amp; money</a>
+      <a href="05-kala.html"><span>5</span>KALA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="plot" data-art="phyllo">
+  <canvas aria-label="A sunflower's seed spiral, drawn from the golden angle" role="img"></canvas>
+  <div class="plot-meta"><span class="hash"></span><button type="button" class="rehash">↻ new hash</button></div>
+</div>
+
+<header class="head">
+  <p class="eyebrow">Chapter 1 · <b>c. 300 million BCE – 1971</b></p>
+  <h1>Before <em>computers</em></h1>
+  <p class="lede">A generative work is one where the artist builds a <strong>system</strong> and the system makes the picture. Nature has been doing this forever. People have been doing it for at least a thousand years. The computer only made the system fast.</p>
+</header>
+
+<main>
+  <section class="prose sec">
+    <p class="when">NATURE</p>
+    <h2>The first generative systems were not made by anyone</h2>
+    <p>Look at a sunflower head. Nobody arranged those seeds. Each new seed simply appears at the centre, turned <b>137.5°</b> from the last one, and pushes the older seeds outward. That single rule — one angle, repeated — produces the spirals. Change the angle by half a degree and the spirals fall apart. This is <i>phyllotaxis</i>, and the 137.5° is the <i>golden angle</i>, the one that packs seeds most tightly.</p>
+    <p>Drag the slider. The dots are placed by exactly the formula above (Vogel, 1979: <code>r = c√n, θ = n × 137.5°</code>). The flower is a program.</p>
+  </section>
+
+  <div class="demo" data-demo="phyllotaxis">
+    <canvas width="900" height="520" aria-label="Phyllotaxis pattern, adjustable angle"></canvas>
+    <div class="demo-bar">
+      <label>angle <input type="range" name="angle" min="120" max="160" step="0.05" value="137.5"><output>137.50°</output></label>
+      <button type="button" data-set="137.5">golden 137.5°</button>
+      <button type="button" data-set="137.3">137.3°</button>
+      <button type="button" data-set="120">120°</button>
+      <button type="button" data-set="144">144°</button>
+      <button type="button" data-set="150">150°</button>
+    </div>
+  </div>
+
+  <section class="prose">
+    <p>Zebra stripes, leopard spots, the lattice on a giraffe. In 1952 Alan Turing — yes, that Turing — published <i>The Chemical Basis of Morphogenesis</i>, proposing that two chemicals spreading through skin at different speeds, one feeding the other and one killing it, would settle into stripes or spots on their own. He was right; biologists confirmed it decades later. Below is the Gray–Scott version of his equations. Two numbers, <code>f</code> and <code>k</code>, decide whether you get coral, spots, worms or nothing.</p>
+  </section>
+
+  <div class="demo" data-demo="reaction">
+    <canvas aria-label="Reaction–diffusion pattern, live simulation" style="image-rendering:auto"></canvas>
+    <div class="demo-bar">
+      <label>f <input type="range" name="f" min="0.01" max="0.08" step="0.001" value="0.037"><output name="fo">0.037</output></label>
+      <label>k <input type="range" name="k" min="0.045" max="0.07" step="0.0005" value="0.06"><output name="ko">0.06</output></label>
+      <button type="button" data-f="0.037" data-k="0.06">coral</button>
+      <button type="button" data-f="0.03" data-k="0.062">spots</button>
+      <button type="button" data-f="0.055" data-k="0.062">worms</button>
+      <button type="button" data-f="0.022" data-k="0.051">chaos</button>
+      <button type="button" class="reset">reseed</button>
+    </div>
+  </div>
+
+  <section class="prose">
+    <p>The textile cone snail, <i>Conus textile</i>, carries on its shell a pattern that looks like a computation — because it is. Each new row of shell is laid down by cells that look only at their neighbours in the previous row. Stephen Wolfram formalised this as <i>elementary cellular automata</i> in 1983. Rule 30, on the shell and on the screen, is the same eight-line lookup table.</p>
+  </section>
+
+  <div class="demo" data-demo="rule30">
+    <canvas width="900" height="400" aria-label="Elementary cellular automaton"></canvas>
+    <div class="demo-bar">
+      <label>rule <input type="range" name="rule" min="0" max="255" step="1" value="30"><output>30</output></label>
+      <button type="button" data-set="30">30 (the snail)</button>
+      <button type="button" data-set="90">90 (Sierpiński)</button>
+      <button type="button" data-set="110">110 (universal)</button>
+      <button type="button" data-set="184">184 (traffic)</button>
+    </div>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">c. 3000 BCE →</p>
+    <h2>Kolam: a drawing you do not compose, you execute</h2>
+    <p>Before dawn, outside doors across Tamil Nadu, a grid of dots is laid in rice flour. A single line is then drawn <i>around</i> the dots — never through them, never lifting — until it closes on itself. The drawer is not deciding what the picture looks like; she is following a rule, and the picture is what the rule produces. Mathematicians and computer scientists (Gift Siromoney at Madras Christian College, from the 1970s) have described kolam with formal grammars, the same tools used to describe programming languages.</p>
+    <p>The sketch below cheats a little. It uses the "tile" trick — every cell between four dots gets one of two quarter-arc tiles — which guarantees the curves join into closed loops. That trick was rediscovered independently by Sébastien Truchet in 1704 and by Cyril Stanley Smith in 1987. The kolam makers knew it first.</p>
+  </section>
+
+  <div class="playground" data-title="Kolam" data-after="after the pulli kolam tradition, Tamil Nadu">
+<script type="text/plain" class="src">
+// Kolam — a rule-based drawing, older than any computer.
+// Dots (pulli) go down first. A line weaves around them without lifting.
+// Tile trick: each cell between four dots gets one of two arc tiles,
+// so every curve is guaranteed to close.
+
+let N = 9;   // dots per side — try 5, 13, 21
+
+function setup() {
+  createCanvas(600, 600);
+  randomSeed(SEED);
+  background(250);
+  let m = 60, s = (width - 2 * m) / (N - 1);
+
+  // the dots
+  noStroke(); fill(30);
+  for (let i = 0; i < N; i++)
+    for (let j = 0; j < N; j++) circle(m + i * s, m + j * s, 5);
+
+  // the line
+  noFill(); stroke(35, 56, 200); strokeWeight(3);
+  for (let i = 0; i < N - 1; i++) {
+    for (let j = 0; j < N - 1; j++) {
+      let x = m + i * s, y = m + j * s;
+      if (random() < 0.5) {
+        // tile A: arcs around the top-left and bottom-right dots
+        arc(x, y, s, s, 0, HALF_PI);
+        arc(x + s, y + s, s, s, PI, PI + HALF_PI);
+      } else {
+        // tile B: arcs around the top-right and bottom-left dots
+        arc(x + s, y, s, s, HALF_PI, PI);
+        arc(x, y + s, s, s, PI + HALF_PI, TWO_PI);
+      }
+    }
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> replace <code>random() &lt; 0.5</code> with <code>(i + j) % 2 == 0</code>. No randomness at all — and the kolam becomes a lattice. Then try <code>random() &lt; 0.9</code>.</p>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">c. 900 →</p>
+    <h2>Islamic geometric pattern: a grammar of stars</h2>
+    <p>From Córdoba to Isfahan to Fatehpur Sikri, craftsmen covered walls with patterns that never repeat their motif in the wrong place and never leave a gap. They did it with compass and straightedge and a small set of rules: a grid, a way of dividing the circle, a way of connecting the divisions. The <i>girih</i> tile system (five tiles, decorated with lines, assembled edge to edge) produced patterns so intricate that in 2007 physicists showed some 15th-century examples are quasi-crystalline — a structure Western mathematics only described in 1974.</p>
+    <p>The artisan's genius was in the system. Any two artisans with the same rules would make the same wall. That is the definition we are working towards.</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">1787</p>
+    <h2>Mozart's dice game</h2>
+    <p><i>Musikalisches Würfelspiel</i>. A table of 176 pre-written bars of music. Throw two dice sixteen times; each throw picks one bar from a column; the result is a sixteen-bar waltz that has almost certainly never been heard before. There are 11<sup>16</sup> ≈ 45 quadrillion possible waltzes. Mozart (or a publisher using his name — attribution is disputed) composed none of them and all of them. The <b>possibility space</b> is the work.</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">1913–1951</p>
+    <h2>Chance enters the studio</h2>
+    <p>The modernists let go of the hand on purpose.</p>
+    <ul>
+      <li><b>Marcel Duchamp, <i>3 Standard Stoppages</i> (1913–14).</b> Drop a metre-long thread from a metre's height three times; fix each where it lands; make rulers from the curves. A new unit of measurement, generated by gravity.</li>
+      <li><b>Jean (Hans) Arp, <i>Collage with Squares Arranged According to the Laws of Chance</i> (1916–17).</b> Tear paper, let it fall, glue it where it lies. Dada's protest against reason, and one of the first pictures whose composition is a procedure.</li>
+      <li><b>John Cage, <i>Music of Changes</i> (1951).</b> Every note, duration and dynamic chosen by tossing coins and consulting the I Ching. Cage: "I have nothing to say and I am saying it."</li>
+      <li><b>Ellsworth Kelly, <i>Spectrum Colors Arranged by Chance</i> (1951–53).</b> A grid of numbered squares; colours drawn from a hat.</li>
+      <li><b>Fluxus event scores (1960s).</b> George Brecht's <i>Drip Music</i>: "A source of dripping water and an empty vessel are arranged so that the water falls into the vessel." Yoko Ono's <i>Grapefruit</i> (1964): "Imagine the clouds dripping. Dig a hole in your garden to put them in." The instruction is the piece; the performance is one output.</li>
+    </ul>
+  </section>
+
+  <div class="playground" data-title="Squares arranged according to the laws of chance" data-after="after Jean Arp, 1916–17">
+<script type="text/plain" class="src">
+// Jean Arp — Collage with Squares Arranged According to the Laws of Chance
+// Tear paper into squares. Drop them. Paste them where they land.
+
+let PIECES = 22;
+
+function setup() {
+  createCanvas(560, 720);
+  randomSeed(SEED);
+  background(214, 204, 178);      // the ground paper
+  noStroke();
+  for (let i = 0; i < PIECES; i++) {
+    let s = random(60, 110);                        // torn, so no two the same
+    let x = random(50, width - 50);
+    let y = random(50, height - 50);
+    push();
+    translate(x, y);
+    rotate(random(-0.25, 0.25));                    // a little skew from the fall
+    fill(random() < 0.5 ? color(38, 42, 58) : color(96, 112, 152));
+    rect(-s / 2, -s / 2, s, s * random(0.85, 1.15)); // "square", roughly
+    pop();
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> set <code>rotate(0)</code> and make the fill always the dark colour. It stops looking dropped and starts looking designed — why?</p>
+  </div>
+
+  <section class="prose sec">
+    <p class="when">1961</p>
+    <h2>A hundred thousand billion poems</h2>
+    <p>Raymond Queneau's <i>Cent mille milliards de poèmes</i>: ten sonnets printed on strips, so any line can be combined with any other. 10<sup>14</sup> poems in one thin book. Queneau's group, the <b>Oulipo</b>, made rules the whole point: Georges Perec later wrote a 300-page novel without the letter <i>e</i>. Constraint as engine.</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">1959–1961</p>
+    <h2>Drawing machines</h2>
+    <p>Jean Tinguely's <i>Méta-Matics</i> (1959): kinetic sculptures that held a felt pen and scribbled abstract drawings, which visitors could buy. Tinguely entered them in an art competition; they won. Desmond Paul Henry (1961) rebuilt a WWII bombsight computer to draw with; nobody, including Henry, could predict its curves. The machine was not yet digital, but the question was already the modern one: who is the artist?</p>
+  </section>
+
+  <section class="prose sec">
+    <p class="when">1967–1971</p>
+    <h2>Sol LeWitt writes the program</h2>
+    <p>Sol LeWitt (1928–2007) is the bridge. His wall drawings are not pictures; they are short paragraphs of instructions, sold as certificates, drawn on the wall by whoever the museum hires, and painted over when the show ends. Different draftspeople get different walls from the same instruction, and LeWitt said all of them were correct. He was writing code for humans.</p>
+    <blockquote>In conceptual art the idea or concept is the most important aspect of the work. When an artist uses a conceptual form of art, it means that all of the planning and decisions are made beforehand and the execution is a perfunctory affair. The idea becomes a machine that makes the art.<cite>Sol LeWitt, "Paragraphs on Conceptual Art", 1967</cite></blockquote>
+    <p>Two of his instructions, below, translated. Notice how much the translator has to decide: what does "evenly distributed" mean, exactly? What is "about 10 inches"? Those decisions are where the draftsperson's hand — and the programmer's — lives.</p>
+  </section>
+
+  <div class="playground" data-title="Wall Drawing #118" data-after="after Sol LeWitt, 1971 — fifty points, all connected">
+<script type="text/plain" class="src">
+// Sol LeWitt — Wall Drawing #118 (1971). The instruction, in full:
+//
+//   "On a wall surface, any continuous stretch of wall, using a hard pencil,
+//    place fifty points at random. The points should be evenly distributed
+//    over the area of the wall. All of the points should be connected by
+//    straight lines."
+//
+// That paragraph is the artwork. This code is one draftsperson's reading of it.
+
+let POINTS = 50;      // "fifty points"
+let EVENLY = true;    // "evenly distributed" — set false for pure random
+
+function setup() {
+  createCanvas(800, 520);
+  randomSeed(SEED);   // same hash, same wall
+  background(252);
+
+  let pts = [];
+  if (EVENLY) {
+    // a jittered grid: random, but spread out, as the instruction asks
+    let cols = 10, rows = 5, cw = width / cols, ch = height / rows;
+    for (let i = 0; i < POINTS; i++) {
+      let c = i % cols, r = floor(i / cols) % rows;
+      pts.push(createVector(c * cw + random(cw), r * ch + random(ch)));
+    }
+  } else {
+    for (let i = 0; i < POINTS; i++)
+      pts.push(createVector(random(width), random(height)));
+  }
+
+  // "all of the points should be connected by straight lines"
+  stroke(30); strokeWeight(0.4);
+  for (let i = 0; i < pts.length; i++)
+    for (let j = i + 1; j < pts.length; j++)
+      line(pts[i].x, pts[i].y, pts[j].x, pts[j].y);
+
+  noStroke(); fill(30);
+  for (let p of pts) circle(p.x, p.y, 4);
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> <code>POINTS = 12</code>, then <code>200</code> (that is 19,900 lines — the wall goes grey). Then decide: is <code>EVENLY = false</code> a wrong reading of LeWitt, or just a different one?</p>
+  </div>
+
+  <div class="playground" data-title="Wall Drawing #86" data-after="after Sol LeWitt, 1971 — ten thousand lines">
+<script type="text/plain" class="src">
+// Sol LeWitt — Wall Drawing #86 (1971)
+//   "Ten thousand lines about 10 inches (25 cm) long, covering the wall evenly."
+// Ten thousand is an old Eastern figure for "more than anyone could count".
+
+let LINES = 10000;
+let LENGTH = 40;      // "about 10 inches", at this scale
+
+function setup() {
+  createCanvas(800, 520);
+  randomSeed(SEED);
+  background(252);
+  stroke(20); strokeWeight(0.6);
+  for (let i = 0; i < LINES; i++) {
+    let x = random(width), y = random(height);
+    let a = random(TWO_PI);                 // any direction
+    let len = LENGTH + random(-6, 6);       // "about"
+    line(x, y, x + cos(a) * len, y + sin(a) * len);
+  }
+}
+</script>
+    <p class="pg-hint"><b>Try:</b> make every line horizontal: <code>let a = 0;</code>. Then <code>let a = random() &lt; 0.5 ? 0 : HALF_PI;</code>. Then <code>LENGTH = 200</code>. LeWitt said "lines", not "short lines" — was he being precise or generous?</p>
+  </div>
+
+  <section class="prose">
+    <h2>What we take from all this</h2>
+    <p>Three things, and they are the vocabulary for the rest of the course.</p>
+    <ul>
+      <li><b>A rule, repeated, makes form.</b> The sunflower's angle; the kolam's arc; ten thousand lines.</li>
+      <li><b>Chance is a material.</b> Arp, Cage, LeWitt used it deliberately, in measured amounts. So will you — the number you give <code>random()</code> is a design decision.</li>
+      <li><b>The artist designs the possibility space, not the picture.</b> Mozart's 45 quadrillion waltzes. Each output is one point in the space. The space is the work.</li>
+    </ul>
+    <p>In 1965, in a small gallery in Stuttgart, somebody plugged all of this into a computer.</p>
+  </section>
+
+  <nav class="pager">
+    <a href="history.html"><span class="k">← Start</span><span class="t">A history you can run</span></a>
+    <a class="next" href="02-masters.html"><span class="k">Chapter 2 →</span><span class="t">The masters</span></a>
+  </nav>
+</main>
+
+<footer><div class="foot-in">
+  <span>CCGA · Srishti Manipal Institute of Art, Design &amp; Technology · Sep 2026</span>
+  <span><a href="https://www.ujjwalagarwal.com">ujjwalagarwal.com</a> · built with p5.js</span>
+</div></footer>
+</body>
+</html>
