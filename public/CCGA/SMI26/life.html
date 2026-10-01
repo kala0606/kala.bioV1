@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMI26 · Cellular Automata &amp; the Game of Life</title>
+<meta name="description" content="An interactive explanation of cellular automata and Conway's Game of Life: rules you can poke, patterns you can run, variants you can invent, and the code to write your own in p5.js.">
+<meta property="og:title" content="Cellular Automata & the Game of Life · SMI26">
+<meta property="og:description" content="Simple rules, complicated life. Playable Game of Life, Wolfram's 1D automata, rule variants, and editable p5.js code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f4efe6'/%3E%3Crect x='12' y='4' width='8' height='8' fill='%23151515'/%3E%3Crect x='20' y='12' width='8' height='8' fill='%23151515'/%3E%3Crect x='4' y='20' width='8' height='8' fill='%23151515'/%3E%3Crect x='12' y='20' width='8' height='8' fill='%23151515'/%3E%3Crect x='20' y='20' width='8' height='8' fill='%23d7261e'/%3E%3C/svg%3E">
+</head>
+<body data-site-title="SMI26 · Cellular Automata">
+
+<div class="topbar">
+  <b>SMI26 · Game of Life</b>
+  <select id="chapter-select" aria-label="Chapter"></select>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="#start">
+      <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+      <b>Cellular Automata<br>&amp; the Game of Life</b>
+      <span>SMI26 · CCGA studio · p5.js</span>
+    </a>
+    <ul class="toc" id="toc"></ul>
+    <div class="foot">
+      ← → keys move between chapters.<br>
+      Grids are clickable. Code boxes run in the page: edit, then <b>▶ Run</b> or <kbd>⌘</kbd>+<kbd>↵</kbd>.<br><br>
+      Part of the SMI26 set: <a href="index.html">Creative Coding Crash Course</a> · <a href="history.html">Generative Art, a history you can run</a>.<br><br>
+      Built by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a> for the Creative Coding &amp; Generative Art studio, Srishti Manipal Institute.
+    </div>
+  </aside>
+
+  <main class="main">
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="start" data-title="Cells, neighbours, rules">
+    <div class="chapter-head">
+      <div class="eyebrow">SMI26 · cellular automata</div>
+      <h1>Simple rules, complicated life.</h1>
+      <p class="lede">A cellular automaton is a grid of cells, each either on or off, where every cell looks at its neighbours and follows one tiny rule to decide what it will be next. No boss, no plan, no randomness. And yet: gliders, guns, chaos, computers.</p>
+    </div>
+
+    <p>Three ingredients, every time:</p>
+    <ol>
+      <li><b>A grid</b> of cells (a line, a sheet, a cube). Each cell has a <b>state</b>: for us, alive or dead, 1 or 0.</li>
+      <li><b>A neighbourhood</b>: which cells a cell can see. In 1D, the two beside it. In 2D, the eight around it.</li>
+      <li><b>A rule</b>: a lookup table from "what my neighbours look like now" to "what I am next". Every cell applies the rule at the same time, tick, tick, tick. Each tick is a <b>generation</b>.</li>
+    </ol>
+    <p>That's it. The whole subject is: how much surprise can you squeeze out of ingredient 3.</p>
+
+    <h2>The smallest possible version: one row of cells</h2>
+    <p>Stephen Wolfram's <em>elementary</em> automata are a single line of cells. Each cell has two neighbours, so with itself there are 2×2×2 = 8 possible neighbourhoods. A rule just says, for each of the 8, whether the cell is on or off next. 8 answers, 8 bits, so there are exactly 256 rules, numbered 0 to 255 by reading the bits as a binary number. Draw each generation as a new row underneath and time runs down the page.</p>
+
+    <div class="demo" data-demo="wolfram" data-title="Wolfram's elementary automata · 256 rules, pick one" data-foot="Rule 30 is chaotic (Wolfram used it as a random number generator). Rule 90 is a Sierpinski triangle. Rule 110 has been proven able to run any computer program. Rule 184 is a traffic jam. Click the red output cells to invent your own rule."></div>
+
+    <div class="callout note">
+      <p><b>The idea that matters:</b> the rule is 8 bits. The picture is thousands of cells and looks like lace, or static, or a highway. Complexity in the output has nothing to do with complexity in the rule. Hold on to that thought, because it is the thesis of generative art.</p>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/challenges/179-wolfram-ca/" target="_blank" rel="noopener">Coding Challenge 179: Wolfram CA</a> builds this demo from scratch in p5. The chapter it comes from is <a href="https://natureofcode.com/cellular-automata/" target="_blank" rel="noopener">Nature of Code, chapter 7: Cellular Automata</a>, which is the long version of this whole page.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="rules" data-title="Conway's four rules">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 1</div>
+      <h1>Conway's four rules</h1>
+      <p class="lede">In 1970 John Conway, a mathematician at Cambridge, went looking for the simplest 2D rule that was neither boring nor explosive. He found it by hand, on a Go board, and Martin Gardner put it in <em>Scientific American</em>. It has been running on every computer since.</p>
+    </div>
+
+    <p>The grid is 2D. Each cell has 8 neighbours (up, down, left, right, four diagonals). Count how many of them are alive. Then:</p>
+    <table class="cheat">
+      <tr><th>If the cell is...</th><th>and it has...</th><th>then next generation it is...</th><th>the story</th></tr>
+      <tr><td>alive</td><td>fewer than 2 live neighbours</td><td>dead</td><td>loneliness</td></tr>
+      <tr><td>alive</td><td>2 or 3</td><td>alive</td><td>just right</td></tr>
+      <tr><td>alive</td><td>more than 3</td><td>dead</td><td>overcrowding</td></tr>
+      <tr><td>dead</td><td>exactly 3</td><td>alive</td><td>birth</td></tr>
+    </table>
+    <p>Programmers compress that to <b>B3/S23</b>: <b>B</b>orn with 3, <b>S</b>urvives with 2 or 3. Everything else dies or stays dead. One line. Hover the grid below and watch the rule being applied.</p>
+
+    <div class="demo" data-demo="inspector" data-title="Count the neighbours, apply the rule" data-foot="Every cell is judged on the current grid, then everyone changes at once. That 'all at once' is why you need two grids in code: you can't overwrite cells while you're still counting them."></div>
+
+    <div class="callout try">
+      <ul>
+        <li>Clear the grid and draw three cells in a row. Step. Step again. You just made a blinker, the simplest oscillator.</li>
+        <li>Draw a 2×2 block. Step. Nothing happens: every live cell has exactly 3 neighbours. A still life.</li>
+        <li>Draw any 5 cells touching, then step 10 times. Can you predict it? (Nobody can, in general. That's the point.)</li>
+      </ul>
+    </div>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">// the rule, as code
+function nextState(alive, n) {       // n = live neighbours, 0..8
+  if (alive && (n === 2 || n === 3)) return 1;   // survive
+  if (!alive && n === 3) return 1;               // birth
+  return 0;                                      // everything else: dead
+}</pre>
+      <pre data-lang="Python">def next_state(alive, n):
+    if alive and n in (2, 3):
+        return 1
+    if not alive and n == 3:
+        return 1
+    return 0</pre>
+      <pre data-lang="C">int next_state(int alive, int n) {
+    if (alive && (n == 2 || n == 3)) return 1;
+    if (!alive && n == 3) return 1;
+    return 0;
+}</pre>
+      <pre data-lang="GLSL">// on the GPU, each pixel is a cell and reads its 8 neighbours from the previous frame's texture
+float next_state(float alive, float n) {
+    if (alive > 0.5 && (n == 2.0 || n == 3.0)) return 1.0;
+    if (alive < 0.5 && n == 3.0) return 1.0;
+    return 0.0;
+}</pre>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="play" data-title="Play">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 2</div>
+      <h1>Play.</h1>
+      <p class="lede">Draw on it. Drop in a pattern. Watch the population graph. This is the whole game: there are no players, you only set the first move.</p>
+    </div>
+
+    <div class="demo" data-demo="play" data-preset="rpent" data-title="Conway's Game of Life" data-foot="Colour by age: red cells are newborn, they darken as they survive. The R-pentomino is five cells that take 1,103 generations to settle down. Try the Gosper glider gun, the first pattern ever found that grows forever (1970, won Conway's $50 bet)."></div>
+
+    <div class="callout try">
+      <ul>
+        <li>Pick <b>empty</b>, draw a messy blob, press play. Count how many generations until it is only still lifes and blinkers. That is "ash", and most random starts end in ash.</li>
+        <li>Pick <b>Gosper glider gun</b>, set edges to <b>dead wall</b>. Then to <b>wrap around</b>. Why does wrapping eventually destroy the gun?</li>
+        <li>Pick <b>random soup</b> and watch the population graph. It always falls, then flattens. Life on a finite grid has a carrying capacity.</li>
+        <li>Pause, draw a glider in front of another glider's path, play. Collisions are how people build logic gates in Life.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="zoo" data-title="The zoo">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 3</div>
+      <h1>The zoo</h1>
+      <p class="lede">Fifty years of people watching this thing has produced a taxonomy. Everything in Life is one of four kinds of animal.</p>
+    </div>
+
+    <ul>
+      <li><b>Still lifes</b> never change. Every live cell has 2 or 3 neighbours, every dead cell doesn't have 3. Block, beehive, loaf.</li>
+      <li><b>Oscillators</b> repeat with a period. Blinker (2), toad (2), pulsar (3), pentadecathlon (15). Oscillators with every period from 1 upwards have now been found; the last gaps (periods 19 and 41) were filled in 2023.</li>
+      <li><b>Spaceships</b> move. The glider travels one cell diagonally every 4 generations; the lightweight spaceship goes sideways at half the speed of light (one cell per generation is "c", the speed limit of the grid).</li>
+      <li><b>Methuselahs</b> are small seeds that take ages to settle. R-pentomino: 5 cells, 1,103 generations. Acorn: 7 cells, 5,206 generations and a glider fleet.</li>
+    </ul>
+    <p>Then there are the things built out of animals: guns that fire gliders, puffers that leave debris, reflectors, and, since 2000, complete Turing machines made of gliders. Life can run any program, including Life.</p>
+
+    <div class="demo" data-demo="zoo" data-title="Nine classics, side by side" data-foot="Black: still lifes. Blue: oscillators. Red: spaceships and a methuselah. Each panel wraps at its edges, so the glider and the LWSS loop forever."></div>
+
+    <p class="small">The complete catalogue is the <a href="https://conwaylife.com/wiki/" target="_blank" rel="noopener">LifeWiki</a> at conwaylife.com. For serious exploring, <a href="https://golly.sourceforge.io/" target="_blank" rel="noopener">Golly</a> runs patterns with billions of cells using the HashLife algorithm, which is its own beautiful rabbit hole.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="variants" data-title="Other rules">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 4</div>
+      <h1>Change the rule, change the universe</h1>
+      <p class="lede">B3/S23 is one of 2¹⁸ = 262,144 possible "Life-like" rules on the same grid. Most are dull. A few are famous. Here is the dial.</p>
+    </div>
+
+    <p>Tick a number under <b>B</b> to make dead cells with that many neighbours come alive. Tick one under <b>S</b> to let live cells with that many survive. The presets are the ones people have names for.</p>
+
+    <div class="demo" data-demo="rules" data-title="Life-like rules · B/S" data-foot="Seeds (B2/S) is explosive: nothing survives, everything is born. Maze (B3/S12345) grows corridors. Day &amp; Night (B3678/S34678) looks the same if you swap alive and dead. Diamoeba grows diamond-shaped blobs. Anneal smooths a random soup into territories. Draw on it while it runs."></div>
+
+    <div class="callout try">
+      <ul>
+        <li>Start from Life. Add <b>S</b> 4. Then <b>S</b> 5. Watch it go from sparse to solid. Then remove <b>S</b> 2 and see it starve.</li>
+        <li>Find a rule that produces something you would frame. Note its B/S code; that is the whole artwork, 10 characters long.</li>
+        <li>Tick only <b>B</b> 1. Everything explodes in a checkerboard. Rules where B includes 1 are called "explosive" and it's easy to see why.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>Beyond on/off.</b> Cells can have more states (Brian's Brain has "dying"), bigger neighbourhoods (Larger than Life uses radius 5+), continuous values (Lenia, 2019, which produces creatures that look alarmingly alive), or be driven by noise and images. All the same recipe: grid, neighbourhood, rule, tick.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="code" data-title="Write it yourself">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 5</div>
+      <h1>Write it yourself</h1>
+      <p class="lede">Life is about forty lines of p5. The only idea you need that the crash course didn't cover is a 2D array: an array of arrays, one row per line of the grid.</p>
+    </div>
+
+    <div class="langs">
+      <pre data-lang="JavaScript">// a 2D array: grid[x][y]
+let grid = [];
+for (let x = 0; x < cols; x++) {
+  grid[x] = [];
+  for (let y = 0; y < rows; y++) {
+    grid[x][y] = 0;
+  }
+}
+grid[3][5] = 1;</pre>
+      <pre data-lang="Python">grid = [[0 for y in range(rows)] for x in range(cols)]
+grid[3][5] = 1</pre>
+      <pre data-lang="C">int grid[COLS][ROWS];   /* one contiguous block, rows laid end to end */
+grid[3][5] = 1;
+/* same thing as the pixels[] trick: index = x + y * COLS */</pre>
+    </div>
+
+    <div class="sketch" data-title="Game of Life in p5.js (after Coding Challenge #85)" data-height="400" data-width="400">
+      <script type="text/plain" class="code">
+        // Conway's Game of Life. Click to re-seed.
+        let grid, cols, rows;
+        let res = 10;   // cell size in pixels
+
+        function setup() {
+          createCanvas(400, 400);
+          cols = width / res;
+          rows = height / res;
+          grid = make2DArray(cols, rows);
+          seed();
+          frameRate(12);
+        }
+
+        function seed() {
+          for (let x = 0; x < cols; x++)
+            for (let y = 0; y < rows; y++)
+              grid[x][y] = floor(random(2));   // 0 or 1
+        }
+
+        function draw() {
+          background(244, 239, 230);
+
+          // 1. draw the current grid
+          noStroke();
+          fill(21);
+          for (let x = 0; x < cols; x++) {
+            for (let y = 0; y < rows; y++) {
+              if (grid[x][y] === 1) rect(x * res, y * res, res - 1, res - 1);
+            }
+          }
+
+          // 2. compute the next grid (a NEW array: everyone changes at once)
+          let next = make2DArray(cols, rows);
+          for (let x = 0; x < cols; x++) {
+            for (let y = 0; y < rows; y++) {
+              let state = grid[x][y];
+              let n = countNeighbours(grid, x, y);
+
+              if (state === 0 && n === 3)              next[x][y] = 1;  // birth
+              else if (state === 1 && (n < 2 || n > 3)) next[x][y] = 0;  // death
+              else                                      next[x][y] = state; // same
+            }
+          }
+          grid = next;
+        }
+
+        function countNeighbours(g, x, y) {
+          let sum = 0;
+          for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+              let col = (x + i + cols) % cols;   // wrap around the edges
+              let row = (y + j + rows) % rows;
+              sum += g[col][row];
+            }
+          }
+          sum -= g[x][y];   // don't count yourself
+          return sum;
+        }
+
+        function make2DArray(c, r) {
+          let arr = new Array(c);
+          for (let i = 0; i < c; i++) arr[i] = new Array(r).fill(0);
+          return arr;
+        }
+
+        function mousePressed() { seed(); }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Change the rule lines. Make it HighLife (<code>n === 3 || n === 6</code> for birth). Make Seeds (birth on 2, nothing survives).</li>
+        <li>Colour cells by how long they've been alive: keep a second 2D array <code>age</code>, bump it when a cell survives, use it in <code>fill()</code>.</li>
+        <li>Remove the <code>background()</code> call and set <code>fill(21, 20)</code>. Trails. Suddenly it's a texture, not a simulation.</li>
+        <li>Replace <code>floor(random(2))</code> in <code>seed()</code> with <code>noise(x * 0.1, y * 0.1) > 0.5 ? 1 : 0</code>. Chapter 6 of the crash course meets this one.</li>
+      </ul>
+    </div>
+
+    <div class="sketch" data-title="Wolfram elementary CA in p5.js (after Coding Challenge #179)" data-height="320">
+      <script type="text/plain" class="code">
+        // One row of cells. Each generation is drawn one row lower.
+        let cells = [];
+        let ruleset = [0, 1, 1, 1, 1, 0, 0, 0];   // rule 30, as its 8 bits (for 111 down to 000)
+        let w = 4;       // cell size
+        let y = 0;       // which row we're on
+
+        function setup() {
+          createCanvas(400, 320);
+          background(244, 239, 230);
+          for (let i = 0; i < width / w; i++) cells[i] = 0;
+          cells[floor(cells.length / 2)] = 1;   // one live cell in the middle
+        }
+
+        function draw() {
+          // draw this generation
+          noStroke(); fill(21);
+          for (let i = 0; i < cells.length; i++) {
+            if (cells[i] === 1) rect(i * w, y, w, w);
+          }
+          // compute the next one
+          let next = [];
+          for (let i = 0; i < cells.length; i++) {
+            let left   = cells[(i - 1 + cells.length) % cells.length];
+            let me     = cells[i];
+            let right  = cells[(i + 1) % cells.length];
+            next[i] = rules(left, me, right);
+          }
+          cells = next;
+          y += w;
+          if (y > height) noLoop();   // done
+        }
+
+        function rules(a, b, c) {
+          let s = "" + a + b + c;          // e.g. "110"
+          let index = parseInt(s, 2);      // binary string → number 0..7
+          return ruleset[7 - index];       // look it up (bit 0 of the ruleset is pattern 111)
+        }
+      </script>
+    </div>
+
+    <div class="callout train">
+      <p><a href="https://thecodingtrain.com/challenges/85-the-game-of-life" target="_blank" rel="noopener">Coding Challenge 85: The Game of Life</a> is where the first sketch comes from, more or less line for line. <a href="https://thecodingtrain.com/challenges/179-wolfram-ca/" target="_blank" rel="noopener">Challenge 179: Wolfram CA</a> is the second. Both are expanded in <a href="https://natureofcode.com/cellular-automata/" target="_blank" rel="noopener">Nature of Code, chapter 7</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="why" data-title="Why artists care">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 6</div>
+      <h1>Why artists care</h1>
+      <p class="lede">Because this is the cleanest demonstration there is of <b>emergence</b>: behaviour at the scale of the whole that is nowhere in the rules of the parts. That is the thing generative artists are chasing, every time.</p>
+    </div>
+
+    <ul>
+      <li><b>You don't draw the result. You draw the rule.</b> Conway never designed the glider. He designed four sentences and the glider was in there, waiting. Sol LeWitt's wall drawings work the same way: the instruction is the artwork.</li>
+      <li><b>Determinism without predictability.</b> Life is completely determined (same start, same outcome, forever) and still unpredictable: there is no shortcut to knowing what a pattern does except running it. Wolfram calls this computational irreducibility. Artists call it "let's see what happens".</li>
+      <li><b>Texture.</b> Rule 30 and Life-like rules are everywhere in generative work as texture generators, mask generators, and growth processes. The <a href="index.html#noise">noise chapter</a> gives you smooth organic fields; CA gives you crisp, cellular, grown ones. Combining the two (noise seeds, CA grows) is a classic move.</li>
+      <li><b>Time as material.</b> A CA is a process, not a picture. On a plotter you choose one generation to draw. On a screen you choose a speed. On the blockchain (see the <a href="history.html">history module</a>), a seed plus a rule is the entire, permanent artwork, and the collector runs it.</li>
+      <li><b>Sound.</b> Read a row of cells as a step sequencer, or a Life grid as a tone matrix, and you have a generative music machine that is neither random nor repetitive. Brian Eno has been doing versions of this since the 1970s.</li>
+    </ul>
+
+    <h2>Timeline, roughly</h2>
+    <table class="cheat">
+      <tr><td>1940s</td><td>John von Neumann and Stanisław Ulam, at Los Alamos, invent cellular automata to ask whether a machine can build a copy of itself. (Yes: a 29-state CA.)</td></tr>
+      <tr><td>1970</td><td>John Conway's Game of Life, published by Martin Gardner in <em>Scientific American</em>. Gardner's mailbag was the largest for any column he ever wrote.</td></tr>
+      <tr><td>1970</td><td>Bill Gosper's group at MIT finds the glider gun, proving Life can grow without bound. Conway loses $50.</td></tr>
+      <tr><td>1983</td><td>Stephen Wolfram classifies the 256 elementary rules into four classes: dies out, repeats, chaos, and "interesting" (class 4, like rule 110).</td></tr>
+      <tr><td>2002</td><td>Wolfram publishes <em>A New Kind of Science</em>, 1,200 pages arguing that simple programs explain, well, everything. Contested; still provocative.</td></tr>
+      <tr><td>2004</td><td>Matthew Cook's proof that rule 110 is Turing complete is published.</td></tr>
+      <tr><td>2019</td><td>Bert Chan's Lenia: continuous Life, with hundreds of lifelike "species".</td></tr>
+      <tr><td>2020</td><td>John Conway dies of COVID-19, aged 82. He spent decades mildly annoyed that Life was the thing he was most famous for.</td></tr>
+    </table>
+
+    <h2>Go further</h2>
+    <div class="cover-grid">
+      <a href="https://natureofcode.com/cellular-automata/" target="_blank" rel="noopener"><span class="n">📗 book, free</span><b>Nature of Code, ch. 7</b><small>Dan Shiffman's full treatment, Wolfram and Life, with exercises</small></a>
+      <a href="https://thecodingtrain.com/challenges/85-the-game-of-life" target="_blank" rel="noopener"><span class="n">🚂 challenge</span><b>CC 85: Game of Life</b><small>Life from scratch in p5, in 25 minutes</small></a>
+      <a href="https://conwaylife.com/wiki/" target="_blank" rel="noopener"><span class="n">📖 wiki</span><b>LifeWiki</b><small>every known pattern, with RLE files you can paste into Golly</small></a>
+      <a href="https://golly.sourceforge.io/" target="_blank" rel="noopener"><span class="n">🧰 app</span><b>Golly</b><small>the serious simulator: HashLife, any rule, any size</small></a>
+      <a href="https://www.wolframscience.com/nks/" target="_blank" rel="noopener"><span class="n">📕 book, free online</span><b>A New Kind of Science</b><small>Wolfram's 1,200-page love letter to simple programs</small></a>
+      <a href="https://chakazul.github.io/lenia.html" target="_blank" rel="noopener"><span class="n">🧫 research</span><b>Lenia</b><small>continuous cellular automata that look alive</small></a>
+      <a href="index.html" ><span class="n">🧱 SMI26</span><b>Creative Coding Crash Course</b><small>variables to classes, noise and shaders, the prerequisites for the code chapter</small></a>
+      <a href="history.html"><span class="n">📜 SMI26</span><b>Generative Art, a history you can run</b><small>where Conway's rule sits in the story of the field</small></a>
+    </div>
+    <p class="small">Made for the CCGA studio, SMI26, by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a>. Patterns from the LifeWiki, code after The Coding Train. Everything here is yours to copy.</p>
+  </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.10/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/life.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

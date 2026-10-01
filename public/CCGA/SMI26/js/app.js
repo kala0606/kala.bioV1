@@ -50,7 +50,7 @@
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
     // give layout a tick before mounting canvases (they measure their host width)
     requestAnimationFrame(() => { window.Demos.activate(sec); window.Sketches.activate(sec); });
-    document.title = decode(sec.dataset.title) + ' · SMI26 Creative Coding Crash Course';
+    document.title = decode(sec.dataset.title) + ' · ' + (document.body.dataset.siteTitle || 'SMI26 Creative Coding Crash Course');
   }
 
   function route() { show((location.hash || '#start').slice(1)); }
