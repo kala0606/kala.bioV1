@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#151515">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>the room sings · PCD NID</title>
+<meta name="description" content="Your phone is one voice in a mehfil of two hundred. Tap to join, then follow the conductor.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151515'/%3E%3Crect x='3' y='3' width='16' height='12' fill='%23d7261e'/%3E%3Crect x='21' y='3' width='8' height='12' fill='%23f4efe6'/%3E%3Crect x='3' y='17' width='16' height='12' fill='%23f4efe6'/%3E%3Crect x='21' y='17' width='8' height='12' fill='%231d4fbd'/%3E%3C/svg%3E">
+<style>
+  :root { --bg:#151515; --paper:#f4efe6; --dim:#8d8880; --line:#2c2a27; --red:#d7261e; --yellow:#f2c230; --blue:#1d4fbd; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; background:var(--bg); color:var(--paper); font-family: 'Space Grotesk', -apple-system, 'Helvetica Neue', Arial, sans-serif; overflow:hidden; touch-action:manipulation; user-select:none; -webkit-user-select:none; }
+  body { display:flex; flex-direction:column; padding: calc(10px + env(safe-area-inset-top)) 14px calc(12px + env(safe-area-inset-bottom)); gap:10px; }
+  .top { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--dim); }
+  .top select { font:inherit; font-size:14px; color:var(--paper); background:#1f1d1a; border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
+  .top .vol { margin-left:auto; display:flex; align-items:center; gap:6px; }
+  .top input[type=range] { width:80px; accent-color:var(--yellow); }
+  .now { text-align:center; line-height:1; padding:6px 0 2px; }
+  .now b { display:block; font-size: clamp(64px, 22vw, 110px); font-weight:500; letter-spacing:-0.02em; min-height:1em; }
+  .now span { display:block; font-size:13px; color:var(--dim); margin-top:6px; min-height:1.2em; }
+  .roles { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .roles button, .pace button, .pads button, .stop { font:inherit; color:var(--paper); background:#1f1d1a; border:1px solid var(--line); border-radius:10px; cursor:pointer; }
+  .roles button { padding:16px 8px; font-size:20px; font-weight:500; }
+  .roles button small { display:block; font-size:12px; color:var(--dim); font-weight:400; margin-top:4px; }
+  .roles button.on { background:var(--yellow); color:#151515; border-color:var(--yellow); }
+  .roles button.on small { color:#4a3d00; }
+  .pace { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .pace button { padding:10px 4px; font-size:14px; }
+  .pace button.on { background:var(--paper); color:#151515; border-color:var(--paper); }
+  .pads { display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; flex:1; min-height:120px; align-content:stretch; }
+  .pads button { font-size:22px; font-weight:500; padding:0; min-height:48px; }
+  .pads button.taar { color:var(--yellow); }
+  .pads button.mandra { color:var(--dim); }
+  .pads button.vadi { border-color:var(--red); }
+  .pads button:active, .pads button.down { background:var(--paper); color:#151515; }
+  .stop { padding:12px; font-size:15px; color:var(--dim); }
+  .legend { font-size:12px; color:var(--dim); line-height:1.5; text-align:center; }
+  .legend b { color:var(--paper); font-weight:500; }
+  #join { position:fixed; inset:0; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center; z-index:10; }
+  #join h1 { font-size: clamp(30px, 9vw, 48px); font-weight:500; line-height:1.05; letter-spacing:-0.02em; }
+  #join p { color:var(--dim); font-size:15px; line-height:1.5; max-width:34ch; }
+  #join button { font:inherit; font-size:22px; font-weight:500; padding:18px 44px; border-radius:999px; border:0; background:var(--red); color:var(--paper); margin-top:10px; }
+  #join .check { font-size:13px; color:var(--dim); margin-top:14px; line-height:1.6; }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<div id="join">
+  <h1>the room sings</h1>
+  <p>Your phone is one voice in a mehfil of two hundred. Headphones out. Silent switch off. Volume up.</p>
+  <button id="join-btn">tap to join</button>
+  <div class="check">Then follow the conductor.<br>Nothing plays until you are asked.</div>
+</div>
+
+<div class="top">
+  <select id="sa" aria-label="Sa"></select>
+  <select id="raga" aria-label="raga"></select>
+  <div class="vol"><span>vol</span><input type="range" id="vol" min="0" max="1" step="0.01" value="0.8"></div>
+</div>
+
+<div class="now"><b id="now">·</b><span id="sub">waiting for the conductor</span></div>
+
+<div class="roles">
+  <button id="r-drone">drone<small>the tanpura: Sa and Pa</small></button>
+  <button id="r-sing">sing<small>a line in the raga, on its own</small></button>
+</div>
+<div class="pace">
+  <button data-pace="slow" class="on">slow · alap</button>
+  <button data-pace="medium">medium · jor</button>
+  <button data-pace="fast">fast · jhala</button>
+</div>
+
+<div class="pads" id="pads"></div>
+<button class="stop" id="stop">Sa — stop everything</button>
+<div class="legend">When the conductor says <b>drone</b>, tap drone. <b>Sing</b>: tap sing. <b>Slow, medium, fast</b>: change the pace. <b>Pads</b>: play by hand. <b>Sa</b>: stop.</div>
+
+<script>
+(() => {
+'use strict';
+const RAGAS = [{"name": "Bhupali", "time": "night", "aroha": "S R G P D S'", "avroha": "S' D P G R S", "pakad": "S R G R S D. S R G", "vadi": "G", "samvadi": "D"}, {"name": "Yaman", "time": "night", "aroha": "N. R G M' D N S'", "avroha": "S' N D P M' G R S N.", "pakad": "N. R G M' D N S', P M' G R S", "vadi": "G", "samvadi": "N"}, {"name": "Bhairav", "time": "dawn", "aroha": "S r G M P d N S'", "avroha": "S' N d P M G r S", "pakad": "M d P, G M r S", "vadi": "d", "samvadi": "r"}, {"name": "Bhimpalasi", "time": "noon", "aroha": "n. S g M P n S'", "avroha": "S' n D P M g R S", "pakad": "g M P n S', P M g R S", "vadi": "M", "samvadi": "S"}, {"name": "Malkauns", "time": "midnight", "aroha": "n. S g M d n S'", "avroha": "S' n d M g S", "pakad": "g M d N S', N d M g S", "vadi": "M", "samvadi": "S"}, {"name": "Desh", "time": "midnight", "aroha": "S R M P N S'", "avroha": "S' n D P M G R S", "pakad": "R M P N S', M P G R S", "vadi": "R", "samvadi": "P"}, {"name": "Kafi", "time": "midnight", "aroha": "S R g M P D n S'", "avroha": "S' n D P D M g R S", "pakad": "S R g M P, g R S n D.", "vadi": "M", "samvadi": "S"}, {"name": "Bhairavi", "time": "forenoon", "aroha": "S r g M P d n S'", "avroha": "S' n d P M g r S", "pakad": "g M P d n, d P M g r S", "vadi": "M", "samvadi": "S"}];
+const PC = { S:0, r:1, R:2, g:3, G:4, M:5, "M'":6, P:7, d:8, D:9, n:10, N:11 };
+const RATIO = { 0:1, 1:16/15, 2:9/8, 3:6/5, 4:5/4, 5:4/3, 6:45/32, 7:3/2, 8:8/5, 9:5/3, 10:16/9, 11:15/8 };
+const NAME = ['S','r','R','g','G','M',"M'",'P','d','D','n','N'];
+const $ = id => document.getElementById(id);
+
+// ---- the raga, parsed: "N. R G M' D N S'" → semitones from middle Sa
+function parse(str) {
+  return str.replace(/,/g, ' ').trim().split(/\s+/).filter(Boolean).map(tok => {
+    let t = tok, tivra = false;
+    if (t.startsWith("M'")) { tivra = true; t = 'M' + t.slice(2); }
+    const up = (t.match(/'/g) || []).length, down = (t.match(/\./g) || []).length;
+    const letter = t.replace(/['.]/g, '');
+    const pc = tivra ? 6 : PC[letter];
+    return pc + 12 * (up - down);
+  });
+}
+const pcOf = s => ((s % 12) + 12) % 12;
+const label = s => { const o = Math.floor(s / 12); return NAME[pcOf(s)] + (o > 0 ? "'" : o < 0 ? '.' : ''); };
+
+let raga = null;
+function loadRaga(r) {
+  const aroha = parse(r.aroha), avroha = parse(r.avroha);
+  const pcs = [...new Set([...aroha, ...avroha].map(pcOf))].sort((a, b) => a - b);
+  const snap = s => { if (pcs.includes(pcOf(s))) return s; let best = s, bd = 99; for (const p of pcs) { const dd = Math.abs(p - pcOf(s)); if (dd < bd) { bd = dd; best = s - pcOf(s) + p; } } return best; };
+  const pakad = r.pakad.split(',').map(ph => parse(ph).map(snap)).filter(p => p.length > 1);
+  const w = { up: {}, down: {} };
+  const add = (seq, weight) => { for (let i = 0; i + 1 < seq.length; i++) { const a = seq[i], b = seq[i + 1]; if (a === b) continue; const dir = b > a ? 'up' : 'down'; (w[dir][a] = w[dir][a] || {})[b] = (w[dir][a][b] || 0) + weight; } };
+  add(aroha, 1); add(avroha, 1); for (const p of pakad) add(p, 3);
+  const states = [...new Set([...aroha, ...avroha, ...pakad.flat()])].sort((a, b) => a - b);
+  raga = { ...r, pcs, w, states, vadi: pcs.includes(PC[r.vadi]) ? PC[r.vadi] : pcs[0], samvadi: pcs.includes(PC[r.samvadi]) ? PC[r.samvadi] : pcs[0] };
+  walk = { pos: 0, dir: 'up' };
+  buildPads();
+}
+
+// ---- Sa
+const KEYS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+let saMidi = 62;      // D4 by default; the conductor's flute decides
+const freqOf = s => 440 * Math.pow(2, (saMidi - 69) / 12) * RATIO[pcOf(s)] * Math.pow(2, Math.floor(s / 12));
+
+// ---- audio
+let ac, master, comp, drone = null, voice = null, timbre = {};
+const rnd = Math.random;
+function wake() {
+  if (ac) { if (ac.state !== 'running') ac.resume(); return; }
+  ac = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'playback' });
+  comp = ac.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 4;
+  master = ac.createGain(); master.gain.value = +$('vol').value;
+  master.connect(comp).connect(ac.destination);
+  // every phone is a slightly different instrument, so two hundred of them are a chorus, not a copy
+  timbre = { detune: (rnd() * 2 - 1) * 7, bright: 3 + rnd() * 4, vib: 3.5 + rnd() * 2.5, vibDepth: 2 + rnd() * 6 };
+  // iOS plays Web Audio through the ringer channel; a looping silent <audio> moves it to the media channel, which ignores the silent switch
+  try { const a = document.createElement('audio'); a.setAttribute('playsinline', ''); a.loop = true; a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA='; a.volume = 0.01; a.play().catch(() => {}); } catch (e) {}
+}
+$('vol').addEventListener('input', e => { if (master) master.gain.setTargetAtTime(+e.target.value, ac.currentTime, 0.05); });
+
+// the drone: four strings that never stop. Sa and Pa, nothing else, so a room of them agrees.
+function droneOn() {
+  if (drone || !ac) return;
+  drone = { nodes: [], gain: ac.createGain() };
+  drone.gain.gain.setValueAtTime(0, ac.currentTime); drone.gain.gain.linearRampToValueAtTime(0.11, ac.currentTime + 0.4);
+  drone.gain.connect(master);
+  const base = freqOf(0);
+  [[base * 3/4, 0.9], [base, 1], [base * 1.003, 1], [base / 2, 0.8]].forEach(([f, g], i) => {
+    const o = ac.createOscillator(), lp = ac.createBiquadFilter(), gn = ac.createGain(), lfo = ac.createOscillator(), lfoG = ac.createGain();
+    o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = timbre.detune;
+    lp.type = 'lowpass'; lp.frequency.value = f * 4; lp.Q.value = 2;
+    lfo.frequency.value = 0.07 + i * 0.02; lfoG.gain.value = f * 1.6; lfo.connect(lfoG).connect(lp.frequency);   // the jawari shimmer, slowly
+    gn.gain.value = 0.25 * g;
+    o.connect(lp).connect(gn).connect(drone.gain); o.start(); lfo.start();
+    drone.nodes.push(o, lfo);
+  });
+}
+function droneOff() {
+  if (!drone) return;
+  const d = drone; drone = null;
+  d.gain.gain.setTargetAtTime(0, ac.currentTime, 0.3);
+  setTimeout(() => d.nodes.forEach(n => { try { n.stop(); } catch (e) {} }), 1500);
+}
+
+// one voice, reused: a note slides in from the last one (meend) and breathes out
+function ensureVoice() {
+  if (voice) return voice;
+  const o = ac.createOscillator(), o2 = ac.createOscillator(), lp = ac.createBiquadFilter(), g = ac.createGain(), vib = ac.createOscillator(), vibG = ac.createGain();
+  o.type = 'triangle'; o2.type = 'sine'; o.detune.value = timbre.detune; o2.detune.value = timbre.detune;
+  lp.type = 'lowpass'; lp.Q.value = 0.7;
+  vib.frequency.value = timbre.vib; vibG.gain.value = 0; vib.connect(vibG); vibG.connect(o.detune); vibG.connect(o2.detune);
+  g.gain.value = 0;
+  const o2g = ac.createGain(); o2g.gain.value = 0.35;
+  o.connect(lp); o2.connect(o2g).connect(lp); lp.connect(g).connect(master);
+  o.start(); o2.start(); vib.start();
+  voice = { o, o2, lp, g, vibG, freq: freqOf(0) };
+  return voice;
+}
+function play(st, dur, vol = 0.28) {
+  const v = ensureVoice(), t = ac.currentTime, f = freqOf(st);
+  const glide = Math.min(0.12, dur * 0.25);
+  v.o.frequency.cancelScheduledValues(t); v.o2.frequency.cancelScheduledValues(t);
+  v.o.frequency.setValueAtTime(v.freq, t); v.o.frequency.exponentialRampToValueAtTime(f, t + glide);
+  v.o2.frequency.setValueAtTime(v.freq * 2, t); v.o2.frequency.exponentialRampToValueAtTime(f * 2, t + glide);
+  v.lp.frequency.setValueAtTime(Math.min(f * timbre.bright, 9000), t);
+  v.g.gain.cancelScheduledValues(t);
+  v.g.gain.setValueAtTime(v.g.gain.value, t);
+  v.g.gain.linearRampToValueAtTime(vol, t + 0.03);
+  v.g.gain.setValueAtTime(vol, t + Math.max(0.05, dur - 0.12));
+  v.g.gain.linearRampToValueAtTime(0, t + dur);
+  v.vibG.gain.cancelScheduledValues(t); v.vibG.gain.setValueAtTime(0, t); v.vibG.gain.linearRampToValueAtTime(timbre.vibDepth, t + Math.min(0.5, dur * 0.6));
+  v.freq = f;
+  show(label(st));
+}
+function hold(st) {           // a pad held down
+  const v = ensureVoice(), t = ac.currentTime, f = freqOf(st);
+  v.o.frequency.cancelScheduledValues(t); v.o2.frequency.cancelScheduledValues(t);
+  v.o.frequency.setValueAtTime(v.freq, t); v.o.frequency.exponentialRampToValueAtTime(f, t + 0.08);
+  v.o2.frequency.setValueAtTime(v.freq * 2, t); v.o2.frequency.exponentialRampToValueAtTime(f * 2, t + 0.08);
+  v.lp.frequency.setValueAtTime(Math.min(f * timbre.bright, 9000), t);
+  v.g.gain.cancelScheduledValues(t); v.g.gain.setValueAtTime(v.g.gain.value, t); v.g.gain.linearRampToValueAtTime(0.3, t + 0.03);
+  v.vibG.gain.cancelScheduledValues(t); v.vibG.gain.setValueAtTime(0, t); v.vibG.gain.linearRampToValueAtTime(timbre.vibDepth, t + 0.5);
+  v.freq = f; show(label(st));
+}
+function release() { if (!voice) return; const t = ac.currentTime; voice.g.gain.cancelScheduledValues(t); voice.g.gain.setValueAtTime(voice.g.gain.value, t); voice.g.gain.linearRampToValueAtTime(0, t + 0.25); }
+
+// ---- the line: a walk through the raga's grammar, breathing between phrases
+let walk = { pos: 0, dir: 'up' };
+let singing = false, pace = 'slow', singTimer = null, phraseLeft = 0, stretch = 0;
+const PACE = { slow: { beat: 1.15, durs: [1, 1, 2, 3], rest: [1.5, 2, 3] }, medium: { beat: 0.5, durs: [0.5, 1, 1, 1, 2], rest: [1, 2] }, fast: { beat: 0.21, durs: [1, 1, 1, 2], rest: [1, 2, 4] } };
+function next() {
+  const w = raga.w;
+  let o = w[walk.dir][walk.pos];
+  if (!o || !Object.keys(o).length) { walk.dir = walk.dir === 'up' ? 'down' : 'up'; o = w[walk.dir][walk.pos] || {}; }
+  const keys = Object.keys(o).map(Number);
+  if (!keys.length) { walk.pos = 0; return 0; }
+  const ws = keys.map(k => { let x = o[k]; if (pcOf(k) === raga.vadi) x *= 1.6; if (pcOf(k) === raga.samvadi) x *= 1.3; return x; });
+  let r = rnd() * ws.reduce((a, b) => a + b, 0), pick = keys[keys.length - 1];
+  for (let i = 0; i < keys.length; i++) { r -= ws[i]; if (r < 0) { pick = keys[i]; break; } }
+  walk.pos = pick;
+  if (rnd() < 0.22) walk.dir = walk.dir === 'up' ? 'down' : 'up';
+  return pick;
+}
+function singStep() {
+  if (!singing) return;
+  const P = PACE[pace];
+  let wait;
+  if (phraseLeft <= 0) {                                   // a breath between phrases
+    phraseLeft = 4 + Math.floor(rnd() * 6); stretch = 0;
+    wait = P.beat * P.rest[Math.floor(rnd() * P.rest.length)];
+    show('·');
+  } else {
+    phraseLeft--;
+    const st = next(), pc = pcOf(st);
+    let dur = P.beat * P.durs[Math.floor(rnd() * P.durs.length)];
+    if (phraseLeft === 0) {
+      if (![0, raga.vadi, raga.samvadi].includes(pc) && stretch < 3) { phraseLeft = 1; stretch++; }
+      else dur = P.beat * (pace === 'slow' ? 3 : 2);
+    }
+    play(st, dur * 0.95);
+    if (pace === 'fast' && rnd() < 0.5) setTimeout(() => { if (singing && ac) chik(); }, dur * 500);   // jhala: the high strings between the notes
+    wait = dur;
+  }
+  singTimer = setTimeout(singStep, wait * 1000);
+}
+function chik() {   // a chikari pluck: high Sa, short
+  const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+  o.type = 'triangle'; o.frequency.value = freqOf(12) * (rnd() < 0.5 ? 1 : 1.5);
+  g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+  o.connect(g).connect(master); o.start(t); o.stop(t + 0.2);
+}
+function singOn() { if (singing || !ac) return; singing = true; phraseLeft = 0; walk = { pos: 0, dir: 'up' }; singTimer = setTimeout(singStep, rnd() * 1500); }   // a random start, so the room does not sing in unison
+function singOff() { singing = false; clearTimeout(singTimer); release(); }
+
+// ---- UI
+function show(s) { $('now').textContent = s; }
+function setRole(id, on) { $(id).classList.toggle('on', on); }
+$('r-drone').addEventListener('click', () => { if (drone) { droneOff(); setRole('r-drone', false); $('sub').textContent = 'drone off'; } else { droneOn(); setRole('r-drone', true); $('sub').textContent = 'the tanpura'; } });
+$('r-sing').addEventListener('click', () => { if (singing) { singOff(); setRole('r-sing', false); $('sub').textContent = 'quiet'; } else { singOn(); setRole('r-sing', true); $('sub').textContent = raga.name + ', ' + pace; } });
+document.querySelectorAll('[data-pace]').forEach(b => b.addEventListener('click', () => { pace = b.dataset.pace; document.querySelectorAll('[data-pace]').forEach(x => x.classList.toggle('on', x === b)); if (singing) $('sub').textContent = raga.name + ', ' + pace; }));
+$('stop').addEventListener('click', () => { singOff(); droneOff(); setRole('r-drone', false); setRole('r-sing', false); show('S'); $('sub').textContent = 'Sa'; setTimeout(() => show('·'), 1500); });
+
+function buildPads() {
+  const host = $('pads'); host.innerHTML = '';
+  const notes = [];
+  for (const p of raga.pcs) notes.push(p - 12);
+  for (const p of raga.pcs) notes.push(p);
+  for (const p of raga.pcs) notes.push(p + 12);
+  const keep = notes.filter(s => s >= -5 && s <= 14);          // mandra Pa to taar Re, roughly
+  host.style.gridTemplateColumns = `repeat(${Math.min(5, Math.max(4, Math.ceil(keep.length / 3)))}, 1fr)`;
+  for (const s of keep) {
+    const b = document.createElement('button');
+    b.textContent = label(s);
+    if (s >= 12) b.classList.add('taar'); if (s < 0) b.classList.add('mandra'); if (pcOf(s) === raga.vadi) b.classList.add('vadi');
+    const down = e => { e.preventDefault(); if (!ac) return; b.classList.add('down'); hold(s); };
+    const up = e => { e.preventDefault(); b.classList.remove('down'); release(); };
+    b.addEventListener('pointerdown', down); b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); b.addEventListener('pointerleave', up);
+    host.appendChild(b);
+  }
+}
+
+// selectors, prefilled from the link: ?sa=D4&raga=Yaman
+const q = new URLSearchParams(location.search);
+const saSel = $('sa');
+for (let m = 55; m <= 69; m++) { const o = document.createElement('option'); o.value = m; o.textContent = 'Sa = ' + KEYS[m % 12] + (Math.floor(m / 12) - 1); saSel.appendChild(o); }
+const qsa = (q.get('sa') || 'D4').toUpperCase().match(/^([A-G]#?)(\d)$/);
+if (qsa) { const m = 12 * (+qsa[2] + 1) + KEYS.indexOf(qsa[1]); if (m >= 55 && m <= 69) saMidi = m; }
+saSel.value = saMidi;
+saSel.addEventListener('change', () => { saMidi = +saSel.value; if (drone) { droneOff(); setTimeout(droneOn, 600); } });
+const rSel = $('raga');
+RAGAS.forEach((r, i) => { const o = document.createElement('option'); o.value = i; o.textContent = r.name + ' · ' + r.time; rSel.appendChild(o); });
+const qr = (q.get('raga') || 'Bhupali').toLowerCase();
+let ri = RAGAS.findIndex(r => r.name.toLowerCase() === qr); if (ri < 0) ri = 0;
+rSel.value = ri; loadRaga(RAGAS[ri]);
+rSel.addEventListener('change', () => { const was = singing; singOff(); setRole('r-sing', false); loadRaga(RAGAS[+rSel.value]); if (was) { singOn(); setRole('r-sing', true); } });
+
+$('join-btn').addEventListener('click', async () => {
+  wake();
+  try { await navigator.wakeLock.request('screen'); } catch (e) {}
+  $('join').classList.add('hidden');
+  $('sub').textContent = 'joined · ' + raga.name + ' · Sa = ' + KEYS[saMidi % 12];
+});
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && ac && ac.state !== 'running') ac.resume(); });
+})();
+</script>
+</body>
+</html>

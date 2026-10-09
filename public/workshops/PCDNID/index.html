@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generative Music · PCD Bangalore 2026</title>
+<meta name="description" content="The math behind the old theory of Indian classical music, and a machine that performs it live. A workshop by KALA for Processing Community Day, NID Bangalore, 10 October 2026.">
+<meta property="og:title" content="Generative Music · PCD Bangalore 2026">
+<meta property="og:description" content="Raga as grammar, tala as arithmetic, composition as a function of time. Random, Markov, Wave Function Collapse, a quantum walk. Then two hundred phones sing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151515'/%3E%3Crect x='3' y='3' width='16' height='12' fill='%23d7261e'/%3E%3Crect x='21' y='3' width='8' height='12' fill='%23f4efe6'/%3E%3Crect x='3' y='17' width='16' height='12' fill='%23f4efe6'/%3E%3Crect x='21' y='17' width='8' height='12' fill='%231d4fbd'/%3E%3C/svg%3E">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root { --paper:#f4efe6; --black:#151515; --red:#d7261e; --yellow:#f2c230; --blue:#1d4fbd; --dim:#6b6660; --line:#d9d2c5; --well:#ebe5d8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--black); font-family:'Space Grotesk', system-ui, sans-serif; font-size:17px; line-height:1.55; padding:0 20px 80px; }
+  .wrap { max-width: 740px; margin: 0 auto; }
+  a { color:var(--blue); }
+  .mondrian { display:grid; grid-template-columns:2fr 1fr; grid-template-rows:1fr 1fr; gap:3px; width:44px; height:34px; background:var(--black); padding:3px; margin: 40px 0 18px; }
+  .mondrian i { display:block; background:var(--paper); } .mondrian i:nth-child(1){ background:var(--red);} .mondrian i:nth-child(4){ background:var(--blue);}
+  .eyebrow { font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); }
+  h1 { font-size: clamp(36px, 7vw, 60px); line-height:1.02; letter-spacing:-0.025em; font-weight:700; margin: 8px 0 14px; text-wrap:balance; }
+  .lede { font-size:19px; max-width:58ch; margin:0 0 10px; }
+  .meta { color:var(--dim); font-size:14px; margin:0 0 36px; }
+  h2 { font-size:26px; letter-spacing:-0.015em; margin: 48px 0 10px; line-height:1.15; }
+  h2 small { display:block; font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--red); font-weight:600; margin-bottom:6px; }
+  h3 { font-size:17px; margin: 22px 0 6px; }
+  p { margin: 0 0 12px; max-width: 62ch; }
+  ul, ol { padding-left: 20px; margin: 0 0 12px; max-width:62ch; } li { margin: 4px 0; }
+  .plan { display:grid; gap:0; border-top:1px solid var(--line); margin: 14px 0 0; }
+  .plan div { display:grid; grid-template-columns: 34px 1fr; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .plan b { font-family:'JetBrains Mono', monospace; font-weight:600; color:var(--red); }
+  pre { background:var(--black); color:var(--paper); border-radius:8px; padding:16px 18px; overflow-x:auto; font-family:'JetBrains Mono', monospace; font-size:13.5px; line-height:1.5; margin: 10px 0 8px; }
+  pre .c { color:#9a948a; }
+  .actions { display:flex; gap:8px; flex-wrap:wrap; margin: 0 0 14px; }
+  .btn { font:inherit; font-size:14px; font-weight:500; padding:8px 14px; border-radius:6px; border:1px solid var(--black); background:transparent; color:var(--black); text-decoration:none; cursor:pointer; }
+  .btn.primary { background:var(--black); color:var(--paper); }
+  .btn:hover { border-color:var(--red); }
+  .callout { background:var(--well); border-left:4px solid var(--yellow); padding:12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0; }
+  .callout p:last-child { margin:0; }
+  .four { display:grid; grid-template-columns:1fr 1fr; gap:14px 24px; margin: 8px 0; }
+  @media (max-width:640px) { .four { grid-template-columns:1fr; } }
+  .four h3 { margin-top:6px; }
+  .four p { font-size:15.5px; }
+  .perf { display:grid; grid-template-columns: 1fr 200px; gap: 20px; align-items:start; }
+  @media (max-width:640px) { .perf { grid-template-columns:1fr; } }
+  #qr { background:#fff; padding:10px; border:1px solid var(--line); display:inline-block; }
+  #qr img, #qr canvas { display:block; }
+  .url { font-family:'JetBrains Mono', monospace; font-size:13px; word-break:break-all; }
+  .foot { margin-top:56px; padding-top:16px; border-top:1px solid var(--line); color:var(--dim); font-size:14px; }
+  .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--black); color:var(--paper); padding:8px 14px; border-radius:6px; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+  <div class="eyebrow">Processing Community Day · NID Bangalore · 10 October 2026 · 90 minutes</div>
+  <h1>Generative music: the math behind raga, and a machine that performs it live</h1>
+  <p class="lede">A raga is not a scale. It is a grammar and a clock. Both can be handed to a machine. By the end of this session the machine will be two hundred phones, and the room will be the instrument.</p>
+  <p class="meta">A workshop by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal (KALA)</a> · <a href="https://orderofkala.org">orderofkala.org</a> · <a href="https://raga.fm">raga.fm</a>. Bring a laptop and headphones. Your phone is the last instrument.</p>
+
+  <h2><small>the plan</small>What we will do</h2>
+  <div class="plan">
+    <div><b>01</b><span>Who is speaking, and what time has to do with it.</span></div>
+    <div><b>02</b><span>Where ragas come from, what the theory says, what it leaves out.</span></div>
+    <div><b>03</b><span>What a raga actually is. Some examples, some songs, a flute.</span></div>
+    <div><b>04</b><span><b>Program 1.</b> A scale in a key, notes chosen purely at random. Twenty lines, on your laptop.</span></div>
+    <div><b>05</b><span>Composition versus random: what a khayal, a bandish, a tarana, a gat, a jhala are made of.</span></div>
+    <div><b>06</b><span>Algorithmic composition as a function of time: Markov chains, Wave Function Collapse, recursion, a quantum walk.</span></div>
+    <div><b>07</b><span><b>The lab.</b> raga.fm's engine with its composer swapped while it plays.</span></div>
+    <div><b>08</b><span><b>The performance.</b> Headphones out. Phones up. One conductor, two hundred voices.</span></div>
+  </div>
+
+  <h2><small>program 1</small>Notes from a scale, chosen purely at random</h2>
+  <p>Open the <a href="https://editor.p5js.org" target="_blank" rel="noopener">p5.js web editor</a>, make a new sketch, replace everything with this, press play, click the canvas. Headphones on.</p>
+  <pre id="code1"><code>// Program 1 · a scale in a key, notes picked purely at random
+
+let sa = 261.63;      <span class="c">// Sa, in hertz. This is C4. Change it to your key.</span>
+let scale = [1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2];   <span class="c">// S R G M P D N S', as ratios to Sa</span>
+let names = ['S', 'R', 'G', 'M', 'P', 'D', 'N', "S'"];
+let osc, drone, now = '';
+
+function setup() {
+  createCanvas(400, 400);
+  textAlign(CENTER, CENTER); textSize(120);
+  osc = new p5.Oscillator('triangle'); osc.amp(0); osc.start();
+  drone = new p5.Oscillator('sawtooth'); drone.freq(sa); drone.amp(0); drone.start();
+}
+
+function mousePressed() {
+  userStartAudio();          <span class="c">// browsers stay silent until you click</span>
+  drone.amp(0.05, 0.5);      <span class="c">// the tanpura: Sa, held forever</span>
+}
+
+function draw() {
+  background(244, 239, 230);
+  if (frameCount % 30 === 0) {               <span class="c">// twice a second...</span>
+    let i = floor(random(scale.length));     <span class="c">// ...pick ANY note of the scale. No memory, no grammar.</span>
+    osc.freq(sa * scale[i]);
+    osc.amp(0.3, 0.02);
+    now = names[i];
+  }
+  if (frameCount % 30 === 22) osc.amp(0, 0.1);
+  fill(21); text(now, width / 2, height / 2);
+}</code></pre>
+  <div class="actions"><button class="btn primary" data-copy="code1">Copy program 1</button><a class="btn" href="https://editor.p5js.org" target="_blank" rel="noopener">Open the p5.js editor ↗</a></div>
+  <div class="callout">
+    <p><b>Three things to change.</b> Make <code>scale</code> five notes: <code>[1, 9/8, 5/4, 3/2, 5/3, 2]</code> is S R G P D, the notes of Bhupali. Make it slower: <code>% 60</code>. Make the drone louder. Then ask yourself why it still is not Bhupali.</p>
+  </div>
+
+  <h2><small>program 2</small>The same scale, with a memory of one note</h2>
+  <p>Now the next note depends on the note before it. That is all a Markov chain is: a table of "from here, go there, this often". The table below is Bhupali's climb and descent with its signature phrase counted three times.</p>
+  <pre id="code2"><code>// Program 2 · a Markov chain: each note is chosen from the note before it
+
+let sa = 261.63;
+let ratio = { S:1, R:9/8, G:5/4, P:3/2, D:5/3, "S'":2, "D.":5/6 };    <span class="c">// D. is the Dha below Sa</span>
+<span class="c">// Bhupali's grammar: climb S R G P D S', descent S' D P G R S, fingerprint S R G R S D. S R G</span>
+let rules = {
+  "S":  { R: 4, "D.": 3 },
+  "R":  { G: 4, S: 3 },
+  "G":  { P: 1, R: 4 },
+  "P":  { D: 1, G: 1 },
+  "D":  { "S'": 1, P: 1 },
+  "S'": { D: 1 },
+  "D.": { S: 3 },
+};
+let note = 'S', osc, drone;
+
+function setup() {
+  createCanvas(400, 400); textAlign(CENTER, CENTER); textSize(120);
+  osc = new p5.Oscillator('triangle'); osc.amp(0); osc.start();
+  drone = new p5.Oscillator('sawtooth'); drone.freq(sa); drone.amp(0); drone.start();
+}
+function mousePressed() { userStartAudio(); drone.amp(0.05, 0.5); }
+
+function pick(row) {                       <span class="c">// a weighted coin toss over the row</span>
+  let total = 0; for (let k in row) total += row[k];
+  let r = random(total);
+  for (let k in row) { r -= row[k]; if (r < 0) return k; }
+}
+
+function draw() {
+  background(244, 239, 230);
+  if (frameCount % 30 === 0) {
+    note = pick(rules[note]);              <span class="c">// the only line that changed</span>
+    osc.freq(sa * ratio[note]);
+    osc.amp(0.3, 0.02);
+  }
+  if (frameCount % 30 === 22) osc.amp(0, 0.1);
+  fill(21); text(note, width / 2, height / 2);
+}</code></pre>
+  <div class="actions"><button class="btn primary" data-copy="code2">Copy program 2</button></div>
+  <p>Change a number in <code>rules</code> and you have changed the raga's character without changing its notes. Set every number to 1 and it is a scale again.</p>
+
+  <h2><small>step 06</small>Composition as a function of time</h2>
+  <p>Program 1 has no memory. Program 2 remembers one note. Everything else is a question of how much of the past, and how much of the future, the machine is allowed to see.</p>
+  <div class="four">
+    <div><h3>Markov chain</h3><p>Remembers the last note or two. Walks. Good at sounding like the raga from moment to moment; cannot promise where it will land. This is what raga.fm does, seeded from a raga's climb, descent and fingerprint phrase.</p></div>
+    <div><h3>Wave Function Collapse</h3><p>Sees the whole phrase at once. Pin the first note and the last, let the rules narrow every slot in between, decide the least uncertain slot, repeat. It always lands on the sam, because it was never going anywhere else.</p></div>
+    <div><h3>Recursion</h3><p>A phrase made of smaller phrases made by the same rule. State a motif, vary it, vary the variation. This is how a bandish is developed in performance, and raga.fm's development engine is written this way.</p></div>
+    <div><h3>A quantum walk</h3><p>No coin is tossed. The line is a wave of amplitudes over every note of the raga; paths add and cancel; a note comes out only when you measure. Between measurements it spreads faster than any random walk can. We will hear what that does.</p></div>
+  </div>
+
+  <h2><small>step 07</small>The lab</h2>
+  <p>The whole raga.fm engine, with one thing swappable while it plays: where the next phrase comes from. Same raga, same tanpura, same tabla, same arc of a sitting. Markov, WFC, quantum. It runs on the speakers; you can open it too.</p>
+  <div class="actions"><a class="btn primary" href="https://raga.fm/lab" target="_blank" rel="noopener">Open the lab ↗</a><a class="btn" href="https://raga.fm" target="_blank" rel="noopener">raga.fm ↗</a></div>
+
+  <h2><small>step 08</small>The performance</h2>
+  <div class="perf">
+    <div>
+      <p>Headphones out. Volume up. Silent switch off. Open this on your phone and tap to join. Nothing plays until the conductor asks. Then: <b>drone</b> when told, <b>sing</b> when told, slow or fast when told, pads if you want to play by hand, and <b>Sa</b> means stop.</p>
+      <p>Every phone is tuned to the same Sa and knows the same raga, but each one sings its own line. Two hundred voices in one raga, none of them the same. That is what a mehfil is.</p>
+      <div class="actions"><a class="btn primary" id="play-link" href="play/?sa=D4&raga=Bhupali">Open the instrument ↗</a></div>
+      <p class="url" id="play-url"></p>
+    </div>
+    <div><div id="qr"></div></div>
+  </div>
+
+  <h2><small>go further</small>Where this comes from</h2>
+  <ul>
+    <li>David Clarke, <i>Rāgs Around the Clock</i> (Open Book Publishers, 2024). Open access. The theory, the clock, carefully.</li>
+    <li>Joep Bor, <i>The Raga Guide</i> (Nimbus, 1999). 74 ragas, with recordings. Where raga.fm's raga data comes from.</li>
+    <li>Maxim Gumin, <a href="https://github.com/mxgmn/WaveFunctionCollapse" target="_blank" rel="noopener">WaveFunctionCollapse</a> (2016). The algorithm, for textures; we used it for phrases.</li>
+    <li>Aharonov, Ambainis, Kempe, Vazirani, <i>Quantum walks on graphs</i> (2001). The walk the quantum composer takes.</li>
+    <li><a href="https://raga.fm/about" target="_blank" rel="noopener">raga.fm/about</a> for the engine's credits, and <a href="https://orderofkala.org" target="_blank" rel="noopener">orderofkala.org</a> for the rest of the practice.</li>
+  </ul>
+
+  <div class="foot">KALA · Processing Community Day Bangalore 2026 · National Institute of Design, Bangalore. This page stays up; the instrument stays tuned.</div>
+</div>
+<script>
+(function () {
+  function toast(m) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 1500); }
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var text = document.getElementById(b.dataset.copy).textContent;
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('Copied. Paste it into a new sketch.'); }, function () { toast('Select the code and copy it'); });
+    });
+  });
+  var link = document.getElementById('play-link');
+  var abs = new URL(link.getAttribute('href'), location.href).href;
+  document.getElementById('play-url').textContent = abs;
+  if (window.QRCode) new QRCode(document.getElementById('qr'), { text: abs, width: 180, height: 180, colorDark: '#151515', colorLight: '#ffffff' });
+})();
+</script>
+</body>
+</html>
