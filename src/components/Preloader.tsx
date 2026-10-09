@@ -4,6 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import PortraitMark from "./PortraitMark";
 
+/* Marks the document once the flying portrait is landing, so the page can
+   crossfade its own portrait in as this one dissolves (.id-portrait in globals.css). */
+const markLoaded = () => document.documentElement.classList.add("is-loaded");
+
 export default function Preloader() {
   const [done, setDone] = useState(false);
   const [count, setCount] = useState(0);
@@ -22,28 +26,39 @@ export default function Preloader() {
     return () => clearInterval(id);
   }, []);
 
-  // when it hits 100, fly the portrait up to the nav logo and recolor to black
+  // when it hits 100, fly the portrait into its slot on the page and recolor to black
   useEffect(() => {
     if (count < 100 || finished.current) return;
     finished.current = true;
 
     const run = () => {
       const w = wrap.current;
-      const logo = document.getElementById("nav-logo");
-      if (!w) return setDone(true);
+      // the ID card's photo slot; falls back to the nav logo if the portfolio is restored
+      const target =
+        document.getElementById("id-portrait") ??
+        document.getElementById("nav-logo");
+      if (!w) {
+        markLoaded();
+        return setDone(true);
+      }
 
       const from = w.getBoundingClientRect();
       let dx = 0,
         dy = -from.top + 24,
         scale = 0.12;
-      if (logo) {
-        const to = logo.getBoundingClientRect();
+      if (target) {
+        const to = target.getBoundingClientRect();
         dx = to.left + to.width / 2 - (from.left + from.width / 2);
         dy = to.top + to.height / 2 - (from.top + from.height / 2);
         scale = to.width / from.width;
       }
 
-      const tl = gsap.timeline({ onComplete: () => setDone(true) });
+      const tl = gsap.timeline({
+        onComplete: () => {
+          markLoaded();
+          setDone(true);
+        },
+      });
       tl.to(w, {
         x: dx,
         y: dy,
@@ -51,7 +66,10 @@ export default function Preloader() {
         filter: "brightness(0)",
         duration: 1.05,
         ease: "power3.inOut",
-      }).to(root.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, "-=0.45");
+      })
+        // the page's portrait starts fading in as the overlay starts fading out
+        .call(markLoaded, undefined, 0.6)
+        .to(root.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 0.6);
     };
 
     const t = setTimeout(run, 500);

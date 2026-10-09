@@ -10,6 +10,21 @@ Portfolio for Ujjwal Agarwal — generative artist, creative technologist, educa
 Concept: **"Time as the medium."** The site behaves like a timepiece (live clock,
 shader atmosphere that warms/cools with the actual time of day).
 
+## Current site (Oct 2026): a single ID card
+
+The live site is ONE page, no scroll, no nav. `src/app/page.tsx` renders
+`src/components/IdCard.tsx` centred over the Mondrian fluid: name, roles, base + live
+Bangalore clock, the two active projects (orderofkala.org, raga.fm) and the email. Styles are
+the `.id-*` block at the end of `globals.css` (which also sets `html, body { overflow: hidden }`).
+The Preloader flies its portrait into the card's `#id-portrait` slot and adds `html.is-loaded`,
+which fades the card's own portrait in.
+
+The whole portfolio (old home, `work/[slug]`, `prints`, `writing`, `studio`, `feed.xml`) is
+ARCHIVED, not deleted, under `src/app/_portfolio/` (a Next private folder, so nothing in it
+routes or builds). Its components, `src/lib/projects.ts`, `src/lib/writing.ts` and all public
+assets are untouched; see the README in that folder for how to restore a section. The sections
+below describe that archived portfolio. `public/CCGA/` (teaching modules) stays live as static HTML.
+
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack) · React 19 · TypeScript
@@ -47,7 +62,8 @@ shader atmosphere that warms/cools with the actual time of day).
 ## Commands
 
 - `npm run dev` · `npm run build` · `npm start`
-- Deploy target: Vercel (was GitHub Pages on the old template repo).
+- Deploy target: GitHub Pages via `.github/workflows/deploy.yml` (static `output: "export"`,
+  custom domain www.ujjwalagarwal.com from `public/CNAME`). Push to `main` deploys.
 
 ## Adding / updating a project (the per-page recipe)
 

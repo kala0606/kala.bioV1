@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
 import MondrianFluid from "@/components/canvas/MondrianFluid";
 
@@ -10,7 +8,6 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   axes: ["opsz", "SOFT", "WONK"],
-  // real italics — the writing pages set long-form prose in Fraunces
   style: ["normal", "italic"],
 });
 
@@ -52,6 +49,8 @@ export const metadata: Metadata = {
   },
 };
 
+/* One page, no scroll, no nav: the ID card (src/app/page.tsx) over the fluid.
+   The archived portfolio (and its Nav + SmoothScroll) is in src/app/_portfolio/. */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -63,10 +62,7 @@ export default function RootLayout({
       <body className="grain" suppressHydrationWarning>
         <Preloader />
         <MondrianFluid />
-        <SmoothScroll>
-          <Nav />
-          <main>{children}</main>
-        </SmoothScroll>
+        <main>{children}</main>
       </body>
     </html>
   );

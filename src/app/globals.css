@@ -408,3 +408,156 @@ a {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   The site as one ID card (Oct 2026). No scroll, no nav: just the card
+   centred over the Mondrian fluid. The archived portfolio is in
+   src/app/_portfolio/ (remove the overflow rule below if it comes back).
+   ============================================================ */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.id-page {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 2rem);
+}
+
+/* 2px black gaps between paper cells read as Mondrian rules; the three
+   primaries sit in the grid as blocks. */
+.id-card {
+  width: min(92vw, 620px);
+  display: grid;
+  gap: 2px;
+  background: var(--black);
+  border: 2px solid var(--black);
+  grid-template-columns: 180px 1fr 1fr 28px;
+  grid-template-areas:
+    "photo  name   name   red"
+    "photo  base   active red"
+    "yellow mail   mail   blue";
+  box-shadow: 0 40px 70px -45px rgba(17, 17, 16, 0.5);
+}
+.id-cell {
+  background: var(--paper);
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+.id-photo {
+  grid-area: photo;
+  background: var(--paper-2);
+  display: grid;
+  place-items: center;
+  padding: 1.1rem;
+}
+/* hidden until the Preloader's portrait lands here (html.is-loaded) */
+.id-portrait {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+html.is-loaded .id-portrait {
+  opacity: 1;
+}
+.id-name {
+  grid-area: name;
+}
+.id-name h1 {
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.6rem);
+}
+.id-roles {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+.id-base {
+  grid-area: base;
+}
+.id-active {
+  grid-area: active;
+}
+.id-base,
+.id-active {
+  display: grid;
+  gap: 0.3rem;
+  align-content: start;
+  justify-items: start;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.id-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 0.15rem;
+}
+.id-clock {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+.id-arrow {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.link:hover .id-arrow {
+  transform: translate(2px, -2px);
+}
+.id-mail {
+  grid-area: mail;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+.id-red,
+.id-yellow,
+.id-blue {
+  padding: 0;
+}
+.id-red {
+  grid-area: red;
+  background: var(--mond-red);
+}
+.id-yellow {
+  grid-area: yellow;
+  background: var(--mond-yellow);
+  min-height: 2.75rem;
+}
+.id-blue {
+  grid-area: blue;
+  background: var(--mond-blue);
+}
+
+/* narrow portrait screens: stack the fields under the photo + name */
+@media (max-width: 639px) {
+  .id-card {
+    width: min(92vw, 420px);
+    grid-template-columns: 104px 1fr 22px;
+    grid-template-areas:
+      "photo  name   red"
+      "base   base   red"
+      "active active red"
+      "yellow mail   blue";
+  }
+  .id-photo {
+    padding: 0.75rem;
+  }
+  .id-name {
+    display: grid;
+    align-content: center;
+  }
+  .id-yellow {
+    min-height: 2.5rem;
+  }
+}

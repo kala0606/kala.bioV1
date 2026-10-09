@@ -5,14 +5,17 @@ export default function PortraitMark({
   mondrian = false,
   className = "",
   style,
+  id,
 }: {
   size?: number;
   mondrian?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  id?: string;
 }) {
   return (
     <span
+      id={id}
       role="img"
       aria-label="Ujjwal Agarwal"
       className={`portrait-mark ${mondrian ? "mondrian" : ""} ${className}`}
