@@ -221,10 +221,25 @@ function draw() {
 <script>
 (function () {
   function toast(m) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 1500); }
+  // copy: the clipboard API first; if the browser refuses it, the old
+  // execCommand path through a hidden textarea; only then ask for a manual select
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed'; ta.style.top = '-1000px'; document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); return ok;
+  }
+  function selectBlock(pre) {
+    var r = document.createRange(); r.selectNodeContents(pre); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
   document.querySelectorAll('[data-copy]').forEach(function (b) {
     b.addEventListener('click', function () {
-      var text = document.getElementById(b.dataset.copy).textContent;
-      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('Copied. Paste it into a new sketch.'); }, function () { toast('Select the code and copy it'); });
+      var pre = document.getElementById(b.dataset.copy), text = pre.textContent;
+      var done = function () { toast('Copied. Paste it into a new sketch.'); };
+      var fallback = function () { if (legacyCopy(text)) done(); else { selectBlock(pre); toast('Copy blocked here: the code is selected, press ⌘C'); } };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+      else fallback();
     });
   });
   var link = document.getElementById('play-link');
