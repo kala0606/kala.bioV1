@@ -44,6 +44,13 @@
   @media (max-width:640px) { .four { grid-template-columns:1fr; } }
   .four h3 { margin-top:6px; }
   .four p { font-size:15.5px; }
+  figure.diagram { margin: 18px 0 28px; }
+  figure.diagram figcaption { font-size:15px; margin: 0 0 8px; max-width:66ch; }
+  figure.diagram canvas { display:block; width:100%; background:#fbf8f2; border:1px solid var(--line); border-radius:6px; }
+  .dctl { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px; font-size:14px; }
+  .dctl label { display:flex; gap:8px; align-items:center; color:var(--dim); }
+  .dctl input[type=range] { width:140px; accent-color:var(--red); }
+  .dctl select { font:inherit; font-size:14px; }
   .perf { display:grid; grid-template-columns: 1fr 200px; gap: 20px; align-items:start; }
   @media (max-width:640px) { .perf { grid-template-columns:1fr; } }
   #qr { background:#fff; padding:10px; border:1px solid var(--line); display:inline-block; }
@@ -156,12 +163,32 @@ function draw() {
 
   <h2><small>step 06</small>Composition as a function of time</h2>
   <p>Program 1 has no memory. Program 2 remembers one note. Everything else is a question of how much of the past, and how much of the future, the machine is allowed to see.</p>
-  <div class="four">
-    <div><h3>Markov chain</h3><p>Remembers the last note or two. Walks. Good at sounding like the raga from moment to moment; cannot promise where it will land. This is what raga.fm does, seeded from a raga's climb, descent and fingerprint phrase.</p></div>
-    <div><h3>Wave Function Collapse</h3><p>Sees the whole phrase at once. Pin the first note and the last, let the rules narrow every slot in between, decide the least uncertain slot, repeat. It always lands on the sam, because it was never going anywhere else.</p></div>
-    <div><h3>Recursion</h3><p>A phrase made of smaller phrases made by the same rule. State a motif, vary it, vary the variation. This is how a bandish is developed in performance, and raga.fm's development engine is written this way.</p></div>
-    <div><h3>A quantum walk</h3><p>No coin is tossed. The line is a wave of amplitudes over every note of the raga; paths add and cancel; a note comes out only when you measure. Between measurements it spreads faster than any random walk can. We will hear what that does.</p></div>
-  </div>
+  <p>Each one below runs in the page, in Bhupali, on raga.fm's own tanpura, koto and tabla. Click, listen, and watch the picture.</p>
+
+  <figure class="diagram">
+    <figcaption><b>Markov chain</b> · remembers the last note. From the lit row, a column is drawn by weight; climb and descent have separate tables; the pakad weighs three. Lower the temperature and it clings to the pakad; raise it and it wanders out of the raga.</figcaption>
+    <canvas id="d-markov" height="260"></canvas>
+    <div class="dctl"><button class="btn primary" id="d-markov-play">play the walk</button><label>temperature <output id="d-markov-temp-out">0.50</output><input type="range" id="d-markov-temp" min="0.25" max="2" step="0.05" value="0.5"></label></div>
+  </figure>
+
+  <figure class="diagram">
+    <figcaption><b>Wave Function Collapse</b> · sees the whole phrase at once. Slot 1 is Sa and slot 16 is the landing note before anything else is decided; the narrowing travels along the line; then the least uncertain slot is decided, and so on. The height of each band is that slot's entropy. Play it on sixteen beats of teentaal and listen for the sam.</figcaption>
+    <canvas id="d-wfc" height="300"></canvas>
+    <div class="dctl"><button class="btn primary" id="d-wfc-collapse">collapse</button><button class="btn" id="d-wfc-play" disabled>play it on the tabla</button><label>lands on <select id="d-wfc-end"><option value="home">Sa</option><option value="vadi">the vadi (Ga)</option><option value="free">anything</option></select></label></div>
+  </figure>
+
+  <figure class="diagram">
+    <figcaption><b>Recursion</b> · a phrase made of phrases made by the same rule. One three-note motif, three rules (shift up the raga, mirror, grow by a step), applied to every result again. Three levels is twenty-seven phrases, all audibly the same family. This is how a bandish is developed: elaborated, not diced.</figcaption>
+    <canvas id="d-rec" height="260"></canvas>
+    <div class="dctl"><button class="btn primary" id="d-rec-grow">grow a level</button><button class="btn" id="d-rec-play">play the tree</button><button class="btn" id="d-rec-reset">reset</button></div>
+  </figure>
+
+  <figure class="diagram">
+    <figcaption><b>Quantum walk</b> · no coin is tossed. The coloured bars are a wave of amplitudes over the raga's ladder (colour is phase); the grey bars are a classical walk with the same coin, side by side. Step a few times and watch the quantum walker race outward in two ridges while the classical one hovers in a hump. Measure, and a note comes out; the wave collapses onto it. Measure every step and the two agree.</figcaption>
+    <canvas id="d-q" height="280"></canvas>
+    <div class="dctl"><button class="btn" id="d-q-step">step</button><button class="btn primary" id="d-q-measure">measure</button><button class="btn" id="d-q-auto">let it play</button><button class="btn" id="d-q-reset">reset</button><label>coherence <output id="d-q-coh-out">3 (odd: always moves)</output><input type="range" id="d-q-coh" min="1" max="8" step="1" value="3"></label></div>
+  </figure>
+</div>
 
   <h2><small>step 07</small>The lab</h2>
   <p>The whole raga.fm engine, with one thing swappable while it plays: where the next phrase comes from. Same raga, same tanpura, same tabla, same arc of a sitting. Markov, WFC, quantum. It runs on the speakers; you can open it too.</p>
@@ -189,6 +216,8 @@ function draw() {
 
   <div class="foot">KALA · Processing Community Day Bangalore 2026 · National Institute of Design, Bangalore. This page stays up; the instrument stays tuned.</div>
 </div>
+<script src="js/bank.js"></script>
+<script src="js/diagrams.js"></script>
 <script>
 (function () {
   function toast(m) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 1500); }
