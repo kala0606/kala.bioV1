@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMI26 · Instructions: Sol LeWitt &amp; inventing algorithms</title>
+<meta name="description" content="An interactive module on Sol LeWitt's wall drawings and how to conceive your own original algorithms: be the drafter, enumerate combinations, translate words into p5.js, and invent instructions of your own.">
+<meta property="og:title" content="The idea is the machine · SMI26">
+<meta property="og:description" content="Sol LeWitt's wall drawings as a method for inventing algorithms. Draw by instruction, deal rule cards, find the ambiguities in your own words, then code them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f4efe6'/%3E%3Cpath d='M4 28L28 4M4 20L20 4M12 28L28 12M4 12L12 4M20 28L28 20' stroke='%23151515' stroke-width='1.6'/%3E%3Crect x='3' y='3' width='26' height='26' fill='none' stroke='%23d7261e' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+  /* page-specific pieces; everything else comes from css/style.css */
+  .demo .task { padding: 10px 14px; border-bottom: 2px solid var(--line); background: var(--card); font-size: 1.12rem; font-weight: 700; }
+  .demo .task span { display: block; font-family: var(--mono); font-weight: 400; font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .demo .verdict { padding: 8px 14px; border-bottom: 2px solid var(--line); background: var(--paper-2); font-size: .9rem; min-height: 84px; }
+  .checks { list-style: none; padding: 0; margin: 4px 0 0; font-family: var(--mono); font-size: .78rem; line-height: 1.5; }
+  .checks li { margin: 0; }
+  .checks .ok { color: var(--blue); }
+  .checks .no { color: var(--red); }
+  .cert { padding: 14px 18px 12px; border-top: 2px solid var(--line); background: var(--card); }
+  .cert-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font-family: var(--mono); font-size: .74rem; color: var(--muted); }
+  .cert-head b { font-family: var(--sans); font-size: 1rem; color: var(--ink); }
+  .cert-text { font-size: 1.1rem; line-height: 1.5; margin: 8px 0 4px; max-width: 72ch; }
+  .cert-notes p { margin: 4px 0 0; font-size: .85rem; color: var(--red); }
+  .cert-foot { margin-top: 6px; font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; padding: 10px 12px; border-top: 2px solid var(--line); background: var(--paper-2); }
+  .card { border: 2px solid var(--line); border-radius: 6px; background: var(--card); padding: 5px 8px 8px; }
+  .card.locked { background: var(--yellow); }
+  .card-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .card.locked .card-top { color: var(--ink); }
+  .card select { width: 100%; font: inherit; font-size: .86rem; margin-top: 4px; padding: 3px 4px; border: 1.5px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); }
+  .lock { border: 0; background: none; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 2px; color: var(--ink); }
+  .ambig { margin: 1.6em 0 1.8em; border: 2px solid var(--line); border-radius: 8px; background: var(--card); overflow: hidden; }
+  .ambig .demo-head { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 2px solid var(--line); background: var(--paper-2); font-weight: 700; font-size: .92rem; }
+  .ambig .demo-head span { font-family: var(--mono); font-weight: 400; font-size: .72rem; color: var(--muted); margin-left: auto; }
+  .ambig textarea { display: block; width: 100%; border: 0; border-bottom: 2px solid var(--line); padding: 12px 14px; font: inherit; font-size: 1.05rem; line-height: 1.5; background: #fff; color: var(--ink); resize: vertical; min-height: 110px; }
+  .ambig textarea:focus { outline: 3px solid var(--yellow); outline-offset: -3px; }
+  .ambig-out { padding: 12px 14px; }
+  .ambig-text { font-size: 1.05rem; line-height: 1.9; margin: 0 0 8px; }
+  .ambig-stats { font-family: var(--mono); font-size: .76rem; color: var(--muted); margin-bottom: 6px; }
+  .ambig-q { margin: 0; padding-left: 1.6em; font-size: .9rem; }
+  .ambig-q li { margin-bottom: .3em; }
+  mark.amb { background: rgba(240, 192, 46, .5); padding: 0 2px; border-radius: 3px; color: inherit; }
+  mark.amb sup { font-family: var(--mono); font-size: .62em; color: var(--red); margin-left: 1px; }
+  blockquote.lewitt { margin: 1.4em 0; padding: 4px 0 4px 18px; border-left: 6px solid var(--red); font-size: 1.35rem; line-height: 1.35; font-weight: 500; }
+  blockquote.lewitt cite { display: block; margin-top: 6px; font-size: .8rem; font-style: normal; font-family: var(--mono); color: var(--muted); font-weight: 400; }
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 46px; margin-bottom: .9em; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border: 2px solid var(--line); border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: .85rem; background: var(--card); }
+  ol.steps > li b:first-child { display: block; }
+</style>
+</head>
+<body data-site-title="SMI26 · Instructions">
+
+<div class="topbar">
+  <b>SMI26 · Instructions</b>
+  <select id="chapter-select" aria-label="Chapter"></select>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="#start">
+      <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+      <b>The idea is<br>the machine</b>
+      <span>Sol LeWitt &amp; inventing your own algorithms · SMI26</span>
+    </a>
+    <ul class="toc" id="toc"></ul>
+    <div class="foot">
+      ← → keys move between chapters.<br>
+      Drawings redraw when you change anything. Code boxes run in the page: edit, then <b>▶ Run</b> or <kbd>⌘</kbd>+<kbd>↵</kbd>.<br><br>
+      Part of the SMI26 set: <a href="index.html">Creative Coding Crash Course</a> · <a href="history.html">Generative Art, a history you can run</a> · <a href="life.html">Cellular Automata</a>.<br><br>
+      Built by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a> for the Creative Coding &amp; Generative Art studio, Srishti Manipal Institute.
+    </div>
+  </aside>
+
+  <main class="main">
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="start" data-title="The idea is the machine">
+    <div class="chapter-head">
+      <div class="eyebrow">SMI26 · instructions as art</div>
+      <h1>The idea is the machine.</h1>
+      <p class="lede">Sol LeWitt never drew most of his wall drawings. He wrote them. A few sentences on a certificate, handed to whoever was on the ladder that week. The sentences are the artwork. Every drawing made from them is a performance.</p>
+    </div>
+
+    <blockquote class="lewitt">The idea becomes a machine that makes the art.<cite>Sol LeWitt, Paragraphs on Conceptual Art, Artforum, 1967</cite></blockquote>
+
+    <p>LeWitt (1928 to 2007) made his first wall drawing in 1968 at the Paula Cooper Gallery in New York, and more than twelve hundred after it. When a museum buys one, it buys a certificate and a diagram, not a wall. The drawing can be painted over and drawn again somewhere else, by different hands, and it is still the same work. Today, assistants and art students still draw them, following the words.</p>
+
+    <p>That is exactly what you do when you write a program. You write the rule; something else carries it out. LeWitt's drafters were people, so his rules could be loose. Yours is a computer, so every loose word has to become a decision. <b>This module is about that gap</b>: between an idea you can say in a sentence and a procedure that runs, and how to fill it with something that is yours.</p>
+
+    <h2>One instruction, six drafters</h2>
+    <p>Here is a paraphrase of one of his most famous instructions, <em>Wall Drawing #118</em> (1971): <b>on a wall, place fifty points at random, evenly spread; connect every point to every other point with a straight pencil line.</b> Below, six drafters follow it. Each has their own hand and their own idea of "random".</p>
+
+    <div class="demo" data-demo="drafters" data-title="Wall Drawing #118, as six drafters might draw it" data-foot="Same instruction, six drawings, all correct. Notice that &quot;at random&quot; and &quot;evenly spread&quot; pull in opposite directions: LeWitt left the drafter to settle that argument. Click the buttons to see three different settlements."></div>
+
+    <div class="callout note">
+      <p><b>The idea that matters:</b> an instruction is a set of decisions plus a set of freedoms. LeWitt decided the points, the number, the connections. He left free where exactly the points go and how a human hand wobbles. Designing an algorithm is choosing which is which.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Set "evenly" to <b>pure random</b> and look for clumps and holes. Then <b>keep apart</b>. Which one is what LeWitt meant? (We don't know. Neither did his drafters.)</li>
+        <li>Drop the points to 6. Is it still the same artwork? At what number does it stop feeling like #118?</li>
+        <li>Look at drafter E, "a machine". Is the drawing better or worse without the wobble? Why?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="drafter" data-title="Be the drafter">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 1</div>
+      <h1>Be the drafter</h1>
+      <p class="lede">Before you write an algorithm, follow one. Your hand is the computer here, and the instruction is the judge. You will find out fast which words are clear and which only feel clear.</p>
+    </div>
+
+    <p>LeWitt's instructions use a small, plain vocabulary, and nearly every one has the same parts:</p>
+    <table class="cheat">
+      <tr><th>part</th><th>the question it answers</th><th>LeWitt's words</th><th>in code</th></tr>
+      <tr><td><b>space</b></td><td>where?</td><td>"on a wall", "a 6-foot square", "a grid of 12-inch squares"</td><td><code>createCanvas()</code>, a loop over cells</td></tr>
+      <tr><td><b>element</b></td><td>what mark?</td><td>"straight lines", "not straight lines", "broken lines", "arcs"</td><td><code>line()</code>, <code>curveVertex()</code>, <code>arc()</code></td></tr>
+      <tr><td><b>placement</b></td><td>from where to where?</td><td>"from the corners", "from the midpoints of the sides", "to points on a grid"</td><td>coordinates, <code>random()</code></td></tr>
+      <tr><td><b>quantity</b></td><td>how many?</td><td>"fifty", "ten thousand", "as many as possible"</td><td><code>for</code> loops, <code>while</code> conditions</td></tr>
+      <tr><td><b>constraint</b></td><td>what's forbidden?</td><td>"not touching", "evenly", "within the circle"</td><td><code>if</code>, rejection, clipping</td></tr>
+      <tr><td><b>system</b></td><td>how do the parts relate?</td><td>"all combinations", "superimposed", "each part different"</td><td>nested loops, bitmasks, recursion</td></tr>
+    </table>
+    <p>Now be the drafter. Pick an instruction, draw it with your mouse or finger, and let the page judge you. Then press <b>machine's turn</b> and judge the machine.</p>
+
+    <div class="demo" data-demo="drafter" data-title="You draw, the instruction judges" data-foot="The judge is code, so it had to turn every word into a number: &quot;straight&quot; became chord ÷ length over 0.97, &quot;touching&quot; became closer than 3 pixels, &quot;evenly&quot; became gaps that vary by less than 30%. Every one of those thresholds is a decision LeWitt never made."></div>
+
+    <div class="callout try">
+      <ul>
+        <li>Try the third instruction. It doesn't say how many lines. Who decided "at least 8"? Was that fair?</li>
+        <li>Find a drawing that you think follows the instruction but the judge rejects. Then one the judge accepts that you think is wrong. Both are bugs in the translation from words to rules.</li>
+        <li>Watch how the machine solves "not touching": it throws a line down, checks it against every other, and throws it away if they touch. That's an algorithm called <b>rejection sampling</b>, and it is completely unlike how your hand did it. Two procedures, same instruction.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>Vera Molnar</b> called this the <em>machine imaginaire</em>. From 1959, years before she could use a computer, she made paintings by writing simple programs and executing them by hand, step by step, as if she were the machine. When she got to a real computer in 1968, she already knew how to think like one.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="combos" data-title="All combinations">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 2</div>
+      <h1>All combinations</h1>
+      <p class="lede">LeWitt's favourite way to make an idea big was to refuse to choose. Not "pick the best two kinds of line", but "draw every combination of them, in order". The system does the composing.</p>
+    </div>
+
+    <p>In 1969 he published a small book called <em>Four Basic Kinds of Straight Lines and Their Combinations</em>: vertical, horizontal, and the two diagonals. One of each, then every pair, then every three, then all four superimposed. Fifteen drawings. You don't need taste to decide what goes in the series; you need arithmetic. In <em>Wall Drawing #260</em> (1975) he did the same with white lines on a black wall: all two-part combinations of arcs from corners and sides, straight, not straight and broken lines.</p>
+
+    <div class="demo" data-demo="combos" data-title="Pick the kinds of line, the system makes the series" data-foot="Each square is labelled with the line types it contains. With n kinds of line there are 2ⁿ − 1 non-empty combinations: 4 kinds give 15, 6 give 63, 8 give 255. LeWitt's Incomplete Open Cubes (1974) used the same thinking in 3D: every way to remove edges from a cube that still leaves it connected and recognisably 3D. There are 122."></div>
+
+    <p>The code for "every combination" is one of the most useful tricks in this whole course. Count from 1 to 15 in binary and read the four bits as four switches:</p>
+
+    <div class="langs">
+      <pre data-lang="plain English">For each number from 1 to 15:
+  if its first bit is on, draw vertical lines
+  if its second bit is on, draw horizontal lines
+  if its third bit is on, draw diagonal-right lines
+  if its fourth bit is on, draw diagonal-left lines</pre>
+      <pre data-lang="JavaScript">for (let k = 1; k < 16; k++) {      // 0001 .. 1111
+  if (k & 1) drawVertical();         // bit 1
+  if (k & 2) drawHorizontal();       // bit 2
+  if (k & 4) drawDiagonalRight();    // bit 3
+  if (k & 8) drawDiagonalLeft();     // bit 4
+}</pre>
+      <pre data-lang="Python">for k in range(1, 16):
+    if k & 1: draw_vertical()
+    if k & 2: draw_horizontal()
+    if k & 4: draw_diagonal_right()
+    if k & 8: draw_diagonal_left()</pre>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Choose 3 kinds of line and "every combination". Count the squares before you look. (2³ − 1 = 7.)</li>
+        <li>Turn on <b>colour</b>. LeWitt often gave each direction its own colour so that superimposed squares mix: yellow and blue make green where they cross.</li>
+        <li>Pick 6 kinds and "pairs". That's 15 drawings again, but a completely different series. The rule for the series is a creative choice as big as the lines themselves.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>Why this matters for inventing:</b> permutation is a way to escape your own taste. You choose a small set of elements, and then the system forces you to look at combinations you would never have picked. Some of them will be the best things in the series.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="code" data-title="Words into code">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 3</div>
+      <h1>Words into code</h1>
+      <p class="lede">Translating an instruction is mostly translating its nouns into shapes and its adjectives into decisions. The verbs are easy. The adjectives are where the art goes.</p>
+    </div>
+
+    <table class="cheat">
+      <tr><th>the words</th><th>one possible code</th><th>the decision you just made</th></tr>
+      <tr><td>"fifty points"</td><td><code>for (let i = 0; i &lt; 50; i++)</code></td><td>a constant. Or should it be a slider?</td></tr>
+      <tr><td>"at random"</td><td><code>random(width), random(height)</code></td><td>uniform, every point equally likely</td></tr>
+      <tr><td>"evenly spread"</td><td>a grid with jitter, or best-candidate sampling</td><td>which "even"? (chapter 0, demo above)</td></tr>
+      <tr><td>"every point to every other"</td><td><code>for i … for j = i + 1 …</code></td><td>each pair once, not twice</td></tr>
+      <tr><td>"not straight"</td><td><code>noise()</code> displacement along the line</td><td>how far it strays, how fast it wiggles</td></tr>
+      <tr><td>"not touching"</td><td>check and reject, or design so it can't happen</td><td>rejection is general; design is elegant</td></tr>
+      <tr><td>"from the corners"</td><td><code>[0,0], [width,0], [width,height], [0,height]</code></td><td>which corner first, if order matters</td></tr>
+      <tr><td>"all combinations"</td><td>count 1 to 2ⁿ − 1, read the bits</td><td>the order of the series</td></tr>
+    </table>
+
+    <div class="sketch" data-title="After Wall Drawing #118 · fifty points, all connected" data-height="300">
+      <script type="text/plain" data-preset="random">
+        // Fifty points at random, each connected to every other point.
+        // Click for a new drafter.
+        let n = 50;
+
+        function setup() {
+          createCanvas(400, 300);
+          noLoop();
+        }
+
+        function draw() {
+          background(251, 249, 244);
+          let pts = [];
+          for (let i = 0; i < n; i++) {
+            pts.push(createVector(random(width), random(height)));   // "at random"
+          }
+          stroke(40, 90);
+          strokeWeight(0.5);
+          for (let i = 0; i < n; i++) {
+            for (let j = i + 1; j < n; j++) {        // j starts at i + 1: every pair once
+              line(pts[i].x, pts[i].y, pts[j].x, pts[j].y);
+            }
+          }
+          console.log(n * (n - 1) / 2 + " lines");
+        }
+
+        function mousePressed() { redraw(); }
+      </script>
+      <script type="text/plain" data-preset="evenly (best candidate)">
+        // "Evenly spread": for each new point, try 15 random spots
+        // and keep the one farthest from all the points so far.
+        let n = 50;
+
+        function setup() {
+          createCanvas(400, 300);
+          noLoop();
+        }
+
+        function draw() {
+          background(251, 249, 244);
+          let pts = [createVector(random(width), random(height))];
+          while (pts.length < n) {
+            let best, bestDist = -1;
+            for (let k = 0; k < 15; k++) {
+              let c = createVector(random(width), random(height));
+              let d = Infinity;
+              for (let p of pts) d = min(d, p.dist(c));   // distance to the nearest existing point
+              if (d > bestDist) { bestDist = d; best = c; }
+            }
+            pts.push(best);
+          }
+          stroke(40, 90);
+          strokeWeight(0.5);
+          for (let i = 0; i < n; i++) {
+            for (let j = i + 1; j < n; j++) {
+              line(pts[i].x, pts[i].y, pts[j].x, pts[j].y);
+            }
+          }
+        }
+
+        function mousePressed() { redraw(); }
+      </script>
+    </div>
+
+    <div class="sketch" data-title="Four kinds of straight lines and all their combinations" data-height="400" data-width="400">
+      <script type="text/plain" class="code">
+        // 15 squares: every combination of 4 directions, read from the bits of k.
+        let s = 100;     // size of a square
+        let gap = 8;     // distance between lines
+
+        function setup() {
+          createCanvas(400, 400);
+          background(251, 249, 244);
+          strokeWeight(0.8);
+          for (let k = 1; k < 16; k++) {
+            let x = (k % 4) * s;
+            let y = floor(k / 4) * s;
+            push();
+            translate(x, y);
+            clipTo(s);                                  // keep lines inside the square
+            if (k & 1) { stroke(240, 192, 46); for (let t = gap / 2; t < s; t += gap) line(t, 0, t, s); }   // vertical
+            if (k & 2) { stroke(21);           for (let t = gap / 2; t < s; t += gap) line(0, t, s, t); }   // horizontal
+            if (k & 4) { stroke(215, 38, 30);  for (let t = -s; t < s; t += gap * 1.4) line(t, s, t + s, 0); } // diagonal right
+            if (k & 8) { stroke(29, 79, 189);  for (let t = -s; t < s; t += gap * 1.4) line(t, 0, t + s, s); } // diagonal left
+            pop();
+            noFill(); stroke(200); rect(x, y, s, s);
+            fill(120); noStroke(); textSize(9); text(k.toString(2).padStart(4, "0"), x + 4, y + s - 4);
+          }
+        }
+
+        // a clipping mask, using the canvas underneath p5
+        function clipTo(size) {
+          drawingContext.beginPath();
+          drawingContext.rect(0, 0, size, size);
+          drawingContext.clip();
+        }
+      </script>
+    </div>
+
+    <div class="sketch" data-title="Vertical lines, not straight, not touching" data-height="300">
+      <script type="text/plain" class="code">
+        // Not touching, solved by design instead of by checking:
+        // every line reads the SAME noise field, so neighbours bend together.
+        let gap = 10;
+
+        function setup() {
+          createCanvas(400, 300);
+          noiseDetail(2, 0.3);   // smooth noise: fewer fast wiggles that could make neighbours meet
+          noLoop();
+        }
+
+        function draw() {
+          background(251, 249, 244);
+          noFill();
+          stroke(30);
+          strokeWeight(0.8);
+          let seed = random(1000);
+          for (let x = gap / 2; x < width; x += gap) {
+            beginShape();
+            for (let y = 8; y <= height - 8; y += 4) {
+              // big change along y, tiny change along x: neighbours stay parallel
+              let dx = map(noise(seed + y * 0.012, x * 0.004), 0, 1, -60, 60);
+              vertex(x + dx, y);
+            }
+            endShape();
+          }
+        }
+
+        function mousePressed() { redraw(); }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>In the last sketch, change <code>x * 0.004</code> to <code>x * 0.05</code>. Lines start to touch. Why? (Neighbours now read very different noise.) Find the largest value where they still never touch.</li>
+        <li>In the first sketch, switch between the two presets and count the lines. Same number. Different artwork?</li>
+        <li>In the bitmask sketch, make it 5 directions (add one at a different angle). How many squares now, and what size grid do you need?</li>
+      </ul>
+    </div>
+
+    <div class="callout train">
+      <p>Casey Reas (co-creator of Processing) did this translation as an artwork: <a href="https://artport.whitney.org/commissions/softwarestructures/" target="_blank" rel="noopener">{Software} Structures</a> (Whitney Artport, 2004) implements three LeWitt wall drawings in software, then writes new instructions of Reas's own, each interpreted by several different programmers. Read the essay alongside the code: it is the best short text on this topic.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="machine" data-title="The invention machine">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 4</div>
+      <h1>The invention machine</h1>
+      <p class="lede">LeWitt's instructions are built from a small grammar: a space, a mark, a placement, a number, a colour, a system. Pull those apart into cards, deal them, and you get instructions nobody has written. Some are nonsense. Some are better than what you would have thought of.</p>
+    </div>
+
+    <p>Each card is one decision. Change any card or deal a fresh hand. The page writes the instruction in LeWitt's dry style, gives it a number, and has a drafter execute it. When your cards contradict each other, the drafter has to improvise, and it tells you so in red.</p>
+
+    <div class="demo" data-demo="machine" data-title="Deal an instruction, read it, watch it drawn"></div>
+
+    <div class="callout try">
+      <ul>
+        <li><b>Deal ten hands without changing anything.</b> Copy the two instructions you like best. What do they have in common? That's your taste showing.</li>
+        <li><b>Lock everything, press "new drafter" five times.</b> Is it the same artwork every time? (The certificate number doesn't change. LeWitt would say yes.)</li>
+        <li><b>Find a hand that produces a red note.</b> Rewrite the instruction yourself, in your own words, so that the drafter doesn't have to guess.</li>
+        <li><b>Find what the machine can't say.</b> What would you add as an eighth card? "Lines that avoid each other"? "Each mark half the size of the last"? Write the options for it. That card is the start of your own algorithm.</li>
+      </ul>
+    </div>
+
+    <div class="callout note">
+      <p><b>A warning.</b> This machine is a grammar of LeWitt's ideas, so it can only make LeWitt-ish things. Dealing cards is a way to warm up, not a way to be original. Originality starts when you invent a card the deck doesn't have, which is the next chapter.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="sources" data-title="Where rules come from">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 5</div>
+      <h1>Where rules come from</h1>
+      <p class="lede">"Have an idea" is not advice. Here are six places to dig for one. Each is a kind of rule, not a kind of picture, and each makes a different family of images.</p>
+    </div>
+
+    <div class="demo" data-demo="sources" data-title="Six sources of rules, one rule from each" data-foot="Permutation (LeWitt) · accumulation (a walk, a line that remembers its past) · recursion (Mondrian by subdivision) · constraint (the rule is what is forbidden; after Jared Tarbell's Substrate) · translation (data from outside becomes form, here a name) · chance (John Cage, 10 PRINT, Truchet tiles). Click any panel to run it again; type your name for number 5."></div>
+
+    <h2>Six questions that generate algorithms</h2>
+    <table class="cheat">
+      <tr><th>source</th><th>ask yourself</th><th>artists who live here</th></tr>
+      <tr><td><b>Permutation</b></td><td>What is my small set of parts, and what are all the ways to combine them?</td><td>Sol LeWitt, Vera Molnar, Manfred Mohr</td></tr>
+      <tr><td><b>Accumulation</b></td><td>What if each mark depends on the one before it?</td><td>Agnes Denes, Roman Verostko, every flow field</td></tr>
+      <tr><td><b>Recursion</b></td><td>What if the rule applies to its own output, smaller?</td><td>Fractals, L-systems, Tyler Hobbs' subdivisions</td></tr>
+      <tr><td><b>Constraint</b></td><td>What is the one thing that may never happen?</td><td>OuLiPo writers, circle packing, Georges Perec</td></tr>
+      <tr><td><b>Translation</b></td><td>What data, text or measurement from my world could become form?</td><td>Hanne Darboven, Ryoji Ikeda, Refik Anadol</td></tr>
+      <tr><td><b>Chance</b></td><td>Where should I stop deciding and let a die decide?</td><td>John Cage, Ellsworth Kelly, François Morellet</td></tr>
+    </table>
+
+    <h2>Steal structure, not style</h2>
+    <p>The richest rules are already lying around, in systems that are not art. Borrow the structure; ignore what it looks like.</p>
+    <ul>
+      <li><b>Kolam.</b> Every morning across South India, threshold drawings are made by rule: a grid of dots, and a single line that loops around them, often never lifting and never ending. Mathematicians have written papers about the grammar of sikku kolam. It is one of the oldest algorithmic drawing traditions alive, and you have probably walked past one this week.</li>
+      <li><b>Weaving and knitting.</b> A loom is a binary machine: each thread is over or under. Jacquard's punched cards (1804) inspired Babbage's computer. Any weaving draft is a program.</li>
+      <li><b>Games and sports.</b> The rules of kabaddi, carrom or chess are constraints on movement. Make marks wherever the rules would allow a move.</li>
+      <li><b>Music scores.</b> Fluxus artists wrote event scores that are just instructions; La Monte Young's <em>Composition 1960 #10</em> is one line about drawing a line. Yoko Ono's <em>Grapefruit</em> (1964) is a whole book of them.</li>
+      <li><b>Verbs.</b> In 1967 to 1968 Richard Serra wrote a list of verbs (to roll, to fold, to split, to scatter, and about a hundred more) and then made sculpture by doing them to materials. Pick a verb. Do it to a line. Do it again to the result.</li>
+      <li><b>Bureaucracy.</b> Forms, timetables, queue systems, traffic rules (see the Traffic sketches in this course). Any system that tells people what to do next is an algorithm in disguise.</li>
+    </ul>
+
+    <div class="callout note">
+      <p>LeWitt also wrote, in his <em>Sentences on Conceptual Art</em> (1969), that "irrational thoughts should be followed absolutely and logically." Your idea is allowed to be strange. Your execution of it should be strict. That combination is where the surprising work comes from.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="studio" data-title="Your own algorithm">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 6 · studio</div>
+      <h1>Your own algorithm</h1>
+      <p class="lede">A method for one studio session, about two hours. You will write an instruction, watch other people fail to follow it, and use their mistakes to design an algorithm that is genuinely yours.</p>
+    </div>
+
+    <ol class="steps">
+      <li><b>Write (10 min)</b>An instruction for a drawing in under 40 words. Words only, no sketches, no pictures in your head of what it "should" look like. Use at least one source from the last chapter.</li>
+      <li><b>Swap (15 min)</b>Give it to two other people. They each draw it by hand on A4, separately, without asking you anything. You may not explain. (LeWitt's drafters had to decide for themselves too.)</li>
+      <li><b>Compare (10 min)</b>Lay the drawings side by side. Every difference between them points at an ambiguity in your words. Paste your instruction into the finder below and mark the ones that actually mattered.</li>
+      <li><b>Decide (15 min)</b>For each ambiguity, choose one: <b>fix it</b> (give a number), <b>free it</b> (hand it to <code>random()</code>), or <b>expose it</b> (make it a parameter, a slider, a variable at the top of your sketch). This is the real design work.</li>
+      <li><b>Code it (40 min)</b>Start from the skeleton below. Get the dumbest version running first. Then add the decisions, one at a time.</li>
+      <li><b>Make the series (20 min)</b>Find the one parameter that changes the drawing most. Make every value of it, or every combination, like LeWitt. Print or screenshot them as a grid.</li>
+      <li><b>Title it</b>Wall Drawing #(your roll number). Write the final instruction under the grid. The text is the work; the drawings are performances of it.</li>
+    </ol>
+
+    <div class="ambig">
+      <div class="demo-head">Ambiguity finder<span>type or paste your instruction · saved in this browser</span></div>
+      <textarea spellcheck="false" aria-label="Your instruction">Draw some lines, not straight, from the edges of the wall towards the centre. They should not touch each other. Fill the wall evenly with them.</textarea>
+      <div class="ambig-out">
+        <div class="ambig-stats"></div>
+        <p class="ambig-text"></p>
+        <ol class="ambig-q"></ol>
+      </div>
+    </div>
+
+    <p class="small">The finder is deliberately paranoid: it flags every word a drafter, or a computer, would have to interpret. Not every flag is a problem. Some ambiguity is the freedom you want to give away. The point is to decide that on purpose.</p>
+
+    <div class="sketch" data-title="Skeleton for your instruction" data-height="320">
+      <script type="text/plain" class="code">
+        // WALL DRAWING #____   by ____________
+        // Instruction: (paste your final words here)
+        //
+        // DECISIONS (fixed)      -> constants
+        // FREEDOMS (chance)      -> random()
+        // PARAMETERS (exposed)   -> variables you will make a series from
+
+        let count = 20;          // PARAMETER: how many marks
+        let margin = 20;         // DECISION: how close to the edge
+
+        function setup() {
+          createCanvas(400, 320);
+          noLoop();
+        }
+
+        function draw() {
+          background(251, 249, 244);          // 1. the space
+          stroke(30);
+          strokeWeight(0.8);
+          noFill();
+
+          for (let i = 0; i < count; i++) {   // 2. the quantity
+            // 3. the placement: where does this mark start and end?
+            let x1 = random(margin, width - margin);
+            let y1 = random(margin, height - margin);
+            let x2 = width / 2;
+            let y2 = height / 2;
+
+            // 4. the element: what kind of mark is it?
+            line(x1, y1, x2, y2);
+
+            // 5. the constraint: is anything forbidden? (if ... continue)
+          }
+          // 6. the system: how do parts relate? (combinations, growth, recursion)
+        }
+
+        function mousePressed() { redraw(); }   // a new drafter
+        function keyPressed() { if (key === 's') saveCanvas("wall-drawing", "png"); }
+      </script>
+    </div>
+
+    <h2>Lineage, roughly</h2>
+    <table class="cheat">
+      <tr><td>1959</td><td>Vera Molnar starts her <em>machine imaginaire</em>: executing simple programs by hand, years before she has a computer.</td></tr>
+      <tr><td>1960</td><td>La Monte Young's <em>Compositions 1960</em>: musical scores that are single instructions. Fluxus event scores follow.</td></tr>
+      <tr><td>1964</td><td>Yoko Ono, <em>Grapefruit</em>: a book of instruction pieces for the reader to perform.</td></tr>
+      <tr><td>1967</td><td>LeWitt, <em>Paragraphs on Conceptual Art</em>, in <em>Artforum</em>. Richard Serra begins his verb list.</td></tr>
+      <tr><td>1968</td><td>LeWitt's first wall drawing, Paula Cooper Gallery, New York.</td></tr>
+      <tr><td>1969</td><td><em>Sentences on Conceptual Art</em>; <em>Four Basic Kinds of Straight Lines</em>.</td></tr>
+      <tr><td>1971</td><td><em>Wall Drawing #118</em>: fifty points, all connected.</td></tr>
+      <tr><td>2004</td><td>Casey Reas, <em>{Software} Structures</em>: LeWitt's wall drawings as code, then new instructions interpreted by several programmers.</td></tr>
+      <tr><td>2008</td><td>The <em>Conditional Design</em> manifesto (Maurer, Paulus, Puckey, Wouters): rule-based drawing games played by groups on paper. MASS MoCA opens a LeWitt retrospective of 105 wall drawings, on view for 25 years.</td></tr>
+    </table>
+
+    <h2>Go further</h2>
+    <div class="cover-grid">
+      <a href="https://massmoca.org/sol-lewitt/" target="_blank" rel="noopener"><span class="n">🏛 museum</span><b>Sol LeWitt at MASS MoCA</b><small>105 wall drawings with their instructions, on view until 2033</small></a>
+      <a href="https://artport.whitney.org/commissions/softwarestructures/" target="_blank" rel="noopener"><span class="n">💻 artwork + essay</span><b>{Software} Structures</b><small>Casey Reas turns instructions into code, and back</small></a>
+      <a href="https://conditionaldesign.org/" target="_blank" rel="noopener"><span class="n">✎ workshop</span><b>Conditional Design</b><small>manifesto and a workbook of rule games to play in class</small></a>
+      <a href="https://www.moma.org/collection/?q=sol%20lewitt%20wall%20drawing%20260" target="_blank" rel="noopener"><span class="n">🖼 collection</span><b>Wall Drawing #260</b><small>MoMA: all two-part combinations, white on black</small></a>
+      <a href="https://natureofcode.com/" target="_blank" rel="noopener"><span class="n">📗 book, free</span><b>The Nature of Code</b><small>Dan Shiffman: the rules of nature as algorithms</small></a>
+      <a href="history.html"><span class="n">📜 SMI26</span><b>Generative Art, a history you can run</b><small>Molnar, Mohr, Nees and where LeWitt sits in the story</small></a>
+      <a href="life.html"><span class="n">🧫 SMI26</span><b>Cellular Automata</b><small>four sentences of rule, a universe of behaviour</small></a>
+      <a href="index.html"><span class="n">🧱 SMI26</span><b>Creative Coding Crash Course</b><small>the p5.js you need to code your instruction</small></a>
+    </div>
+    <p class="small">Made for the CCGA studio, SMI26, by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a>. Instructions on this page are paraphrased after LeWitt's; the drawings are the page's own performances of them. Everything here is yours to copy.</p>
+  </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.10/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/lewitt.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
