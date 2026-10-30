@@ -69,6 +69,40 @@
   .err + .err { border-top: 1px solid #d8d0c2; }
   .err code.msg { display: block; font-size: 12.5px; background: var(--code-bg); color: var(--code-ink); padding: 8px 10px; border-left: 4px solid var(--red); border-radius: 4px; overflow-wrap: anywhere; }
   .err p { margin: 0; font-size: .93rem; }
+  .tree { border: 2px solid var(--line); border-radius: 8px; background: var(--card); margin: 1.4em 0; overflow-x: auto; }
+  .tree-in { min-width: 560px; padding: 12px 16px; }
+  .tree .row { display: grid; grid-template-columns: 250px 74px 1fr; gap: 12px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid #e6dfd2; }
+  .tree .row:last-child { border-bottom: 0; }
+  .tree .name { font-family: var(--mono); font-size: .84rem; white-space: nowrap; }
+  .tree .i1 .name { padding-left: 1.4em; }
+  .tree .i2 .name { padding-left: 2.8em; }
+  .tree .st { font-family: var(--mono); font-size: .7rem; font-weight: 600; text-align: center; border: 2px solid var(--line); border-radius: 999px; padding: 0 6px; }
+  .tree .st.c { background: var(--yellow); }
+  .tree .st.x { background: var(--paper-2); border-style: dashed; color: var(--muted); }
+  .tree .off .name { color: var(--muted); text-decoration: line-through; }
+  .tree .why { font-size: .86rem; color: var(--muted); }
+  .pipe { display: flex; flex-wrap: wrap; gap: 3px; background: var(--line); border: 3px solid var(--line); margin: 1.6em 0; max-width: var(--wide); }
+  .pipe .step { flex: 1 1 150px; background: var(--card); padding: 12px 14px; font-size: .88rem; min-width: 0; }
+  .pipe .step b { display: block; font-size: 1rem; margin-bottom: 2px; }
+  .pipe .step .n { font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .pipe .step code { font-size: .78rem; }
+  .pipe .step.y { background: var(--yellow); }
+  .pipe .step.b { background: var(--blue); color: #fff; }
+  .pipe .step.r { background: var(--red); color: #fff; }
+  .pipe .step.b .n, .pipe .step.r .n { color: rgba(255,255,255,.8); }
+  .job { border: 2px solid var(--line); border-radius: 8px; background: var(--card); padding: 14px 16px; font-size: .93rem; }
+  .job h3 { margin: 0 0 .4em; }
+  .job p:last-child { margin-bottom: 0; }
+  .job.a { border-top: 8px solid var(--blue); }
+  .job.b { border-top: 8px solid var(--red); }
+  ol.steps > li { margin-bottom: 1em; }
+  ol.steps pre.block { margin: .5em 0 0; }
+  @media (max-width: 640px) {
+    .tree-in { min-width: 0; }
+    .tree .row { grid-template-columns: minmax(0, 1fr) 74px; row-gap: 0; }
+    .tree .why { grid-column: 1 / -1; padding-left: 1.6em; font-size: .8rem; }
+    .tree .name { white-space: normal; overflow-wrap: anywhere; }
+  }
   @media (max-width: 760px) {
     .levels { grid-template-columns: 1fr; }
     .level + .level { border-left: 0; border-top: 3px solid var(--line); }
@@ -116,7 +150,7 @@
     </div>
 
     <p>When you ask an AI agent for a generative sketch, it usually hands you one <code>.html</code> file. You double-click it and it runs. No server, no install. Then one day the agent says "run <code>python3 -m http.server</code>", or "<code>npm install</code>", or writes a file called <code>server.js</code>, and it isn't clear what changed or why.</p>
-    <p>This module explains what changed, with one picture: a restaurant. It also tells you which kind of server your sketch needs, from none at all to a real kitchen.</p>
+    <p>This module explains what changed, with one picture: a restaurant. It also tells you which kind of server your sketch needs, from none at all to a real kitchen, and how to put a bigger Node project on GitHub so anyone can open it.</p>
 
     <div class="callout note">
       <p><b>Read this after</b> chapters 10 and 11 of <a href="machine.html">From Sand to Sites</a> if you want the engineering version: DNS, TCP, HTTP and how the browser paints. This module is the studio version: what you actually need to do with your sketch.</p>
@@ -382,6 +416,8 @@
         <label><input type="checkbox" id="c-mod" data-lv="2" data-why="imports other JS files as modules"><span>Imports other JS files with <code>import</code></span></label>
         <label><input type="checkbox" id="c-cam" data-lv="2" data-why="uses the webcam or microphone"><span>Uses the webcam or microphone</span></label>
         <label><input type="checkbox" id="c-web" data-lv="2" data-why="should open at a web address"><span>Should open for anyone at a web address</span></label>
+        <label><input type="checkbox" id="c-npm" data-lv="2" data-why="needs a build step (npm, Vite) before it can be served"><span>Uses npm packages and a build step (<code>npm run build</code>)</span></label>
+        <label><input type="checkbox" id="c-node" data-lv="3" data-why="runs its own Node server"><span>Runs its own Node server (<code>node server.js</code>)</span></label>
         <label><input type="checkbox" id="c-key" data-lv="3" data-why="uses a secret API key"><span>Calls an AI or other service with a secret key</span></label>
         <label><input type="checkbox" id="c-shared" data-lv="3" data-why="saves things other visitors will see"><span>Saves things other visitors will see: gallery, guestbook, likes</span></label>
         <label><input type="checkbox" id="c-multi" data-lv="3" data-why="lets several people interact live"><span>Several people interact with it live</span></label>
@@ -413,7 +449,7 @@
         <tr><th>you see</th><th>it means</th><th>level</th></tr>
         <tr><td>One <code>.html</code> file</td><td>A self-contained sketch with p5 pulled from a CDN. Double-click it.</td><td><span class="lv l1">1</span></td></tr>
         <tr><td><code>python3 -m http.server</code><br><code>npx serve</code></td><td>The sketch loads assets or modules, so the browser needs something that hands out files.</td><td><span class="lv l2">2</span></td></tr>
-        <tr><td><code>npm install</code><br><code>npm run dev</code></td><td>A build step (Vite, React). Think of a prep kitchen that chops and bundles, plus a test kitchen that reloads as you edit. <code>npm run build</code> still produces plain static files. A dev server is not a backend.</td><td><span class="lv l2">2</span></td></tr>
+        <tr><td><code>npm install</code><br><code>npm run dev</code></td><td>A build step (Vite, React). Think of a prep kitchen that chops and bundles, plus a test kitchen that reloads as you edit. <code>npm run build</code> still produces plain static files. A dev server is not a backend. Chapters 8 and 9 cover this.</td><td><span class="lv l2">2</span></td></tr>
         <tr><td><code>server.js</code>, <code>app.py</code>, a Worker, <code>.env</code></td><td>A real kitchen. Code runs on a machine you control, out of the visitor's reach.</td><td><span class="lv l3">3</span></td></tr>
       </table>
     </div>
@@ -434,9 +470,216 @@
   </section>
 
   <!-- ============================================================ -->
-  <section class="chapter" id="blank" data-title="When it goes blank">
+  <section class="chapter" id="node" data-title="Node and npm">
     <div class="chapter-head">
       <div class="eyebrow">chapter 8</div>
+      <h1>Node: the same cook, in the kitchen</h1>
+      <p class="lede">JavaScript was made to cook at the table, inside the browser. Node takes the same language into the kitchen: it runs JavaScript directly on a computer, with no browser around it.</p>
+    </div>
+
+    <p>Node is what makes <code>npm install</code>, <code>npm run dev</code> and <code>server.js</code> possible. Bigger generative projects use it to pull in libraries (three.js, Tone.js, a noise library, a GUI), split the code into many files, and pack it all up for the web. An AI agent reaches for it as soon as a project outgrows one file.</p>
+
+    <div class="table-wrap">
+      <table class="cheat">
+        <tr><th>thing</th><th>in the restaurant</th><th>in your project</th></tr>
+        <tr><td>Node</td><td>A cook who works in the kitchen instead of at your table</td><td>Runs Vite, <code>server.js</code>, or a script that renders 1,000 PNGs</td></tr>
+        <tr><td>npm</td><td>The wholesale market: millions of ingredients made by other cooks</td><td><code>p5</code>, <code>three</code>, <code>tone</code>, <code>simplex-noise</code>, <code>lil-gui</code></td></tr>
+        <tr><td><code>package.json</code></td><td>The shopping list</td><td><code>"p5": "^1.11.1"</code></td></tr>
+        <tr><td><code>package-lock.json</code></td><td>The exact receipt: brand and batch of every item, including the ingredients' own ingredients</td><td>Lets <code>npm ci</code> buy exactly the same things on another computer</td></tr>
+        <tr><td><code>node_modules/</code></td><td>The pantry after the delivery arrives. Huge, and anyone can restock it from the list</td><td>Often 100 to 500 MB. Never upload it.</td></tr>
+        <tr><td><code>npm run dev</code></td><td>The test kitchen: cooks a preview and re-plates every time you edit</td><td><code>http://localhost:5173</code></td></tr>
+        <tr><td><code>npm run build</code></td><td>The prep kitchen: packs everything into one tray to take away</td><td>The <code>dist/</code> folder</td></tr>
+      </table>
+    </div>
+
+    <p>A typical shopping list for a sketch built with Vite looks like this:</p>
+    <pre class="block">{
+  "name": "drift",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "p5": "^1.11.1",
+    "simplex-noise": "^4.0.3"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}</pre>
+    <p>And the sketch itself imports what it needs, instead of loading it from a CDN. p5 is used in <b>instance mode</b>, where every p5 function hangs off <code>p</code>:</p>
+    <pre class="block">import p5 from 'p5';
+import { createNoise2D } from 'simplex-noise';
+
+const noise2D = createNoise2D();
+
+new p5((p) => {
+  p.setup = () => p.createCanvas(600, 600);
+  p.draw = () => {
+    p.background(244, 239, 230);
+    // ... noise2D(x, y) instead of noise(x, y)
+  };
+});</pre>
+
+    <h2>Two jobs Node can have</h2>
+    <p>This is the question that decides everything about shipping. Look at the <code>"scripts"</code> in <code>package.json</code>.</p>
+    <div class="two">
+      <div class="job a">
+        <h3>Job A: the prep kitchen</h3>
+        <p>Node only runs on <b>your</b> computer, as a tool. Vite bundles your code and the npm packages into plain files in <code>dist/</code>. After the build, no Node is needed: it's a <span class="lv l2">level 2</span> project, and the tray goes on GitHub Pages.</p>
+        <p><b>Clue:</b> <code>"build": "vite build"</code> (or webpack, parcel, esbuild).</p>
+      </div>
+      <div class="job b">
+        <h3>Job B: the kitchen itself</h3>
+        <p>Node has to keep running while people visit: Express, Socket.io for multiplayer, saving drawings to a database. That's <span class="lv l3">level 3</span>. GitHub Pages can't run it.</p>
+        <p><b>Clue:</b> <code>"start": "node server.js"</code>, or imports like <code>express</code>, <code>socket.io</code>, <code>fs</code>.</p>
+      </div>
+    </div>
+    <p>Most generative art projects are Job A. They feel like "a Node project", but what visitors receive is a static tray.</p>
+
+    <div class="callout try">
+      <ul>
+        <li>Install Node (the LTS version from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>). In Terminal: <code>npm create vite@latest drift -- --template vanilla</code>, then <code>cd drift</code>, <code>npm install p5</code>, <code>npm run dev</code>.</li>
+        <li>Run <code>du -sh node_modules</code>. That's the pantry. Now run <code>npm run build</code> and <code>du -sh dist</code>. That's the tray.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="ship" data-title="Shipping to GitHub">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 9</div>
+      <h1>Putting a Node project on GitHub</h1>
+      <p class="lede">The rule: upload the shopping list, not the pantry. GitHub stores your recipe. A build turns it into a tray. A host hands the tray out.</p>
+    </div>
+
+    <h2>What goes in the repository</h2>
+    <div class="tree"><div class="tree-in">
+      <div class="row"><span class="name">drift/</span><span></span><span class="why"></span></div>
+      <div class="row i1"><span class="name">index.html</span><span class="st c">commit</span><span class="why">the page Vite starts from</span></div>
+      <div class="row i1"><span class="name">src/main.js</span><span class="st c">commit</span><span class="why">your sketch</span></div>
+      <div class="row i1"><span class="name">src/Particle.js</span><span class="st c">commit</span><span class="why">your classes and helpers</span></div>
+      <div class="row i1"><span class="name">public/paper.jpg</span><span class="st c">commit</span><span class="why">images, fonts, sounds, copied into the tray as they are</span></div>
+      <div class="row i1"><span class="name">package.json</span><span class="st c">commit</span><span class="why">the shopping list</span></div>
+      <div class="row i1"><span class="name">package-lock.json</span><span class="st c">commit</span><span class="why">the exact receipt, so the build gets the same versions</span></div>
+      <div class="row i1"><span class="name">vite.config.js</span><span class="st c">commit</span><span class="why">build settings, including <code>base</code></span></div>
+      <div class="row i1"><span class="name">.gitignore</span><span class="st c">commit</span><span class="why">the list of things to leave out</span></div>
+      <div class="row i1"><span class="name">.github/workflows/deploy.yml</span><span class="st c">commit</span><span class="why">instructions for GitHub's prep kitchen</span></div>
+      <div class="row i1 off"><span class="name">node_modules/</span><span class="st x">ignore</span><span class="why">the pantry; restocked with <code>npm ci</code></span></div>
+      <div class="row i1 off"><span class="name">dist/</span><span class="st x">ignore</span><span class="why">the tray; GitHub builds a fresh one</span></div>
+      <div class="row i1 off"><span class="name">.env</span><span class="st x">ignore</span><span class="why">secrets never go in a repository</span></div>
+    </div></div>
+
+    <h2>The pipeline</h2>
+    <div class="pipe">
+      <div class="step"><span class="n">1 · your laptop</span><b>git push</b>the recipe and the shopping list</div>
+      <div class="step"><span class="n">2 · GitHub repo</span><b>stores it</b>no pantry, no tray</div>
+      <div class="step y"><span class="n">3 · GitHub Actions</span><b>a borrowed prep kitchen</b><code>npm ci</code> then <code>npm run build</code></div>
+      <div class="step b"><span class="n">4 · GitHub Pages</span><b>the takeaway counter</b>hands out <code>dist/</code></div>
+      <div class="step r"><span class="n">5 · the visitor</span><b>cooks at the table</b>the sketch runs in their browser</div>
+    </div>
+
+    <h2>Step by step: Vite on GitHub Pages</h2>
+    <ol class="steps">
+      <li><b>Leave out the pantry.</b> Make a file called <code>.gitignore</code>:
+        <pre class="block">node_modules/
+dist/
+.env</pre></li>
+      <li><b>Make paths relative.</b> A GitHub project site lives at <code>username.github.io/drift/</code>, not at the root of a domain. Tell Vite, in <code>vite.config.js</code>:
+        <pre class="block">import { defineConfig } from 'vite';
+
+export default defineConfig({
+  base: './',   // load files relative to index.html
+});</pre></li>
+      <li><b>Push it.</b> Create an empty repository on github.com called <code>drift</code>, then:
+        <pre class="block">git init
+git add .
+git commit -m "first tray"
+git branch -M main
+git remote add origin https://github.com/USERNAME/drift.git
+git push -u origin main</pre></li>
+      <li><b>Turn on Pages.</b> On GitHub: <b>Settings → Pages → Build and deployment → Source: GitHub Actions</b>.</li>
+      <li><b>Give the prep kitchen its instructions.</b> Add <code>.github/workflows/deploy.yml</code>:
+        <pre class="block">name: Deploy to Pages
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4</pre></li>
+      <li><b>Push again and watch.</b> The <b>Actions</b> tab shows the run. About a minute later the sketch is at <code>https://USERNAME.github.io/drift/</code>. From now on every push rebuilds it.</li>
+    </ol>
+
+    <div class="callout note">
+      <p><b>The shortcut: let a host do the build.</b> Netlify, Vercel and Cloudflare Pages can import a GitHub repository directly. Set the build command to <code>npm run build</code> and the output folder to <code>dist</code>. Every push rebuilds the site. It's the same pipeline without the workflow file.</p>
+    </div>
+
+    <h2>Job B: a Node server</h2>
+    <p>If Node has to keep running (multiplayer, a shared gallery, an AI call with a secret key), GitHub can only <b>store</b> the code. You need a host that keeps a kitchen open: Render, Railway or Fly.io run <code>node server.js</code> for you, and Cloudflare Workers or Netlify and Vercel functions run small pieces of backend on demand. A common split: the sketch on Pages, one small function for the secret part.</p>
+    <p>Put keys in the host's <b>environment variables</b> settings, never in the repository. Anything in a public repository is readable by everyone, forever, even after you delete it.</p>
+
+    <h2>Generative art platforms</h2>
+    <ul>
+      <li><b>fx(hash)</b> takes a <code>.zip</code> of the built project: <code>index.html</code> at the top of the zip, every path relative. Their command line tool (<code>npx fxhash build</code>) makes the zip. The pantry never goes in. The packed tray does.</li>
+      <li><b>Art Blocks</b> stores one script on the blockchain, and libraries come only from their approved list. There is no npm at mint time, so the project has to fit level 1.</li>
+    </ul>
+
+    <h2>When the deploy breaks</h2>
+    <div class="errors">
+      <div class="err">
+        <code class="msg">Blank page · 404 for /assets/index-3f9a2c.js</code>
+        <p>The tray is looking for files at the root of the domain, but the site lives under <code>/drift/</code>. Set <code>base: './'</code> in <code>vite.config.js</code>.</p>
+      </div>
+      <div class="err">
+        <code class="msg">npm ci can only install packages when your package.json and package-lock.json are in sync</code>
+        <p>The receipt doesn't match the list. Run <code>npm install</code> on your laptop and commit both files together.</p>
+      </div>
+      <div class="err">
+        <code class="msg">Could not resolve "./Particle.js"</code>
+        <p>Works on your Mac, fails on GitHub? The file is called <code>particle.js</code>. macOS ignores capital letters in file names; the Linux machine that builds your site doesn't. Match the name exactly.</p>
+      </div>
+      <div class="err">
+        <code class="msg">Push rejected · repository is hundreds of MB</code>
+        <p>You uploaded the pantry. Add <code>node_modules/</code> to <code>.gitignore</code>, run <code>git rm -r --cached node_modules</code>, and commit.</p>
+      </div>
+      <div class="err">
+        <code class="msg">Your API key shows up inside dist/assets/index-….js</code>
+        <p>Vite copies every <code>VITE_</code> variable into the bundle. A build step doesn't hide secrets. A key still needs a backend (level 3).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="blank" data-title="When it goes blank">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 10</div>
       <h1>When the canvas goes blank</h1>
       <p class="lede">Open the console (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>J</kbd> in Chrome) and match the message. Most blank canvases are a level problem.</p>
     </div>
@@ -482,6 +725,9 @@
       <tr><td>level 1</td><td>double-click; works when everything is in the file</td></tr>
       <tr><td>level 2</td><td>hands out files; needed for assets, modules, webcam, the web</td></tr>
       <tr><td>level 3</td><td>cooks per order; needed for secrets, shared memory, multiplayer</td></tr>
+      <tr><td>Node</td><td>JavaScript in the kitchen: a build tool (job A) or a server (job B)</td></tr>
+      <tr><td>node_modules</td><td>the pantry: never upload it; commit package.json and the lock file</td></tr>
+      <tr><td>shipping</td><td>GitHub stores the recipe, Actions builds the tray, Pages hands it out</td></tr>
     </table>
 
     <h2>Go further</h2>
@@ -489,6 +735,8 @@
       <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works" target="_blank" rel="noopener"><span class="n">📖 MDN</span><b>How the web works</b><small>the plain-language version from the people who document the web</small></a>
       <a href="https://github.com/processing/p5.js/wiki/Local-server" target="_blank" rel="noopener"><span class="n">🧰 p5 wiki</span><b>How to set up a local server</b><small>the official p5 page on level 2, for every operating system</small></a>
       <a href="https://pages.github.com/" target="_blank" rel="noopener"><span class="n">🧰 hosting, free</span><b>GitHub Pages</b><small>put a sketch folder at a web address in a few minutes</small></a>
+      <a href="https://vite.dev/guide/static-deploy" target="_blank" rel="noopener"><span class="n">📖 Vite docs</span><b>Deploying a static site</b><small>chapter 9's workflow for GitHub Pages, Netlify, Vercel and more, kept up to date</small></a>
+      <a href="https://docs.npmjs.com/about-npm" target="_blank" rel="noopener"><span class="n">📖 npm docs</span><b>About npm</b><small>packages, package.json and the lock file, from the source</small></a>
       <a href="machine.html"><span class="n">🖥 SMI26</span><b>From Sand to Sites</b><small>the engineering version: packets, DNS, HTTP and how the browser paints</small></a>
       <a href="04-artblocks.html"><span class="n">📜 SMI26</span><b>Art Blocks</b><small>recipes on the blockchain, cooked by every collector's browser</small></a>
       <a href="index.html"><span class="n">🧱 SMI26</span><b>Creative Coding Crash Course</b><small>back to p5.js: variables to shaders</small></a>
