@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMI26 · Who Cooks the Sketch?</title>
+<meta name="description" content="Frontend, backend, servers and CDNs explained with a restaurant, for generative artists: when a single-file p5.js sketch runs on its own, when it needs a local server, and when it needs a real backend.">
+<meta property="og:title" content="Who Cooks the Sketch? · SMI26">
+<meta property="og:description" content="Servers explained with a kitchen: when your generative sketch needs one, and when it doesn't.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f4efe6'/%3E%3Crect x='3' y='13' width='26' height='16' fill='%23fffdf8' stroke='%23151515' stroke-width='2'/%3E%3Crect x='6' y='16' width='9' height='10' fill='%23d7261e'/%3E%3Crect x='17' y='16' width='9' height='4' fill='%23f0c02e'/%3E%3Crect x='17' y='22' width='9' height='4' fill='%231d4fbd'/%3E%3Cpath d='M9 10c0-3 3-3 3-6M16 10c0-3 3-3 3-6' stroke='%23151515' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<style>
+  .rule { border: 3px solid var(--line); background: var(--card); padding: 16px 18px; margin: 1.6em 0; display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: center; }
+  .rule .mark { aspect-ratio: 1; background: var(--red); border: 3px solid var(--line); }
+  .rule p { margin: 0; }
+  .figure { margin: 1.6em 0; overflow-x: auto; border: 2px solid var(--line); border-radius: 8px; background: var(--paper-2); }
+  .figure svg { display: block; width: 100%; min-width: 620px; height: auto; }
+  .d-box { fill: var(--card); stroke: var(--line); stroke-width: 3; }
+  .d-yellow { fill: var(--yellow); stroke: var(--line); stroke-width: 3; }
+  .d-blue { fill: var(--blue); stroke: var(--line); stroke-width: 3; }
+  .d-arrow { stroke: var(--ink); stroke-width: 3; fill: none; }
+  .d-arrow.red { stroke: var(--red); }
+  .d-head { fill: var(--ink); }
+  .d-head.red { fill: var(--red); }
+  .d-t { fill: var(--ink); font-family: var(--sans); font-size: 15px; }
+  .d-t.big { font-size: 20px; font-weight: 700; }
+  .d-t.mut { fill: var(--muted); font-size: 13px; }
+  .d-t.mono { font-family: var(--mono); font-size: 12.5px; }
+  .d-t.on-b { fill: #fff; }
+  .table-wrap { overflow-x: auto; margin: 1em 0; }
+  .table-wrap table.cheat { min-width: 560px; margin: 0; }
+  table.cheat td:first-child { font-weight: 700; white-space: nowrap; }
+  .lv { display: inline-block; font-family: var(--mono); font-size: .75rem; font-weight: 600; padding: 1px 8px; border: 2px solid var(--line); border-radius: 4px; white-space: nowrap; }
+  .lv.l1 { background: var(--yellow); }
+  .lv.l2 { background: var(--blue); color: #fff; }
+  .lv.l3 { background: var(--red); color: #fff; }
+  .levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 3px solid var(--line); margin: 1.6em 0; max-width: var(--wide); }
+  .level { background: var(--card); display: flex; flex-direction: column; min-width: 0; }
+  .level + .level { border-left: 3px solid var(--line); }
+  .level header { padding: 12px 16px; border-bottom: 3px solid var(--line); }
+  .level.l1 header { background: var(--yellow); }
+  .level.l2 header { background: var(--blue); color: #fff; }
+  .level.l3 header { background: var(--red); color: #fff; }
+  .level header .n { font-family: var(--mono); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+  .level header h3 { margin: 2px 0 0; font-size: 1.25rem; }
+  .level .body { padding: 14px 16px; font-size: .92rem; display: flex; flex-direction: column; gap: 9px; }
+  .level .body p, .level .body ul { margin: 0; }
+  .level .analogy { font-style: italic; color: var(--muted); }
+  .level .lbl { font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .level pre.block { font-size: 12px; margin: 0; }
+  .checker { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); border: 3px solid var(--line); background: var(--card); margin: 1.6em 0; max-width: var(--wide); }
+  .checks { padding: 12px 16px; min-width: 0; }
+  .checks label { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; padding: 6px 0; font-size: .93rem; cursor: pointer; }
+  .checks input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--ink); }
+  .verdict { border-left: 3px solid var(--line); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .verdict .n { font-family: var(--mono); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+  .verdict h3 { font-size: 1.5rem; margin: 0; }
+  .verdict p { margin: 0; font-size: .93rem; }
+  .verdict ul { margin: 0; font-size: .88rem; }
+  .verdict.l1 { background: var(--yellow); }
+  .verdict.l2 { background: var(--blue); color: #fff; }
+  .verdict.l3 { background: var(--red); color: #fff; }
+  .verdict.l2 code, .verdict.l3 code { color: var(--ink); }
+  .errors { border: 2px solid var(--line); border-radius: 8px; background: var(--card); margin: 1.6em 0; overflow: hidden; }
+  .err { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 18px; padding: 14px 16px; }
+  .err + .err { border-top: 1px solid #d8d0c2; }
+  .err code.msg { display: block; font-size: 12.5px; background: var(--code-bg); color: var(--code-ink); padding: 8px 10px; border-left: 4px solid var(--red); border-radius: 4px; overflow-wrap: anywhere; }
+  .err p { margin: 0; font-size: .93rem; }
+  @media (max-width: 760px) {
+    .levels { grid-template-columns: 1fr; }
+    .level + .level { border-left: 0; border-top: 3px solid var(--line); }
+    .checker { grid-template-columns: 1fr; }
+    .verdict { border-left: 0; border-top: 3px solid var(--line); }
+    .err { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
+</head>
+<body data-site-title="SMI26 · Who Cooks the Sketch?">
+
+<div class="topbar">
+  <b>SMI26 · Who Cooks?</b>
+  <select id="chapter-select" aria-label="Chapter"></select>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="#start">
+      <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+      <b>Who cooks the sketch?<br>servers, explained with a kitchen</b>
+      <span>SMI26 · CCGA studio · p5.js</span>
+    </a>
+    <ul class="toc" id="toc"></ul>
+    <div class="foot">
+      ← → keys move between chapters.<br><br>
+      Part of the SMI26 set: <a href="index.html">Creative Coding Crash Course</a> · <a href="machine.html">From Sand to Sites</a> · <a href="history.html">Generative Art, a history you can run</a> · <a href="lewitt.html">The idea is the machine</a> · <a href="life.html">Cellular Automata</a>.<br><br>
+      Built by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a> for the Creative Coding &amp; Generative Art studio, Srishti Manipal Institute.
+    </div>
+  </aside>
+
+  <main class="main">
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="start" data-title="Who cooks?">
+    <div class="chapter-head">
+      <div class="eyebrow">SMI26 · servers, explained with a kitchen</div>
+      <h1>Who cooks the sketch?</h1>
+      <p class="lede">Every web page is a meal. Some are cooked in a kitchen far away. Some are cooked right at your table. Knowing which tells you when your generative sketch needs a server, and when it doesn't.</p>
+    </div>
+
+    <div class="rule">
+      <div class="mark" aria-hidden="true"></div>
+      <p>One question sorts it all out: <b>whose computer runs the code?</b> If it runs in the visitor's browser, it's the <b>frontend</b>. If it runs on a machine you control, it's the <b>backend</b>.</p>
+    </div>
+
+    <p>When you ask an AI agent for a generative sketch, it usually hands you one <code>.html</code> file. You double-click it and it runs. No server, no install. Then one day the agent says "run <code>python3 -m http.server</code>", or "<code>npm install</code>", or writes a file called <code>server.js</code>, and it isn't clear what changed or why.</p>
+    <p>This module explains what changed, with one picture: a restaurant. It also tells you which kind of server your sketch needs, from none at all to a real kitchen.</p>
+
+    <div class="callout note">
+      <p><b>Read this after</b> chapters 10 and 11 of <a href="machine.html">From Sand to Sites</a> if you want the engineering version: DNS, TCP, HTTP and how the browser paints. This module is the studio version: what you actually need to do with your sketch.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="restaurant" data-title="The restaurant">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 1</div>
+      <h1>The restaurant</h1>
+      <p class="lede">You sit at a table. Orders go to the kitchen, plates come back. Some ingredients don't come from the kitchen at all: they come from a bakery depot down the road.</p>
+    </div>
+
+    <div class="figure" role="img" aria-label="Diagram: the browser is your table, the server is the kitchen with a database pantry, requests are order tickets, responses are plates, and a CDN is a nearby bakery depot delivering p5.min.js to the table.">
+      <svg viewBox="0 0 900 370" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="d-head" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="hr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="d-head red" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <rect class="d-yellow" x="20" y="16" width="250" height="70"/>
+        <text class="d-t big" x="38" y="46">Bakery depot nearby</text>
+        <text class="d-t" x="38" y="70">CDN · same bread everywhere</text>
+        <line class="d-arrow" x1="145" y1="86" x2="145" y2="134" marker-end="url(#h)"/>
+        <text class="d-t mono" x="158" y="116">p5.min.js</text>
+        <text class="d-t mut" x="330" y="42">Level 1 skips the kitchen entirely:</text>
+        <text class="d-t mut" x="330" y="62">you open the file from your own drawer.</text>
+        <rect class="d-box" x="20" y="140" width="250" height="212"/>
+        <text class="d-t big" x="38" y="172">Your table</text>
+        <text class="d-t mut" x="38" y="194">the browser</text>
+        <text class="d-t" x="38" y="236">Frontend lives here:</text>
+        <text class="d-t mono" x="38" y="260">HTML · CSS · JS</text>
+        <rect x="38" y="286" width="16" height="16" fill="var(--red)" stroke="var(--line)" stroke-width="2"/>
+        <rect x="58" y="286" width="16" height="16" fill="var(--blue)" stroke="var(--line)" stroke-width="2"/>
+        <text class="d-t" x="84" y="300">p5 cooks every frame</text>
+        <text class="d-t mut" x="38" y="332">on your own CPU and GPU</text>
+        <line class="d-arrow" x1="276" y1="222" x2="590" y2="222" marker-end="url(#h)"/>
+        <text class="d-t" x="300" y="196">Order ticket = request</text>
+        <text class="d-t mono" x="300" y="212">GET /sketch.html</text>
+        <line class="d-arrow red" x1="594" y1="282" x2="280" y2="282" marker-end="url(#hr)"/>
+        <text class="d-t" x="300" y="308">Plate = response</text>
+        <text class="d-t mono" x="300" y="326">200 OK + the files</text>
+        <rect class="d-box" x="600" y="140" width="280" height="212"/>
+        <text class="d-t big" x="618" y="172">Kitchen</text>
+        <text class="d-t mut" x="618" y="194">a server: always on, waiting</text>
+        <text class="d-t" x="618" y="234">Backend code cooks here</text>
+        <rect class="d-blue" x="618" y="260" width="244" height="72"/>
+        <text class="d-t big on-b" x="634" y="292">Pantry</text>
+        <text class="d-t on-b" x="634" y="316">the database</text>
+      </svg>
+    </div>
+
+    <div class="table-wrap">
+      <table class="cheat">
+        <tr><th>web term</th><th>in the restaurant</th><th>in your sketch</th></tr>
+        <tr><td>Browser</td><td>The diner at the table</td><td>Chrome or Safari showing your canvas</td></tr>
+        <tr><td>Frontend</td><td>The dining room: menu, plating, everything you see and touch</td><td><code>index.html</code>, <code>sketch.js</code>, the canvas, the sliders</td></tr>
+        <tr><td>Server</td><td>A kitchen that is open and waiting for orders</td><td>GitHub Pages, or your laptop running a local server</td></tr>
+        <tr><td>Backend</td><td>The cooking that happens out of sight</td><td>Code that keeps an API key secret or saves a class gallery</td></tr>
+        <tr><td>Database</td><td>The pantry and cold store</td><td>Saved submissions, likes, user accounts</td></tr>
+        <tr><td>Request / response</td><td>Order ticket in, plate out</td><td>The browser asks for <code>sketch.js</code> and gets the file back</td></tr>
+        <tr><td>API</td><td>The menu of what the kitchen will make, and its rules</td><td>"Send me a prompt, I send back text"</td></tr>
+        <tr><td>Port</td><td>Which service hatch you walk up to</td><td><code>:8000</code>, <code>:3000</code>, <code>:5173</code></td></tr>
+        <tr><td>localhost</td><td>A restaurant inside your own house that only you can enter</td><td><code>http://localhost:8000</code></td></tr>
+        <tr><td>Static file</td><td>A pre-packed sandwich: the same for everyone, handed over as is</td><td><code>.html</code> <code>.js</code> <code>.png</code> <code>.ttf</code></td></tr>
+        <tr><td>Dynamic response</td><td>Cooked to order, different for each diner</td><td>Your Instagram feed is not the same as mine</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="server" data-title="What is a server?">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 2</div>
+      <h1>A server is a kitchen that's open</h1>
+      <p class="lede">A server is not a special box. It is any computer running a program that waits for orders and answers them.</p>
+    </div>
+
+    <p>Your laptop becomes a server the moment you type this in a terminal, inside a folder:</p>
+    <pre class="block">python3 -m http.server 8000</pre>
+    <p>Now <code>http://localhost:8000</code> serves that folder. The program sits there, listening at hatch number <b>8000</b>. When your browser asks for <code>/sketch.js</code>, it finds the file in the folder and hands it over. Close the terminal and the kitchen closes.</p>
+    <p><b>localhost</b> means "this same computer". It's a restaurant inside your own house: only you can walk in. Hosting companies (GitHub Pages, Netlify, Cloudflare) run the same kind of program on kitchens that never close, at addresses the whole world can reach.</p>
+    <p>The word gets used for two things, and both are right: the <b>machine</b> (the box in a data centre) and the <b>program</b> on it that listens for requests.</p>
+
+    <div class="callout" style="border-left: 8px solid var(--red);">
+      <p><b>In your p5 sketch:</b> the p5 web editor at editor.p5js.org is a kitchen someone else runs for you. It stores your files and serves them, which is why <code>loadImage('cat.jpg')</code> works there even though it fails when you double-click a downloaded copy.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Make a folder with any <code>.html</code> file in it. Open Terminal, <code>cd</code> into the folder, run the command above, and visit <code>http://localhost:8000</code>. Watch the terminal: every line is one order ticket.</li>
+        <li>Press <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal and reload the page. The kitchen is closed.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="cdn" data-title="The bakery: CDN">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 3</div>
+      <h1>The bakery: CDN</h1>
+      <p class="lede">You don't bake p5 yourself. A big bakery made it once, and copies sit in depots in hundreds of cities.</p>
+    </div>
+
+    <p>A <b>CDN</b> (content delivery network) keeps copies of popular files on <b>edge servers</b> all over the world. When a student in Bangalore opens your sketch, p5 arrives from a depot nearby, not from the other side of the planet. Almost every single-file sketch an AI agent writes starts with a line like this:</p>
+    <pre class="block">&lt;script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.min.js"&gt;&lt;/script&gt;</pre>
+    <p>That line is the reason a one-file sketch can stay one file. The library isn't in the file. The file only says where to pick it up.</p>
+
+    <h2>Two lessons</h2>
+    <ul>
+      <li><b>Pin the version.</b> Write <code>p5@1.11.1</code>, not just <code>p5</code>. Otherwise you get whatever bread was baked today. When p5 2.0 changed how loading works, unpinned sketches broke overnight.</li>
+      <li><b>No internet, no bread.</b> Offline, the canvas stays blank and the console says <code>p5 is not defined</code>. For an exhibition laptop or a gallery install, download <code>p5.min.js</code>, put it next to your HTML, and write <code>&lt;script src="p5.min.js"&gt;</code>.</li>
+    </ul>
+
+    <div class="callout note">
+      <p>CDNs aren't only for libraries. Whole websites sit behind them: the CDN keeps copies of your pages near every visitor, and only goes back to your kitchen when something changes. Fonts from Google Fonts arrive the same way.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Open any sketch, then the browser's developer tools (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>I</kbd>), <b>Network</b> tab, and reload. Find the row for <code>p5.min.js</code>. Which host did it come from, and how many milliseconds did it take?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="table" data-title="Cooked at your table">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 4</div>
+      <h1>Generative art is cooked at your table</h1>
+      <p class="lede">A p5 sketch works like a hotpot restaurant. The server only hands over a tray: raw ingredients and a recipe card. Your own device does the cooking, frame after frame.</p>
+    </div>
+
+    <p>The composition below was not sent by any server. Nothing came down the wire except the recipe. Your browser cooked it a moment ago from a <b>seed</b>, one rectangle at a time.</p>
+
+    <div class="demo" data-demo="dish" data-title="A dish cooked by this device" data-foot="The same seed always gives the same dish, because the recipe uses a seeded random generator. A new seed gives a new dish. The server's job was over before the first rectangle appeared."></div>
+
+    <p>This is exactly how <b>Art Blocks</b> and <b>fx(hash)</b> work (see the <a href="04-artblocks.html">Art Blocks chapter</a> of the history module). The recipe, the artist's script, is stored once on the blockchain. Each token is just a hash. When a collector opens the token, their browser cooks the artwork from the hash. The platform serves the tray; the collector's table does the cooking.</p>
+
+    <div class="sketch" data-title="Your own recipe: change the seed, run again" data-height="400" data-width="400">
+      <script type="text/plain" class="code">
+        // This recipe is cooked by YOUR browser, not a server.
+        // Same seed = same drawing, every time, on every computer.
+        let seed = 26;
+
+        function setup() {
+          createCanvas(400, 400);
+          randomSeed(seed);
+          noiseSeed(seed);
+          noLoop();
+        }
+
+        function draw() {
+          background(244, 239, 230);
+          stroke(21, 21, 21, 90);
+          noFill();
+          for (let i = 0; i < 400; i++) {
+            let x = random(width), y = random(height);
+            beginShape();
+            for (let s = 0; s < 40; s++) {
+              vertex(x, y);
+              let a = noise(x * 0.006, y * 0.006) * TWO_PI * 2;
+              x += cos(a) * 4;
+              y += sin(a) * 4;
+            }
+            endShape();
+          }
+          noStroke();
+          fill(215, 38, 30);
+          circle(random(width), random(height), 40);
+        }
+      </script>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Run it twice without changing anything. Identical. Now change <code>seed</code> to your roll number.</li>
+        <li>Delete the <code>randomSeed</code> and <code>noiseSeed</code> lines. Now every run is a different dish. Which version could be sold as a numbered edition?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="levels" data-title="Three levels">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 5</div>
+      <h1>Three levels of "do I need a server?"</h1>
+      <p class="lede">Most confusion comes from mixing these up. A sketch that "needs a server" usually only needs level 2, which never cooks anything. It only hands out files.</p>
+    </div>
+
+    <div class="demo" data-demo="levels" data-title="The restaurant at each level" data-foot="Yellow tray: your files. Small loaf: p5 from the CDN. Red ticket: a request. At every level the final cooking (drawing the sketch) happens at the table. Only level 3 also cooks in the kitchen."></div>
+
+    <div class="levels">
+      <article class="level l1">
+        <header><div class="n">Level 1</div><h3>No server</h3></header>
+        <div class="body">
+          <p class="analogy">A recipe card in your pocket. You cook at home.</p>
+          <p>Double-click the <code>.html</code>. The address bar starts with <code>file://</code>.</p>
+          <div class="lbl">Works when</div>
+          <ul>
+            <li>everything is inside the one HTML file</li>
+            <li>libraries come from a CDN and you're online</li>
+          </ul>
+          <div class="lbl">Typical</div>
+          <p>A single-file p5 sketch from an AI agent. Agents build for this level on purpose.</p>
+        </div>
+      </article>
+      <article class="level l2">
+        <header><div class="n">Level 2</div><h3>Static server</h3></header>
+        <div class="body">
+          <p class="analogy">A takeaway counter. It hands out packed boxes and never cooks.</p>
+          <div class="lbl">Needed when</div>
+          <ul>
+            <li>the sketch loads files: <code>loadImage</code>, <code>loadFont</code>, <code>loadSound</code>, <code>loadJSON</code>, <code>loadShader</code></li>
+            <li>it uses <code>&lt;script type="module"&gt;</code> and <code>import</code></li>
+            <li>it uses the webcam or mic</li>
+            <li>you want it at a web address</li>
+          </ul>
+          <div class="lbl">On your laptop</div>
+          <pre class="block">python3 -m http.server 8000</pre>
+          <div class="lbl">On the web</div>
+          <p>GitHub Pages, Netlify, Cloudflare Pages. This course site lives here.</p>
+        </div>
+      </article>
+      <article class="level l3">
+        <header><div class="n">Level 3</div><h3>Backend</h3></header>
+        <div class="body">
+          <p class="analogy">A real kitchen that cooks each order out of sight.</p>
+          <div class="lbl">Needed when</div>
+          <ul>
+            <li><b>secrets:</b> an API key in the HTML is readable by anyone through View Source</li>
+            <li><b>shared memory:</b> a class gallery, guestbook, likes, leaderboard</li>
+            <li><b>multiplayer:</b> the kitchen relays between tables</li>
+            <li><b>heavy jobs:</b> render 10,000 PNGs, run a big ML model</li>
+            <li>logins and payments</li>
+          </ul>
+          <div class="lbl">Looks like</div>
+          <p><code>server.js</code> (Express), <code>app.py</code> (Flask), a Cloudflare Worker, a <code>.env</code> file of keys.</p>
+        </div>
+      </article>
+    </div>
+
+    <h2>Why level 2 exists at all</h2>
+    <p>If level 2 doesn't cook, why can't you just double-click? Because of a safety rule. A page opened from <code>file://</code> isn't allowed to read other files on your disk. Without that rule, any HTML file you downloaded could quietly read your Documents folder and send it somewhere. Going through <code>http://localhost</code> puts a doorman in between: the page can only ask for files from the one folder you chose to serve.</p>
+    <p>The webcam and microphone have a similar rule. The browser only offers them to pages from a trusted address: <code>https://</code> or <code>localhost</code>.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="which" data-title="Which level do I need?">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 6</div>
+      <h1>Which level does my sketch need?</h1>
+      <p class="lede">Tick everything your sketch does. The highest level wins.</p>
+    </div>
+
+    <div class="checker">
+      <div class="checks" id="checks">
+        <label><input type="checkbox" id="c-draw" data-lv="1" data-why="draws with code only" checked><span>Draws with code only: shapes, <code>noise()</code>, <code>random()</code></span></label>
+        <label><input type="checkbox" id="c-cdn" data-lv="1" data-why="loads p5 from a CDN (needs internet)" checked><span>Loads p5 or another library from a CDN link</span></label>
+        <label><input type="checkbox" id="c-store" data-lv="1" data-why="remembers settings for one viewer only"><span>Remembers settings for one person with <code>localStorage</code></span></label>
+        <label><input type="checkbox" id="c-save" data-lv="1" data-why="saves a PNG to the viewer's own computer"><span>Saves a PNG with <code>saveCanvas()</code></span></label>
+        <label><input type="checkbox" id="c-files" data-lv="2" data-why="loads files from next to the HTML"><span>Loads an image, font, sound, JSON, text or shader file</span></label>
+        <label><input type="checkbox" id="c-mod" data-lv="2" data-why="imports other JS files as modules"><span>Imports other JS files with <code>import</code></span></label>
+        <label><input type="checkbox" id="c-cam" data-lv="2" data-why="uses the webcam or microphone"><span>Uses the webcam or microphone</span></label>
+        <label><input type="checkbox" id="c-web" data-lv="2" data-why="should open at a web address"><span>Should open for anyone at a web address</span></label>
+        <label><input type="checkbox" id="c-key" data-lv="3" data-why="uses a secret API key"><span>Calls an AI or other service with a secret key</span></label>
+        <label><input type="checkbox" id="c-shared" data-lv="3" data-why="saves things other visitors will see"><span>Saves things other visitors will see: gallery, guestbook, likes</span></label>
+        <label><input type="checkbox" id="c-multi" data-lv="3" data-why="lets several people interact live"><span>Several people interact with it live</span></label>
+        <label><input type="checkbox" id="c-heavy" data-lv="3" data-why="needs heavy computing"><span>Needs heavy computing: thousands of renders, a big ML model</span></label>
+      </div>
+      <div class="verdict l1" id="verdict" aria-live="polite">
+        <div class="n" id="v-n">Level 1</div>
+        <h3 id="v-h">No server</h3>
+        <p id="v-p">Double-click the HTML and it runs.</p>
+        <ul id="v-why"></ul>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <p><b>The USB stick test.</b> Could your sketch run from a USB stick, for one person, with nothing secret and nothing shared between visitors? Then it does not need a backend. At most it needs level 2.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="agent" data-title="Reading an AI agent">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 7</div>
+      <h1>Reading what an AI agent did</h1>
+      <p class="lede">The files and commands an agent produces tell you which level it built for. Here is how to read them.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="cheat">
+        <tr><th>you see</th><th>it means</th><th>level</th></tr>
+        <tr><td>One <code>.html</code> file</td><td>A self-contained sketch with p5 pulled from a CDN. Double-click it.</td><td><span class="lv l1">1</span></td></tr>
+        <tr><td><code>python3 -m http.server</code><br><code>npx serve</code></td><td>The sketch loads assets or modules, so the browser needs something that hands out files.</td><td><span class="lv l2">2</span></td></tr>
+        <tr><td><code>npm install</code><br><code>npm run dev</code></td><td>A build step (Vite, React). Think of a prep kitchen that chops and bundles, plus a test kitchen that reloads as you edit. <code>npm run build</code> still produces plain static files. A dev server is not a backend.</td><td><span class="lv l2">2</span></td></tr>
+        <tr><td><code>server.js</code>, <code>app.py</code>, a Worker, <code>.env</code></td><td>A real kitchen. Code runs on a machine you control, out of the visitor's reach.</td><td><span class="lv l3">3</span></td></tr>
+      </table>
+    </div>
+
+    <h2>Asking for the level you want</h2>
+    <p>You can steer the agent. Say which level you want in the prompt:</p>
+    <ul>
+      <li><b>Level 1:</b> "One self-contained HTML file, p5 from a CDN pinned to 1.11, no external assets, no build step."</li>
+      <li><b>Level 2:</b> "A folder with index.html, sketch.js and an assets folder. Tell me how to serve it locally."</li>
+      <li><b>Level 3:</b> "Keep the API key on a small server; the sketch should only talk to my server, never to the AI service directly."</li>
+    </ul>
+
+    <div class="callout try">
+      <ul>
+        <li>Open the last sketch an agent wrote for you. Which level is it? Which line or file decides that?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="blank" data-title="When it goes blank">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 8</div>
+      <h1>When the canvas goes blank</h1>
+      <p class="lede">Open the console (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>J</kbd> in Chrome) and match the message. Most blank canvases are a level problem.</p>
+    </div>
+
+    <div class="errors">
+      <div class="err">
+        <code class="msg">Uncaught ReferenceError: p5 is not defined</code>
+        <p>The bakery delivery never arrived. You're offline, or the CDN link has a typo. Check the URL, or download <code>p5.min.js</code> next to your HTML.</p>
+      </div>
+      <div class="err">
+        <code class="msg">Access to fetch at 'file:///…/cat.jpg' has been blocked by CORS policy</code>
+        <p>You opened the file directly and it tried to read another file from your disk. Run a local server (level 2) and open the <code>localhost</code> address instead.</p>
+      </div>
+      <div class="err">
+        <code class="msg">Cannot use import statement outside a module</code>
+        <p>The code uses <code>import</code> but the script tag has no <code>type="module"</code>. Add it, then serve the folder (level 2), because modules won't load from <code>file://</code>.</p>
+      </div>
+      <div class="err">
+        <code class="msg">NotAllowedError: Permission denied</code>
+        <p>The webcam or mic wants a trusted address. Open the sketch through <code>http://localhost</code> or an <code>https://</code> site, not <code>file://</code>.</p>
+      </div>
+      <div class="err">
+        <code class="msg">401 Unauthorized · or your API key visible in View Source</code>
+        <p>A secret is sitting in the diner's hand. Move that call into a backend (level 3) and let the sketch talk to your kitchen instead. If a key was ever published, cancel it and make a new one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="further" data-title="On one page">
+    <div class="chapter-head">
+      <div class="eyebrow">fin</div>
+      <h1>On one page</h1>
+      <p class="lede">The whole restaurant, and where to go next.</p>
+    </div>
+
+    <table class="cheat">
+      <tr><th>idea</th><th>the one thing to remember</th></tr>
+      <tr><td>frontend / backend</td><td>whose computer runs the code: the visitor's, or yours</td></tr>
+      <tr><td>server</td><td>any computer running a program that waits for requests and answers them</td></tr>
+      <tr><td>CDN</td><td>copies of popular files kept near every visitor; pin the version</td></tr>
+      <tr><td>generative sketch</td><td>cooked at the table, from a recipe and a seed</td></tr>
+      <tr><td>level 1</td><td>double-click; works when everything is in the file</td></tr>
+      <tr><td>level 2</td><td>hands out files; needed for assets, modules, webcam, the web</td></tr>
+      <tr><td>level 3</td><td>cooks per order; needed for secrets, shared memory, multiplayer</td></tr>
+    </table>
+
+    <h2>Go further</h2>
+    <div class="cover-grid">
+      <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works" target="_blank" rel="noopener"><span class="n">📖 MDN</span><b>How the web works</b><small>the plain-language version from the people who document the web</small></a>
+      <a href="https://github.com/processing/p5.js/wiki/Local-server" target="_blank" rel="noopener"><span class="n">🧰 p5 wiki</span><b>How to set up a local server</b><small>the official p5 page on level 2, for every operating system</small></a>
+      <a href="https://pages.github.com/" target="_blank" rel="noopener"><span class="n">🧰 hosting, free</span><b>GitHub Pages</b><small>put a sketch folder at a web address in a few minutes</small></a>
+      <a href="machine.html"><span class="n">🖥 SMI26</span><b>From Sand to Sites</b><small>the engineering version: packets, DNS, HTTP and how the browser paints</small></a>
+      <a href="04-artblocks.html"><span class="n">📜 SMI26</span><b>Art Blocks</b><small>recipes on the blockchain, cooked by every collector's browser</small></a>
+      <a href="index.html"><span class="n">🧱 SMI26</span><b>Creative Coding Crash Course</b><small>back to p5.js: variables to shaders</small></a>
+    </div>
+    <p class="small">Made for the CCGA studio, SMI26, by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a>. Everything here is yours to copy.</p>
+  </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.10/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/kitchen.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

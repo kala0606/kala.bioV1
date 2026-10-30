@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMI26 · From Sand to Sites</title>
+<meta name="description" content="A visual, interactive walk through how a computer works, layer by layer: bits, transistors, logic gates, adders, memory, a CPU you can step through, the operating system, networks, and what happens when you type a URL. Built in three.js.">
+<meta property="og:title" content="From Sand to Sites · SMI26">
+<meta property="og:description" content="How a computer works, from a single switch to a web page, in interactive 3D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f4efe6'/%3E%3Crect x='4' y='22' width='24' height='5' fill='%23151515'/%3E%3Crect x='4' y='14' width='24' height='5' fill='%23f0c02e' stroke='%23151515' stroke-width='1.5'/%3E%3Crect x='4' y='6' width='24' height='5' fill='%23d7261e'/%3E%3C/svg%3E">
+<style>
+  .lab-layer { position: absolute; inset: 0; pointer-events: none; }
+  .lab3 { font-family: var(--mono); font-size: 11px; line-height: 1.25; background: var(--card); border: 1.5px solid var(--ink); border-radius: 4px; padding: 1px 6px; color: var(--ink); white-space: nowrap; pointer-events: none; }
+  .lab3.plain { background: none; border: 0; padding: 0; color: #3a3630; }
+  .lab3.big { font-family: var(--sans); font-size: 13px; font-weight: 700; }
+  .lab3.plain.big { color: var(--ink); }
+  .lab3.on { background: var(--yellow); }
+  .lab3.hot { background: var(--red); border-color: var(--red); color: #fff; }
+  .lab3.ink { background: var(--ink); color: var(--yellow); }
+  .lab3.pk { font-size: 10px; padding: 0 4px; background: var(--yellow); }
+  .lab3.step { font-size: 10.5px; }
+  .lab3 .n, .lab3 .m { color: var(--muted); font-weight: 400; }
+  .lab3.cell { font-size: 10.5px; border: 0; background: none; padding: 0; }
+  .lab3.cell .a { color: var(--muted); }
+  .lab3.cell .d { color: var(--muted); }
+  .info3 { position: absolute; top: 10px; left: 10px; width: min(320px, 46%); background: rgba(255,253,248,.95); border: 2px solid var(--ink); border-radius: 6px; padding: 9px 12px; font-size: .84rem; line-height: 1.45; z-index: 2; max-height: calc(100% - 20px); overflow: auto; }
+  .info3.below { position: static; width: auto; max-height: none; border-width: 2px 0 0; border-radius: 0; background: var(--card); }
+  .info3:empty { display: none; }
+  .info3 p { margin: .35em 0 .2em; }
+  .info3 b.t { display: block; font-size: .98rem; margin-bottom: 2px; }
+  .info3 .stamp { margin: 2px 6px 2px 0; }
+  .info3 pre { background: var(--code-bg); color: var(--code-ink); font-size: 11.5px; line-height: 1.45; padding: 7px 9px; border-radius: 4px; white-space: pre-wrap; margin: .5em 0 0; border-left: 4px solid var(--yellow); }
+  .info3 .m { color: var(--muted); }
+  .info3 .mono, .mono { font-family: var(--mono); }
+  .info3 .err { color: var(--red); }
+  @media (max-width: 640px) { .info3 { position: static; width: auto; max-height: none; border-width: 2px 0 0; border-radius: 0; } }
+  table.bits3 { border-collapse: collapse; font-size: .84rem; width: 100%; }
+  table.bits3 td, table.bits3 th { padding: 2px 10px 2px 0; text-align: left; }
+  table.bits3 th { font-weight: 500; color: var(--muted); font-size: .76rem; }
+  table.tt { border-collapse: collapse; font-family: var(--mono); font-size: .8rem; display: inline-table; vertical-align: middle; margin-right: 14px; }
+  table.tt td, table.tt th { border: 1.5px solid var(--ink); padding: 1px 9px; text-align: center; background: var(--card); }
+  table.tt th { background: var(--paper-2); }
+  table.tt tr.here td { background: var(--yellow); }
+  .ttsay { display: inline-block; vertical-align: middle; font-size: .84rem; max-width: 360px; }
+  .sumline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; }
+  .sumline .busy { color: #8a6d00; font-weight: 600; }
+  .sumline .ok, .okc { color: var(--green, #2f8f5b); font-weight: 700; }
+  .phase3 { min-height: 3em; }
+  .ph { display: inline-block; font-family: var(--mono); font-size: .74rem; font-weight: 600; padding: 1px 7px; border-radius: 4px; margin-right: 6px; background: var(--ink); color: var(--paper); }
+  .ph.fetch { background: var(--blue); } .ph.decode { background: var(--yellow); color: var(--ink); } .ph.execute { background: var(--red); }
+  .ph.dns { background: var(--yellow); color: var(--ink); } .ph.tcp { background: var(--ink); } .ph.tls { background: #2f8f5b; } .ph.http { background: var(--red); } .ph.self { background: var(--blue); }
+  .stepinfo { min-height: 4.2em; }
+  .key3 { font-family: var(--mono); font-size: .76rem; }
+  .key3 i { display: inline-block; width: 10px; height: 10px; border: 1.5px solid var(--ink); margin: 0 4px 0 10px; vertical-align: -1px; }
+  .pkts { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
+  .pkts span { font-family: var(--mono); font-size: .84rem; border: 2px solid var(--ink); border-radius: 4px; padding: 1px 6px; white-space: pre; }
+  .pkts span i { font-style: normal; font-size: .68rem; color: var(--muted); margin-right: 4px; }
+  .pkts .ok { background: var(--yellow); }
+  .pkts .miss { background: var(--paper-2); color: var(--muted); border-style: dashed; }
+  details.ed3 summary { cursor: pointer; font-family: var(--mono); font-size: .8rem; }
+  details.ed3 textarea { display: block; width: 100%; max-width: 520px; margin: 6px 0; font-family: var(--mono); font-size: 12.5px; line-height: 1.45; background: var(--code-bg); color: var(--code-ink); border: 0; border-radius: 6px; padding: 8px 10px; }
+  .callout.watch { border-color: var(--blue); }
+  .callout.watch::before { content: "▶  Watch / play"; display: block; font-weight: 700; margin-bottom: 6px; color: var(--blue); font-size: .95rem; }
+  .callout.p5 { border-color: var(--ink); border-left: 8px solid var(--red); }
+  .callout.p5::before { content: "✱  In your p5 sketch"; display: block; font-weight: 700; margin-bottom: 4px; color: var(--red); font-size: .95rem; }
+</style>
+</head>
+<body data-site-title="SMI26 · From Sand to Sites">
+
+<div class="topbar">
+  <b>SMI26 · Sand to Sites</b>
+  <select id="chapter-select" aria-label="Chapter"></select>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="#start">
+      <div class="mondrian"><i></i><i></i><i></i><i></i></div>
+      <b>From Sand to Sites<br>how a computer works</b>
+      <span>SMI26 · CCGA studio · three.js</span>
+    </a>
+    <ul class="toc" id="toc"></ul>
+    <div class="foot">
+      ← → keys move between chapters.<br>
+      Every 3D scene can be dragged to turn it. Things that light up when you hover can be clicked.<br><br>
+      Part of the SMI26 set: <a href="index.html">Creative Coding Crash Course</a> · <a href="history.html">Generative Art, a history you can run</a> · <a href="lewitt.html">The idea is the machine</a> · <a href="life.html">Cellular Automata</a> · <a href="kitchen.html">Who cooks the sketch?</a>.<br><br>
+      Built by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a> for the Creative Coding &amp; Generative Art studio, Srishti Manipal Institute.
+    </div>
+  </aside>
+
+  <main class="main">
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="start" data-title="The stack">
+    <div class="chapter-head">
+      <div class="eyebrow">SMI26 · how computers work</div>
+      <h1>From sand to sites.</h1>
+      <p class="lede">The laptop in front of you is a pile of purified sand, some copper, and a lot of ideas stacked on top of each other. Each idea is simple. The trick is that there are eleven of them, and each one only has to understand the one below.</p>
+    </div>
+
+    <p>When you write <code>circle(200, 200, 50)</code> in p5, you are standing at the top of a very tall tower. That one line becomes JavaScript, which becomes machine instructions, which become billions of tiny switches flipping, which become a pattern of light on a screen. Then you press save and it travels to the other side of the planet in a fifth of a second.</p>
+    <p>Nobody holds all of that in their head at once. Engineers manage it with <b>abstraction</b>: every layer offers a small, simple promise to the layer above, and hides how it keeps that promise. A web page doesn't know about transistors. A transistor doesn't know about web pages. This module climbs the tower one floor at a time, from the bottom.</p>
+
+    <div class="demo" data-demo="stack" data-title="The stack · eleven layers, from switches to the web" data-foot="The little blocks on each slab thin out as you climb: every layer packs many of the things below it into one thing you can use without thinking about them."></div>
+
+    <div class="callout note">
+      <p><b>Why should an artist care?</b> Because the layers leak. Why is a loop over <code>pixels[]</code> slow but a shader fast? Why does <code>loadImage()</code> have to go in <code>preload()</code>? Why does <code>255 + 1</code> sometimes give <code>0</code>? Why does your sketch look different on a phone? Every one of those answers lives on a floor below the one you are working on. And many artists work on purpose with those leaks: glitch art, data bending, net art, live coding.</p>
+    </div>
+
+    <p>How to use this: each chapter has one or two 3D scenes. Drag to turn them. Click whatever glows. Read the text underneath. Break things on purpose.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="bits" data-title="Bits">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 1</div>
+      <h1>Everything is switches</h1>
+      <p class="lede">A computer can only store one kind of thing: switches that are either on or off. Every photo, song, word and sketch you have ever made is, deep down, a very long row of on and off.</p>
+    </div>
+
+    <p>One switch is a <b>bit</b> (binary digit): 0 or 1. On its own a bit can't say much: yes or no, black or white. But line up eight of them and you get <b>256</b> different patterns (2 × 2 × 2 × 2 × 2 × 2 × 2 × 2). Eight bits is a <b>byte</b>.</p>
+    <p>To read a byte as a number, give each position a value, doubling from right to left: 1, 2, 4, 8, 16, 32, 64, 128. Add up the values of the switches that are on. <code>01000001</code> is 64 + 1 = <b>65</b>. That's all binary is: counting where each column is worth twice the one to its right, instead of ten times.</p>
+    <p>Then we just <i>agree</i> on what the numbers mean. Since 1963 we have agreed (the <b>ASCII</b> code) that 65 means the letter <b>A</b>, 66 means B, 32 is a space. Today's <b>Unicode</b> extends the same idea to over 150,000 characters: ಕ, अ, 字, 🙂. And a colour on your screen is three bytes, one each for red, green and blue light.</p>
+
+    <div class="demo" data-demo="bits" data-title="24 switches: three numbers, three letters, one colour" data-foot="Click any bulb to flip it. The same 24 switches are simultaneously three numbers, three letters (if those numbers happen to be letter codes) and one colour. The bits don't know which; only the program reading them does."></div>
+
+    <table class="cheat">
+      <tr><th>how many</th><th>called</th><th>enough for</th></tr>
+      <tr><td>1 bit</td><td>bit</td><td>on / off, yes / no</td></tr>
+      <tr><td>8 bits</td><td>byte</td><td>a number 0–255, one letter, one channel of one pixel</td></tr>
+      <tr><td>1,000 bytes</td><td>kilobyte (KB)</td><td>a page of plain text</td></tr>
+      <tr><td>1,000,000 bytes</td><td>megabyte (MB)</td><td>one photo (compressed), a minute of music</td></tr>
+      <tr><td>1,000,000,000 bytes</td><td>gigabyte (GB)</td><td>a film; what your laptop's RAM holds 8–32 of</td></tr>
+    </table>
+
+    <div class="callout p5">
+      <p><code>fill(83, 77, 73)</code> is three bytes. <code>loadPixels()</code> gives you an array called <code>pixels</code> where every pixel is <b>four</b> numbers in a row (red, green, blue, alpha), each 0–255, because each is one byte. A 400 × 400 canvas is 640,000 bytes. Draw it at <code>pixelDensity(2)</code> and it is four times that.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Type your initials. What colour is your name?</li>
+        <li>Press <b>count in binary</b> and watch the rightmost bulb. It flips every time. The next one flips half as often. Then what happens after 255?</li>
+        <li>Make pure yellow. Which switches did you need? Why is yellow "red + green" on a screen when it isn't in paint?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="transistor" data-title="Transistors">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 2</div>
+      <h1>A switch made of sand</h1>
+      <p class="lede">A bit needs a switch, and a computer needs billions of them, flipping billions of times a second, without anyone's finger. The answer is the transistor: a switch flipped by electricity.</p>
+    </div>
+
+    <p>Silicon, the main ingredient of sand, is a <b>semiconductor</b>: it conducts electricity badly, but you can change how badly. Add a pinch of certain other atoms (this is called <b>doping</b>) and you get regions that are full of free electrons. A transistor puts two of those regions, the <b>source</b> and the <b>drain</b>, side by side with plain silicon between them. Nothing can flow across the gap.</p>
+    <p>On top of the gap sits a <b>gate</b>, separated from the silicon by a layer of glass so thin it is a few dozen atoms thick. Put a voltage on the gate and its charge pulls electrons up underneath the glass, forming a thin conducting <b>channel</b>. Now current flows from source to drain. Take the voltage away and the channel vanishes. On, off. 1, 0.</p>
+
+    <div class="demo" data-demo="transistor" data-title="One transistor (an n-channel MOSFET), in cross-section" data-foot="Slide the gate voltage slowly. Below the threshold: nothing. Above it: a channel, and the lamp lights. The blue dots are electrons. The battery and lamp stand in for 'the next part of the circuit', which in a real chip is the gate of another transistor."></div>
+
+    <div class="callout note">
+      <p><b>The idea that matters:</b> a transistor is a switch whose input is the same kind of thing as its output (a voltage). So the output of one can flip the next one, which can flip the next. That is what makes it possible to build anything at all out of them.</p>
+    </div>
+
+    <h2>How small, how many</h2>
+    <table class="cheat">
+      <tr><td>1945</td><td>ENIAC, one of the first electronic computers, uses 17,468 <b>vacuum tubes</b> as switches: glass bulbs, hot, power-hungry, burning out daily. It fills a room.</td></tr>
+      <tr><td>1947</td><td>Bardeen, Brattain and Shockley build the first transistor at Bell Labs. It is the size of your thumb.</td></tr>
+      <tr><td>1958–59</td><td>Jack Kilby and Robert Noyce put several transistors and their wires on one piece of material: the <b>integrated circuit</b>, or chip.</td></tr>
+      <tr><td>1971</td><td>The Intel 4004, the first commercial microprocessor: about 2,300 transistors.</td></tr>
+      <tr><td>1965–now</td><td>Gordon Moore notices the number of transistors on a chip doubles roughly every two years. It keeps happening for half a century ("Moore's law").</td></tr>
+      <tr><td>today</td><td>A laptop processor has tens of billions of transistors (Apple's M3 Max: 92 billion), each a few dozen nanometres across. A human hair is about 80,000 nm wide.</td></tr>
+    </table>
+    <p>They are made by <b>photolithography</b>: shining ultraviolet light through a stencil onto a polished disc of pure silicon, then etching, doping and layering, dozens of times. In other words: a chip is printed. It's printmaking, at the scale of atoms.</p>
+
+    <div class="callout try">
+      <ul>
+        <li>Find the voltage where the lamp just turns on. Why do you think chips are designed to never sit near that point?</li>
+        <li>Notice no electrons ever go into the gate. Why is that useful, if the gate is driven by another transistor's output?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="gates" data-title="Logic gates">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 3</div>
+      <h1>Switches that decide</h1>
+      <p class="lede">Put two switches in a row and the light comes on only if both are on. Put them side by side and either one will do. You've just built logic.</p>
+    </div>
+
+    <p>Two switches in <b>series</b> (one after the other): current gets through only if A <i>and</i> B are closed. That's an <b>AND gate</b>. Two switches in <b>parallel</b> (two paths): current gets through if A <i>or</i> B is closed. That's an <b>OR gate</b>. A switch wired so that it pulls the output <i>down</i> when it's on gives you the opposite of its input: a <b>NOT gate</b>.</p>
+    <p>That's it. In 1854 George Boole wrote down an algebra of true and false using only AND, OR and NOT. In 1937 a 21-year-old student called Claude Shannon noticed that electrical switching circuits obey exactly Boole's algebra. Every chip since is built on that observation.</p>
+
+    <div class="demo" data-demo="gates" data-title="Logic gates: click A and B" data-foot="Each gate is a few transistors wired together; you never see the transistors again after this. The yellow row of the truth table is what you're looking at right now. A truth table lists every possible input, so it completely describes a gate."></div>
+
+    <div class="callout note">
+      <p><b>A surprising fact:</b> you only need <b>one</b> kind of gate. NAND (AND followed by NOT) can be wired up to make NOT, AND, OR, XOR, and therefore everything. Same for NOR: the computer that guided Apollo 11 to the Moon was built from about 2,800 chips that each held two NOR gates, and nothing else.</p>
+    </div>
+
+    <div class="callout p5">
+      <p>Every <code>if</code> you write is a gate. <code>if (mouseIsPressed &amp;&amp; key === 'a')</code> is an AND. <code>||</code> is OR. <code>!</code> is NOT. And JavaScript even has XOR for whole numbers: <code>5 ^ 3</code> is <code>6</code>, because it XORs every bit (<code>101 ^ 011 = 110</code>).</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Pick XOR. Find the two rows where it differs from OR. Say in words what XOR means.</li>
+        <li>On paper: if you only had NAND gates, how would you make a NOT? (Hint: what if both inputs are the same wire?)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="adder" data-title="Adding with gates">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 4</div>
+      <h1>Arithmetic out of logic</h1>
+      <p class="lede">Gates make decisions. Arrange them the right way and those decisions are arithmetic. This is the moment a pile of switches becomes a calculator.</p>
+    </div>
+
+    <p>Add two one-bit numbers and there are only four cases:</p>
+    <table class="cheat">
+      <tr><th>A</th><th>B</th><th>A + B</th><th>sum digit</th><th>carry</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><td>1</td><td>1</td><td>2 = <code>10</code> in binary</td><td>0</td><td>1</td></tr>
+    </table>
+    <p>Look at the last two columns. The sum digit is exactly <b>XOR</b>. The carry is exactly <b>AND</b>. One XOR and one AND make a <b>half adder</b>. Two half adders and an OR also take a carry coming in from the right: a <b>full adder</b>. Chain four full adders, each one's carry feeding the next, and you can add any two numbers from 0 to 15. Chain 64 and you have the adder inside your laptop.</p>
+
+    <div class="demo" data-demo="adder" data-title="A 4-bit ripple-carry adder, slowed down a billion times" data-foot="Click the A and B cubes to set two binary numbers (rightmost is worth 1, leftmost 8). The yellow boxes are full adders still working out their answer. Watch the carry ripple right to left: the left adders can't finish until the ones to their right have."></div>
+
+    <div class="callout note">
+      <p><b>Speed is a wiring problem.</b> Each gate takes a tiny time to settle (picoseconds, in a modern chip). In a ripple adder, the leftmost digit has to wait for all the others. That waiting, added up across a whole chip, is what sets how fast the clock in the next chapter can tick. Real CPUs use cleverer "carry-lookahead" adders that guess the carries in parallel.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Press <b>15 + 1</b> and count how many boxes go yellow one after the other.</li>
+        <li>Make 9 + 9. The answer is 18, which doesn't fit in 4 bits. Where does the 16 go? This is called <b>overflow</b>, and it's why <code>255 + 1 = 0</code> in a byte.</li>
+        <li>Subtraction is addition in disguise: computers subtract by adding a flipped number plus one. Look up "two's complement".</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="memory" data-title="Memory &amp; the clock">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 5</div>
+      <h1>Remembering, on the beat</h1>
+      <p class="lede">An adder forgets its answer the moment its inputs change. To compute anything in steps you need two more ideas: a circuit that remembers, and a drumbeat that tells everything when to move.</p>
+    </div>
+
+    <p><b>Memory from feedback.</b> Take two NOR gates and wire each one's output back into the other's input. The pair settles into one of two stable states and <i>stays there</i>, even after you let go of the inputs, because each gate keeps the other one held. Pulse one input and it flips; pulse the other and it flips back. That loop is a <b>latch</b>: one bit of memory, made of nothing but gates. Put eight side by side and you can hold a byte. Give each byte a number, its <b>address</b>, and you have memory.</p>
+    <p>(Your laptop's main memory, <b>DRAM</b>, cheats for density: each bit is one transistor plus a tiny capacitor holding a charge, which leaks and has to be topped up thousands of times a second. Same idea, different trick.)</p>
+    <p><b>The clock.</b> Signals take different times to ripple through different paths, as you saw in the adder. If every part changed whenever it felt like it, the whole machine would be reading half-finished answers. So there is a <b>clock</b>: a signal that goes up and down, up and down, and every memory cell only takes in a new value on the moment it goes <i>up</i> (the "rising edge"). Between ticks, everything settles. On the tick, everything moves one step, together.</p>
+
+    <div class="demo" data-demo="memory" data-title="16 bytes of memory and a clock" data-foot="Choose an address and READ or WRITE. Nothing happens until the clock ticks. Set the clock to 'stopped' and use tick once to see that clearly. The memory starts out holding a message: each row is one byte, and the right-hand column shows it as a letter."></div>
+
+    <div class="callout note">
+      <p><b>How fast is the drumbeat?</b> A 3 GHz processor ticks three <i>billion</i> times a second. In one tick, light travels about 10 centimetres. At that speed the size of the chip, and the distance to memory, starts to matter. That's chapter 7.</p>
+    </div>
+
+    <div class="callout p5">
+      <p>p5's <code>draw()</code> is a clock: it ticks about 60 times a second, and <code>frameCount</code> counts the ticks. Every variable you make with <code>let</code> is a few bytes at some address in memory, which is why it still holds its value the next time <code>draw()</code> runs.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Write your own initials into addresses 0 to 2 (use the data slider to find the letter codes: A is 65).</li>
+        <li>Stop the clock. Change the address and data a few times. Did anything get written? Now tick once.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="cpu" data-title="The CPU">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 6</div>
+      <h1>Fetch, decode, execute</h1>
+      <p class="lede">You have an adder, memory and a clock. Here is the idea that turns them into a computer: store the instructions in the same memory as the data, and have a little machine read them one at a time.</p>
+    </div>
+
+    <p>In 1945 John von Neumann wrote up a design (for a machine called EDVAC) with this shape, and almost every computer since has followed it. The <b>CPU</b> (central processing unit) has a few special memory cells of its own, called <b>registers</b>:</p>
+    <ul>
+      <li><b>PC</b>, the program counter: the address of the next instruction.</li>
+      <li><b>IR</b>, the instruction register: the instruction it's working on.</li>
+      <li><b>A</b>, the accumulator: a scratchpad for the number being worked on.</li>
+    </ul>
+    <p>And it does one thing, forever:</p>
+    <ol>
+      <li><b>Fetch:</b> read the byte at address PC into IR. Add 1 to PC.</li>
+      <li><b>Decode:</b> split the byte. The first 4 bits say <i>what</i> to do (the opcode); the last 4 say <i>where</i> (an address).</li>
+      <li><b>Execute:</b> do it. Maybe that means using the ALU (arithmetic logic unit: chapter 4's adder, plus friends).</li>
+    </ol>
+    <p>Below is a complete working CPU with 16 bytes of memory and 8 instructions. It's a toy, but not a lie: it really runs, and everything your laptop does is this loop with more registers, more instructions and more speed.</p>
+
+    <div class="demo" data-demo="cpu" data-title="A toy CPU · step through a program one instruction at a time" data-foot="The yellow cube is a byte travelling over the bus. Red arrow: the program counter. Every memory cell is shown three ways: its address, its 8 bits, and what those bits would mean as an instruction. A data cell holding 3 would mean 'HALT' if the CPU ever wandered into it; the CPU can't tell code from data."></div>
+
+    <table class="cheat">
+      <tr><th>opcode</th><th>instruction</th><th>what it does</th></tr>
+      <tr><td><code>0000</code></td><td>HALT</td><td>stop</td></tr>
+      <tr><td><code>0001</code></td><td>LOAD a</td><td>A = memory[a]</td></tr>
+      <tr><td><code>0010</code></td><td>ADD a</td><td>A = A + memory[a]</td></tr>
+      <tr><td><code>0011</code></td><td>SUB a</td><td>A = A − memory[a]</td></tr>
+      <tr><td><code>0100</code></td><td>STORE a</td><td>memory[a] = A</td></tr>
+      <tr><td><code>0101</code></td><td>JUMP a</td><td>PC = a (the next instruction comes from a)</td></tr>
+      <tr><td><code>0110</code></td><td>JZ a</td><td>if A is 0, PC = a (a decision!)</td></tr>
+      <tr><td><code>0111</code></td><td>OUT</td><td>show A</td></tr>
+    </table>
+
+    <div class="callout note">
+      <p><b>Only two of those instructions are really interesting.</b> JUMP lets a program repeat itself: that's every loop. JZ lets it choose: that's every <code>if</code>. With arithmetic, memory, a loop and a choice, a machine can compute anything any computer can compute (given enough memory and time). Alan Turing proved that in 1936, before anyone had built one.</p>
+    </div>
+
+    <div class="callout p5">
+      <p>Your p5 code is turned into instructions like these by the browser's JavaScript engine, a few milliseconds after the page loads. A single <code>x = x + 1</code> is roughly LOAD, ADD, STORE. A <code>for</code> loop is a SUB, a JZ and a JUMP. A real CPU knows over a thousand instructions and runs several of them at once per tick, but the loop is the same.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Run <b>count by 3</b> at high speed. What happens after 255? (Chapter 4's overflow, again.)</li>
+        <li>Open the editor and change the 3 at address 14 to a 5. Reload and run.</li>
+        <li>Harder: make the countdown start at 9 and count down by 3. When does it stop? Why does it not stop if you start at 10?</li>
+        <li>Hardest: write a program that <b>STORE</b>s into its own code and changes what it does next.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="machine" data-title="The whole machine">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 7</div>
+      <h1>Everything on one board</h1>
+      <p class="lede">Zoom out from the CPU and you find a city: memory, storage, graphics, network, power, all wired together. The main fact about this city is that distance is time.</p>
+    </div>
+
+    <p>The toy CPU had all its memory right next to it. A real one has a few dozen registers inside, then several layers of <b>cache</b> (small, fast memory on the same chip), then <b>RAM</b> on separate chips a few centimetres away, then <b>storage</b> (an SSD) that keeps your files when the power is off, then the whole internet beyond that.</p>
+
+    <div class="demo" data-demo="machine" data-title="Inside a laptop, roughly" data-foot="The gold traces show the CPU talking to its neighbours over buses. Real boards have thousands of traces in a dozen stacked copper layers. In phones and newer laptops, CPU, GPU and RAM are often squeezed into one package, because closer is faster."></div>
+
+    <p>The parts are not just in different places; they are wildly different speeds. Every step down this ladder holds more and is slower, often by ten or a hundred times. This is called the <b>memory hierarchy</b>, and it is the single most useful thing to know about why software is fast or slow.</p>
+
+    <div class="demo" data-demo="latency" data-title="How long it takes to fetch one piece of data" data-foot="Rough, typical numbers; real ones vary by machine. 'Human scale' stretches one CPU cycle (≈0.3 ns at 3.3 GHz) to one second. On that scale, fetching from RAM is a coffee break and asking a server in the US is a career."></div>
+
+    <div class="callout note">
+      <p><b>Caching is everywhere.</b> Because far is slow, every layer keeps copies of things it might need again close by: the CPU caches RAM, RAM caches the disk, your browser caches websites, DNS caches addresses (chapter 10). When something is mysteriously fast the second time, a cache is usually why.</p>
+    </div>
+
+    <div class="callout p5">
+      <p><code>loadImage()</code> goes in <code>preload()</code> because the file may come from the slowest tower in that picture, and p5 wants it ready before <code>setup()</code>. Looping over every pixel in JavaScript runs on the CPU, a few at a time; a <b>shader</b> runs the same little program on the GPU's thousands of cores, one per pixel, all at once. That is why shaders can do per-pixel effects at 60 frames per second that would crawl in a <code>for</code> loop.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="os" data-title="Operating system">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 8</div>
+      <h1>The program in charge</h1>
+      <p class="lede">Your laptop is playing music, downloading a file, running a browser with forty tabs and your p5 sketch, all at once, on a handful of cores. It isn't, really. It's taking turns, very fast.</p>
+    </div>
+
+    <p>The <b>operating system</b> (macOS, Windows, Linux, Android, iOS) is the first program that runs when you switch on, and it never stops. Its core, the <b>kernel</b>, is the only program allowed to touch the hardware directly. Everything else has to ask it. It has four main jobs:</p>
+    <ul>
+      <li><b>Share the CPU.</b> Each running program is a <b>process</b>. The kernel's <b>scheduler</b> gives each one a short time slice on a core (a few milliseconds), then freezes it, saves its registers, and loads the next one. This is a <b>context switch</b>.</li>
+      <li><b>Share memory.</b> Each process gets its own private range of addresses and cannot read anyone else's. (When one tries, that's a crash, not a hack.)</li>
+      <li><b>Files.</b> Turning "a few billion flash cells" into folders with names.</li>
+      <li><b>Devices.</b> Small programs called <b>drivers</b> translate between the kernel and each piece of hardware: keyboard, screen, Wi-Fi, camera.</li>
+    </ul>
+
+    <div class="demo" data-demo="os" data-title="The scheduler takes turns" data-foot="Each cube is a running program; its height is the work it has left (∞ for things that never finish, like music). The coloured strips coming out of each core are a timeline of who had it. Try 1 core, then 4. Real time slices are a few milliseconds, so it looks continuous to you."></div>
+
+    <div class="callout note">
+      <p><b>It's animation.</b> A film is still frames shown fast enough that you see motion. Multitasking is programs taking turns fast enough that you see them all running. Same trick, same reason it works: you're slow.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Set 1 core and add five more programs. Does anything ever stop getting a turn?</li>
+        <li>Make the time slice very short. More switching means more fair, but each switch costs a little time. Where would you set it?</li>
+        <li>On your own laptop: open Activity Monitor (Mac) or Task Manager (Windows). Count the processes. It's usually several hundred.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="net" data-title="Networks">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 9</div>
+      <h1>Packets, and the paths they take</h1>
+      <p class="lede">The internet is not a set of cables between you and a website. It's tens of thousands of networks agreeing to pass each other's envelopes along, without anyone in charge of the whole route.</p>
+    </div>
+
+    <p>When your laptop sends anything, it chops it into small <b>packets</b> (usually up to about 1,500 bytes). Each packet gets a label on the front: where it's from, where it's going (an <b>IP address</b>, like <code>203.0.113.7</code>), and its number in the sequence. Then it's handed to the nearest <b>router</b>.</p>
+    <p>A router is a computer whose whole job is to look at the address on each packet and pass it to a neighbour that is closer to the destination. It doesn't know the full route. Nobody does. Each packet might go a different way, depending on which links are busy or broken right now. They arrive out of order; some never arrive at all.</p>
+    <p>That mess is tidied up at the two ends by <b>TCP</b>: the receiver puts the packets back in order using their numbers and sends back acknowledgements; the sender re-sends anything that isn't acknowledged in time. The network in the middle is allowed to be unreliable, because the ends make it reliable.</p>
+
+    <div class="demo" data-demo="net" data-title="A message crossing a network of routers" data-foot="Your message is cut into 4-letter packets. Each one finds its own route (shortest-ish, with some randomness, like real traffic). Red packets are lost and fall; TCP notices the gap after a timeout and re-sends. Click routers to break them: the network routes around the damage."></div>
+
+    <div class="callout note">
+      <p><b>Designed to survive.</b> ARPANET, the internet's ancestor (1969), was built from the idea that a network with no centre and many paths keeps working when parts of it fail. Break half the routers above: as long as some path exists, the message still arrives. The modern internet still runs on the TCP/IP rules switched on across ARPANET on 1 January 1983.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Set packet loss to 30% and send again. The message still arrives complete. What did it cost?</li>
+        <li>Break routers until you cut the network in two. What happens to the packets?</li>
+        <li>Under the sea: almost all traffic between continents travels on about 500 undersea fibre-optic cables. Look up the cables landing in Mumbai and Chennai.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="url" data-title="Typing a URL">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 10</div>
+      <h1>What happens when you press Enter</h1>
+      <p class="lede">Between typing an address and seeing the page, your browser holds a short conversation with four or five computers you have never heard of, in four different languages. All of it in about half a second.</p>
+    </div>
+
+    <p>Each "language" is a <b>protocol</b>: a set of rules both sides agree on, like the format of a letter. They stack, just like the layers of the machine:</p>
+    <table class="cheat">
+      <tr><th>protocol</th><th>its job</th><th>analogy</th></tr>
+      <tr><td><b>DNS</b></td><td>turn a name (<code>www.example.com</code>) into an IP address</td><td>looking up a phone number</td></tr>
+      <tr><td><b>IP</b></td><td>get one packet to one address, best effort</td><td>the postal system</td></tr>
+      <tr><td><b>TCP</b></td><td>a reliable, ordered stream on top of unreliable packets</td><td>numbered pages, and a receipt for each</td></tr>
+      <tr><td><b>TLS</b></td><td>encrypt the stream and prove who the server is</td><td>a sealed envelope with an ID card inside</td></tr>
+      <tr><td><b>HTTP</b></td><td>ask for a file, get a file</td><td>the letter itself: "please send me /index.html"</td></tr>
+    </table>
+
+    <div class="demo" data-demo="url" data-title="https://www.example.com/ · the whole conversation, one message at a time" data-foot="Each arc is one message (often several packets). Time runs away from you, so by the end you are looking at a 3D sequence diagram. The times are a typical first visit from Bangalore to a server across an ocean. On a second visit, DNS is cached and most of it is skipped."></div>
+
+    <div class="callout note">
+      <p><b>The web is text.</b> Under the encryption, an HTTP request is a few lines of plain English-ish text, and a web page is a text file of HTML. Tim Berners-Lee, at CERN in 1989–91, invented three things: HTML (the format), HTTP (the protocol) and the URL (the address). That's the whole web. Everything else is the internet that already existed underneath it.</p>
+    </div>
+
+    <div class="callout p5">
+      <p><code>loadJSON(url)</code>, <code>loadImage(url)</code> and JavaScript's <code>fetch(url)</code> each kick off this exact conversation. That's why they are <b>asynchronous</b>: your sketch can't just stop and wait 400 ms at 60 frames a second, so it keeps drawing and you get the data a few frames later, in a callback or <code>preload()</code>.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>On any page, open your browser's developer tools (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>I</kbd> on Mac, <kbd>F12</kbd> on Windows), click <b>Network</b> and reload. Every row is one HTTP request. How many does this page need? How many does Instagram?</li>
+        <li>In a terminal, type <code>nslookup example.com</code> to do the DNS step yourself.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="browser" data-title="The browser draws">
+    <div class="chapter-head">
+      <div class="eyebrow">chapter 11</div>
+      <h1>From text to pixels</h1>
+      <p class="lede">The server sent back a text file. The browser has to turn it into a picture: by building a tree, turning the tree into boxes, and painting the boxes. Then it does it again every time anything changes.</p>
+    </div>
+
+    <ol>
+      <li><b>Parse.</b> The browser reads the HTML and builds the <b>DOM</b> (document object model): a tree in which every tag is a node and tags inside tags are its children.</li>
+      <li><b>Style.</b> It reads the CSS and works out every property of every node: colour, font, size, margin.</li>
+      <li><b>Layout.</b> It works out where every box goes. Every element is a rectangle, nested inside its parent's rectangle.</li>
+      <li><b>Paint.</b> It draws the boxes, back to front, into layers.</li>
+      <li><b>Composite.</b> The GPU stacks the layers into the final frame on your screen.</li>
+    </ol>
+    <p>Meanwhile JavaScript can reach into the tree at any time (<code>document.querySelector(...)</code>) and change it, and the browser redoes whatever steps it has to.</p>
+
+    <div class="demo" data-demo="dom" data-title="One small page: as you see it, as boxes, as a tree" data-foot="Same fifteen elements in all three views. 'Boxes, exploded' pulls each element towards you by how deeply it is nested, which shows the boxes-inside-boxes structure that layout works with. The &amp;lt;canvas&amp;gt; is where a p5 sketch would draw."></div>
+
+    <p>That page was a toy. The one you're reading isn't. Below, the browser hands us the position and size of every element in this chapter, and we rebuild it in 3D: the higher a box floats, the deeper it is nested in the tree.</p>
+
+    <div class="demo" data-demo="tilt" data-title="This very chapter, exploded" data-foot="After Tilt, a 3D page inspector that used to be built into Firefox. Red slabs are the interactive figures; yellow are headings; blue are links and buttons; dark are code. The figure you are looking at is left out, otherwise it would have to contain itself."></div>
+
+    <div class="callout p5">
+      <p><code>createCanvas(400, 400)</code> adds one <code>&lt;canvas&gt;</code> element to the DOM, one box among the others. Everything you draw is pixels inside that one box; the browser lays it out and composites it like any other. <code>createButton()</code> and <code>createSlider()</code> add real DOM elements beside it, which is why they look like web page parts and not like your drawing.</p>
+    </div>
+
+    <div class="callout try">
+      <ul>
+        <li>Right-click anything on this page and choose <b>Inspect</b>. That's the DOM tree, live. Change some text in it and watch the page change.</li>
+        <li>Switch the toy page to the tree view. Which elements are leaves (no children)? Those are the ones with something to show.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="chapter" id="further" data-title="All the way down">
+    <div class="chapter-head">
+      <div class="eyebrow">fin</div>
+      <h1>All the way down</h1>
+      <p class="lede">You've climbed from one switch to a web page. Here is the whole tower on one screen, some numbers worth remembering, and where to go deeper.</p>
+    </div>
+
+    <table class="cheat">
+      <tr><th>layer</th><th>the one idea</th></tr>
+      <tr><td>1 · bits</td><td>everything is a pattern of on/off; meaning is an agreement</td></tr>
+      <tr><td>2 · transistors</td><td>a switch flipped by voltage, whose output can flip the next</td></tr>
+      <tr><td>3 · gates</td><td>switches in series = AND, in parallel = OR; NAND makes everything</td></tr>
+      <tr><td>4 · adders</td><td>sum = XOR, carry = AND; arithmetic is logic</td></tr>
+      <tr><td>5 · memory &amp; clock</td><td>feedback remembers; the clock makes everything step together</td></tr>
+      <tr><td>6 · CPU</td><td>fetch, decode, execute, forever; code and data share memory</td></tr>
+      <tr><td>7 · the machine</td><td>far is slow; so everything caches</td></tr>
+      <tr><td>8 · OS</td><td>programs take turns so fast it looks simultaneous</td></tr>
+      <tr><td>9 · networks</td><td>packets find their own way; the ends make it reliable</td></tr>
+      <tr><td>10 · the web</td><td>DNS → TCP → TLS → HTTP: a conversation in text</td></tr>
+      <tr><td>11 · the browser</td><td>text → tree → boxes → pixels, 60 times a second</td></tr>
+    </table>
+
+    <h2>Numbers to keep in your pocket</h2>
+    <table class="cheat">
+      <tr><td>~3 GHz</td><td>a CPU core ticks about 3 billion times a second</td></tr>
+      <tr><td>~10 cm</td><td>how far light gets in one of those ticks</td></tr>
+      <tr><td>~100 ns</td><td>one trip to RAM: hundreds of ticks of waiting</td></tr>
+      <tr><td>16.7 ms</td><td>one frame at 60 fps: your whole <code>draw()</code> has to fit in this</td></tr>
+      <tr><td>~200 ms</td><td>a round trip from India to the US and back</td></tr>
+      <tr><td>tens of billions</td><td>transistors on a laptop chip</td></tr>
+    </table>
+
+    <h2>Go further</h2>
+    <div class="cover-grid">
+      <a href="https://eater.net/8bit" target="_blank" rel="noopener"><span class="n">▶ video series</span><b>Ben Eater: build an 8-bit computer</b><small>a real CPU on breadboards, from gates up, one wire at a time. The best thing on this list.</small></a>
+      <a href="https://nandgame.com/" target="_blank" rel="noopener"><span class="n">🎮 game, free</span><b>NandGame</b><small>start with one NAND gate and build your way up to a working computer</small></a>
+      <a href="https://www.nand2tetris.org/" target="_blank" rel="noopener"><span class="n">📗 course, free</span><b>Nand to Tetris</b><small>the university version: NAND gate to CPU to compiler to a game</small></a>
+      <a href="https://www.codehiddenlanguage.com/" target="_blank" rel="noopener"><span class="n">📕 book</span><b>Charles Petzold, <i>Code</i></b><small>the hidden language of hardware, told from Morse code and flashlights upward</small></a>
+      <a href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo" target="_blank" rel="noopener"><span class="n">▶ video series</span><b>Crash Course Computer Science</b><small>Carrie Anne Philbin, 40 short episodes covering this whole tower and more</small></a>
+      <a href="https://howdns.works/" target="_blank" rel="noopener"><span class="n">✎ comic</span><b>How DNS works</b><small>chapter 10's phone book, as a comic</small></a>
+      <a href="https://github.com/alex/what-happens-when" target="_blank" rel="noopener"><span class="n">📖 essay</span><b>What happens when…</b><small>you type google.com and press Enter, described in obsessive detail, from the keyboard's electrical signal on</small></a>
+      <a href="https://developer.chrome.com/blog/inside-browser-part1" target="_blank" rel="noopener"><span class="n">📖 illustrated</span><b>Inside look at a modern web browser</b><small>Mariko Kosaka's four-part illustrated tour of chapter 11</small></a>
+      <a href="https://threejs.org/" target="_blank" rel="noopener"><span class="n">🧰 library</span><b>three.js</b><small>the 3D library every scene in this module is made with</small></a>
+      <a href="index.html"><span class="n">🧱 SMI26</span><b>Creative Coding Crash Course</b><small>back to the top of the tower: p5.js from variables to shaders</small></a>
+      <a href="kitchen.html"><span class="n">🍲 SMI26</span><b>Who cooks the sketch?</b><small>chapters 10 and 11 for the studio: when your sketch needs a server, explained with a kitchen</small></a>
+      <a href="life.html"><span class="n">▦ SMI26</span><b>Cellular Automata</b><small>rule 110 is a computer too: chapter 6's idea in a grid of cells</small></a>
+      <a href="history.html"><span class="n">📜 SMI26</span><b>Generative Art, a history you can run</b><small>what artists did with these machines, from 1960s plotters on</small></a>
+    </div>
+    <p class="small">Made for the CCGA studio, SMI26, by <a href="https://www.ujjwalagarwal.com" target="_blank" rel="noopener">Ujjwal Agarwal</a>. Numbers are rounded and typical, not exact; real machines vary. The toy CPU is after the SAP-1 design popularised by Albert Malvino and Ben Eater. Built with three.js. Everything here is yours to copy.</p>
+  </section>
+
+  </main>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="js/machine.js"></script>
+</body>
+</html>
