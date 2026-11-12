@@ -261,7 +261,7 @@ code { font: 400 0.88em/1 var(--mono); background: var(--paper-2); padding: 2px 
 .kit-cells p + p { margin-top: 8px; }
 .kit-cells ul, .kit-cells ol { margin: 0; padding-left: 1.2em; font-size: 15px; color: var(--ink-2); }
 .kit-cells li + li { margin-top: 4px; }
-@media (max-width: 860px) { .kit-cells { --cols: 2 !important; } }
+@media (max-width: 860px) { .kit-cells { --cols: 2 !important; } .kit-cells > div:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 @media (max-width: 560px) { .kit-cells { grid-template-columns: 1fr; } }
 
 .kit-table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); margin: 0 0 20px; font-size: 15px; }

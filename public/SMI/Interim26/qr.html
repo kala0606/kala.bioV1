@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Codes · Computationally Yours</title>
+<meta name="description" content="QR codes and the documentation workflow for Computationally Yours: what the code links to, making and testing it, print size, and the path from photographs to the exhibition label.">
+<meta property="og:title" content="QR Codes · Computationally Yours">
+<meta property="og:description" content="Make, test and print the QR code that links each zone to its repository. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+.maker { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .maker { grid-template-columns: 1fr; } }
+.maker label { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.maker input[type=url], .maker input[type=text] { width: 100%; font: 400 15px/1.5 var(--mono); color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 10px 12px; }
+.maker input:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+.maker .row { margin: 0 0 16px; }
+.maker .msg { font-size: 14px; color: var(--ink-2); min-height: 1.4em; margin: 8px 0 0; }
+.maker .msg.bad { color: var(--accent); }
+.qrbox { border: 2px solid var(--rule-ink); background: #fff; padding: 18px; display: grid; place-items: center; aspect-ratio: 1; max-width: 340px; }
+.qrbox svg { width: 100%; height: auto; display: block; }
+.qrcap { font: 500 11px/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 0; word-break: break-all; }
+.qractions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 18 · Days 17–18 · Srishti Manipal Interim 2026</div>
+        <h1>From wall to <em>code</em></h1>
+        <p class="lede">QR codes and documentation workflow. The QR code is the bridge between the object on the wall and the system that made it. Make it here, test it properly, and make sure what it opens is ready.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-18-qr" data-depth="4" data-colors="3"></div><div class="mond-caption">seed qr · depth 4</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Links to</dt><dd>Your repository</dd></div>
+      <div><dt>Made</dt><dd>Day 17 · Tue 15 Dec</dd></div>
+      <div><dt>Print size</dt><dd>At least 3 cm</dd></div>
+      <div><dt>Tested on</dt><dd>Three phones</dd></div>
+      <div><dt>Ready by</dt><dd>Day 18 · Wed 16 Dec</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="where">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>Where it points</h2></div></div>
+    <div class="body">
+      <p class="intro">The code opens your repository's front page, where the README introduces the identity and the system. That page has to be ready before the code is printed.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Use the full repository address,</b> for example <code>https://github.com/[account]/[repository]</code>. Don't use a link shortener: free short links can expire or track visitors.</span></li>
+        <li><i class="y"></i><span><b>Make the repository public</b> and open the address in a private browser window to check it works without signing in.</span></li>
+        <li><i class="b"></i><span><b>Read the README on a phone.</b> That's how almost every visitor will see it. See <a href="repo.html#readme">the README template</a>.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="make">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Make the code</h2></div></div>
+    <div class="body">
+      <p class="intro">Paste your repository address. The code is drawn in your browser; nothing is sent anywhere.</p>
+      <div class="maker">
+        <div>
+          <div class="row"><label for="qr-url">Repository address</label><input type="url" id="qr-url" placeholder="https://github.com/account/repository" autocomplete="off" spellcheck="false"></div>
+          <div class="row"><label for="qr-name">File name</label><input type="text" id="qr-name" value="qr-repository" spellcheck="false"></div>
+          <p class="msg" id="qr-msg" aria-live="polite">Error correction level M, with a four-module quiet border.</p>
+          <div class="qractions">
+            <button type="button" class="kit-btn primary" id="qr-svg">Download SVG</button>
+            <button type="button" class="kit-btn" id="qr-png">Download PNG</button>
+          </div>
+          <p class="note" style="margin-top:16px">Use the SVG for print: it stays sharp at any size. Prefer to make it with code? Ask Codex: <i>"Make an SVG QR code for [address] with error correction M and a quiet zone of four modules, using a well-known library."</i></p>
+        </div>
+        <div><div class="qrbox" id="qr-box"><p class="note">Waiting for an address.</p></div><p class="qrcap" id="qr-cap"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="print">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Print it</h2></div></div>
+    <div class="body">
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Size</div><h3>At least 3 cm</h3><p>Square, for scanning from about arm's length. Bigger if visitors will stand further back.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Contrast</div><h3>Black on white</h3><p>Dark modules on a light ground. No colour inversions, gradients or logos in the middle.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Border</div><h3>Keep the margin</h3><p>Don't crop the white border around the code; scanners need it.</p></div>
+      </div>
+      <p class="note">Print on matte paper or card: gloss reflects the exhibition lights straight into the phone's camera.</p>
+    </div>
+  </section>
+
+  <section class="section" id="test">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Test it</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 17, due by 3:30, and again on Day 19 under the exhibition light.</b></p>
+      <div class="kit-progress" data-progress="qrtest"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="qrtest">Reset</button></div>
+      <div class="kit-checks" data-store="qrtest">
+        <label><input type="checkbox"><span>Scanned with an iPhone camera, and it opens the repository.</span></label>
+        <label><input type="checkbox"><span>Scanned with an Android phone camera, and it opens the repository.</span></label>
+        <label><input type="checkbox"><span>Scanned with a third phone, ideally an older one.</span></label>
+        <label><input type="checkbox"><span>Scanned from where a visitor will stand, not from close up.</span></label>
+        <label><input type="checkbox"><span>Scanned under the exhibition lighting, at its final height on the wall.</span></label>
+        <label><input type="checkbox"><span>The page it opens is public and readable on a phone.</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="workflow">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>The workflow</h2></div></div>
+    <div class="body">
+      <p class="intro">Documentation runs in one direction, from the work to the wall. Do it in this order so nothing on the label points to something unfinished.</p>
+      <ol class="kit-steps">
+        <li><div><b>Photograph the work.</b><p>Following <a href="docs.html#photos">the shot list</a>, into <code>docs/photos/</code>.</p></div></li>
+        <li><div><b>Finish the documents.</b><p><code>process.md</code>, <code>final-statement.md</code>, <code>reflection.md</code>, and the README with its parameter table.</p></div></li>
+        <li><div><b>Put a photograph at the top of the README.</b><p>Visitors scanning the code should see the work they're standing in front of.</p></div></li>
+        <li><div><b>Push, and check it as a stranger.</b><p>Private browser window, on a phone.</p></div></li>
+        <li><div><b>Make and test the QR code.</b><p>Above.</p></div></li>
+        <li><div><b>Print the card, label and code together.</b><p>From <a href="statement.html">the card builder</a>, at 100% scale.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-qr" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="statement.html">Card and label</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=5" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+<script>
+(function () {
+  var url = document.getElementById("qr-url"), name = document.getElementById("qr-name");
+  var box = document.getElementById("qr-box"), cap = document.getElementById("qr-cap"), msg = document.getElementById("qr-msg");
+  var KEY = "cy-qr-v1", current = null;
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || "{}"); if (saved.url) url.value = saved.url; if (saved.name) name.value = saved.name; } catch (e) {}
+
+  function svgFor(qr) {
+    var n = qr.getModuleCount(), q = 4, size = n + q * 2, d = "";
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (qr.isDark(r, c)) d += "M" + (c + q) + " " + (r + q) + "h1v1h-1z";
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges"><rect width="' + size + '" height="' + size + '" fill="#ffffff"/><path d="' + d + '" fill="#000000"/></svg>';
+  }
+  function draw() {
+    var v = url.value.trim();
+    try { localStorage.setItem(KEY, JSON.stringify({ url: v, name: name.value })); } catch (e) {}
+    current = null;
+    if (!v) { box.innerHTML = '<p class="note">Waiting for an address.</p>'; cap.textContent = ""; return; }
+    if (typeof qrcode !== "function") { msg.textContent = "The QR library didn't load. Check your connection, or use the Codex prompt."; msg.className = "msg bad"; return; }
+    var ok = /^https?:\/\/[^\s]+\.[^\s]+/.test(v);
+    msg.textContent = ok ? "Error correction level M, with a four-module quiet border." : "That doesn't look like a full web address. Start it with https://";
+    msg.className = ok ? "msg" : "msg bad";
+    var qr = qrcode(0, "M"); qr.addData(v); qr.make();
+    current = svgFor(qr);
+    box.innerHTML = current;
+    cap.textContent = v + " · " + qr.getModuleCount() + " × " + qr.getModuleCount() + " modules";
+  }
+  function save(blob, ext) {
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = (name.value.trim() || "qr") + "." + ext; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  document.getElementById("qr-svg").addEventListener("click", function () { if (current) save(new Blob([current], { type: "image/svg+xml" }), "svg"); });
+  document.getElementById("qr-png").addEventListener("click", function () {
+    if (!current) return;
+    var img = new Image(), px = 1200;
+    img.onload = function () {
+      var cv = document.createElement("canvas"); cv.width = cv.height = px;
+      var cx = cv.getContext("2d"); cx.imageSmoothingEnabled = false; cx.drawImage(img, 0, 0, px, px);
+      cv.toBlob(function (b) { save(b, "png"); }, "image/png");
+    };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(current);
+  });
+  url.addEventListener("input", draw); name.addEventListener("input", draw);
+  var s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+  s.onload = draw; s.onerror = draw; document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

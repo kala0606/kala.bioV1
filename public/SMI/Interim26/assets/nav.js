@@ -598,6 +598,79 @@
         "Integrity"
       ]
     ]
+  },
+  {
+    "href": "exhibition.html",
+    "n": "16",
+    "t": "Exhibition planning and installation",
+    "s": [
+      [
+        "show",
+        "01 · The show"
+      ],
+      [
+        "zone",
+        "02 · The zone"
+      ],
+      [
+        "atlas",
+        "03 · The Collective Atlas"
+      ],
+      [
+        "proposal",
+        "04 · The proposal"
+      ],
+      [
+        "plan",
+        "05 · Floor plan"
+      ],
+      [
+        "install",
+        "06 · Installation day"
+      ]
+    ]
+  },
+  {
+    "href": "statement.html",
+    "n": "17",
+    "t": "Artist statement and identity card",
+    "s": [
+      [
+        "card",
+        "01 · The identity card"
+      ],
+      [
+        "statement",
+        "02 · The statement"
+      ]
+    ]
+  },
+  {
+    "href": "qr.html",
+    "n": "18",
+    "t": "QR codes and documentation workflow",
+    "s": [
+      [
+        "where",
+        "01 · Where it points"
+      ],
+      [
+        "make",
+        "02 · Make the code"
+      ],
+      [
+        "print",
+        "03 · Print it"
+      ],
+      [
+        "test",
+        "04 · Test it"
+      ],
+      [
+        "workflow",
+        "05 · The workflow"
+      ]
+    ]
   }
 ];
 

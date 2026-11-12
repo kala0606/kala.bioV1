@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statement and Card · Computationally Yours</title>
+<meta name="description" content="The artist statement and identity card for Computationally Yours: a statement template and example, and a card and label builder that prints at exhibition size.">
+<meta property="og:title" content="Statement and Card · Computationally Yours">
+<meta property="og:description" content="Write the statement, build the identity card and label. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+.builder { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 960px) { .builder { grid-template-columns: 1fr; } }
+.bfields { border-top: 1px solid var(--ink); }
+.bfield { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.bfield label { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.bfield label small { text-transform: none; letter-spacing: 0; font-family: var(--sans); color: var(--ink-3); font-size: 12.5px; margin-left: 6px; }
+.bfield input, .bfield textarea { width: 100%; font: 400 15.5px/1.5 var(--sans); color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 8px 10px; }
+.bfield textarea { min-height: 64px; resize: vertical; }
+.bfield input:focus, .bfield textarea:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+.bfield .wc { font: 500 10.5px/1 var(--mono); color: var(--ink-3); float: right; letter-spacing: .04em; }
+.bfield .wc.over { color: var(--accent); }
+.previews { position: sticky; top: 16px; display: grid; gap: 20px; }
+.previews .cap { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+
+/* The card: A6 portrait, printed at true size */
+.idcard { aspect-ratio: 105 / 148; width: min(100%, 360px); background: #f7f4ea; color: #111110; border: 2px solid #111110; display: grid; grid-template-rows: auto 1fr auto; font-family: var(--sans); }
+.idcard .band { display: grid; grid-template-columns: 2fr 1fr 1fr; height: 22px; border-bottom: 2px solid #111110; }
+.idcard .band i { border-right: 2px solid #111110; } .idcard .band i:last-child { border-right: 0; }
+.idcard .band i:nth-child(2) { background: #db261f; } .idcard .band i:nth-child(3) { background: #f4c20d; }
+.idcard .main { padding: 14px 16px 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; }
+.idcard .kick { font: 500 8.5px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #57544c; }
+.idcard .name { font: 400 26px/1.02 var(--serif); margin: 0; overflow-wrap: anywhere; }
+.idcard .practice { font: italic 400 13px/1.3 var(--serif); color: #57544c; margin: 0; }
+.idcard dl { margin: 4px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; font-size: 10.5px; line-height: 1.35; }
+.idcard dt { font: 500 8px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: #8a8679; }
+.idcard dd { margin: 0; overflow-wrap: anywhere; }
+.idcard .position { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #111110; font: 400 13.5px/1.3 var(--serif); }
+.idcard .foot { display: flex; justify-content: space-between; gap: 8px; padding: 7px 16px; border-top: 2px solid #111110; font: 500 8px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+.label-card { width: min(100%, 360px); aspect-ratio: 105 / 50; background: #f7f4ea; color: #111110; border: 2px solid #111110; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; }
+.label-card .t { font: italic 400 17px/1.15 var(--serif); margin: 0; }
+.label-card .by { font: 400 12.5px/1.3 var(--sans); margin: 3px 0 0; }
+.label-card .m { font: 400 10.5px/1.4 var(--sans); color: #57544c; margin: 0; }
+.label-card .s { font: 500 8.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #8a8679; }
+
+@media print {
+  @page { size: A4; margin: 15mm; }
+  body * { visibility: hidden !important; }
+  #print-area, #print-area * { visibility: visible !important; }
+  #print-area { position: absolute; left: 0; top: 0; display: flex; gap: 10mm; align-items: flex-start; }
+  #print-area .idcard { width: 105mm; height: 148mm; aspect-ratio: auto; }
+  #print-area .label-card { width: 105mm; height: 50mm; aspect-ratio: auto; }
+  .previews .cap { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 17 · Days 16–17 · Srishti Manipal Interim 2026</div>
+        <h1>Card and <em>statement</em></h1>
+        <p class="lede">Artist statement and identity card. The card tells a visitor who is speaking; the statement tells them what they're looking at. Build both here and print them at exhibition size.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-17-statement" data-depth="5" data-colors="3"></div><div class="mond-caption">seed statement · depth 5</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Card draft</dt><dd>Day 5 · Critique 1</dd></div>
+      <div><dt>Statement</dt><dd>Day 16 · Mon 14 Dec</dd></div>
+      <div><dt>Card final</dt><dd>Day 17 · Tue 15 Dec</dd></div>
+      <div><dt>Card size</dt><dd>A6 · 105 × 148 mm</dd></div>
+      <div><dt>Saved in</dt><dd>This browser</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="card">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>The identity card</h2></div></div>
+    <div class="body">
+      <p class="intro">Fill in the fields; the card and the label redraw as you type. A draft is due at Critique 1, the final on Day 17. Print at 100% scale on card stock.</p>
+      <div class="builder">
+        <div class="bfields" id="bfields">
+          <div class="bfield"><label for="f-name">Identity name</label><input id="f-name" data-k="name" placeholder="Anjana Rao"></div>
+          <div class="bfield"><label for="f-practice">Practice <small>one line</small></label><input id="f-practice" data-k="practice" placeholder="Surveyor of tank beds"></div>
+          <div class="bfield"><label for="f-origin">Origin</label><input id="f-origin" data-k="origin" placeholder="Born 1999 in a village whose tank was built over in 2004"></div>
+          <div class="bfield"><label for="f-coord">Coordinates <small>where it stands</small></label><input id="f-coord" data-k="coord" placeholder="Role and time · a government surveyor, 2041"></div>
+          <div class="bfield"><label for="f-cond">Condition</label><input id="f-cond" data-k="cond" placeholder="The loss of Bengaluru's irrigation tanks"></div>
+          <div class="bfield"><label for="f-pos">Position <small>one sentence it would sign</small><span class="wc" data-wc="f-pos" data-max="25"></span></label><textarea id="f-pos" data-k="pos" placeholder="Every map records what the city owns. I draw what it has lost."></textarea></div>
+          <div class="bfield"><label for="f-medium">Medium and materials</label><input id="f-medium" data-k="medium" placeholder="Pen plot, fineliner on cotton paper"></div>
+          <div class="bfield"><label for="f-title">Title of the work</label><input id="f-title" data-k="title" placeholder="Deficit Survey, Tank No. 14"></div>
+          <div class="bfield"><label for="f-size">Dimensions</label><input id="f-size" data-k="size" placeholder="420 × 594 mm"></div>
+          <div class="bfield"><label for="f-seed">Seed</label><input id="f-seed" data-k="seed" placeholder="41822"></div>
+          <div class="bfield"><label for="f-author">Authored by <small>your name</small></label><input id="f-author" data-k="author" placeholder="Your name"></div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; padding:14px 0"><button type="button" class="kit-btn primary" id="print-card">Print card and label</button><button type="button" class="kit-btn" id="clear-card">Clear</button></div>
+        </div>
+        <div class="previews" id="print-area">
+          <div><div class="cap"><span>Card · A6 · 105 × 148 mm</span></div>
+            <article class="idcard" aria-label="Identity card preview">
+              <div class="band"><i></i><i></i><i></i></div>
+              <div class="main">
+                <div class="kick">An Atlas of Elsewhere · Identity</div>
+                <h3 class="name" data-out="name"></h3>
+                <p class="practice" data-out="practice"></p>
+                <dl>
+                  <dt>Origin</dt><dd data-out="origin"></dd>
+                  <dt>Stands</dt><dd data-out="coord"></dd>
+                  <dt>Condition</dt><dd data-out="cond"></dd>
+                  <dt>Works in</dt><dd data-out="medium"></dd>
+                </dl>
+                <p class="position" data-out="pos"></p>
+              </div>
+              <div class="foot"><span>Computationally Yours</span><span data-out="author"></span></div>
+            </article>
+          </div>
+          <div><div class="cap"><span>Label · 105 × 50 mm</span></div>
+            <div class="label-card" aria-label="Label preview">
+              <div><p class="t" data-out="title"></p><p class="by"><span data-out="name"></span>, 2026</p></div>
+              <p class="m"><span data-out="medium"></span><br><span data-out="size"></span></p>
+              <div class="s">Seed <span data-out="seed"></span> · Authored by <span data-out="author"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:16px">The QR code sits on the label or beside it; make it on the <a href="qr.html">QR codes page</a>. Fields save in this browser only, so copy what matters into <code>identity.md</code>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="statement">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>The statement</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 16.</b> 100–150 words for visitors, in <code>final-statement.md</code>. Where the manifesto is the identity speaking, the statement is you, introducing the work.</p>
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Manifesto</div><h3>The identity speaks</h3><p>First person, as the identity. A position, refusals, rules.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Statement</div><h3>You introduce the work</h3><p>Third person about the identity. What a visitor is looking at, how it was made, why.</p></div>
+      </div>
+      <div class="kit-tpl"><div class="cap">final-statement.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># [Title of the work]
+
+[Identity name] is [practice], [one phrase on the position and the condition].
+
+[What the visitor is looking at: the object, its material, its scale.]
+
+[How it was made: the system's key rule in plain words, and the data or input it reads.]
+
+[Why: what the work asks the visitor to see or reconsider.]
+
+[Your name], 2026. Made in Computationally Yours: Out of One's Place.</pre></div>
+      <article class="kit-example">
+        <header><h3>Deficit Survey, Tank No. 14</h3><span class="tag accent">Example</span></header>
+        <div class="text">
+          <p>Anjana Rao is a surveyor of tank beds, measuring the irrigation tanks Bengaluru has built over since the 1970s.</p>
+          <p>This A2 pen plot is a survey of one lost tank. Each row of lines is a year of rainfall from 1990 to 2024; the heavier the line, the greater that year's deficit. Nothing is drawn outside the tank's recorded boundary.</p>
+          <p>The plotter drew every line from a system that reads the rainfall record and obeys three rules from Rao's manifesto. Its heaviest passes put the most ink where the most water is missing.</p>
+          <p>The work asks what a map of the city would look like if it recorded loss as carefully as ownership.</p>
+        </div>
+        <footer>About 110 words</footer>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-statement" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="exhibition.html#zone">The zone</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=5" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+<script>
+(function () {
+  var KEY = "cy-card-v1", data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  var inputs = [].slice.call(document.querySelectorAll("#bfields [data-k]"));
+  function words(s) { var m = (s || "").trim().match(/\S+/g); return m ? m.length : 0; }
+  function render() {
+    inputs.forEach(function (inp) {
+      var k = inp.dataset.k, v = inp.value.trim() || inp.placeholder;
+      document.querySelectorAll('[data-out="' + k + '"]').forEach(function (o) {
+        o.textContent = v; o.style.opacity = inp.value.trim() ? 1 : 0.45;
+      });
+    });
+    document.querySelectorAll("[data-wc]").forEach(function (w) {
+      var t = document.getElementById(w.dataset.wc), n = words(t.value), max = +w.dataset.max;
+      w.textContent = n + " / " + max + " words"; w.classList.toggle("over", n > max);
+    });
+  }
+  inputs.forEach(function (inp) {
+    if (data[inp.dataset.k]) inp.value = data[inp.dataset.k];
+    inp.addEventListener("input", function () {
+      data[inp.dataset.k] = inp.value;
+      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+      render();
+    });
+  });
+  document.getElementById("print-card").addEventListener("click", function () { window.print(); });
+  document.getElementById("clear-card").addEventListener("click", function () {
+    if (!confirm("Clear every field on the card?")) return;
+    inputs.forEach(function (i) { i.value = ""; }); data = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
