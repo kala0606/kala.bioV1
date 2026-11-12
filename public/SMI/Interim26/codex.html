@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex and Prompts · Computationally Yours</title>
+<meta name="description" content="Codex onboarding and prompt library for Computationally Yours: setup, ground rules for authorship, how to ask, and twenty prompts across the month.">
+<meta property="og:title" content="Codex and Prompts · Computationally Yours">
+<meta property="og:description" content="Working with Codex without giving up authorship. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  /* Five roles */
+  .roles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); }
+  .roles > div { background: var(--paper); padding: 16px 16px 18px; }
+  .roles .k { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
+  .roles .k i { width: 10px; height: 10px; display: inline-block; outline: 2px solid var(--rule-ink); }
+  .roles h3 { font: 400 22px/1.1 var(--serif); margin: 10px 0 6px; }
+  .roles p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  @media (max-width: 960px) { .roles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .roles { grid-template-columns: 1fr; } }
+
+  .steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .steps li::before { content: counter(s, decimal-leading-zero); font: 400 15px/1.5 var(--mono); color: var(--accent); }
+  .steps b { font-weight: 600; }
+  .steps p { margin: 4px 0 0; color: var(--ink-2); font-size: 15px; }
+  .cmd { display: block; margin-top: 8px; padding: 10px 14px; background: var(--paper-2); border-left: 3px solid var(--rule-ink); font: 400 14px/1.5 var(--mono); white-space: pre-wrap; word-break: break-word; }
+
+  .rules { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); counter-reset: r; }
+  .rules li { counter-increment: r; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+  .rules li::before { content: counter(r); font: 400 26px/1 var(--serif); color: var(--accent); }
+  .rules span { color: var(--ink-2); }
+  .rules b { color: var(--ink); font-weight: 600; }
+
+  .anatomy { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 24px; }
+  .anatomy > div { background: var(--paper); padding: 14px 14px 16px; }
+  .anatomy h3 { font: 400 22px/1.1 var(--serif); margin: 0 0 6px; }
+  .anatomy p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  @media (max-width: 860px) { .anatomy { grid-template-columns: 1fr 1fr; } .anatomy > div:last-child { grid-column: 1 / -1; } }
+
+  .compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); border-top: 1px solid var(--ink); }
+  .compare article { padding: 16px 22px 18px 0; border-right: 1px solid var(--rule); }
+  .compare article + article { padding-left: 22px; border-right: 0; }
+  .compare pre { margin: 12px 0 0; font: 400 13.5px/1.6 var(--mono); white-space: pre-wrap; }
+  .compare .why { margin: 14px 0 0; font-size: 14px; color: var(--ink-2); border-top: 1px dashed var(--rule); padding-top: 10px; }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } .compare article { padding-left: 0 !important; border-right: 0; } .compare article + article { border-top: 1px solid var(--rule); } }
+
+  /* Library */
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; }
+  .chip {
+    font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+    background: transparent; color: var(--ink-2); border: 1px solid var(--rule); border-radius: 2px; padding: 8px 10px 7px; cursor: pointer;
+    display: inline-flex; gap: 7px; align-items: center;
+  }
+  .chip i { width: 8px; height: 8px; display: inline-block; outline: 1.5px solid var(--rule-ink); }
+  .chip:hover { border-color: var(--ink); color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip .c { color: var(--ink-3); }
+  .chip[aria-pressed="true"] .c { color: var(--paper); opacity: .7; }
+
+  .lib { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); }
+  .card { background: var(--paper); padding: 18px 20px 20px; display: flex; flex-direction: column; min-width: 0; }
+  .card[hidden] { display: none; }
+  .card.span { grid-column: 1 / -1; }
+  .card .meta { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .card .role { font: 500 10.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: inline-flex; gap: 7px; align-items: center; }
+  .card .role i { width: 9px; height: 9px; display: inline-block; outline: 1.5px solid var(--rule-ink); }
+  .card .no { font: 500 11px/1 var(--mono); color: var(--accent); }
+  .card h3 { font: 400 23px/1.15 var(--serif); margin: 10px 0 10px; }
+  .card pre { margin: 0; padding: 14px 16px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13px/1.6 var(--mono); white-space: pre-wrap; word-break: break-word; flex: 1; }
+  .card .watch { margin: 12px 0 0; font-size: 14px; color: var(--ink-2); }
+  .card .watch b { color: var(--ink); font-weight: 600; }
+  .card .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; }
+  .card .when { font: 500 10.5px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  @media (max-width: 860px) { .lib { grid-template-columns: 1fr; } }
+  .r-setup { background: var(--paper); }
+  .r-interlocutor, .r-critic { background: var(--m-red); }
+  .r-researcher { background: var(--m-yellow); }
+  .r-collaborator, .r-fabricator { background: var(--m-blue); }
+  .r-writing { background: var(--ink); }
+
+  .tpl { position: relative; margin: 0 0 16px; }
+  .tpl pre { margin: 0; padding: 20px 22px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13.5px/1.65 var(--mono); white-space: pre-wrap; }
+  .btn {
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 8px 10px 7px; cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .tpl .btn { position: absolute; top: 10px; right: 10px; }
+
+  .trouble { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .trouble li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 6px 28px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .trouble b { font: 400 19px/1.3 var(--serif); }
+  .trouble span { font-size: 15px; color: var(--ink-2); }
+  @media (max-width: 760px) { .trouble li { grid-template-columns: 1fr; } }
+
+  @media print {
+    .hero-art, .filters, .btn, footer.colophon .strip { display: none !important; }
+    .card[hidden] { display: flex !important; }
+    .lib { grid-template-columns: 1fr; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 07 · From Day 1 · Srishti Manipal Interim 2026</div>
+        <h1>Working with <em>Codex</em></h1>
+        <p class="lede">How to set up Codex, how to work with it without giving up authorship, and twenty prompts for the month, from the first question to the final file.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-07-codex" data-depth="6" data-colors="3"></div><div class="mond-caption">seed codex · depth 6</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Setup</dt><dd>Day 1 · Mon 23 Nov</dd></div>
+      <div><dt>Account</dt><dd>Provided by the studio</dd></div>
+      <div><dt>Works in</dt><dd>Your project folder</dd></div>
+      <div><dt>Roles</dt><dd>Five, one at a time</dd></div>
+      <div><dt>The rule</dt><dd>Explain every line</dd></div>
+    </dl>
+  </section>
+
+  <section class="section" id="what">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>What Codex is here</h2></div></div>
+    <div class="body">
+      <p class="intro">Codex is a coding agent. It reads the files in your project folder, proposes changes, writes code and runs commands, asking for your approval as it goes. It is not an image generator, and it is not the author.</p>
+      <p class="note" style="margin:0 0 20px">Across the month you'll ask it to play five roles, one at a time. Naming the role in your prompt keeps it from drifting into the others.</p>
+      <div class="roles">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Day 3</div><h3>Interlocutor</h3><p>Questions the identity and offers computational metaphors. No code.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Day 6</div><h3>Researcher</h3><p>Finds the algorithms, artists and data behind a metaphor.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Day 7</div><h3>Collaborator</h3><p>Plans the architecture, then writes code one step at a time.</p></div>
+        <div><div class="k"><i style="background:var(--m-red)"></i>Day 9</div><h3>Critic</h3><p>Judges the outputs against the manifesto, without rewriting the voice.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Day 12</div><h3>Fabricator</h3><p>Prepares files for the plotter, the resin printer or the archival printer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="setup">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Setup</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-setup" data-depth="2" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 1, after you clone the starter repo.</b> About twenty minutes. If a step fails, stop and ask; don't work around it.</p>
+      <ol class="steps">
+        <li><div><b>Open a terminal.</b><p>Terminal on a Mac, or the terminal inside VS Code. If you've never used one, that's fine; you'll only need a few commands.</p></div></li>
+        <li><div><b>Install the Codex command-line tool.</b><p>This needs Node.js. If the command isn't found, ask before installing anything else.</p><code class="cmd">npm install -g @openai/codex</code></div></li>
+        <li><div><b>Go to your project folder and start Codex.</b><p>Always start Codex from inside your project, so it works on your files and nothing else.</p><code class="cmd">cd ~/computationally-yours/your-project
+codex</code></div></li>
+        <li><div><b>Sign in with the studio account.</b><p>Use the account the studio gives you, not a personal one. Never paste a password or key into a prompt.</p></div></li>
+        <li><div><b>Ask your first question, read-only.</b><p>This checks that it can see your folder, and that you can read what it says.</p><code class="cmd">Read this folder and tell me, in plain language, what is in it. Don't change anything.</code></div></li>
+        <li><div><b>Make your first commit.</b><p>Git is your undo button. Commit before every change you ask Codex for, so you can always go back.</p><code class="cmd">git add -A
+git commit -m "start"</code></div></li>
+      </ol>
+      <p class="note" style="margin-top:16px">If you prefer working in an editor, Codex is also available as a VS Code extension, using the same account. Keep approvals on, so Codex asks before it edits files or runs commands, until you're confident reading its changes. Your project's <code>AGENTS.md</code> tells Codex about you and your identity; section 09 of the handbook covers it.</p>
+    </div>
+  </section>
+
+  <section class="section" id="rules">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Ground rules</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-rules" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Codex is fast and fluent, which is exactly why authorship needs rules. These hold all month.</p>
+      <ol class="rules">
+        <li><div><b>You decide; Codex proposes.</b> <span>Every rule in the system has a reason in the identity's position. Codex doesn't get to supply the reasons.</span></div></li>
+        <li><div><b>Plan before code.</b> <span>Ask for a plan first, agree it, then ask for one step at a time.</span></div></li>
+        <li><div><b>Read every change before you accept it.</b> <span>If a change is too big to read, ask for a smaller one.</span></div></li>
+        <li><div><b>If you can't explain it, you can't keep it.</b> <span>Ask Codex to explain the code, then explain it back in your own words in your log.</span></div></li>
+        <li><div><b>The words are yours.</b> <span>Codex never writes your manifesto, your statement, or the Decided line in your log. It may question them.</span></div></li>
+        <li><div><b>Record what you rejected.</b> <span>The authorship log keeps what Codex suggested, what you kept and what you turned down, with reasons.</span></div></li>
+        <li><div><b>Check every fact.</b> <span>Codex can invent libraries, datasets and references that don't exist. Open them yourself.</span></div></li>
+        <li><div><b>Nothing private goes in.</b> <span>No passwords, keys or other people's personal data in prompts or in the repo.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="asking">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>How to ask</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-ask" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">A good prompt has five parts. Point at your files rather than retyping them: Codex can read <code>identity.md</code>, <code>manifesto.md</code> and your code.</p>
+      <div class="anatomy">
+        <div><h3>Role</h3><p>Which of the five roles it's playing.</p></div>
+        <div><h3>Context</h3><p>The files to read and what they are.</p></div>
+        <div><h3>Task</h3><p>One thing. Not three.</p></div>
+        <div><h3>Limits</h3><p>What it must not do or change.</p></div>
+        <div><h3>Check</h3><p>How you'll both know it worked.</p></div>
+      </div>
+      <div class="compare">
+        <article>
+          <div class="eyebrow"><span class="tag">Weak</span></div>
+<pre>make it look cooler and add more stuff</pre>
+          <p class="why">No role, no context, no limits. Codex will guess, and its guesses come from everyone else's work.</p>
+        </article>
+        <article>
+          <div class="eyebrow"><span class="tag accent">Strong</span></div>
+<pre>You're my collaborator. Read manifesto.md and src/draw.js.
+Rule 2 says absence is drawn heavier than presence, but
+line weight is currently fixed. Change only the line-weight
+calculation so it follows the deficit column in data/rain.csv.
+Don't touch the grid or the export. When you're done, render
+seed 41822 and tell me the thinnest and thickest weights.</pre>
+          <p class="why">Names the role, the files, the rule it serves, the one change, what to leave alone, and a check.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="library">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Prompt library</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-library" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Twenty prompts, in the order you'll need them. Replace anything in [brackets], and add your own limits.</p>
+      <div class="filters" role="group" aria-label="Filter prompts by role">
+        <button type="button" class="chip" data-f="all" aria-pressed="true">All <span class="c"></span></button>
+        <button type="button" class="chip" data-f="setup" aria-pressed="false"><i class="r-setup"></i>Setup <span class="c"></span></button>
+        <button type="button" class="chip" data-f="interlocutor" aria-pressed="false"><i class="r-interlocutor"></i>Interlocutor <span class="c"></span></button>
+        <button type="button" class="chip" data-f="researcher" aria-pressed="false"><i class="r-researcher"></i>Researcher <span class="c"></span></button>
+        <button type="button" class="chip" data-f="collaborator" aria-pressed="false"><i class="r-collaborator"></i>Collaborator <span class="c"></span></button>
+        <button type="button" class="chip" data-f="critic" aria-pressed="false"><i class="r-critic"></i>Critic <span class="c"></span></button>
+        <button type="button" class="chip" data-f="fabricator" aria-pressed="false"><i class="r-fabricator"></i>Fabricator <span class="c"></span></button>
+        <button type="button" class="chip" data-f="writing" aria-pressed="false"><i class="r-writing"></i>Documentation <span class="c"></span></button>
+      </div>
+
+      <div class="lib" id="lib">
+
+        <article class="card" data-role="setup">
+          <div class="meta"><span class="role"><i class="r-setup"></i>Setup</span><span class="no">01</span></div>
+          <h3>Orientation</h3>
+<pre>Read this folder and tell me, in plain language, what is in it and what each file is for. Then list anything that looks missing for a generative art project. Don't change anything.</pre>
+          <p class="watch"><b>Watch for:</b> any edits. This prompt should change nothing.</p>
+          <div class="foot"><span class="when">Day 1</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="setup">
+          <div class="meta"><span class="role"><i class="r-setup"></i>Setup</span><span class="no">02</span></div>
+          <h3>Explain this code</h3>
+<pre>Explain what [file] does, section by section, as if to an artist who has never coded. Use the names in the code. Then ask me three questions to check that I understood it.</pre>
+          <p class="watch"><b>Watch for:</b> answering its questions honestly. If you can't, ask again before you move on.</p>
+          <div class="foot"><span class="when">Any day</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="setup">
+          <div class="meta"><span class="role"><i class="r-setup"></i>Setup</span><span class="no">03</span></div>
+          <h3>Go back safely</h3>
+<pre>Something broke after your last change. Show me exactly what changed since my last commit, in plain language, and tell me how to return to that commit. Don't run anything until I say yes.</pre>
+          <p class="watch"><b>Watch for:</b> it trying to "fix forward" with more changes. Going back is usually faster.</p>
+          <div class="foot"><span class="when">Any day</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="interlocutor">
+          <div class="meta"><span class="role"><i class="r-interlocutor"></i>Interlocutor</span><span class="no">04</span></div>
+          <h3>Question the identity</h3>
+<pre>You're an interlocutor. Read identity.md. Interview this identity as a sceptical journalist who knows its field. Ask one hard question at a time and wait for my answer. Don't suggest answers, and don't make the identity more likeable.</pre>
+          <p class="watch"><b>Watch for:</b> questions you can't answer. They point to tomorrow's research.</p>
+          <div class="foot"><span class="when">Day 3</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="interlocutor">
+          <div class="meta"><span class="role"><i class="r-interlocutor"></i>Interlocutor</span><span class="no">05</span></div>
+          <h3>Five computational metaphors</h3>
+<pre>You're an interlocutor. Read identity.md, especially the condition, the position, the beliefs and the rules. Don't write code. Propose five computational metaphors for how this identity might make work. For each: the process, what in the condition it stands for, and one way it could fail to carry the identity's position. Then ask me two questions that would sharpen them.</pre>
+          <p class="watch"><b>Watch for:</b> metaphors that fit any identity. Record what it got wrong in your metaphor log.</p>
+          <div class="foot"><span class="when">Day 3</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="interlocutor">
+          <div class="meta"><span class="role"><i class="r-interlocutor"></i>Interlocutor</span><span class="no">06</span></div>
+          <h3>Press on the manifesto</h3>
+<pre>You're an interlocutor. Read manifesto.md. Don't rewrite it. Tell me which sentence is the most generic, which claim is least supported by identity.md, and which line someone could reasonably disagree with. Then stop.</pre>
+          <p class="watch"><b>Watch for:</b> offers to "improve" the text. Decline; the words stay yours.</p>
+          <div class="foot"><span class="when">Day 4</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="researcher">
+          <div class="meta"><span class="role"><i class="r-researcher"></i>Researcher</span><span class="no">07</span></div>
+          <h3>Find real data</h3>
+<pre>You're a researcher. My identity works on [condition]. Where could I find real, public data or archives about it? For each source: what it contains, who publishes it, and a link. Mark clearly anything you're not certain exists.</pre>
+          <p class="watch"><b>Watch for:</b> invented sources. Open every link before it goes in <code>references.md</code>.</p>
+          <div class="foot"><span class="when">Day 4</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="researcher">
+          <div class="meta"><span class="role"><i class="r-researcher"></i>Researcher</span><span class="no">08</span></div>
+          <h3>The algorithms behind a metaphor</h3>
+<pre>You're a researcher. My metaphor is: [metaphor]. What algorithms or techniques could realise it? For each one: a plain explanation, one artist or artwork known for it, and how hard it is for a beginner. No code yet.</pre>
+          <p class="watch"><b>Watch for:</b> artists it names. Check that the work exists and is what it says.</p>
+          <div class="foot"><span class="when">Day 6</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="collaborator">
+          <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">09</span></div>
+          <h3>Architecture first</h3>
+<pre>You're my collaborator. Read identity.md, manifesto.md and system.md. Before writing any code, propose an architecture: the files and what each is for; every parameter in one config with a default and range; one seeded random generator for every random choice; an export that names each file by its seed and parameters. Show how each of my rules maps to the code. Wait for my go-ahead.</pre>
+          <p class="watch"><b>Watch for:</b> more files than you can read. Ask for it smaller.</p>
+          <div class="foot"><span class="when">Day 7</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="collaborator">
+          <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">10</span></div>
+          <h3>One step at a time</h3>
+<pre>Implement only step [n] of the plan we agreed. Keep every value that might change in the config. When you're done, show me what changed and explain it in plain language. Don't start the next step.</pre>
+          <p class="watch"><b>Watch for:</b> it doing two steps at once. Commit after each step.</p>
+          <div class="foot"><span class="when">Days 7–8</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="collaborator">
+          <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">11</span></div>
+          <h3>Make it reproducible</h3>
+<pre>Make every random choice in the system come from one seeded random generator. Put the seed and the key parameters in each output's filename. Then prove it: render seed [n] twice and confirm the two files are identical.</pre>
+          <p class="watch"><b>Watch for:</b> hidden randomness, such as a library call that uses its own random source.</p>
+          <div class="foot"><span class="when">Day 7</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="collaborator">
+          <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">12</span></div>
+          <h3>Twenty at once</h3>
+<pre>Add a way to render twenty outputs in one run, with seeds [1–20] or a list I give you, into outputs/digital. Write a contact sheet image showing all twenty with their seeds underneath. Don't change how a single output is drawn.</pre>
+          <p class="watch"><b>Watch for:</b> the contact sheet. It's the fastest way to see the system's range.</p>
+          <div class="foot"><span class="when">Day 8</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="collaborator">
+          <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">13</span></div>
+          <h3>Read an error</h3>
+<pre>Here is the error I get:
+
+[paste the error]
+
+Explain what it means in plain words and where it comes from in my code. Then propose the smallest fix. Don't change anything else.</pre>
+          <p class="watch"><b>Watch for:</b> large rewrites in answer to small errors. Say no and ask again.</p>
+          <div class="foot"><span class="when">Any day</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="critic">
+          <div class="meta"><span class="role"><i class="r-critic"></i>Critic</span><span class="no">14</span></div>
+          <h3>Judge against the manifesto</h3>
+<pre>You're a critic, not a collaborator. Read manifesto.md and system.md, and look at the contact sheet in outputs/digital. Which outputs carry the manifesto most clearly, and which least, and why? Which rule does the most work, and which could go? Don't suggest new features. Don't rewrite my voice.</pre>
+          <p class="watch"><b>Watch for:</b> praise. Ask what's weakest if it only tells you what's good.</p>
+          <div class="foot"><span class="when">Day 9</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="critic">
+          <div class="meta"><span class="role"><i class="r-critic"></i>Critic</span><span class="no">15</span></div>
+          <h3>Is it the tutorial?</h3>
+<pre>You're a critic. My system uses [technique]. Compare my outputs with what that technique typically produces in tutorials and well-known examples. What in mine is the default look of the technique, and what belongs to the identity? Be specific.</pre>
+          <p class="watch"><b>Watch for:</b> the parts it calls default. That's where your next rule is needed.</p>
+          <div class="foot"><span class="when">Days 9, 14</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="fabricator">
+          <div class="meta"><span class="role"><i class="r-fabricator"></i>Fabricator</span><span class="no">16</span></div>
+          <h3>Ready for the A2 plotter</h3>
+<pre>You're a fabricator. Prepare seed [n] for an A2 pen plotter (420 × 594 mm, units in mm). Strokes only, no fills. Remove duplicate and overlapping lines, merge paths that touch, and order paths to reduce pen travel. Report the number of paths and the total drawing length. Don't change the composition.</pre>
+          <p class="watch"><b>Watch for:</b> lines that vanish in optimisation. Compare before and after side by side.</p>
+          <div class="foot"><span class="when">Days 11–12</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="fabricator">
+          <div class="meta"><span class="role"><i class="r-fabricator"></i>Fabricator</span><span class="no">17</span></div>
+          <h3>Ready for the resin printer</h3>
+<pre>You're a fabricator. Export seed [n] as a watertight STL in millimetres, no larger than [size]. Every wall at least [thickness] mm thick. Check for holes and non-manifold edges and report them. Report the final dimensions and volume.</pre>
+          <p class="watch"><b>Watch for:</b> walls that are too thin to print. Check in the slicer too.</p>
+          <div class="foot"><span class="when">Days 11–12</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="fabricator">
+          <div class="meta"><span class="role"><i class="r-fabricator"></i>Fabricator</span><span class="no">18</span></div>
+          <h3>Ready for the archival printer</h3>
+<pre>You're a fabricator. Render seed [n] at its final print size of [size] at 300 PPI, as a TIFF with an embedded colour profile. Render it at full resolution from the system; don't upscale a smaller image. Report the pixel dimensions and file size.</pre>
+          <p class="watch"><b>Watch for:</b> upscaling. Thin lines and text show it first.</p>
+          <div class="foot"><span class="when">Days 11–12</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="writing">
+          <div class="meta"><span class="role"><i class="r-writing"></i>Documentation</span><span class="no">19</span></div>
+          <h3>Outline process.md</h3>
+<pre>Read my code, system.md and log.md. Suggest an outline for process.md: headings only, in the order a visitor would need them to understand how the system works. Don't write the text; I'll write it.</pre>
+          <p class="watch"><b>Watch for:</b> it filling the headings with prose. Delete it and write your own.</p>
+          <div class="foot"><span class="when">Day 14</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+        <article class="card" data-role="writing">
+          <div class="meta"><span class="role"><i class="r-writing"></i>Documentation</span><span class="no">20</span></div>
+          <h3>Check the repo is complete</h3>
+<pre>Check my repo for the final submission. It needs: README with parameter table, identity.md, manifesto.md, references.md, system.md, process.md, log.md, the authorship log, outputs/digital with twenty outputs, and photographs of the final work. List what's missing or incomplete. Don't write anything for me.</pre>
+          <p class="watch"><b>Watch for:</b> nothing. This is a checklist, not a collaborator.</p>
+          <div class="foot"><span class="when">Day 18</span><button type="button" class="btn" data-copy>Copy</button></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="authorship">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Authorship log</h2></div></div>
+    <div class="body">
+      <p class="intro">Keep <code>authorship.md</code> next to <code>log.md</code>. Add an entry whenever Codex suggests something that matters, especially when you say no.</p>
+      <div class="tpl">
+        <button type="button" class="btn" data-copy-id="auth-md">Copy</button>
+<pre id="auth-md"># Authorship log
+
+## Day 09 · Thu 3 Dec
+
+**Codex suggested:**
+**I kept:**
+**I rejected, and why:**
+**What this says about the identity:** </pre>
+      </div>
+      <p class="note">The last line matters most. A good rejection says something about the identity that the work then has to honour.</p>
+    </div>
+  </section>
+
+  <section class="section" id="trouble">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>When it goes wrong</h2></div></div>
+    <div class="body">
+      <ul class="trouble">
+        <li><b>It changed far more than you asked.</b><span>Don't accept it. Go back to your last commit (prompt 03) and ask again with tighter limits.</span></li>
+        <li><b>It's going round in circles.</b><span>Start a fresh session. Give it a three-line summary: what works, what doesn't, the one thing to fix.</span></li>
+        <li><b>It says it's done, but the output is wrong.</b><span>Ask it to run the code and show you the result, then describe what you expected to see.</span></li>
+        <li><b>It used a library or source you can't find.</b><span>Assume it doesn't exist until you've found it yourself.</span></li>
+        <li><b>You don't understand what it wrote.</b><span>Stop and use prompt 02. Don't build on code you can't explain.</span></li>
+        <li><b>The outputs have started to look like everyone else's.</b><span>Use prompt 15, then go back to the manifesto, not to Codex, for the next rule.</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-codex" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=3" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script>
+(function () {
+  var cards = [].slice.call(document.querySelectorAll("#lib .card"));
+  var chips = [].slice.call(document.querySelectorAll(".chip"));
+  chips.forEach(function (c) {
+    var f = c.dataset.f;
+    var n = f === "all" ? cards.length : cards.filter(function (k) { return k.dataset.role === f; }).length;
+    c.querySelector(".c").textContent = n;
+    c.addEventListener("click", function () {
+      chips.forEach(function (o) { o.setAttribute("aria-pressed", o === c ? "true" : "false"); });
+      cards.forEach(function (k) { k.hidden = !(f === "all" || k.dataset.role === f); });
+      var vis = cards.filter(function (k) { return !k.hidden; });
+      cards.forEach(function (k) { k.classList.remove("span"); });
+      if (vis.length % 2) vis[vis.length - 1].classList.add("span");
+      try { history.replaceState(null, "", f === "all" ? location.pathname : "#role-" + f); } catch (e) {}
+    });
+  });
+  var m = location.hash.match(/^#role-(\w+)/);
+  if (m) { var c = chips.filter(function (x) { return x.dataset.f === m[1]; })[0]; if (c) { c.click(); document.getElementById("library").scrollIntoView(); } }
+
+  function copy(text, btn) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(b.closest(".card").querySelector("pre").textContent, b); });
+  });
+  document.querySelectorAll("[data-copy-id]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(document.getElementById(b.dataset.copyId).textContent, b); });
+  });
+})();
+</script>
+</body>
+</html>
