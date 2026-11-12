@@ -484,6 +484,33 @@
     ]
   },
   {
+    "href": "docs.html",
+    "n": "13",
+    "t": "Documentation and submission templates",
+    "s": [
+      [
+        "overview",
+        "What the record holds"
+      ],
+      [
+        "tests",
+        "01 · The test log"
+      ],
+      [
+        "process",
+        "02 · process.md"
+      ],
+      [
+        "photos",
+        "03 · Photographing the work"
+      ],
+      [
+        "reflection",
+        "04 · Authorship reflection"
+      ]
+    ]
+  },
+  {
     "href": "log.html",
     "n": "13·1",
     "t": "The daily log",
@@ -507,6 +534,68 @@
       [
         "examples",
         "06 · Examples"
+      ]
+    ]
+  },
+  {
+    "href": "critiques.html",
+    "n": "14",
+    "t": "Critique rubrics",
+    "s": [
+      [
+        "format",
+        "How they run"
+      ],
+      [
+        "present",
+        "Three minutes"
+      ],
+      [
+        "notes",
+        "Peer notes"
+      ],
+      [
+        "c1",
+        "01 · Critique 1"
+      ],
+      [
+        "c2",
+        "02 · Critique 2"
+      ],
+      [
+        "c3",
+        "03 · Critique 3"
+      ],
+      [
+        "after",
+        "After the critique"
+      ]
+    ]
+  },
+  {
+    "href": "assessment.html",
+    "n": "15",
+    "t": "Final assessment rubric",
+    "s": [
+      [
+        "what",
+        "What is assessed"
+      ],
+      [
+        "requirements",
+        "Requirements"
+      ],
+      [
+        "weights",
+        "Weighting"
+      ],
+      [
+        "rubric",
+        "The rubric"
+      ],
+      [
+        "integrity",
+        "Integrity"
       ]
     ]
   }
