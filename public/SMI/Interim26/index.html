@@ -18,6 +18,7 @@
   .pillars article + article { padding-left: 20px; }
   .pillars article:last-child { border-right: 0; }
   .pillars h3 { font: 400 28px/1.05 var(--serif); margin: 10px 0 10px; }
+  .pillars .sq { display:inline-block; width:12px; height:12px; margin-right:8px; vertical-align:-1px; outline:2px solid var(--rule-ink); }
   .pillars p { margin: 0; font-size: 15px; color: var(--ink-2); }
   @media (max-width: 760px) {
     .pillars { grid-template-columns: 1fr; }
@@ -45,7 +46,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <a href="./">Computationally Yours · Handbook</a>
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
     <nav aria-label="Handbook"><a href="schedule.html">Schedule</a></nav>
   </div>
 </header>
@@ -53,9 +54,14 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Srishti Manipal Institute · Interim 2026 · Studio handbook</div>
+    <div class="hero-grid">
+      <div>
+      <div class="eyebrow">Srishti Manipal Institute · Interim 2026 · Studio handbook</div>
     <h1>Computationally <em>Yours</em></h1>
     <p class="lede">Out of One's Place. Twenty students each author an identity, a practitioner with a name, an origin and a position on the world they are about to enter, and build the computational system through which it speaks.</p>
+    </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-cover" data-depth="7" data-colors="3"></div><div class="mond-caption">seed cover · depth 7</div></div>
+    </div>
     <dl class="facts">
       <div><dt>Dates</dt><dd>23 Nov – 18 Dec 2026</dd></div>
       <div><dt>Hours</dt><dd>9:30 – 3:30, Mon–Fri</dd></div>
@@ -69,7 +75,7 @@
     <div class="label"><div class="sticky"><div class="num">—</div><h2>The idea</h2></div></div>
     <div class="body">
       <p class="principle">Not learning to make pictures with code, but learning to <em>stand somewhere else</em>, and to build the rules through which that position can speak.</p>
-      <p class="note" style="margin-top:24px">Every student leaves with three things: an authored identity, a working generative system, and one exhibition-quality physical artefact. AI image generation alone is not a generative system. Students must be able to explain the logic of their own code.</p>
+      <p class="note" style="margin-top:24px">Every student leaves with three things: an authored identity, a working generative system, and at least one exhibition-quality physical artefact. The artefact can be a plot, a print, a resin object, or any combination; no one has to make all three. AI image generation alone is not a generative system. Students must be able to explain the logic of their own code.</p>
     </div>
   </section>
 
@@ -78,17 +84,17 @@
     <div class="body">
       <div class="pillars">
         <article>
-          <div class="eyebrow">A</div>
+          <div class="eyebrow"><i class="sq" style="background:var(--m-red)"></i>A</div>
           <h3>Displacement</h3>
           <p>Leaving the familiar coordinates of place, time, language, role or species, and using that distance to see a real condition more clearly.</p>
         </article>
         <article>
-          <div class="eyebrow">B</div>
+          <div class="eyebrow"><i class="sq" style="background:var(--m-yellow)"></i>B</div>
           <h3>Identity</h3>
           <p>An authored identity with a name, an origin, a 150-word manifesto, beliefs and rules. It is a serious authorial position, not a costume.</p>
         </article>
         <article>
-          <div class="eyebrow">C</div>
+          <div class="eyebrow"><i class="sq" style="background:var(--m-blue)"></i>C</div>
           <h3>Computation</h3>
           <p>An original system: parameters, rules, constraints and controlled variation, producing many outputs in a recognisable language.</p>
         </article>
@@ -127,10 +133,12 @@
 </main>
 
 <footer class="colophon">
-  <div class="wrap">
+  <div class="strip" data-mondrian data-seed="footer-cover" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
     <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
     <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a></span>
   </div>
 </footer>
+<script src="assets/mondrian.js" defer></script>
 </body>
 </html>
