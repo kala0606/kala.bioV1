@@ -20,6 +20,11 @@
       ["aloud", "D · Read aloud"], ["system", "E · Into the system"], ["references", "F · References"],
       ["v2", "G · Version 2"], ["tests", "Before you hand it in"], ["reading", "Reading list"],
       ["example", "Worked example"]] },
+    { href: "system.html", n: "06", t: "Generative system worksheet", s: [
+      ["what", "What a system is"], ["metaphor", "A · Metaphor to rules"], ["diagram", "B · The diagram"],
+      ["technique", "C · Technique"], ["architecture", "D · Architecture"], ["parameters", "E · Parameter table"],
+      ["variations", "F · Twenty variations"], ["critic", "G · Codex as critic"], ["pathway", "H · Toward a material"],
+      ["tests", "Ready for Critique 2"], ["example", "Worked example"]] },
     { href: "log.html", n: "13", t: "Documentation: the daily log", s: [
       ["entry", "The entry"], ["where", "Where it lives"], ["form", "The 3:25 form"],
       ["critique", "At critique"], ["examples", "Examples"]] }

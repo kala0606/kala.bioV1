@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Worksheet · Computationally Yours</title>
+<meta name="description" content="The Week 2 generative system worksheet for Computationally Yours: turn the identity's manifesto into inputs, rules, parameters and seeded randomness, and produce twenty outputs.">
+<meta property="og:title" content="System Worksheet · Computationally Yours">
+<meta property="og:description" content="Turn a manifesto into rules a machine can follow. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  .fields { border-top: 1px solid var(--ink); }
+  .field { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .field label { font: 600 16px/1.35 var(--sans); }
+  .field label small { display: block; font: 400 14px/1.45 var(--sans); color: var(--ink-2); margin-top: 6px; }
+  .field textarea, .ptable input {
+    width: 100%; display: block; font: 400 16px/1.55 var(--sans); color: var(--ink);
+    background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 10px 12px;
+  }
+  .field textarea { min-height: 84px; resize: vertical; }
+  .field textarea.code { font: 400 14px/1.6 var(--mono); }
+  .field textarea:focus, .ptable input:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+  .field textarea::placeholder, .ptable input::placeholder { color: var(--ink-3); }
+  .field .print-val { display: none; }
+  @media (max-width: 760px) { .field { grid-template-columns: 1fr; } }
+
+  /* The system as a ruled flow */
+  .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 24px; }
+  .flow > div { background: var(--paper); padding: 16px 18px 18px 22px; position: relative; }
+  .flow > div + div::before { content: "→"; position: absolute; left: -11px; top: calc(50% - 10px); width: 20px; height: 20px; display: grid; place-items: center; background: var(--paper); font: 500 13px/1 var(--mono); outline: 2px solid var(--rule-ink); z-index: 1; }
+  .flow .k { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
+  .flow .k i { width: 10px; height: 10px; display: inline-block; outline: 2px solid var(--rule-ink); }
+  .flow h3 { font: 400 24px/1.1 var(--serif); margin: 10px 0 6px; }
+  .flow p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  @media (max-width: 860px) {
+    .flow { grid-template-columns: 1fr; }
+    .flow > div + div::before { content: "↓"; left: 14px; top: -11px; }
+  }
+
+  .principles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .principles li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+  .principles li i { width: 12px; height: 12px; margin-top: 6px; display: block; outline: 2px solid var(--rule-ink); }
+
+  .techs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 8px; }
+  .techs label { background: var(--paper); padding: 14px 16px; cursor: pointer; display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; }
+  .techs b { display: block; font: 400 20px/1.2 var(--serif); }
+  .techs small { display: block; font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+  .techs input { accent-color: var(--m-red); margin: 5px 0 0; }
+  .techs label:has(input:checked) { background: color-mix(in srgb, var(--m-red) 9%, var(--paper)); box-shadow: inset 0 -3px 0 var(--m-red); }
+  @media (max-width: 860px) { .techs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .techs { grid-template-columns: 1fr; } }
+
+  .tpl { position: relative; margin: 0 0 24px; }
+  .tpl pre { margin: 0; padding: 20px 22px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13.5px/1.65 var(--mono); white-space: pre-wrap; }
+  .btn {
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 9px 11px 8px; cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .tpl .btn { position: absolute; top: 10px; right: 10px; }
+
+  .seedrule { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 24px; }
+  .seedrule > div { background: var(--paper); padding: 16px 18px; }
+  .seedrule h3 { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
+  .seedrule code { display: block; background: transparent; padding: 0; font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
+  @media (max-width: 760px) { .seedrule { grid-template-columns: 1fr; } }
+
+  /* Parameter table */
+  .ptable { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); margin: 0 0 8px; }
+  .ptable th { text-align: left; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: 10px 8px 8px 0; border-bottom: 1px solid var(--rule); }
+  .ptable td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .ptable input { font-size: 14.5px; padding: 8px 10px; }
+  .ptable td:first-child input { font-family: var(--mono); font-size: 13.5px; }
+  .ptable .print-val { display: none; }
+  @media (max-width: 760px) {
+    .ptable thead { display: none; }
+    .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; }
+    .ptable tr { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    .ptable td { border: 0; padding: 4px 0; }
+    .ptable td::before { content: attr(data-h); display: block; font: 500 10.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  }
+
+  .checks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .checks label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; cursor: pointer; }
+  .checks input { accent-color: var(--m-red); width: 16px; height: 16px; margin: 3px 0 0; }
+  .pathways { display: flex; flex-wrap: wrap; gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 8px; }
+  .pathways label { flex: 1 1 140px; background: var(--paper); padding: 12px 14px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; font: 400 20px/1.2 var(--serif); }
+  .pathways label small { display: block; font: 400 12.5px/1.35 var(--sans); color: var(--ink-2); margin-top: 4px; }
+  .pathways input { accent-color: var(--m-red); }
+  .pathways label:has(input:checked) { background: color-mix(in srgb, var(--m-red) 9%, var(--paper)); box-shadow: inset 0 -3px 0 var(--m-red); }
+
+  .example { border: 2px solid var(--rule-ink); }
+  .example header { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; padding: 16px 20px; border-bottom: 2px solid var(--rule-ink); }
+  .example header h3 { font: 400 26px/1.1 var(--serif); margin: 0; }
+  .example dl { margin: 0; display: grid; grid-template-columns: 170px minmax(0, 1fr); }
+  .example dt, .example dd { padding: 12px 20px; border-bottom: 1px solid var(--rule); margin: 0; }
+  .example dt { font: 500 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .example dd { font-size: 15.5px; }
+  .example dd ol { margin: 0; padding-left: 1.2em; }
+  .example dd table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  .example dd th, .example dd td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px dashed var(--rule); vertical-align: top; }
+  .example dd th { font: 500 10.5px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .example dl > :nth-last-child(-n+2) { border-bottom: 0; }
+  @media (max-width: 640px) {
+    .example dl { grid-template-columns: 1fr; }
+    .example dt { border-bottom: 0; padding-bottom: 0; }
+    .example dd { overflow-x: auto; }
+  }
+
+  .savebar { position: sticky; bottom: 0; z-index: 5; background: var(--paper); border-top: 2px solid var(--rule-ink); }
+  .savebar .wrap { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
+  .savebar .status { font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .savebar .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  @media print {
+    :root { --paper: #fff; --paper-2: #fff; --ink: #000; --ink-2: #333; --ink-3: #555; --rule: #bbb; --rule-ink: #000; }
+    .hero-art, .savebar, .tpl .btn, footer.colophon .strip { display: none !important; }
+    .hero { padding: 0 0 16px; }
+    .hero h1 { font-size: 44px; margin: 8px 0 12px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .section { padding: 18px 0; grid-template-columns: 120px minmax(0, 1fr); }
+    .section > .label .sticky { position: static; }
+    .section > .label h2 { font-size: 22px; }
+    .field { break-inside: avoid; grid-template-columns: 1fr; padding: 10px 0; }
+    .field textarea, .ptable input { display: none; }
+    .field .print-val, .ptable .print-val {
+      display: block; min-height: 72px; white-space: pre-wrap; font-size: 12.5pt; line-height: 24px;
+      background-image: repeating-linear-gradient(transparent 0 23px, #ccc 23px 24px);
+    }
+    .ptable .print-val { min-height: 24px; }
+    .flow > div + div::before { display: none; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap" id="sheet">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 06 · Week 2 · Srishti Manipal Interim 2026</div>
+        <h1>Write the <em>rules</em></h1>
+        <p class="lede">The generative system worksheet. Turn your identity's manifesto into inputs, rules, parameters and seeded chance, then let the system make twenty works that could only be its own.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-06-system" data-depth="7" data-colors="3"></div><div class="mond-caption">seed system · depth 7</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>When</dt><dd>Days 6–10 · 30 Nov – 4 Dec</dd></div>
+      <div><dt>Starts from</dt><dd>Manifesto, Part E</dd></div>
+      <div><dt>Becomes</dt><dd><code>README.md</code> · <code>system.md</code></dd></div>
+      <div><dt>Outputs</dt><dd>20 in <code>outputs/digital</code></dd></div>
+      <div><dt>Tested at</dt><dd>Critique 2 · Day 10</dd></div>
+    </dl>
+  </section>
+
+  <section class="section" id="what">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>What a system is</h2></div></div>
+    <div class="body">
+      <p class="intro">A generative system is a set of rules that makes work you could not have drawn one piece at a time, all of it recognisably in one language.</p>
+      <div class="flow">
+        <div><div class="k"><i style="background:var(--paper)"></i>1</div><h3>Inputs</h3><p>What comes in: data, a drawing, a text, time, or nothing at all.</p></div>
+        <div><div class="k"><i style="background:var(--m-red)"></i>2</div><h3>Rules</h3><p>The steps, in order. This is where the identity's position lives.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>3</div><h3>Parameters</h3><p>The dials: values you can change without changing the rules.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>4</div><h3>Chance</h3><p>Controlled randomness from a seed, so any result can be made again.</p></div>
+        <div><div class="k"><i style="background:var(--paper)"></i>5</div><h3>Outputs</h3><p>Many works, each saved with the seed and settings that made it.</p></div>
+      </div>
+      <ul class="principles">
+        <li><i style="background:var(--m-red)"></i><span><b>The rules come from the manifesto.</b> If a rule has no reason in the identity's position, question it.</span></li>
+        <li><i style="background:var(--m-yellow)"></i><span><b>You can explain every line.</b> Codex can write the code with you, but at Critique 2 you explain each rule in your own words, without the screen.</span></li>
+        <li><i style="background:var(--m-blue)"></i><span><b>Image generation is not a system.</b> Prompting an AI image model, on its own, doesn't count. Your rules have to do the work.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="metaphor" data-part="A · From metaphor to rules">
+    <div class="label"><div class="sticky"><div class="num">A</div><h2>Metaphor to rules</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-a" data-depth="1" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 6.</b> Start from the metaphor you kept in the identity worksheet (Part H) and the lines you marked in the manifesto (Part E).</p>
+      <div class="fields">
+        <div class="field"><label for="a1">The metaphor<small>In one sentence, as you'd say it to a stranger.</small></label><textarea id="a1" data-k="a1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a2">The process, plainly<small>What actually happens, step by step, with no code words. "A grid is laid over the land; each cell is filled according to…"</small></label><textarea id="a2" data-k="a2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a3">Manifesto lines that must become rules<small>Copy them from the manifesto worksheet, Part E.</small></label><textarea id="a3" data-k="a3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="diagram" data-part="B · The system diagram">
+    <div class="label"><div class="sticky"><div class="num">B</div><h2>The diagram</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-b" data-depth="2" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 6, due by 3:30.</b> Fill the five boxes here, then draw the diagram by hand on A3, boxes and arrows, and photograph it to <code>diagram/system.jpg</code>.</p>
+      <div class="fields">
+        <div class="field"><label for="b1">Inputs<small>What the system reads. If it's data, name the source and the columns you need.</small></label><textarea id="b1" data-k="b1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="b2">Rules<small>Numbered steps in plain language, in the order they run. Five to ten steps is usual.</small></label><textarea id="b2" data-k="b2" class="code" placeholder="1. &#10;2. &#10;3. "></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="b3">Parameters<small>The values you'll want to change. You'll fill the full table on Day 8.</small></label><textarea id="b3" data-k="b3"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="b4">Chance<small>Where randomness enters, and where it is not allowed to. Every random choice comes from the seed.</small></label><textarea id="b4" data-k="b4"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="b5">Outputs<small>What one output is: an image, a set of lines, a form. Its size and format, for now.</small></label><textarea id="b5" data-k="b5"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="technique" data-part="C · Technique">
+    <div class="label"><div class="sticky"><div class="num">C</div><h2>Technique</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-c" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Days 6–7, during the clinics.</b> Choose the technique that best carries the rules. Mark one, or two if they work together.</p>
+      <div class="techs" data-k="c0">
+        <label><input type="checkbox" value="Noise and flow fields"><span><b>Noise and flow fields</b><small>Smooth variation, currents, drift, terrain.</small></span></label>
+        <label><input type="checkbox" value="Recursion and L-systems"><span><b>Recursion and L-systems</b><small>Growth, branching, self-similar division.</small></span></label>
+        <label><input type="checkbox" value="Agents and simulation"><span><b>Agents and simulation</b><small>Many small actors following local rules.</small></span></label>
+        <label><input type="checkbox" value="Cellular automata"><span><b>Cellular automata</b><small>A grid where each cell changes by its neighbours.</small></span></label>
+        <label><input type="checkbox" value="Data as material"><span><b>Data as material</b><small>Real records from the condition drive the form.</small></span></label>
+        <label><input type="checkbox" value="Geometry and tiling"><span><b>Geometry and tiling</b><small>Grids, packing, subdivision, pattern.</small></span></label>
+      </div>
+      <div class="fields" style="margin-top:20px">
+        <div class="field"><label for="c1">Why this technique, for this identity<small>Not "it looks good". What does the technique do that matches what the identity believes?</small></label><textarea id="c1" data-k="c1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="c2">How you'll avoid the default<small>Every technique has a look that comes from its tutorials. Say what you'll change so the result belongs to the identity, not the tutorial.</small></label><textarea id="c2" data-k="c2"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="architecture" data-part="D · Architecture with Codex">
+    <div class="label"><div class="sticky"><div class="num">D</div><h2>Architecture</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-d" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 7.</b> Codex as collaborator: ask for a plan before any code. Paste your Parts A and B where marked.</p>
+      <div class="tpl">
+        <button type="button" class="btn" data-copy="arch-prompt">Copy</button>
+<pre id="arch-prompt">I'm building a generative art system. Here is what it must do:
+
+[paste Parts A and B]
+
+Before writing any code, propose an architecture:
+- the files and what each one is for,
+- every parameter in a single config, with a sensible default and range,
+- one seeded random number generator used for every random choice,
+- an export that saves each output with its seed and parameters in the filename,
+- a way to make many outputs in one run.
+
+Explain how each of my rules maps to the code. Keep it small enough that I can read and explain all of it. Wait for my go-ahead before you write code.</pre>
+      </div>
+      <div class="seedrule">
+        <div><h3>Same seed, same work</h3><code>seed 41822 + params.json
+→ the identical output, every time</code></div>
+        <div><h3>Name every file by what made it</h3><code>outputs/digital/
+  007_seed-41822_cell-10_deficit-1.5.svg</code></div>
+      </div>
+      <div class="fields">
+        <div class="field"><label for="d1">What Codex proposed<small>The files and the main pieces, in a few lines.</small></label><textarea id="d1" data-k="d1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d2">What you changed, and why<small>This is the first entry in your authorship log.</small></label><textarea id="d2" data-k="d2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d3">First run<small>Day 7, due by 3:30: the system runs and exports. Record the first seed that worked.</small></label><textarea id="d3" data-k="d3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="parameters" data-part="E · Parameter table">
+    <div class="label"><div class="sticky"><div class="num">E</div><h2>Parameter table</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-e" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 8, due by 3:30.</b> Every dial in the system, with the identity's reason for it. This table goes in your README.</p>
+      <table class="ptable" id="ptable">
+        <thead><tr><th style="width:20%">Parameter</th><th style="width:28%">What it controls</th><th style="width:16%">Range</th><th>The identity's reason</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="note" style="margin:0 0 16px">Eight rows here. If you have more parameters than that, you may have too many; if fewer than three, the system may not vary enough.</p>
+    </div>
+  </section>
+
+  <section class="section" id="variations" data-part="F · Twenty variations">
+    <div class="label"><div class="sticky"><div class="num">F</div><h2>Twenty variations</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-f" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 8.</b> <i>Twenty Variations of Myself.</i> Run twenty seeds or settings into <code>outputs/digital</code>. How far can the system change and still be this identity?</p>
+      <div class="fields">
+        <div class="field"><label for="f1">Where it stays itself<small>The ranges in which every output is still recognisably the identity's.</small></label><textarea id="f1" data-k="f1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="f2">Where it breaks<small>The edge: the setting at which it stops being the identity, or starts looking generic.</small></label><textarea id="f2" data-k="f2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="f3">The three strongest<small>Filename and seed for each, and one line on why.</small></label><textarea id="f3" data-k="f3" class="code"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="critic" data-part="G · Codex as critic">
+    <div class="label"><div class="sticky"><div class="num">G</div><h2>Codex as critic</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-g" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 9.</b> Ask Codex to judge the outputs against the manifesto, then decide for yourself what to keep.</p>
+      <div class="tpl">
+        <button type="button" class="btn" data-copy="critic-prompt">Copy</button>
+<pre id="critic-prompt">Here is my identity's manifesto:
+
+[paste manifesto version 2]
+
+Here are my system's rules and parameter table:
+
+[paste Parts B and E]
+
+I've attached [describe or share] my twenty outputs. Act as a critic, not a collaborator:
+- Which outputs carry the manifesto most clearly, and which least? Why?
+- What looks like the default of the technique rather than the identity?
+- Which rule is doing the most work, and which could be removed?
+Don't suggest new features. Don't rewrite my voice.</pre>
+      </div>
+      <div class="fields">
+        <div class="field"><label for="g1">Codex suggested<small>The points worth recording.</small></label><textarea id="g1" data-k="g1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="g2">You kept<small>And what you'll change because of it.</small></label><textarea id="g2" data-k="g2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="g3">You rejected, and why<small>The identity's reason, not taste. This is the heart of the authorship log.</small></label><textarea id="g3" data-k="g3"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="g4">Three promising directions<small>Due by 3:30 on Day 9, with your peer group's review in fours.</small></label><textarea id="g4" data-k="g4"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pathway" data-part="H · Toward a material">
+    <div class="label"><div class="sticky"><div class="num">H</div><h2>Toward a material</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-h" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 10.</b> After Critique 2, choose your pathway. One medium is enough; no one has to make all three.</p>
+      <div class="pathways" data-k="h0">
+        <label><input type="checkbox" value="A2 pen plot"><span>A2 pen plot<small>lines, SVG, one plotter</small></span></label>
+        <label><input type="checkbox" value="Resin object"><span>Resin object<small>a mesh, small and precise</small></span></label>
+        <label><input type="checkbox" value="Archival print"><span>Archival print<small>raster, colour, 300 PPI</small></span></label>
+      </div>
+      <div class="fields" style="margin-top:20px">
+        <div class="field"><label for="h1">Why this material carries the rules<small>What does the material do that the screen can't? How does it serve the identity's position?</small></label><textarea id="h1" data-k="h1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="h2">What the system must output for it<small>SVG paths, a watertight mesh, or a high-resolution TIFF. Note what has to change in the code.</small></label><textarea id="h2" data-k="h2"></textarea><div class="print-val"></div></div>
+      </div>
+      <p class="note" style="margin-top:16px">The one-page production plan is due by 3:30 on Day 10. Machine slots are booked from Day 11; see <a href="schedule.html#machines">Machines</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="tests" data-part="Ready for Critique 2">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Ready for Critique 2</h2></div></div>
+    <div class="body">
+      <p class="intro">Critique 2 asks: <i>Does the system speak in the identity's voice, or could anyone's rules have made this?</i></p>
+      <div class="checks" data-k="t0">
+        <label><input type="checkbox" value="I can explain every rule without looking at the code."><span>I can explain every rule without looking at the code.</span></label>
+        <label><input type="checkbox" value="At least one rule comes directly from the manifesto."><span>At least one rule comes directly from the manifesto.</span></label>
+        <label><input type="checkbox" value="Every parameter lives in one config, with a range and a reason."><span>Every parameter lives in one config, with a range and a reason.</span></label>
+        <label><input type="checkbox" value="The same seed and parameters reproduce the same output."><span>The same seed and parameters reproduce the same output.</span></label>
+        <label><input type="checkbox" value="Twenty outputs are in outputs/digital, each named with its seed."><span>Twenty outputs are in <code>outputs/digital</code>, each named with its seed.</span></label>
+        <label><input type="checkbox" value="Someone who knows the technique would see the identity, not the tutorial."><span>Someone who knows the technique would see the identity, not the tutorial.</span></label>
+        <label><input type="checkbox" value="No AI image generation stands in for the system."><span>No AI image generation stands in for the system.</span></label>
+        <label><input type="checkbox" value="The authorship log records what Codex suggested, what I kept and what I rejected."><span>The authorship log records what Codex suggested, what I kept and what I rejected.</span></label>
+      </div>
+      <p class="note" style="margin-top:20px"><b>Bring:</b> the running system, 20 outputs, the parameter table, the authorship log, and the week's log on one A4 sheet.</p>
+    </div>
+  </section>
+
+  <section class="section" id="example">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>A worked example</h2></div></div>
+    <div class="body">
+      <p class="intro">Anjana Rao's system, from the identity and manifesto examples. Abridged.</p>
+      <article class="example">
+        <header><h3>The deficit survey</h3><span class="tag accent">Example</span></header>
+        <dl>
+          <dt>Metaphor</dt><dd>The survey grid as a sieve: each cell keeps the water that should be there.</dd>
+          <dt>Inputs</dt><dd>Annual rainfall for Bengaluru, 1990–2024 (CSV). One tank's boundary, traced from an old survey sheet as a polygon.</dd>
+          <dt>Rules</dt><dd><ol>
+            <li>Lay a survey grid over the tank boundary.</li>
+            <li>For each year, take the deficit: the long-run mean minus that year's rainfall.</li>
+            <li>Give each year one row of horizontal lines across the tank bed.</li>
+            <li>Draw each row heavier as the deficit grows; years with surplus are drawn faintest.</li>
+            <li>Stop every line at the boundary. Nothing is drawn outside what was measured.</li>
+            <li>Write the year and the data source in the margin beside each row.</li>
+          </ol></dd>
+          <dt>Parameters</dt><dd><table>
+            <tr><th>Name</th><th>Controls</th><th>Range</th><th>Reason</th></tr>
+            <tr><td><code>cell</code></td><td>grid size</td><td>5–20 m</td><td>the scale a surveyor would walk</td></tr>
+            <tr><td><code>deficit_scale</code></td><td>pen passes per 100 mm of deficit</td><td>0.5–3</td><td>absence drawn heavier than presence</td></tr>
+            <tr><td><code>jitter</code></td><td>line wobble</td><td>0–0.4 mm</td><td>a hand, not a machine</td></tr>
+            <tr><td><code>years</code></td><td>first and last year</td><td>1990–2024</td><td>the span of the records</td></tr>
+          </table></dd>
+          <dt>Chance</dt><dd>Only the jitter is random, from the seed. The data is never randomised: "no water I have not measured."</dd>
+          <dt>Technique</dt><dd>Data as material, on a geometric grid. Avoids the default by refusing colour and gradients.</dd>
+          <dt>Material</dt><dd>A2 pen plot. The pen's repeated passes make the deficit physical: heavier years are literally more ink.</dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<div class="savebar">
+  <div class="wrap">
+    <span class="status" id="status" aria-live="polite">Answers save in this browser</span>
+    <span class="actions">
+      <button type="button" class="btn primary" id="copy-md">Copy as system.md</button>
+      <button type="button" class="btn" id="copy-table">Copy parameter table</button>
+      <button type="button" class="btn" id="print">Print</button>
+      <button type="button" class="btn" id="clear">Clear</button>
+    </span>
+  </div>
+</div>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-system" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#week-2">Week 2</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=2" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script>
+(function () {
+  var KEY = "cy-system-v1";
+  var ROWS = 8, COLS = [["name", "Parameter", "cell"], ["controls", "What it controls", "grid size"], ["range", "Range", "5–20 m"], ["why", "The identity's reason", "the scale a surveyor would walk"]];
+  var status = document.getElementById("status");
+  var data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { data = {}; }
+
+  // Build the parameter table rows.
+  var tbody = document.querySelector("#ptable tbody");
+  for (var r = 0; r < ROWS; r++) {
+    var tr = document.createElement("tr");
+    COLS.forEach(function (c) {
+      var td = document.createElement("td");
+      td.setAttribute("data-h", c[1]);
+      var inp = document.createElement("input");
+      inp.type = "text";
+      inp.dataset.k = "p" + r + "_" + c[0];
+      inp.setAttribute("aria-label", c[1] + ", row " + (r + 1));
+      if (r === 0) inp.placeholder = c[2];
+      td.appendChild(inp);
+      var pv = document.createElement("div"); pv.className = "print-val"; td.appendChild(pv);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  }
+
+  var areas = [].slice.call(document.querySelectorAll("textarea[data-k], .ptable input[data-k]"));
+  var boxes = [].slice.call(document.querySelectorAll("[data-k] > label > input[type=checkbox]"));
+
+  function grow(t) { if (t.tagName !== "TEXTAREA") return; t.style.height = "auto"; t.style.height = Math.max(84, t.scrollHeight + 2) + "px"; }
+  areas.forEach(function (t) {
+    if (data[t.dataset.k]) t.value = data[t.dataset.k];
+    grow(t);
+    t.addEventListener("input", function () { grow(t); save(); });
+  });
+  boxes.forEach(function (inp) {
+    var v = data[inp.closest("[data-k]").dataset.k] || [];
+    inp.checked = v.indexOf(inp.value) > -1;
+    inp.addEventListener("change", save);
+  });
+
+  var timer;
+  function save() {
+    areas.forEach(function (t) { data[t.dataset.k] = t.value; });
+    var g = {};
+    boxes.forEach(function (inp) { var k = inp.closest("[data-k]").dataset.k; g[k] = g[k] || []; if (inp.checked) g[k].push(inp.value); });
+    for (var k in g) data[k] = g[k];
+    try { localStorage.setItem(KEY, JSON.stringify(data)); flash("Saved in this browser"); }
+    catch (e) { flash("Not saved: this browser blocks storage. Copy before leaving."); }
+  }
+  function flash(msg) {
+    status.textContent = msg;
+    clearTimeout(timer);
+    timer = setTimeout(function () { status.textContent = "Answers save in this browser"; }, 1800);
+  }
+
+  function cell(s) { return (s || "").replace(/\|/g, "\\|").trim(); }
+  function table() {
+    var rows = ["| Parameter | What it controls | Range | The identity's reason |", "| --- | --- | --- | --- |"];
+    for (var r = 0; r < ROWS; r++) {
+      var vals = COLS.map(function (c) { return cell(data["p" + r + "_" + c[0]]); });
+      if (vals.join("")) rows.push("| " + (vals[0] ? "`" + vals[0] + "`" : "") + " | " + vals.slice(1).join(" | ") + " |");
+    }
+    return rows.join("\n");
+  }
+  function label(f) { var l = f.querySelector("label"); return l ? l.childNodes[0].textContent.trim() : ""; }
+  function markdown() {
+    save();
+    var out = ["# System", "", "Computationally Yours · Week 2", ""];
+    document.querySelectorAll("[data-part]").forEach(function (sec) {
+      var parts = [];
+      sec.querySelectorAll("[data-k] > label > input[type=checkbox]").length && sec.querySelectorAll("[data-k]").forEach(function (g) {
+        if (!g.querySelector(":scope > label > input")) return;
+        var all = [].slice.call(g.querySelectorAll("input"));
+        if (g.classList.contains("checks")) all.forEach(function (i) { parts.push("- [" + (i.checked ? "x" : " ") + "] " + i.value); });
+        else parts.push("**Chosen:** " + (all.filter(function (i) { return i.checked; }).map(function (i) { return i.value; }).join(", ") || "—"));
+      });
+      if (sec.querySelector("#ptable")) parts.push(table());
+      sec.querySelectorAll(".field").forEach(function (f) {
+        var v = f.querySelector("textarea").value.trim();
+        parts.push("**" + label(f) + ":**" + (v.indexOf("\n") > -1 ? "\n\n" + v : " " + v));
+      });
+      if (!parts.length) return;
+      out.push("## " + sec.dataset.part, "");
+      parts.forEach(function (p) { out.push(p, ""); });
+    });
+    return out.join("\n").replace(/\n{3,}/g, "\n\n");
+  }
+
+  function copy(text, btn, done) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = done || "Copied"; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+  }
+
+  document.getElementById("copy-md").addEventListener("click", function () { copy(markdown(), this, "Copied system.md"); });
+  document.getElementById("copy-table").addEventListener("click", function () { save(); copy(table(), this); });
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(document.getElementById(b.dataset.copy).textContent, b); });
+  });
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+  document.getElementById("clear").addEventListener("click", function () {
+    if (!confirm("Clear every answer on this page? This cannot be undone.")) return;
+    areas.forEach(function (t) { t.value = ""; grow(t); });
+    boxes.forEach(function (i) { i.checked = false; });
+    data = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    flash("Cleared");
+  });
+  window.addEventListener("beforeprint", function () {
+    areas.forEach(function (t) { var p = t.parentElement.querySelector(".print-val"); if (p) p.textContent = t.value; });
+  });
+})();
+</script>
+</body>
+</html>
