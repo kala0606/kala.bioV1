@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identity Worksheet · Computationally Yours</title>
+<meta name="description" content="The Day 3 identity development worksheet for Computationally Yours: commit to one authored identity tied to a real condition, and give it facts, beliefs and rules.">
+<meta property="og:title" content="Identity Worksheet · Computationally Yours">
+<meta property="og:description" content="Commit to one authored identity and give it facts. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  .part-letter { font: 400 15px/1 var(--mono); color: var(--accent); }
+
+  /* Fields */
+  .fields { border-top: 1px solid var(--ink); }
+  .field { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .field label { font: 600 16px/1.35 var(--sans); }
+  .field label small { display: block; font: 400 14px/1.45 var(--sans); color: var(--ink-2); margin-top: 6px; }
+  .field textarea {
+    width: 100%; min-height: 84px; resize: vertical; display: block;
+    font: 400 16px/1.55 var(--sans); color: var(--ink);
+    background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0;
+    padding: 10px 12px;
+  }
+  .field textarea:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+  .field textarea::placeholder { color: var(--ink-3); }
+  .field .print-val { display: none; }
+  @media (max-width: 760px) { .field { grid-template-columns: 1fr; } }
+
+  .coords { display: flex; flex-wrap: wrap; gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 8px; }
+  .coords label { flex: 1 1 120px; background: var(--paper); padding: 12px 14px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; font: 400 20px/1.2 var(--serif); }
+  .coords label small { display: block; font: 400 12.5px/1.35 var(--sans); color: var(--ink-2); margin-top: 4px; }
+  .coords input { accent-color: var(--m-red); transform: translateY(1px); }
+  .coords label:has(input:checked) { background: color-mix(in srgb, var(--m-red) 9%, var(--paper)); box-shadow: inset 0 -3px 0 var(--m-red); }
+
+  .principles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .principles li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+  .principles li i { width: 12px; height: 12px; margin-top: 6px; display: block; outline: 2px solid var(--rule-ink); }
+
+  .qlist { margin: 0 0 24px; padding: 0; list-style: none; counter-reset: q; border-top: 1px solid var(--ink); }
+  .qlist li { counter-increment: q; display: grid; grid-template-columns: 40px minmax(0, 1fr); padding: 12px 0; border-bottom: 1px solid var(--rule); font: 400 20px/1.3 var(--serif); }
+  .qlist li::before { content: counter(q); font: 500 12px/1.9 var(--mono); color: var(--accent); }
+
+  .tpl { position: relative; margin: 0 0 24px; }
+  .tpl pre { margin: 0; padding: 20px 22px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13.5px/1.65 var(--mono); white-space: pre-wrap; }
+  .btn {
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 9px 11px 8px; cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .tpl .btn { position: absolute; top: 10px; right: 10px; }
+
+  .checks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .checks label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; cursor: pointer; }
+  .checks input { accent-color: var(--m-red); width: 16px; height: 16px; margin: 3px 0 0; }
+
+  .example { border: 2px solid var(--rule-ink); }
+  .example header { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; padding: 16px 20px; border-bottom: 2px solid var(--rule-ink); }
+  .example header h3 { font: 400 30px/1.05 var(--serif); margin: 0; }
+  .example dl { margin: 0; display: grid; grid-template-columns: 180px minmax(0, 1fr); }
+  .example dt, .example dd { padding: 12px 20px; border-bottom: 1px solid var(--rule); margin: 0; }
+  .example dt { font: 500 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .example dd { font-size: 15.5px; }
+  .example dl > :nth-last-child(-n+2) { border-bottom: 0; }
+  @media (max-width: 640px) {
+    .example dl { grid-template-columns: 1fr; }
+    .example dt { border-bottom: 0; padding-bottom: 0; }
+  }
+
+  /* Save bar */
+  .savebar { position: sticky; bottom: 0; z-index: 5; background: var(--paper); border-top: 2px solid var(--rule-ink); }
+  .savebar .wrap { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
+  .savebar .status { font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .savebar .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* Print: a clean worksheet, filled or blank. */
+  @media print {
+    :root { --paper: #fff; --paper-2: #fff; --ink: #000; --ink-2: #333; --ink-3: #555; --rule: #bbb; --rule-ink: #000; }
+    .masthead nav, .hero-art, .savebar, .tpl .btn, .no-print, footer.colophon .strip { display: none !important; }
+    .hero { padding: 0 0 16px; }
+    .hero h1 { font-size: 44px; margin: 8px 0 12px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .section { padding: 18px 0; grid-template-columns: 120px minmax(0, 1fr); break-inside: auto; }
+    .section > .label .sticky { position: static; }
+    .section > .label h2 { font-size: 22px; }
+    .field { break-inside: avoid; grid-template-columns: 1fr; padding: 10px 0; }
+    .field textarea { display: none; }
+    .field .print-val {
+      display: block; min-height: 72px; white-space: pre-wrap; font-size: 12.5pt; line-height: 24px;
+      background-image: repeating-linear-gradient(transparent 0 23px, #ccc 23px 24px);
+    }
+    .coords label { font-size: 14pt; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Worksheet parts">
+      <a href="#condition">A Condition</a>
+      <a href="#facts">C Facts</a>
+      <a href="#rules">E Rules</a>
+      <a href="#interview">G Interview</a>
+      <a href="#tests">Tests</a>
+      <a href="#example">Example</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="sheet">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 04 · Day 3 · Srishti Manipal Interim 2026</div>
+        <h1>Who is <em>speaking</em>?</h1>
+        <p class="lede">The identity development worksheet. Commit to one of your three candidates and give it facts: a condition it answers to, a position, beliefs, and rules your system can obey next week.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-04-identity" data-depth="6" data-colors="3"></div><div class="mond-caption">seed identity · depth 6</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>When</dt><dd>Day 3 · Wed 25 Nov</dd></div>
+      <div><dt>Time</dt><dd>About three hours</dd></div>
+      <div><dt>With</dt><dd>A partner, then Codex</dd></div>
+      <div><dt>Becomes</dt><dd><code>identity.md</code></dd></div>
+      <div><dt>Tested at</dt><dd>Critique 1 · Day 5</dd></div>
+    </dl>
+  </section>
+
+  <section class="section">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Before you begin</h2></div></div>
+    <div class="body">
+      <p class="intro">An authored identity is a position from which to make work about a real condition. You will speak from it for a month, and people who live inside that condition may stand in front of the work.</p>
+      <ul class="principles">
+        <li><i style="background:var(--m-red)"></i><span><b>It answers to the world.</b> Start from a condition you can point to with evidence, not from a character you would like to play.</span></li>
+        <li><i style="background:var(--m-yellow)"></i><span><b>It is not a costume.</b> No mascots, puns or jokes, and no escape from the present. Displacement is a way to see a real situation more clearly.</span></li>
+        <li><i style="background:var(--m-blue)"></i><span><b>It is not you under another name.</b> Its distance from you is the point. You will write down where you differ.</span></li>
+      </ul>
+      <p class="note" style="margin-top:20px">Work through Parts A–F alone in the morning, do the interview in G after lunch, then H with Codex. Your answers save in this browser as you type. When you're done, use <b>Copy as identity.md</b> at the bottom of the page and paste the result into your repo, or print the page and write by hand.</p>
+    </div>
+  </section>
+
+  <section class="section" id="condition" data-part="A · The condition">
+    <div class="label"><div class="sticky"><div class="num">A</div><h2>The condition</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-a" data-depth="1" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Bring forward the condition from Day 2 behind the candidate you are keeping.</p>
+      <div class="fields">
+        <div class="field"><label for="a1">The condition<small>Name it precisely. Not "the environment" but "groundwater depletion under Bengaluru's eastern suburbs".</small></label><textarea id="a1" data-k="a1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a2">Who lives inside it<small>The people, other species or places shaped by it every day. Be specific.</small></label><textarea id="a2" data-k="a2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a3">Three pieces of evidence<small>A dataset, an archive, a site you can visit, a report, a testimony. One per line, with where to find it.</small></label><textarea id="a3" data-k="a3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="displacement" data-part="B · The displacement">
+    <div class="label"><div class="sticky"><div class="num">B</div><h2>The displacement</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-b" data-depth="2" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro">The identity stands somewhere other than where you stand. Mark the coordinate that has moved: one, or at most two.</p>
+      <div class="coords" role="group" aria-label="Coordinates that have moved" data-k="b0">
+        <label><input type="checkbox" value="Place"><span>Place<small>somewhere you are not</small></span></label>
+        <label><input type="checkbox" value="Time"><span>Time<small>a past or a near future</small></span></label>
+        <label><input type="checkbox" value="Language"><span>Language<small>a tongue, a jargon, a code</small></span></label>
+        <label><input type="checkbox" value="Role"><span>Role<small>a trade, a duty, a position</small></span></label>
+        <label><input type="checkbox" value="Scale"><span>Scale or species<small>the very small, the non-human</small></span></label>
+      </div>
+      <div class="fields" style="margin-top:24px">
+        <div class="field"><label for="b1">Where exactly it stands<small>In one or two sentences: the place, time, language or role it speaks from.</small></label><textarea id="b1" data-k="b1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="b2">What can be seen from there<small>What does this position make visible about the condition that you can't see from your own?</small></label><textarea id="b2" data-k="b2"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="facts" data-part="C · The facts">
+    <div class="label"><div class="sticky"><div class="num">C</div><h2>The facts</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-c" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Facts make the identity specific enough to question, and to disagree with.</p>
+      <div class="fields">
+        <div class="field"><label for="c1">Name, and why<small>A name someone in that world could carry. Say where it comes from and what it holds.</small></label><textarea id="c1" data-k="c1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="c2">Origin<small>Where and when it was formed, and the event or circumstance that set its direction.</small></label><textarea id="c2" data-k="c2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="c3">Practice<small>What it does for a living or a calling. How it spends a working day.</small></label><textarea id="c3" data-k="c3"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="c4">Tools and materials<small>What it works with, by hand and by machine. These will matter in Week 3.</small></label><textarea id="c4" data-k="c4"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="c5">Lineage<small>Three real practitioners, movements or traditions it would cite, and what it takes from each.</small></label><textarea id="c5" data-k="c5"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="attention" data-part="D · Attention">
+    <div class="label"><div class="sticky"><div class="num">D</div><h2>Attention</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-d" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">A position is defined as much by what it turns away from as by what it looks at.</p>
+      <div class="fields">
+        <div class="field"><label for="d1">What it attends to<small>The details it notices first. What it measures, collects or keeps.</small></label><textarea id="d1" data-k="d1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d2">What it refuses<small>Images, methods, comforts or easy answers it will not use, and why.</small></label><textarea id="d2" data-k="d2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d3">What it would build<small>If it had the studio's machines, what would it make, and for whom?</small></label><textarea id="d3" data-k="d3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rules" data-part="E · Beliefs and rules">
+    <div class="label"><div class="sticky"><div class="num">E</div><h2>Beliefs and rules</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-e" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Beliefs are what the identity holds to be true. Rules are what its work must therefore do. In Week 2 the rules become constraints in code.</p>
+      <div class="fields">
+        <div class="field"><label for="e1">Three beliefs<small>One per line. Each should be something a reasonable person could disagree with.</small></label><textarea id="e1" data-k="e1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="e2">Three rules<small>One per line, in the form "Because …, the work must …". Write them so a machine could follow them.</small></label><textarea id="e2" data-k="e2" placeholder="Because the land records only what is owned, the work must draw only what has been measured."></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="distance" data-part="F · The distance from you">
+    <div class="label"><div class="sticky"><div class="num">F</div><h2>The distance</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-f" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Be honest about the gap between you and the identity. You'll close part of it with research tomorrow.</p>
+      <div class="fields">
+        <div class="field"><label for="f1">What you share<small>Experiences, places or concerns you hold in common with it.</small></label><textarea id="f1" data-k="f1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="f2">Where you differ<small>What it believes, knows or has lived that you have not.</small></label><textarea id="f2" data-k="f2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="f3">What you need to find out<small>What it knows that you don't yet, and where you'll go to learn it on Day 4: an archive, a site, a person, a dataset.</small></label><textarea id="f3" data-k="f3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="interview" data-part="G · Pair interview">
+    <div class="label"><div class="sticky"><div class="num">G</div><h2>Pair interview</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-g" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Twenty minutes each way. Your partner asks; you answer in the first person, as the identity. Don't break position to explain.</p>
+      <ol class="qlist">
+        <li>Walk me through yesterday, hour by hour.</li>
+        <li>Where does your work go when it is finished, and who sees it?</li>
+        <li>Who would disagree with you, and what would they say?</li>
+        <li>What has working this way cost you?</li>
+        <li>What would you never make, even if you were paid to?</li>
+        <li>What do you need the world to change?</li>
+      </ol>
+      <p class="note" style="margin:0 0 16px">Your partner fills in the next two fields, in their own words.</p>
+      <div class="fields">
+        <div class="field"><label for="g1">Partner: after twenty minutes, I believe…<small>What was convincing, and why. Name the partner.</small></label><textarea id="g1" data-k="g1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="g2">Partner: it was thinnest when…<small>Where the answers went vague, borrowed or generic.</small></label><textarea id="g2" data-k="g2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="g3">You: what you'll change<small>One thing you'll revise in A–F because of the interview.</small></label><textarea id="g3" data-k="g3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="codex" data-part="H · Codex as interlocutor">
+    <div class="label"><div class="sticky"><div class="num">H</div><h2>Codex as interlocutor</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="identity-h" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Ask Codex for computational metaphors, not code. Paste your Parts A, B and E into the prompt where marked.</p>
+      <div class="tpl no-print-btn">
+        <button type="button" class="btn" data-copy="codex-prompt">Copy</button>
+<pre id="codex-prompt">I am developing an authored identity for a generative art studio. It speaks from a real condition and a specific position. Here are its condition, position, beliefs and rules:
+
+[paste Parts A, B and E]
+
+Don't write any code. Propose five computational metaphors for how this identity might make work. For each one, give:
+- the process (for example erosion, a survey grid, recursion, a flow field, an agent that forages),
+- what in the condition it stands for,
+- one way it could fail to carry the identity's position.
+
+Then ask me two questions about the identity that would sharpen these metaphors.</pre>
+      </div>
+      <div class="fields">
+        <div class="field"><label for="h1">The five metaphors<small>One per line, in your own short words.</small></label><textarea id="h1" data-k="h1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="h2">The one you'd keep, and why<small>Why does the identity, not you, choose this one?</small></label><textarea id="h2" data-k="h2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="h3">What Codex got wrong<small>Where it flattened, softened or misread the identity. This goes in your Codex metaphor log too.</small></label><textarea id="h3" data-k="h3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tests" data-part="Tests of substance">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Tests of substance</h2></div></div>
+    <div class="body">
+      <p class="intro">Before 3:30, check the identity against these. If one fails, go back to the part it points to.</p>
+      <div class="checks" data-k="t0">
+        <label><input type="checkbox" value="It answers to a real condition I can point to with evidence."><span>It answers to a real condition I can point to with evidence. <span class="note">(A)</span></span></label>
+        <label><input type="checkbox" value="Someone who lives inside that condition could hear it speak and not feel mocked."><span>Someone who lives inside that condition could hear it speak and not feel mocked. <span class="note">(A, C)</span></span></label>
+        <label><input type="checkbox" value="Its position shows something I could not see from my own."><span>Its position shows something I could not see from my own. <span class="note">(B)</span></span></label>
+        <label><input type="checkbox" value="Its name is a name, not a pun or a joke."><span>Its name is a name, not a pun or a joke. <span class="note">(C)</span></span></label>
+        <label><input type="checkbox" value="It is not me with a new name, and I can say where we differ."><span>It is not me with a new name, and I can say where we differ. <span class="note">(F)</span></span></label>
+        <label><input type="checkbox" value="Its rules could become constraints in code next week."><span>Its rules could become constraints in code next week. <span class="note">(E)</span></span></label>
+        <label><input type="checkbox" value="Its concerns will still matter after I graduate."><span>Its concerns will still matter after I graduate.</span></label>
+      </div>
+      <p class="note" style="margin-top:20px">Critique 1 on Day 5 asks: <i>Who is speaking? What do they care about? Would this voice matter outside the studio?</i> This worksheet is your first answer.</p>
+    </div>
+  </section>
+
+  <section class="section" id="example">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>A worked example</h2></div></div>
+    <div class="body">
+      <p class="intro">An abridged sheet, to show the level of specificity expected. Don't borrow its condition.</p>
+      <article class="example">
+        <header><h3>Anjana Rao, surveyor of tank beds</h3><span class="tag accent">Example</span></header>
+        <dl>
+          <dt>A · Condition</dt><dd>The loss of Bengaluru's irrigation tanks to layouts and roads since the 1970s, and the groundwater decline that followed.</dd>
+          <dt>A · Evidence</dt><dd>Lake encroachment reports; old Survey of India sheets of the city; borewell depth records for the eastern wards.</dd>
+          <dt>B · Displacement</dt><dd>Role and time. A government land surveyor in 2041, still sent to measure tanks that exist only in the records.</dd>
+          <dt>B · What it sees</dt><dd>That the city's maps record what it owns, never what it has lost.</dd>
+          <dt>C · Origin</dt><dd>Born 1999 in a village whose tank was built over in 2004. Trained as a surveyor because her father kept the old tank's boundary stones.</dd>
+          <dt>D · Refuses</dt><dd>Aerial images of the city as beautiful pattern. She will not make a picture of loss that is pleasant to look at.</dd>
+          <dt>E · Belief</dt><dd>A boundary is a promise that was broken, not a line.</dd>
+          <dt>E · Rule</dt><dd>Because only measurement counts as proof, the work must draw nothing that has not been measured, and must draw absence heavier than presence.</dd>
+          <dt>H · Kept metaphor</dt><dd>The survey grid as a sieve: each cell keeps the water that should be there, and the drawing records the deficit.</dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<div class="savebar">
+  <div class="wrap">
+    <span class="status" id="status" aria-live="polite">Answers save in this browser</span>
+    <span class="actions">
+      <button type="button" class="btn primary" id="copy-md">Copy as identity.md</button>
+      <button type="button" class="btn" id="print">Print</button>
+      <button type="button" class="btn" id="clear">Clear</button>
+    </span>
+  </div>
+</div>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-identity" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#day-3">Day 3</a></span>
+  </div>
+</footer>
+
+<script src="assets/mondrian.js" defer></script>
+<script>
+(function () {
+  var KEY = "cy-identity-v1";
+  var status = document.getElementById("status");
+  var areas = [].slice.call(document.querySelectorAll("textarea[data-k]"));
+  var groups = [].slice.call(document.querySelectorAll("[data-k] input[type=checkbox]"));
+  var data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { data = {}; }
+
+  function grow(t) { t.style.height = "auto"; t.style.height = Math.max(84, t.scrollHeight + 2) + "px"; }
+  function groupKey(inp) { return inp.closest("[data-k]").dataset.k; }
+
+  areas.forEach(function (t) {
+    if (data[t.dataset.k]) t.value = data[t.dataset.k];
+    grow(t);
+    t.addEventListener("input", function () { grow(t); save(); });
+  });
+  groups.forEach(function (inp) {
+    var v = data[groupKey(inp)] || [];
+    inp.checked = v.indexOf(inp.value) > -1;
+    inp.addEventListener("change", save);
+  });
+
+  var timer;
+  function save() {
+    areas.forEach(function (t) { data[t.dataset.k] = t.value; });
+    var g = {};
+    groups.forEach(function (inp) { var k = groupKey(inp); g[k] = g[k] || []; if (inp.checked) g[k].push(inp.value); });
+    for (var k in g) data[k] = g[k];
+    try { localStorage.setItem(KEY, JSON.stringify(data)); flash("Saved in this browser"); }
+    catch (e) { flash("Not saved: this browser blocks storage. Copy before leaving."); }
+  }
+  function flash(msg) {
+    status.textContent = msg;
+    clearTimeout(timer);
+    timer = setTimeout(function () { status.textContent = "Answers save in this browser"; }, 1800);
+  }
+
+  function label(el) {
+    var l = el.querySelector("label");
+    return l ? l.childNodes[0].textContent.trim() : "";
+  }
+  function markdown() {
+    var out = ["# Identity worksheet", "", "Computationally Yours · Day 3", ""];
+    document.querySelectorAll("[data-part]").forEach(function (sec) {
+      var parts = [];
+      sec.querySelectorAll(".field").forEach(function (f) {
+        var v = f.querySelector("textarea").value.trim();
+        parts.push("**" + label(f) + ":**" + (v.indexOf("\n") > -1 ? "\n" + v : " " + v));
+      });
+      sec.querySelectorAll(".coords, .checks").forEach(function (g) {
+        var picked = [].slice.call(g.querySelectorAll("input:checked")).map(function (i) { return i.value; });
+        if (g.classList.contains("coords")) parts.unshift("**Coordinates moved:** " + (picked.join(", ") || "—"));
+        else [].slice.call(g.querySelectorAll("input")).forEach(function (i) { parts.push("- [" + (i.checked ? "x" : " ") + "] " + i.value); });
+      });
+      if (!parts.length) return;
+      out.push("## " + sec.dataset.part, "");
+      parts.forEach(function (p) { out.push(p, ""); });
+    });
+    return out.join("\n").replace(/\n{3,}/g, "\n\n");
+  }
+
+  function copy(text, btn, done) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = done || "Copied"; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+  }
+
+  document.getElementById("copy-md").addEventListener("click", function () { copy(markdown(), this, "Copied identity.md"); });
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(document.getElementById(b.dataset.copy).textContent, b); });
+  });
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+  document.getElementById("clear").addEventListener("click", function () {
+    if (!confirm("Clear every answer on this page? This cannot be undone.")) return;
+    areas.forEach(function (t) { t.value = ""; grow(t); });
+    groups.forEach(function (i) { i.checked = false; });
+    data = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    flash("Cleared");
+  });
+
+  window.addEventListener("beforeprint", function () {
+    areas.forEach(function (t) { t.nextElementSibling.textContent = t.value; });
+  });
+})();
+</script>
+</body>
+</html>
