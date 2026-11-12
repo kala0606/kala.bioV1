@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resin Printing Guide · Computationally Yours</title>
+<meta name="description" content="Resin printing production guide for Computationally Yours: the printer&#x27;s constraints, booking, preparing a watertight model, orientation and supports, washing, curing and safety.">
+<meta property="og:title" content="Resin Printing Guide · Computationally Yours">
+<meta property="og:description" content="Preparing work for the studio&#x27;s resin printer, safely. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 11 · Weeks 3–4 · Srishti Manipal Interim 2026</div>
+        <h1>The <em>resin</em> printer</h1>
+        <p class="lede">Resin printing production guide. One printer, about one print a day, and a material that needs care. Plan backwards from Day 18.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-11-resin" data-depth="5" data-colors="3"></div><div class="mond-caption">seed resin · depth 5</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Machine</dt><dd>One resin printer</dd></div>
+      <div><dt>Capacity</dt><dd>1 print a day, 2 at most</dd></div>
+      <div><dt>Tests</dt><dd>Days 11–14</dd></div>
+      <div><dt>Finals</dt><dd>Days 15–18</dd></div>
+      <div><dt>Files</dt><dd>Watertight STL, mm</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="safety">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>Safety first</h2></div></div>
+    <div class="body">
+      <div class="kit-warn"><b>Uncured resin is a skin and eye irritant</b>Read this section before you touch the printer, the vat, a fresh print or the wash station.</div>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Nitrile gloves, always,</b> whenever you handle the vat, the build plate, fresh prints or anything wet with resin. Latex isn't enough.</span></li>
+        <li><i class="y"></i><span><b>Eye protection</b> when pouring resin, scraping the plate or removing supports.</span></li>
+        <li><i class="b"></i><span><b>Ventilation.</b> Keep the room ventilated and the printer's lid closed while it runs.</span></li>
+        <li><i></i><span><b>Nothing down the sink.</b> Resin and used solvent are cured in sunlight or UV, then disposed of as the studio instructs.</span></li>
+        <li><i></i><span><b>Skin contact:</b> wash at once with soap and cold water, and tell the facilitator. Don't use solvent on skin.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="machine">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>The machine</h2></div></div>
+    <div class="body">
+      <p class="intro">A resin printer cures liquid resin with light, one thin layer at a time, on a plate that rises out of the vat. It's very precise, and it's slow in height, not in number of parts.</p>
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Size</div><h3>Small and precise</h3><p>Fine detail, but a small build volume. <span class="kit-pending">Build volume: confirm on Day 11</span></p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Time</div><h3>Height sets the clock</h3><p>Print time depends on the tallest part. Several small parts on one plate take no longer than one.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>After</div><h3>Wash and cure</h3><p>Every print must be washed and UV-cured before it's safe and finished. Allow half a day.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="booking">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Booking</h2></div></div>
+    <div class="body">
+      <p class="intro">Plan for one print a day, two at most. Four resin students fit at one a day; six need two a day.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Days 11–14: one test print each.</b> Share a plate with other students when parts are small.</span></li>
+        <li><i class="y"></i><span><b>Days 15–18: finals.</b> Day 18 is the last day a final can print; washing and curing must finish before installation on Day 19.</span></li>
+        <li><i class="b"></i><span><b>Submit the sliced file the day before</b> your print, so the facilitator can check it and set the plate.</span></li>
+        <li><i></i><span><b>Have a fallback.</b> If the final fails, an archival print or a plot of the same seed can stand in.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="prepare">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Preparing the model</h2></div></div>
+    <div class="body">
+      <ol class="kit-steps">
+        <li><div><b>Export an STL in millimetres.</b><p>Check the dimensions in the slicer match what you intended.</p></div></li>
+        <li><div><b>Make it watertight.</b><p>The mesh must be closed, with no holes, flipped faces or non-manifold edges. Prompt 17 in the <a href="codex.html#role-fabricator">prompt library</a> asks Codex to check and report.</p></div></li>
+        <li><div><b>Give every part thickness.</b><p>Walls of at least 1–1.5 mm, and no free-standing detail thinner than about 0.5 mm. Lines and surfaces from your system need to be swept or thickened into solids.</p></div></li>
+        <li><div><b>Hollow large solids.</b><p>Large solid parts waste resin and can crack. Hollow them, with wall thickness of about 2 mm and at least two drain holes so resin can escape.</p></div></li>
+        <li><div><b>Orient and support in the slicer.</b><p>Tilt the part about 30–45° from the plate, so no large flat face prints parallel to it. Put supports where marks won't matter.</p></div></li>
+      </ol>
+      <p class="note" style="margin-top:16px">The numbers above are common starting points for resin printing; the test print is where you find the right ones for this printer and resin.</p>
+    </div>
+  </section>
+
+  <section class="section" id="after">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Wash, cure, finish</h2></div></div>
+    <div class="body">
+      <ol class="kit-steps">
+        <li><div><b>Remove the plate with gloves on.</b><p>Let excess resin drip back into the vat first.</p></div></li>
+        <li><div><b>Wash.</b><p>In isopropyl alcohol (or the wash solution the studio provides), following the station's timing. Don't over-soak; it can soften detail.</p></div></li>
+        <li><div><b>Remove supports.</b><p>While the part is still slightly soft, with flush cutters and eye protection.</p></div></li>
+        <li><div><b>Dry, then cure.</b><p>Under UV until the surface is no longer tacky. Over-curing makes parts brittle.</p></div></li>
+        <li><div><b>Finish.</b><p>Sand support marks lightly if they matter. Photograph the result for your test log.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="spec">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Spec sheet</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 11, due by 3:30.</b> Save as <code>outputs/production/SPEC.md</code>.</p>
+      <div class="kit-tpl"><div class="cap">SPEC.md · resin</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Production spec · resin object
+
+Final dimensions: [w × d × h mm] (fits the build volume: yes / no)
+Number of parts: [ ] · assembled how: [ ]
+Minimum wall / detail: [mm]
+Hollowed: yes / no · drain holes: [ ]
+Orientation and supports: [notes, screenshot in tests/]
+Resin and colour: [ ] · why: [the identity's reason]
+Seed and parameters: [seed, params file]
+Estimated print time (from the slicer): [ ]
+Test print: Day [ ] · notes: [ ]
+Fallback: [ ]</pre></div>
+    </div>
+  </section>
+
+  <section class="section" id="trouble">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>When it goes wrong</h2></div></div>
+    <div class="body">
+      <table class="kit-table stack">
+        <thead><tr><th>Problem</th><th>Likely cause and fix</th></tr></thead>
+        <tbody>
+          <tr><th>Nothing on the plate</th><td data-h="Fix">The print didn't stick. Check the plate is clean and level; the first layers may need more exposure.</td></tr>
+          <tr><th>A part broke off mid-print</th><td data-h="Fix">Too few supports, or a large face parallel to the plate. Re-orient and add supports.</td></tr>
+          <tr><th>Holes or missing faces</th><td data-h="Fix">The mesh isn't watertight. Repair it before slicing.</td></tr>
+          <tr><th>Cracks after curing</th><td data-h="Fix">Trapped resin in a solid or badly drained hollow part, or over-curing. Hollow with drain holes, cure less.</td></tr>
+          <tr><th>Detail is lost</th><td data-h="Fix">Features thinner than the printer can hold. Thicken them in your system, not in the slicer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-resin" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#machines">Machines</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=5" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+
+</body>
+</html>

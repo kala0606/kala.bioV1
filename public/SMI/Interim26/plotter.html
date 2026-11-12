@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pen Plotter Guide · Computationally Yours</title>
+<meta name="description" content="Pen plotter production guide for Computationally Yours: the A2 plotter&#x27;s constraints, booking, SVG preparation, pens and paper, testing and running a plot.">
+<meta property="og:title" content="Pen Plotter Guide · Computationally Yours">
+<meta property="og:description" content="Preparing work for the studio&#x27;s A2 pen plotter. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 10 · Weeks 3–4 · Srishti Manipal Interim 2026</div>
+        <h1>The <em>pen</em> plotter</h1>
+        <p class="lede">Pen plotter production guide. One A2 plotter for the whole studio, so every slot counts. This is how to arrive with a file that plots first time.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-10-plotter" data-depth="5" data-colors="3"></div><div class="mond-caption">seed plotter · depth 5</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Machine</dt><dd>One A2 plotter</dd></div>
+      <div><dt>Sheet</dt><dd>420 × 594 mm</dd></div>
+      <div><dt>Slots</dt><dd>2 a day, Days 11–18</dd></div>
+      <div><dt>Each student</dt><dd>One test, one final</dd></div>
+      <div><dt>Files</dt><dd>SVG, strokes only</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="machine">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>The machine</h2></div></div>
+    <div class="body">
+      <p class="intro">A pen plotter moves a real pen over paper, following paths in an SVG file. It draws lines, not pixels: no fills, no gradients, no transparency.</p>
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Sheet</div><h3>A2</h3><p>420 × 594 mm. Keep at least 15 mm margin on every side for clamping and tape.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Line</div><h3>Strokes only</h3><p>Every mark is a path the pen follows. Tone comes from density, hatching or repeated passes.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Colour</div><h3>One pen per layer</h3><p>Each colour is a separate layer, and the plot pauses for a pen change.</p></div>
+      </div>
+      <p class="note">The plotter arrives in Week 2 and is demonstrated on Day 11. How long a full A2 plot takes is still being measured; until then, plan for a final plot of no more than two to three hours. <span class="kit-pending">To confirm on Day 11</span></p>
+    </div>
+  </section>
+
+  <section class="section" id="booking">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Booking</h2></div></div>
+    <div class="body">
+      <p class="intro">Two slots a day, morning and afternoon, on Days 11–18: sixteen in all. That covers one test and one final for six to eight plotter students.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Book through the shared queue</b> from Day 10, after you choose your pathway at Critique 2.</span></li>
+        <li><i class="y"></i><span><b>Arrive with a checked file.</b> If the file isn't ready at the start of your slot, the next person in the queue takes it.</span></li>
+        <li><i class="b"></i><span><b>Stay with the plotter.</b> Watch the first five minutes closely, and don't leave it unattended for long.</span></li>
+        <li><i></i><span><b>Have a fallback.</b> If a final plot fails late in the week, the archival printer can take your work. Prepare a raster version too.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="prepare">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Preparing the SVG</h2></div></div>
+    <div class="body">
+      <p class="intro">Most failed plots fail in the file. Optimise paths before the slot, not during it.</p>
+      <ol class="kit-steps">
+        <li><div><b>Export from your system in millimetres.</b><p>The document should be 420 × 594 mm (or your chosen smaller size), with the drawing inside the margins.</p></div></li>
+        <li><div><b>Remove fills.</b><p>Convert every shape to a stroke. Anything filled will either be ignored or drawn as an outline.</p></div></li>
+        <li><div><b>Merge, sort and simplify paths.</b><p>The free tool vpype does this in one line. Ask Codex to install it with you if it isn't there.</p><code class="kit-cmd">vpype read outputs/production/final.svg \
+  linemerge --tolerance 0.1mm linesort reloop linesimplify \
+  write --page-size a2 --center outputs/production/final-plot.svg</code></div></li>
+        <li><div><b>Look at it before you trust it.</b><p>Open the optimised file next to the original. Check that no lines have disappeared and nothing moved outside the margins.</p><code class="kit-cmd">vpype read outputs/production/final-plot.svg show</code></div></li>
+        <li><div><b>Separate colours into layers.</b><p>One layer per pen, in the order they'll be drawn: usually lightest first.</p></div></li>
+      </ol>
+      <p class="note" style="margin-top:16px">Prompt 16 in the <a href="codex.html#role-fabricator">prompt library</a> asks Codex to do this preparation with you and report the path count and drawing length.</p>
+    </div>
+  </section>
+
+  <section class="section" id="pens">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Pens and paper</h2></div></div>
+    <div class="body">
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Pens</div><h3>Choose for the line</h3><ul><li>Fineliners (0.1–0.8 mm): even, archival lines.</li><li>Gel pens: bolder, can skip on fast moves.</li><li>Brush pens: line weight changes with speed and pressure.</li><li>Always test a new pen on your paper first.</li></ul></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Paper</div><h3>Choose for the ink</h3><ul><li>Smooth, heavy paper (200–300 gsm) stays flat and keeps lines crisp.</li><li>Textured or absorbent paper softens lines and can bleed.</li><li>Dense overlapping lines can soak and tear thin paper.</li><li>Keep a sheet of the same paper for tests.</li></ul></div>
+      </div>
+      <p class="note">Pen and paper are part of the identity's position, not a finishing detail. Say why you chose them in your spec sheet.</p>
+    </div>
+  </section>
+
+  <section class="section" id="test">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>The test plot</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 13.</b> Plot a small section, about 10 × 10 cm, of the densest part of your drawing, on your final paper with your final pens.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Time it.</b> Multiply up to estimate the full plot. If it's longer than a slot, simplify.</span></li>
+        <li><i class="y"></i><span><b>Check the ink.</b> Does dense hatching bleed, pool or tear the paper?</span></li>
+        <li><i class="b"></i><span><b>Check the line.</b> Does the pen skip, drag or blot at the start of lines?</span></li>
+        <li><i></i><span><b>Photograph it</b> for your test log in <code>tests/</code>, with a note on what you'll change.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="run">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Running the final</h2></div></div>
+    <div class="body">
+      <div class="kit-progress" data-progress="run"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="run">Reset</button></div>
+      <div class="kit-checks" data-store="run">
+        <h3>Before the slot</h3>
+        <label><input type="checkbox"><span>The optimised SVG opens at the right size, with all lines inside the margins.</span></label>
+        <label><input type="checkbox"><span>A test section has been plotted on the final paper with the final pens.</span></label>
+        <label><input type="checkbox"><span>Pens are new or tested, with spares to hand.</span></label>
+        <label><input type="checkbox"><span>The final paper is flat, clean and handled only at the edges.</span></label>
+        <h3>At the plotter</h3>
+        <label><input type="checkbox"><span>Paper squared and taped or clamped flat at every corner.</span></label>
+        <label><input type="checkbox"><span>Pen height checked: it touches the paper when down and clears it when up.</span></label>
+        <label><input type="checkbox"><span>The first lines watched closely; plot paused at once if anything looks wrong.</span></label>
+        <label><input type="checkbox"><span>Pen changes done in layer order, without moving the paper.</span></label>
+        <h3>After</h3>
+        <label><input type="checkbox"><span>Ink left to dry before the sheet is touched or stacked.</span></label>
+        <label><input type="checkbox"><span>Plot photographed, and time, pens and paper recorded in the log.</span></label>
+        <label><input type="checkbox"><span>Plotter cleared and pens capped for the next person.</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="spec">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>Spec sheet</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 11, due by 3:30.</b> Save as <code>outputs/production/SPEC.md</code>.</p>
+      <div class="kit-tpl"><div class="cap">SPEC.md · plotter</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Production spec · pen plot
+
+Final size: 420 × 594 mm (A2) / [other]
+Margins: [mm]
+Paper: [name, weight, colour] · why: [the identity's reason]
+Pens and layers: [layer 1: pen, colour] [layer 2: ...]
+Seed and parameters: [seed, params file]
+Path count / drawing length (from vpype or Codex): [ ]
+Estimated plot time: [from the test section]
+Test plot: Day [ ] · notes: [ ]
+Fallback: [archival print of the same seed at [size]]</pre></div>
+    </div>
+  </section>
+
+  <section class="section" id="trouble">
+    <div class="label"><div class="sticky"><div class="num">08</div><h2>When it goes wrong</h2></div></div>
+    <div class="body">
+      <table class="kit-table stack">
+        <thead><tr><th>Problem</th><th>Likely cause and fix</th></tr></thead>
+        <tbody>
+          <tr><th>Lines are doubled or drawn twice</th><td data-h="Fix">Duplicate paths in the SVG. Run <code>linemerge</code> and check for overlapping shapes in your code.</td></tr>
+          <tr><th>The pen draws between shapes</th><td data-h="Fix">Pen height too low, or travel moves not lifting. Check the pen-up position before restarting.</td></tr>
+          <tr><th>The plot is taking far too long</th><td data-h="Fix">Paths aren't sorted, or there are too many tiny segments. Run <code>linesort</code> and <code>linesimplify</code>.</td></tr>
+          <tr><th>Ink pools or the paper cockles</th><td data-h="Fix">Too many lines in one place. Reduce density, change pen, or use heavier paper.</td></tr>
+          <tr><th>Part of the drawing is missing</th><td data-h="Fix">Fills that weren't converted to strokes, or shapes outside the page. Check the SVG before the slot.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-plotter" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#machines">Machines</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=5" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+
+</body>
+</html>

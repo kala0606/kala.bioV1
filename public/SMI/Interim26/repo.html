@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repository · Computationally Yours</title>
+<meta name="description" content="The repository structure, README, AGENTS.md and .gitignore templates, and git habits for Computationally Yours.">
+<meta property="og:title" content="Repository · Computationally Yours">
+<meta property="og:description" content="One folder for the whole month, and the file that tells Codex who you are. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 09 · From Day 1 · Srishti Manipal Interim 2026</div>
+        <h1>One <em>folder</em></h1>
+        <p class="lede">Repository and AGENTS.md template. Everything you make this month lives in one repository: the identity, the system, the outputs, the record of decisions. The QR code in the exhibition points here.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-09-repo" data-depth="5" data-colors="3"></div><div class="mond-caption">seed repo · depth 5</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Set up</dt><dd>Day 1 · Mon 23 Nov</dd></div>
+      <div><dt>Hosted on</dt><dd>GitHub</dd></div>
+      <div><dt>Tells Codex</dt><dd>AGENTS.md</dd></div>
+      <div><dt>Commit</dt><dd>At least daily</dd></div>
+      <div><dt>Read by</dt><dd>Visitors, via QR</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="structure">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>The structure</h2></div></div>
+    <div class="body">
+      <p class="intro">Clone the starter repository on Day 1. By Day 18 it should look like this. Files appear as the month goes on.</p>
+<div class="kit-tree">your-project/
+├── README.md           <span>what this is, how to run it, the parameter table</span>
+├── <em>AGENTS.md</em>           <span>who you are and how Codex should work with you</span>
+├── identity.md         <span>Day 3 · the identity worksheet</span>
+├── candidates.md       <span>Day 2 · three candidate identities</span>
+├── manifesto.md        <span>Day 4–5 · 150 words</span>
+├── references.md       <span>Day 4 · at least 15, all checked</span>
+├── metaphors.md        <span>Day 3 · the Codex metaphor log</span>
+├── system.md           <span>Week 2 · the system worksheet</span>
+├── process.md          <span>Day 14 · how the system works, in your words</span>
+├── final-statement.md  <span>Day 16 · the artist statement</span>
+├── log.md              <span>every day · the daily log</span>
+├── authorship.md       <span>every day · what Codex suggested, kept, rejected</span>
+├── config/
+│   └── params.json     <span>every parameter, in one place</span>
+├── src/                <span>the system's code</span>
+├── data/               <span>real data, with its source in data/SOURCES.md</span>
+├── diagram/            <span>Day 6 · the hand-drawn system diagram</span>
+├── log/                <span>one image per day</span>
+├── outputs/
+│   ├── digital/        <span>Day 8 · twenty outputs, named by seed</span>
+│   └── production/     <span>Week 3 · plot SVGs, STLs, TIFFs</span>
+├── tests/              <span>Day 13 · test photographs and notes</span>
+└── docs/
+    └── photos/         <span>Day 18 · documentation of the final work</span></div>
+      <p class="note">Names matter: Codex and the final checklist both look for these files. If you need something else, add it, but don't rename these.</p>
+    </div>
+  </section>
+
+  <section class="section" id="readme">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>README</h2></div></div>
+    <div class="body">
+      <p class="intro">The README is the front door. A visitor scanning the QR code lands here, so it should make sense to someone who has never met you.</p>
+      <div class="kit-tpl"><div class="cap">README.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># [Identity name]
+
+*[One sentence: who the identity is and the condition it answers to.]*
+
+Made by [your name] in Computationally Yours: Out of One's Place,
+Srishti Manipal Institute, Interim 2026.
+
+## The work
+
+[Two or three sentences on what the system makes and the artefact in the exhibition.]
+
+## Manifesto
+
+See [manifesto.md](manifesto.md).
+
+## How the system works
+
+[Three to five plain sentences. The full account is in [process.md](process.md).]
+
+## Parameters
+
+| Parameter | What it controls | Range | The identity's reason |
+| --- | --- | --- | --- |
+|  |  |  |  |
+
+## Run it
+
+[The exact commands to install and run the system, and to render a seed.]
+
+## Files
+
+- identity.md, manifesto.md, references.md: the identity
+- system.md, process.md: the system
+- log.md, authorship.md: the record of the month
+- outputs/: what the system made</pre></div>
+    </div>
+  </section>
+
+  <section class="section" id="agents">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>AGENTS.md</h2></div></div>
+    <div class="body">
+      <p class="intro">Codex reads <code>AGENTS.md</code> before it works in your folder. Use it to tell Codex who it's working for, what it must never do, and how your project is built.</p>
+      <div class="kit-tpl"><div class="cap">AGENTS.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Working on this project
+
+## Who this is for
+
+This is a student project in a generative art studio. The student writes as an
+authored identity, [identity name], who [one line: position and condition].
+Read identity.md and manifesto.md before suggesting anything creative.
+
+## Authorship rules
+
+- Propose; don't decide. Explain options and wait for the student to choose.
+- Never write or rewrite manifesto.md, final-statement.md, log.md or the
+  "I rejected, and why" lines in authorship.md. You may question them.
+- Ask for a plan to be agreed before writing code. Then work one step at a time.
+- Explain every change in plain language, as if to an artist new to code.
+- Don't use AI image generation in the system.
+- If you're unsure a library, dataset or reference exists, say so.
+
+## How the code is built
+
+- Language and setup: [e.g. JavaScript with p5.js / Python with ...]
+- Every parameter lives in config/params.json, with a default and a range.
+- All randomness comes from one seeded generator. Same seed and params, same output.
+- Outputs are saved to outputs/digital/ as NNN_seed-SEED_[key params].svg (or .png).
+- Keep the code small enough for the student to read and explain.
+
+## Don't touch
+
+- data/ (raw data is read, never modified)
+- outputs/ (never delete outputs)
+- docs/photos/
+
+## Run
+
+[the command to run the system]
+[the command to render a batch of seeds]</pre></div>
+      <p class="note">Fill in the brackets on Day 1 with what you know, and update it as the identity and the system settle. A short, true AGENTS.md is better than a long, generic one.</p>
+    </div>
+  </section>
+
+  <section class="section" id="git">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Git habits</h2></div></div>
+    <div class="body">
+      <p class="intro">Git is your undo button and your record. Four habits cover the month.</p>
+      <ol class="kit-steps">
+        <li><div><b>Commit before you ask Codex for a change.</b><p>Then you can always return to a version that worked.</p><code class="kit-cmd">git add -A
+git commit -m "before: line weight from deficit"</code></div></li>
+        <li><div><b>Commit after every step that works.</b><p>Small commits are easier to read and to undo.</p></div></li>
+        <li><div><b>Say what changed, not that something changed.</b><p>"line weight follows deficit" tells a story; "update" doesn't. Log entries use <code>log: day 07</code>.</p></div></li>
+        <li><div><b>Push at the end of every day.</b><p>Your laptop is not a backup. Pushing also lets the facilitator see the work.</p><code class="kit-cmd">git push</code></div></li>
+      </ol>
+      <div class="kit-warn" style="margin-top:20px"><b>Large files</b>GitHub refuses single files over 100 MB and warns above 50 MB. Keep raw scans, videos and large meshes out of the repository: put them in <code>.gitignore</code> and store them on the studio drive, then link to them from the README.</div>
+    </div>
+  </section>
+
+  <section class="section" id="gitignore">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>.gitignore</h2></div></div>
+    <div class="body">
+      <p class="intro">Start with this and add to it.</p>
+      <div class="kit-tpl"><div class="cap">.gitignore</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># system files
+.DS_Store
+Thumbs.db
+
+# dependencies and caches
+node_modules/
+__pycache__/
+.venv/
+
+# secrets: never commit these
+.env
+*.key
+
+# large files: store on the studio drive instead
+*.mov
+*.mp4
+*.zip
+raw/</pre></div>
+      <p class="note">If you ever commit a password or key by mistake, tell the facilitator straight away. Deleting the file doesn't remove it from the history.</p>
+    </div>
+  </section>
+
+  <section class="section" id="public">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Going public</h2></div></div>
+    <div class="body">
+      <p class="intro">From Day 17 the repository is linked from the exhibition, so anyone can read it.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Read it as a stranger would.</b> Open the README on your phone. Does it make sense without you there?</span></li>
+        <li><i class="y"></i><span><b>Check for anything private.</b> Personal data, other people's photos without permission, keys or passwords.</span></li>
+        <li><i class="b"></i><span><b>Credit your sources.</b> Data in <code>data/SOURCES.md</code>, references in <code>references.md</code>, code you adapted in the README.</span></li>
+      </ul>
+      <p class="note" style="margin-top:16px">How the QR code is made and tested is in <a href="qr.html">QR codes and documentation workflow</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-repo" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="codex.html">Codex</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=5" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+
+</body>
+</html>

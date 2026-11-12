@@ -344,6 +344,146 @@
     ]
   },
   {
+    "href": "repo.html",
+    "n": "09",
+    "t": "Repository and AGENTS.md template",
+    "s": [
+      [
+        "structure",
+        "01 · The structure"
+      ],
+      [
+        "readme",
+        "02 · README"
+      ],
+      [
+        "agents",
+        "03 · AGENTS.md"
+      ],
+      [
+        "git",
+        "04 · Git habits"
+      ],
+      [
+        "gitignore",
+        "05 · .gitignore"
+      ],
+      [
+        "public",
+        "06 · Going public"
+      ]
+    ]
+  },
+  {
+    "href": "plotter.html",
+    "n": "10",
+    "t": "Pen plotter production guide",
+    "s": [
+      [
+        "machine",
+        "01 · The machine"
+      ],
+      [
+        "booking",
+        "02 · Booking"
+      ],
+      [
+        "prepare",
+        "03 · Preparing the SVG"
+      ],
+      [
+        "pens",
+        "04 · Pens and paper"
+      ],
+      [
+        "test",
+        "05 · The test plot"
+      ],
+      [
+        "run",
+        "06 · Running the final"
+      ],
+      [
+        "spec",
+        "07 · Spec sheet"
+      ],
+      [
+        "trouble",
+        "08 · When it goes wrong"
+      ]
+    ]
+  },
+  {
+    "href": "resin.html",
+    "n": "11",
+    "t": "Resin printing production guide",
+    "s": [
+      [
+        "safety",
+        "01 · Safety first"
+      ],
+      [
+        "machine",
+        "02 · The machine"
+      ],
+      [
+        "booking",
+        "03 · Booking"
+      ],
+      [
+        "prepare",
+        "04 · Preparing the model"
+      ],
+      [
+        "after",
+        "05 · Wash, cure, finish"
+      ],
+      [
+        "spec",
+        "06 · Spec sheet"
+      ],
+      [
+        "trouble",
+        "07 · When it goes wrong"
+      ]
+    ]
+  },
+  {
+    "href": "archival.html",
+    "n": "12",
+    "t": "Archival printing production guide",
+    "s": [
+      [
+        "why",
+        "01 · Why a print"
+      ],
+      [
+        "file",
+        "02 · The file"
+      ],
+      [
+        "paper",
+        "03 · Paper"
+      ],
+      [
+        "proof",
+        "04 · Test strips and proofs"
+      ],
+      [
+        "handling",
+        "05 · Handling"
+      ],
+      [
+        "spec",
+        "06 · Spec sheet"
+      ],
+      [
+        "trouble",
+        "07 · When it goes wrong"
+      ]
+    ]
+  },
+  {
     "href": "log.html",
     "n": "13·1",
     "t": "The daily log",
