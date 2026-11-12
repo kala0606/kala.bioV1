@@ -4,38 +4,373 @@
 
 (function () {
   var PAGES = [
-    { href: "./", n: "—", t: "Handbook cover", s: [["contents", "Contents"]] },
-    { href: "schedule.html", n: "02", t: "Twenty days: the schedule", s: [
-      ["glance", "At a glance"], ["day", "The day"], ["machines", "Machines"],
-      ["week-1", "Week 1 · Identity"], ["week-2", "Week 2 · Computation"],
-      ["week-3", "Week 3 · Materialisation"], ["week-4", "Week 4 · Exhibition"],
-      ["critiques", "Critiques"], ["open", "Still open"]] },
-    { href: "identity.html", n: "04", t: "Identity development worksheet", s: [
-      ["condition", "A · The condition"], ["displacement", "B · The displacement"], ["facts", "C · The facts"],
-      ["attention", "D · Attention"], ["rules", "E · Beliefs and rules"], ["distance", "F · The distance"],
-      ["interview", "G · Pair interview"], ["codex", "H · Codex as interlocutor"],
-      ["tests", "Tests of substance"], ["example", "Worked example"]] },
-    { href: "manifesto.html", n: "05", t: "Manifesto worksheet", s: [
-      ["claims", "A · Raw material"], ["long", "B · The long draft"], ["cut", "C · Cut to 150"],
-      ["aloud", "D · Read aloud"], ["system", "E · Into the system"], ["references", "F · References"],
-      ["v2", "G · Version 2"], ["tests", "Before you hand it in"], ["reading", "Reading list"],
-      ["example", "Worked example"]] },
-    { href: "system.html", n: "06", t: "Generative system worksheet", s: [
-      ["what", "What a system is"], ["metaphor", "A · Metaphor to rules"], ["diagram", "B · The diagram"],
-      ["technique", "C · Technique"], ["architecture", "D · Architecture"], ["parameters", "E · Parameter table"],
-      ["variations", "F · Twenty variations"], ["critic", "G · Codex as critic"], ["pathway", "H · Toward a material"],
-      ["tests", "Ready for Critique 2"], ["example", "Worked example"]] },
-    { href: "codex.html", n: "07", t: "Codex onboarding and prompt library", s: [
-      ["what", "What Codex is here"], ["setup", "Setup"], ["rules", "Ground rules"], ["asking", "How to ask"],
-      ["library", "Prompt library"], ["authorship", "Authorship log"], ["trouble", "When it goes wrong"]] },
-    { href: "techniques.html", n: "08", t: "Computational techniques", s: [
-      ["choose", "How to choose"], ["noise", "01 · Noise and flow fields"], ["recursion", "02 · Recursion and L-systems"],
-      ["agents", "03 · Agents and simulation"], ["automata", "04 · Cellular automata"], ["data", "05 · Data as material"],
-      ["geometry", "06 · Geometry and tiling"], ["combining", "Combining"]] },
-    { href: "log.html", n: "13", t: "Documentation: the daily log", s: [
-      ["entry", "The entry"], ["where", "Where it lives"], ["form", "The 3:25 form"],
-      ["critique", "At critique"], ["examples", "Examples"]] }
-  ];
+  {
+    "href": "./",
+    "n": "—",
+    "t": "Handbook cover",
+    "s": [
+      [
+        "contents",
+        "Contents"
+      ]
+    ]
+  },
+  {
+    "href": "intro.html",
+    "n": "01",
+    "t": "Introduction and conceptual framing",
+    "s": [
+      [
+        "premise",
+        "01 · The premise"
+      ],
+      [
+        "identity",
+        "02 · Authored identities"
+      ],
+      [
+        "systems",
+        "03 · Rules as authorship"
+      ],
+      [
+        "ai",
+        "04 · Codex and authorship"
+      ],
+      [
+        "material",
+        "05 · Material"
+      ],
+      [
+        "atlas",
+        "06 · An Atlas of Elsewhere"
+      ],
+      [
+        "care",
+        "07 · Speaking with care"
+      ],
+      [
+        "month",
+        "08 · What the month asks"
+      ]
+    ]
+  },
+  {
+    "href": "schedule.html",
+    "n": "02",
+    "t": "Twenty days: the schedule",
+    "s": [
+      [
+        "glance",
+        "01 · At a glance"
+      ],
+      [
+        "day",
+        "02 · The day"
+      ],
+      [
+        "machines",
+        "03 · Machines"
+      ],
+      [
+        "week-1",
+        "04 · Week 1"
+      ],
+      [
+        "week-2",
+        "05 · Week 2"
+      ],
+      [
+        "week-3",
+        "06 · Week 3"
+      ],
+      [
+        "week-4",
+        "07 · Week 4"
+      ],
+      [
+        "critiques",
+        "08 · Critiques"
+      ],
+      [
+        "open",
+        "09 · Still open"
+      ]
+    ]
+  },
+  {
+    "href": "briefs.html",
+    "n": "03",
+    "t": "Weekly assignment briefs",
+    "s": [
+      [
+        "how",
+        "How briefs work"
+      ],
+      [
+        "week-1",
+        "01 · Week 1"
+      ],
+      [
+        "week-2",
+        "02 · Week 2"
+      ],
+      [
+        "week-3",
+        "03 · Week 3"
+      ],
+      [
+        "week-4",
+        "04 · Week 4"
+      ]
+    ]
+  },
+  {
+    "href": "identity.html",
+    "n": "04",
+    "t": "Identity development worksheet",
+    "s": [
+      [
+        "condition",
+        "A · The condition"
+      ],
+      [
+        "displacement",
+        "B · The displacement"
+      ],
+      [
+        "facts",
+        "C · The facts"
+      ],
+      [
+        "attention",
+        "D · Attention"
+      ],
+      [
+        "rules",
+        "E · Beliefs and rules"
+      ],
+      [
+        "distance",
+        "F · The distance"
+      ],
+      [
+        "interview",
+        "G · Pair interview"
+      ],
+      [
+        "codex",
+        "H · Codex as interlocutor"
+      ],
+      [
+        "tests",
+        "Tests of substance"
+      ],
+      [
+        "example",
+        "A worked example"
+      ]
+    ]
+  },
+  {
+    "href": "manifesto.html",
+    "n": "05",
+    "t": "Manifesto worksheet",
+    "s": [
+      [
+        "claims",
+        "A · Raw material"
+      ],
+      [
+        "long",
+        "B · The long draft"
+      ],
+      [
+        "cut",
+        "C · Cut to 150"
+      ],
+      [
+        "aloud",
+        "D · Read aloud"
+      ],
+      [
+        "system",
+        "E · Into the system"
+      ],
+      [
+        "references",
+        "F · References"
+      ],
+      [
+        "v2",
+        "G · Version 2"
+      ],
+      [
+        "tests",
+        "Before you hand it in"
+      ],
+      [
+        "reading",
+        "Reading list"
+      ],
+      [
+        "example",
+        "A worked example"
+      ]
+    ]
+  },
+  {
+    "href": "system.html",
+    "n": "06",
+    "t": "Generative system worksheet",
+    "s": [
+      [
+        "what",
+        "What a system is"
+      ],
+      [
+        "metaphor",
+        "A · Metaphor to rules"
+      ],
+      [
+        "diagram",
+        "B · The diagram"
+      ],
+      [
+        "technique",
+        "C · Technique"
+      ],
+      [
+        "architecture",
+        "D · Architecture"
+      ],
+      [
+        "parameters",
+        "E · Parameter table"
+      ],
+      [
+        "variations",
+        "F · Twenty variations"
+      ],
+      [
+        "critic",
+        "G · Codex as critic"
+      ],
+      [
+        "pathway",
+        "H · Toward a material"
+      ],
+      [
+        "tests",
+        "Ready for Critique 2"
+      ],
+      [
+        "example",
+        "A worked example"
+      ]
+    ]
+  },
+  {
+    "href": "codex.html",
+    "n": "07",
+    "t": "Codex onboarding and prompt library",
+    "s": [
+      [
+        "what",
+        "01 · What Codex is here"
+      ],
+      [
+        "setup",
+        "02 · Setup"
+      ],
+      [
+        "rules",
+        "03 · Ground rules"
+      ],
+      [
+        "asking",
+        "04 · How to ask"
+      ],
+      [
+        "library",
+        "05 · Prompt library"
+      ],
+      [
+        "authorship",
+        "06 · Authorship log"
+      ],
+      [
+        "trouble",
+        "07 · When it goes wrong"
+      ]
+    ]
+  },
+  {
+    "href": "techniques.html",
+    "n": "08",
+    "t": "Computational techniques",
+    "s": [
+      [
+        "choose",
+        "How to choose"
+      ],
+      [
+        "noise",
+        "01 · Noise and flow fields"
+      ],
+      [
+        "recursion",
+        "02 · Recursion and L-systems"
+      ],
+      [
+        "agents",
+        "03 · Agents and simulation"
+      ],
+      [
+        "automata",
+        "04 · Cellular automata"
+      ],
+      [
+        "data",
+        "05 · Data as material"
+      ],
+      [
+        "geometry",
+        "06 · Geometry and tiling"
+      ],
+      [
+        "combining",
+        "Combining"
+      ]
+    ]
+  },
+  {
+    "href": "log.html",
+    "n": "13·1",
+    "t": "The daily log",
+    "s": [
+      [
+        "entry",
+        "02 · The entry"
+      ],
+      [
+        "where",
+        "03 · Where it lives"
+      ],
+      [
+        "form",
+        "04 · The 3:25 form"
+      ],
+      [
+        "critique",
+        "05 · At critique"
+      ],
+      [
+        "examples",
+        "06 · Examples"
+      ]
+    ]
+  }
+];
 
   var here = location.pathname.split("/").pop() || "./";
   if (here === "index.html") here = "./";
