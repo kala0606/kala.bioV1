@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manifesto Worksheet · Computationally Yours</title>
+<meta name="description" content="The Day 4 manifesto worksheet for Computationally Yours: 150 words in the identity's voice, read aloud, edited by cutting, with a references list.">
+<meta property="og:title" content="Manifesto Worksheet · Computationally Yours">
+<meta property="og:description" content="150 words in the identity's voice, read aloud, edited by cutting. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  /* Fields (shared shape with the identity worksheet) */
+  .fields { border-top: 1px solid var(--ink); }
+  .field { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .field.wide { grid-template-columns: 1fr; }
+  .field label { font: 600 16px/1.35 var(--sans); }
+  .field label small { display: block; font: 400 14px/1.45 var(--sans); color: var(--ink-2); margin-top: 6px; }
+  .field textarea {
+    width: 100%; min-height: 84px; resize: vertical; display: block;
+    font: 400 16px/1.55 var(--sans); color: var(--ink);
+    background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0;
+    padding: 10px 12px;
+  }
+  .field textarea.voice { font: 400 19px/1.55 var(--serif); min-height: 220px; padding: 16px 18px; }
+  .field textarea:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+  .field .print-val { display: none; }
+  @media (max-width: 760px) { .field { grid-template-columns: 1fr; } }
+
+  /* Word count: a bar that fills toward the limit. */
+  .count { display: flex; align-items: center; gap: 12px; margin-top: 8px; font: 500 11px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .count .bar { flex: 1; height: 6px; background: var(--paper-2); outline: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .count .bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--rule-ink); transition: width .25s ease; }
+  .count.near .bar i { background: var(--m-yellow); }
+  .count.over { color: var(--accent); }
+  .count.over .bar i { background: var(--m-red); }
+  .count b { color: var(--ink); font-weight: 500; min-width: 7ch; text-align: right; }
+  .count.over b { color: var(--accent); }
+
+  .principles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .principles li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+  .principles li i { width: 12px; height: 12px; margin-top: 6px; display: block; outline: 2px solid var(--rule-ink); }
+
+  .cuts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 28px; }
+  .cuts > div { background: var(--paper); padding: 14px 16px 16px; }
+  .cuts h3 { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; }
+  .cuts p { margin: 0; font-size: 15px; }
+  .cuts s { color: var(--ink-3); text-decoration-color: var(--m-red); text-decoration-thickness: 2px; }
+  @media (max-width: 640px) { .cuts { grid-template-columns: 1fr; } }
+
+  .before-after { border-top: 1px solid var(--ink); margin: 0 0 28px; }
+  .before-after div { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .before-after span { font: 500 11px/1.9 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .before-after p { margin: 0; font: 400 20px/1.35 var(--serif); }
+  .before-after .b p { color: var(--ink-2); }
+
+  .tpl { position: relative; margin: 0 0 24px; }
+  .tpl pre { margin: 0; padding: 20px 22px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13.5px/1.65 var(--mono); white-space: pre-wrap; }
+  .btn {
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 9px 11px 8px; cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .tpl .btn { position: absolute; top: 10px; right: 10px; }
+
+  .refs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); margin: 0 0 24px; }
+  .refs article { padding: 16px 16px 18px 0; border-right: 1px solid var(--rule); }
+  .refs article + article { padding-left: 16px; }
+  .refs article:last-child { border-right: 0; }
+  .refs .n { font: 400 44px/0.9 var(--serif); color: var(--accent); }
+  .refs h3 { font: 600 15px/1.3 var(--sans); margin: 10px 0 6px; }
+  .refs p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  @media (max-width: 860px) {
+    .refs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .refs article { padding-left: 16px; border-top: 1px solid var(--rule); }
+    .refs article:nth-child(odd) { padding-left: 0; }
+    .refs article:nth-child(even) { border-right: 0; }
+  }
+
+  .reading { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .reading li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 6px 28px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .reading b { font: 400 20px/1.25 var(--serif); }
+  .reading b small { display: block; font: 500 11px/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+  .reading span { font-size: 15px; color: var(--ink-2); }
+  @media (max-width: 760px) { .reading li { grid-template-columns: 1fr; } }
+
+  .checks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .checks label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; cursor: pointer; }
+  .checks input { accent-color: var(--m-red); width: 16px; height: 16px; margin: 3px 0 0; }
+
+  .example { border: 2px solid var(--rule-ink); }
+  .example header { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; padding: 16px 22px; border-bottom: 2px solid var(--rule-ink); }
+  .example header h3 { font: 400 26px/1.1 var(--serif); margin: 0; }
+  .example .text { padding: 22px 22px 8px; font: 400 clamp(18px, 1.9vw, 22px)/1.5 var(--serif); }
+  .example .text p { margin: 0 0 14px; }
+  .example .text ol { margin: 0 0 14px; padding-left: 1.4em; }
+  .example footer { padding: 12px 22px; border-top: 1px solid var(--rule); font: 500 11px/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+
+  .savebar { position: sticky; bottom: 0; z-index: 5; background: var(--paper); border-top: 2px solid var(--rule-ink); }
+  .savebar .wrap { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
+  .savebar .status { font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .savebar .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  @media print {
+    :root { --paper: #fff; --paper-2: #fff; --ink: #000; --ink-2: #333; --ink-3: #555; --rule: #bbb; --rule-ink: #000; }
+    .masthead nav, .hero-art, .savebar, .tpl .btn, footer.colophon .strip, .count .bar { display: none !important; }
+    .hero { padding: 0 0 16px; }
+    .hero h1 { font-size: 44px; margin: 8px 0 12px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .section { padding: 18px 0; grid-template-columns: 120px minmax(0, 1fr); }
+    .section > .label .sticky { position: static; }
+    .section > .label h2 { font-size: 22px; }
+    .field { break-inside: avoid; grid-template-columns: 1fr; padding: 10px 0; }
+    .field textarea { display: none; }
+    .field .print-val {
+      display: block; min-height: 72px; white-space: pre-wrap; font-size: 12.5pt; line-height: 24px;
+      background-image: repeating-linear-gradient(transparent 0 23px, #ccc 23px 24px);
+    }
+    .field .print-val.tall { min-height: 288px; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap" id="sheet">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 05 · Day 4 · Srishti Manipal Interim 2026</div>
+        <h1>In <em>150</em> words</h1>
+        <p class="lede">The manifesto worksheet. Your identity says what it stands for, what it refuses and what its work must do, in its own voice, short enough to read aloud in under a minute.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-05-manifesto" data-depth="6" data-colors="3"></div><div class="mond-caption">seed manifesto · depth 6</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>When</dt><dd>Day 4 · Thu 26 Nov</dd></div>
+      <div><dt>Length</dt><dd>150 words at most</dd></div>
+      <div><dt>Voice</dt><dd>First person, as the identity</dd></div>
+      <div><dt>Becomes</dt><dd><code>manifesto.md</code></dd></div>
+      <div><dt>Version 2</dt><dd>Critique 1 · Day 5</dd></div>
+    </dl>
+  </section>
+
+  <section class="section">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>What it is for</h2></div></div>
+    <div class="body">
+      <p class="intro">A manifesto is a public position with consequences. It tells a stranger what this identity believes, and it tells your system what it is allowed to do.</p>
+      <ul class="principles">
+        <li><i style="background:var(--m-red)"></i><span><b>It speaks, it doesn't describe.</b> Write as the identity, to someone. Not about the identity, and not about the artwork.</span></li>
+        <li><i style="background:var(--m-yellow)"></i><span><b>It commits.</b> Every manifesto worth reading refuses something. If nobody could disagree with it, it isn't one yet.</span></li>
+        <li><i style="background:var(--m-blue)"></i><span><b>It becomes rules.</b> At least one line has to be precise enough to turn into a constraint in code next week.</span></li>
+      </ul>
+      <p class="note" style="margin-top:20px">This is not the artist statement. That comes on Day 16 and explains the work to visitors. The manifesto comes first, and the work has to answer to it. Keep your identity worksheet open: Parts A, D and E are your raw material.</p>
+    </div>
+  </section>
+
+  <section class="section" id="claims" data-part="A · Raw material">
+    <div class="label"><div class="sticky"><div class="num">A</div><h2>Raw material</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-a" data-depth="1" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Five sentences, one each. Don't polish them; they're the bones.</p>
+      <div class="fields">
+        <div class="field"><label for="a1">The claim<small>One sentence the identity would sign its name to. What it knows to be true about the condition.</small></label><textarea id="a1" data-k="a1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a2">What it stands against<small>A practice, an image, a habit of thought or an institution. Name it.</small></label><textarea id="a2" data-k="a2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a3">The demand<small>What must change, and for whom.</small></label><textarea id="a3" data-k="a3"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a4">The method<small>How its work is made. Take this from your rules in Part E of the identity worksheet.</small></label><textarea id="a4" data-k="a4"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="a5">The address<small>Who the manifesto speaks to, and what it asks of them.</small></label><textarea id="a5" data-k="a5"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="long" data-part="B · The long draft">
+    <div class="label"><div class="sticky"><div class="num">B</div><h2>The long draft</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-b" data-depth="2" data-colors="1"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Twenty minutes. Write about 300 words in the identity's voice, building on the five sentences. Don't stop to edit. You need too much material so that you can cut.</p>
+      <div class="fields">
+        <div class="field wide"><label for="b1">Long draft<small>Aim for twice the final length.</small></label><textarea id="b1" data-k="b1" class="voice" data-limit="300" data-soft="true"></textarea><div class="count" data-for="b1"><span class="bar"><i></i></span><b>0</b><span>of ~300</span></div><div class="print-val tall"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cut" data-part="C · Cut to 150">
+    <div class="label"><div class="sticky"><div class="num">C</div><h2>Cut to 150</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-c" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Edit by cutting, not by adding. Each pass removes one kind of weakness.</p>
+      <div class="cuts">
+        <div><h3>Cut 1 · Explanation</h3><p>Any sentence that explains the identity instead of speaking as it. <s>"As a surveyor, she believes…"</s></p></div>
+        <div><h3>Cut 2 · Hedges</h3><p><s>I think</s>, <s>perhaps</s>, <s>kind of</s>, <s>in a way</s>, <s>somewhat</s>. The identity is sure, or it doesn't say it.</p></div>
+        <div><h3>Cut 3 · The first sentence</h3><p>Drafts usually start warming up. Try starting from your second sentence.</p></div>
+        <div><h3>Cut 4 · Vague adjectives</h3><p>Replace <s>"the vast, changing city"</s> with a fact: a year, a number, a place, a name.</p></div>
+        <div><h3>Cut 5 · Questions</h3><p>A rhetorical question hands the work to the reader. Answer it, or cut it.</p></div>
+        <div><h3>Cut 6 · Borrowed lines</h3><p>Anything that sounds like a slogan you've heard before. If any identity could say it, yours shouldn't.</p></div>
+      </div>
+      <div class="before-after">
+        <div class="b"><span>Before</span><p>I think that maybe the city has kind of forgotten its lakes, which is really sad.</p></div>
+        <div><span>After</span><p>I measure what this city has agreed to forget.</p></div>
+      </div>
+      <div class="fields">
+        <div class="field wide"><label for="c1">Manifesto, version 1<small>150 words or fewer, counted the way most word counters do. Due by 3:30.</small></label><textarea id="c1" data-k="c1" class="voice" data-limit="150"></textarea><div class="count" data-for="c1"><span class="bar"><i></i></span><b>0</b><span>of 150</span></div><div class="print-val tall"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="aloud" data-part="D · Read aloud">
+    <div class="label"><div class="sticky"><div class="num">D</div><h2>Read aloud</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-d" data-depth="3" data-colors="2"></div></div></div></div>
+    <div class="body">
+      <p class="intro">In your group of four, read it twice: once in your voice, then once in someone else's. Hearing another person say it shows you which lines belong to the identity and which belong to you.</p>
+      <p class="note" style="margin:0 0 16px">Listeners note three things, without discussion. Collect their notes here.</p>
+      <div class="fields">
+        <div class="field"><label for="d1">The line they remembered<small>Keep it. It may be your first line.</small></label><textarea id="d1" data-k="d1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d2">The line they'd cut<small>If two listeners agree, cut it.</small></label><textarea id="d2" data-k="d2"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="d3">The line that sounded borrowed<small>From another artist, an advert, a textbook or a chatbot.</small></label><textarea id="d3" data-k="d3"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="system" data-part="E · From manifesto to system">
+    <div class="label"><div class="sticky"><div class="num">E</div><h2>Into the system</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-e" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Mark the lines that will become code. Each should point to a rule, a parameter or a limit your system will obey in Week 2.</p>
+      <div class="fields">
+        <div class="field"><label for="e1">Three lines and what they become<small>One per line: the manifesto line, then an arrow, then the rule. "Absence is drawn heavier than presence → line weight = 1 / rainfall".</small></label><textarea id="e1" data-k="e1"></textarea><div class="print-val"></div></div>
+        <div class="field"><label for="e2">What the system must never do<small>From the refusals. These become tests you can run on your outputs.</small></label><textarea id="e2" data-k="e2"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="references">
+    <div class="label"><div class="sticky"><div class="num">F</div><h2>References</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-f" data-depth="4" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">Fifteen real references in <code>references.md</code>, from the identity's world, not a mood board. Spend the afternoon's field research filling them.</p>
+      <div class="refs">
+        <article><div class="n">5</div><h3>The condition</h3><p>Datasets, archives, reports, maps, testimony.</p></article>
+        <article><div class="n">5</div><h3>Lineage</h3><p>Practitioners and traditions the identity would cite.</p></article>
+        <article><div class="n">3</div><h3>Materials and methods</h3><p>Techniques, tools, processes, algorithms.</p></article>
+        <article><div class="n">2</div><h3>Manifestos</h3><p>Two from the reading list below, or your own find.</p></article>
+      </div>
+      <div class="tpl">
+        <button type="button" class="btn" data-copy="refs-md">Copy</button>
+<pre id="refs-md"># References
+
+## The condition
+1. Title — author or source, year. Link or where to find it.
+   Why: one line on what it gives the identity.
+
+## Lineage
+1. …
+
+## Materials and methods
+1. …
+
+## Manifestos
+1. …</pre>
+      </div>
+      <p class="note">Codex can help you search, but it can also invent sources that don't exist. Open every reference yourself before it goes in the list. An invented reference counts as no reference.</p>
+    </div>
+  </section>
+
+  <section class="section" id="v2" data-part="G · Version 2">
+    <div class="label"><div class="sticky"><div class="num">G</div><h2>Version 2</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="manifesto-g" data-depth="5" data-colors="3"></div></div></div></div>
+    <div class="body">
+      <p class="intro">After the read-aloud and the field research, rewrite it once more for Critique 1 on Day 5.</p>
+      <div class="fields">
+        <div class="field wide"><label for="g1">Manifesto, version 2<small>150 words or fewer. This is what goes in <code>manifesto.md</code>.</small></label><textarea id="g1" data-k="g1" class="voice" data-limit="150"></textarea><div class="count" data-for="g1"><span class="bar"><i></i></span><b>0</b><span>of 150</span></div><div class="print-val tall"></div></div>
+        <div class="field"><label for="g2">What changed, and why<small>Two or three lines. Bring this to critique.</small></label><textarea id="g2" data-k="g2"></textarea><div class="print-val"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tests" data-part="Tests">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Before you hand it in</h2></div></div>
+    <div class="body">
+      <div class="checks" data-k="t0">
+        <label><input type="checkbox" value="150 words or fewer, and under a minute read aloud."><span>150 words or fewer, and under a minute read aloud.</span></label>
+        <label><input type="checkbox" value="Spoken in the first person, by the identity."><span>Spoken in the first person, by the identity.</span></label>
+        <label><input type="checkbox" value="Names the condition specifically: a place, a year, a number or a name."><span>Names the condition specifically: a place, a year, a number or a name.</span></label>
+        <label><input type="checkbox" value="Refuses at least one thing."><span>Refuses at least one thing.</span></label>
+        <label><input type="checkbox" value="Contains at least one rule a machine could follow."><span>Contains at least one rule a machine could follow.</span></label>
+        <label><input type="checkbox" value="No other identity in the cohort could sign it."><span>No other identity in the cohort could sign it.</span></label>
+        <label><input type="checkbox" value="Every reference in references.md has been opened and checked."><span>Every reference in <code>references.md</code> has been opened and checked.</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reading">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Reading list</h2></div></div>
+    <div class="body">
+      <p class="intro">Short manifestos worth reading before you write. Read them for how they work, not for what to copy.</p>
+      <ul class="reading">
+        <li><b>De Stijl manifesto<small>Theo van Doesburg and others · 1918</small></b><span>The movement behind this handbook's grid. A collective position in numbered points.</span></li>
+        <li><b>No Manifesto<small>Yvonne Rainer · 1965</small></b><span>Almost entirely refusals. Shows how much a list of "no" can define a practice.</span></li>
+        <li><b>Sentences on Conceptual Art<small>Sol LeWitt · 1969</small></b><span>Numbered sentences that read like rules for a system. The closest ancestor to what you'll code.</span></li>
+        <li><b>Manifesto for Maintenance Art<small>Mierle Laderman Ukeles · 1969</small></b><span>A real condition (unpaid, unseen labour) turned into a position and then a body of work.</span></li>
+        <li><b>A Cyborg Manifesto<small>Donna Haraway · 1985</small></b><span>Long and dense; read the opening. An authored position used to think about technology and the body.</span></li>
+        <li><b>Dogme 95 "Vow of Chastity"<small>Lars von Trier and Thomas Vinterberg · 1995</small></b><span>Ten rules for making films. Constraint as a creative method.</span></li>
+        <li><b>Glitch Studies Manifesto<small>Rosa Menkman · 2010</small></b><span>A manifesto about computational error, from inside a digital practice.</span></li>
+        <li><b>The Futurist Manifesto<small>F. T. Marinetti · 1909</small></b><span>Read it as a warning. Its force came with a celebration of violence and war; notice what a manifesto can make sound attractive.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="example">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>A worked example</h2></div></div>
+    <div class="body">
+      <p class="intro">Version 2 from the identity worksheet's example. Note the refusals, the numbered rules and the closing address.</p>
+      <article class="example">
+        <header><h3>Anjana Rao, surveyor of tank beds</h3><span class="tag accent">Example</span></header>
+        <div class="text">
+          <p>I measure what this city has agreed to forget.</p>
+          <p>My father kept the boundary stones of a tank that was filled in 2004. I keep his measurements.</p>
+          <p>Every map of Bengaluru records what the city owns. None records what it has lost. I draw the second map.</p>
+          <p>I will not make loss beautiful. No aerial views, no blue gradients, no water I have not measured.</p>
+          <p>My rules:</p>
+          <ol>
+            <li>Nothing is drawn that has not been measured.</li>
+            <li>Absence is drawn heavier than presence.</li>
+            <li>Every line carries its date and its source.</li>
+          </ol>
+          <p>A boundary is not a line. It is a promise, and I record where it was broken.</p>
+          <p>The borewells in the east now go past a thousand feet. I draw that depth too.</p>
+          <p>You may be living on a tank bed. My map will tell you which one.</p>
+        </div>
+        <footer>140 words · about 55 seconds aloud</footer>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<div class="savebar">
+  <div class="wrap">
+    <span class="status" id="status" aria-live="polite">Answers save in this browser</span>
+    <span class="actions">
+      <button type="button" class="btn primary" id="copy-manifesto">Copy manifesto.md</button>
+      <button type="button" class="btn" id="copy-all">Copy whole worksheet</button>
+      <button type="button" class="btn" id="print">Print</button>
+      <button type="button" class="btn" id="clear">Clear</button>
+    </span>
+  </div>
+</div>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-manifesto" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#day-4">Day 4</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script>
+(function () {
+  var KEY = "cy-manifesto-v1";
+  var status = document.getElementById("status");
+  var areas = [].slice.call(document.querySelectorAll("textarea[data-k]"));
+  var boxes = [].slice.call(document.querySelectorAll("[data-k] input[type=checkbox]"));
+  var data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { data = {}; }
+
+  function words(s) { var m = s.trim().match(/\S+/g); return m ? m.length : 0; }
+  function grow(t) {
+    var min = t.classList.contains("voice") ? 220 : 84;
+    t.style.height = "auto"; t.style.height = Math.max(min, t.scrollHeight + 2) + "px";
+  }
+  function count(t) {
+    var c = document.querySelector('.count[data-for="' + t.id + '"]');
+    if (!c) return;
+    var n = words(t.value), lim = +t.dataset.limit, soft = !!t.dataset.soft;
+    c.querySelector("b").textContent = n + (n === 1 ? " word" : " words");
+    c.querySelector(".bar i").style.width = Math.min(100, n / lim * 100) + "%";
+    c.classList.toggle("over", !soft && n > lim);
+    c.classList.toggle("near", !soft && n > lim * 0.9 && n <= lim);
+  }
+
+  areas.forEach(function (t) {
+    if (data[t.dataset.k]) t.value = data[t.dataset.k];
+    grow(t); count(t);
+    t.addEventListener("input", function () { grow(t); count(t); save(); });
+  });
+  boxes.forEach(function (inp) {
+    var v = data[inp.closest("[data-k]").dataset.k] || [];
+    inp.checked = v.indexOf(inp.value) > -1;
+    inp.addEventListener("change", save);
+  });
+
+  var timer;
+  function save() {
+    areas.forEach(function (t) { data[t.dataset.k] = t.value; });
+    var g = {};
+    boxes.forEach(function (inp) { var k = inp.closest("[data-k]").dataset.k; g[k] = g[k] || []; if (inp.checked) g[k].push(inp.value); });
+    for (var k in g) data[k] = g[k];
+    try { localStorage.setItem(KEY, JSON.stringify(data)); flash("Saved in this browser"); }
+    catch (e) { flash("Not saved: this browser blocks storage. Copy before leaving."); }
+  }
+  function flash(msg) {
+    status.textContent = msg;
+    clearTimeout(timer);
+    timer = setTimeout(function () { status.textContent = "Answers save in this browser"; }, 1800);
+  }
+
+  function label(f) { var l = f.querySelector("label"); return l ? l.childNodes[0].textContent.trim() : ""; }
+  function worksheet() {
+    var out = ["# Manifesto worksheet", "", "Computationally Yours · Day 4", ""];
+    document.querySelectorAll("[data-part]").forEach(function (sec) {
+      var parts = [];
+      sec.querySelectorAll(".field").forEach(function (f) {
+        var v = f.querySelector("textarea").value.trim();
+        parts.push("**" + label(f) + ":**" + (v.indexOf("\n") > -1 || v.length > 120 ? "\n\n" + v : " " + v));
+      });
+      sec.querySelectorAll(".checks input").forEach(function (i) { parts.push("- [" + (i.checked ? "x" : " ") + "] " + i.value); });
+      if (!parts.length) return;
+      out.push("## " + sec.dataset.part, "");
+      parts.forEach(function (p) { out.push(p, ""); });
+    });
+    return out.join("\n").replace(/\n{3,}/g, "\n\n");
+  }
+  function manifesto() {
+    var v2 = document.getElementById("g1").value.trim(), v1 = document.getElementById("c1").value.trim();
+    var text = v2 || v1;
+    return "# Manifesto\n\n" + text + "\n\n<!-- " + words(text) + " words · " + (v2 ? "version 2" : "version 1") + " -->\n";
+  }
+
+  function copy(text, btn, done) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = done || "Copied"; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+  }
+
+  document.getElementById("copy-manifesto").addEventListener("click", function () {
+    if (!document.getElementById("g1").value.trim() && !document.getElementById("c1").value.trim()) { flash("Write version 1 or 2 first"); return; }
+    copy(manifesto(), this, "Copied manifesto.md");
+  });
+  document.getElementById("copy-all").addEventListener("click", function () { copy(worksheet(), this); });
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(document.getElementById(b.dataset.copy).textContent, b); });
+  });
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+  document.getElementById("clear").addEventListener("click", function () {
+    if (!confirm("Clear every answer on this page? This cannot be undone.")) return;
+    areas.forEach(function (t) { t.value = ""; grow(t); count(t); });
+    boxes.forEach(function (i) { i.checked = false; });
+    data = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    flash("Cleared");
+  });
+  window.addEventListener("beforeprint", function () {
+    areas.forEach(function (t) { var p = t.parentElement.querySelector(".print-val"); if (p) p.textContent = t.value; });
+  });
+})();
+</script>
+</body>
+</html>

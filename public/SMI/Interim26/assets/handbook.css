@@ -179,3 +179,59 @@ footer.colophon .strip { height: 14px; }
 footer.colophon .wrap.row { display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; padding-top: 28px; padding-bottom: 64px; }
 
 code { font: 400 0.88em/1 var(--mono); background: var(--paper-2); padding: 2px 5px; border-radius: 3px; }
+
+/* ---------- tiered menu (assets/nav.js) ---------- */
+.masthead .wrap { flex-direction: row !important; align-items: center !important; }
+.hb-burger {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  font: 500 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink);
+  background: transparent; border: 2px solid var(--rule-ink); border-radius: 0; padding: 8px 12px 8px 10px;
+}
+.hb-burger:hover { background: var(--ink); color: var(--paper); }
+.hb-bars { display: grid; gap: 3px; width: 16px; }
+.hb-bars i { display: block; height: 2px; background: currentColor; }
+.hb-bars i:nth-child(2) { width: 62%; }
+.hb-bars i:nth-child(3) { width: 38%; background: var(--m-red); }
+
+.hb-scrim { position: fixed; inset: 0; z-index: 40; background: rgba(17,17,16,.32); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.hb-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(440px, 100vw);
+  background: var(--paper); border-left: 2px solid var(--rule-ink); overflow-y: auto; overscroll-behavior: contain;
+  transform: translateX(102%); transition: transform .32s cubic-bezier(.2,.7,.2,1); visibility: hidden;
+  display: flex; flex-direction: column;
+}
+.hb-open .hb-scrim { opacity: 1; pointer-events: auto; }
+.hb-open .hb-drawer { transform: none; visibility: visible; }
+.hb-open, .hb-open body { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .hb-scrim, .hb-drawer { transition: none; } }
+
+.hb-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 2px solid var(--rule-ink); }
+.hb-kicker { font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+.hb-close { width: 34px; height: 34px; border: 2px solid var(--rule-ink); background: transparent; color: var(--ink); font: 400 22px/1 var(--sans); cursor: pointer; display: grid; place-items: center; padding: 0; }
+.hb-close:hover { background: var(--ink); color: var(--paper); }
+.hb-strip { height: 22px; flex: none; border-bottom: 2px solid var(--rule-ink); }
+
+.hb-pages { list-style: none; margin: 0; padding: 0; }
+.hb-pages > li { border-bottom: 1px solid var(--rule); }
+.hb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; }
+.hb-page { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 16px 8px 16px 20px; text-decoration: none; }
+.hb-n { font: 500 12px/1 var(--mono); color: var(--ink-3); }
+.hb-t { font: 400 21px/1.2 var(--serif); }
+.hb-page:hover .hb-t { color: var(--accent); }
+.is-current .hb-n { color: var(--accent); }
+.is-current > .hb-row { box-shadow: inset 4px 0 0 var(--m-red); }
+.hb-toggle { width: 52px; border: 0; border-left: 1px solid var(--rule); background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink); }
+.hb-toggle:hover { background: var(--paper-2); }
+.hb-toggle span { position: relative; width: 12px; height: 12px; }
+.hb-toggle span::before, .hb-toggle span::after { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; background: currentColor; transition: transform .2s ease; }
+.hb-toggle span::after { transform: rotate(90deg); }
+.is-open .hb-toggle span::after { transform: rotate(0); }
+
+.hb-sections { list-style: none; margin: 0; padding: 0 0 12px 64px; display: none; }
+.is-open > .hb-sections { display: block; }
+.hb-sections a { display: block; padding: 6px 20px 6px 0; font: 500 11.5px/1.35 var(--mono); letter-spacing: .03em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+.hb-sections a:hover { color: var(--accent); }
+
+.hb-all { margin-top: auto; display: block; padding: 18px 20px; border-top: 2px solid var(--rule-ink); font: 500 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+.hb-all:hover { background: var(--ink); color: var(--paper); }
+@media print { .hb-burger, .hb-drawer, .hb-scrim { display: none !important; } }
