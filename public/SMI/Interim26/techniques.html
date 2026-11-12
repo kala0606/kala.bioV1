@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Techniques · Computationally Yours</title>
+<meta name="description" content="Six computational techniques for Computationally Yours, each with a live sketch: noise and flow fields, recursion and L-systems, agents, cellular automata, data as material, geometry and tiling.">
+<meta property="og:title" content="Techniques · Computationally Yours">
+<meta property="og:description" content="Six computational techniques, each with a live sketch. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  .choose { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); }
+  .choose th, .choose td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .choose th { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .choose td:first-child { font-size: 15.5px; }
+  .choose td:last-child a { font: 400 19px/1.25 var(--serif); text-decoration: none; }
+  .choose td:last-child a:hover { color: var(--accent); }
+  .choose td:last-child { white-space: nowrap; }
+  @media (max-width: 640px) {
+    .choose thead { display: none; }
+    .choose tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    .choose td { display: block; border: 0; padding: 2px 0; white-space: normal !important; }
+  }
+
+  /* Live sketch */
+  .sketch { border: 2px solid var(--rule-ink); margin: 0 0 24px; }
+  .sketch canvas { display: block; width: 100%; height: 280px; background: var(--paper); }
+  .sketch .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 10px 14px; border-top: 2px solid var(--rule-ink); background: var(--paper-2); }
+  .sketch .controls label { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+  .sketch .controls input[type=range] { flex: 1; accent-color: var(--m-red); min-width: 80px; }
+  .sketch .controls output { min-width: 4ch; color: var(--ink); text-align: right; }
+  .sketch .seed { font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .sketch .caption { padding: 8px 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-2); }
+  .btn {
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 8px 10px 7px; cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+
+  .facts4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 20px; }
+  .facts4 > div { background: var(--paper); padding: 14px 18px 16px; }
+  .facts4 h3 { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; display: flex; gap: 8px; align-items: center; }
+  .facts4 h3 i { width: 9px; height: 9px; display: inline-block; outline: 1.5px solid var(--rule-ink); }
+  .facts4 ol, .facts4 ul { margin: 0; padding-left: 1.2em; font-size: 15px; }
+  .facts4 li + li { margin-top: 4px; }
+  .facts4 p { margin: 0; font-size: 15px; }
+  .facts4 dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 14.5px; }
+  .facts4 dt { font: 400 13px/1.6 var(--mono); }
+  .facts4 dd { margin: 0; color: var(--ink-2); }
+  @media (max-width: 760px) { .facts4 { grid-template-columns: 1fr; } }
+
+  .media { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); margin: 0 0 20px; }
+  .media div { padding: 12px 16px 14px 0; border-right: 1px solid var(--rule); font-size: 14.5px; }
+  .media div + div { padding-left: 16px; }
+  .media div:last-child { border-right: 0; }
+  .media b { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; font-weight: 500; }
+  @media (max-width: 760px) { .media { grid-template-columns: 1fr; } .media div { padding-left: 0 !important; border-right: 0; border-bottom: 1px solid var(--rule); } }
+
+  .look { font-size: 15px; color: var(--ink-2); margin: 0 0 16px; }
+  .look b { color: var(--ink); font-weight: 600; }
+
+  .prompt { position: relative; }
+  .prompt pre { margin: 0; padding: 16px 18px; padding-right: 80px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 13px/1.6 var(--mono); white-space: pre-wrap; }
+  .prompt .btn { position: absolute; top: 10px; right: 10px; }
+  .prompt .k { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; }
+
+  @media print { .sketch .controls, .btn, .hero-art, footer.colophon .strip { display: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · 08 · Week 2 clinics · Srishti Manipal Interim 2026</div>
+        <h1>Six ways to make <em>rules</em></h1>
+        <p class="lede">The computational techniques behind the Week 2 clinics. Each comes with a small live sketch, its parameters, what it's good for, and the look you'll need to get past.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-08-techniques" data-depth="6" data-colors="3"></div><div class="mond-caption">seed techniques · depth 6</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Clinics</dt><dd>Days 6–7 · 30 Nov – 1 Dec</dd></div>
+      <div><dt>Techniques</dt><dd>Six</dd></div>
+      <div><dt>Each has</dt><dd>A live sketch</dd></div>
+      <div><dt>You choose</dt><dd>One, or two together</dd></div>
+      <div><dt>Recorded in</dt><dd><a href="system.html#technique">System worksheet, C</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="section" id="choose">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>How to choose</h2></div></div>
+    <div class="body">
+      <p class="intro">Start from your metaphor, not from a look you like. The technique should do what the identity believes.</p>
+      <table class="choose">
+        <thead><tr><th>If your metaphor is about…</th><th>Try</th></tr></thead>
+        <tbody>
+          <tr><td>drift, current, weather, erosion, wind, the movement of water</td><td><a href="#noise">01 Noise and flow fields</a></td></tr>
+          <tr><td>growth, branching, lineage, bureaucracy, things inside things</td><td><a href="#recursion">02 Recursion and L-systems</a></td></tr>
+          <tr><td>crowds, migration, foraging, labour, many small decisions</td><td><a href="#agents">03 Agents and simulation</a></td></tr>
+          <tr><td>spread, contagion, settlement, rumour, neighbours shaping neighbours</td><td><a href="#automata">04 Cellular automata</a></td></tr>
+          <tr><td>records, measurement, evidence, what was counted and what wasn't</td><td><a href="#data">05 Data as material</a></td></tr>
+          <tr><td>order, the grid, property, the survey, rules breaking down</td><td><a href="#geometry">06 Geometry and tiling</a></td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:16px">The sketches below are small on purpose: a few dozen lines each. Change the slider, press <b>New seed</b>, and watch which parts stay the same. Those are the rules.</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="section" id="noise">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>Noise and flow fields</h2></div></div>
+    <div class="body">
+      <p class="intro">Smooth randomness: values that change gradually across space, so neighbouring points agree. Turn those values into directions and you have a field that lines can follow.</p>
+      <div class="sketch" data-demo="flow">
+        <canvas aria-label="Live sketch: lines following a noise field"></canvas>
+        <div class="controls"><label>Noise scale <input type="range" min="1" max="12" value="4"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Make a noise field over the page.</li><li>At each point, read the noise as an angle.</li><li>Drop particles and move each a short step along its angle, again and again.</li><li>Draw the path each particle leaves.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>scale</dt><dd>how quickly the field changes</dd><dt>count</dt><dd>how many lines</dd><dt>steps</dt><dd>how long each line runs</dd><dt>step</dt><dd>how far each move goes</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Anything that moves continuously: water, air, sediment, crowds at a distance, a slow change over time.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>Evenly spaced, smooth hair-like curves in a pastel palette. Let data, a boundary or a rule from the manifesto shape the field.</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>Natural fit: every line is a pen stroke. Limit overlap or the paper soaks.</div><div><b>Resin</b>Sweep lines into tubes, or use the field as a height map.</div><div><b>Print</b>Fine for dense, layered fields with tone that a pen can't give.</div></div>
+      <p class="look"><b>Look at:</b> Tyler Hobbs's essay on flow fields; Manolo Gamboa Naon; Ken Perlin's original noise (1985).</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md. Build the smallest flow-field sketch that follows my rules: a seeded noise field, particles that move along it, and lines exported as SVG. Every value in one config. Explain each step before you write it.</pre></div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section" id="recursion">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Recursion and L-systems</h2></div></div>
+    <div class="body">
+      <p class="intro">A rule that applies to its own result. Rewrite a short string of symbols a few times, then read it as drawing instructions, and branching structures grow.</p>
+      <div class="sketch" data-demo="lsystem">
+        <canvas aria-label="Live sketch: a plant drawn by an L-system"></canvas>
+        <div class="controls"><label>Generations <input type="range" min="1" max="6" value="4"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Start with a short string, the axiom.</li><li>Replace every symbol by its rule, all at once. Repeat for each generation.</li><li>Read the result: F draws forward, + and − turn, [ and ] save and return to a position.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>rules</dt><dd>what each symbol becomes</dd><dt>generations</dt><dd>how many rewrites</dd><dt>angle</dt><dd>how sharply it turns</dd><dt>length</dt><dd>how far F moves, and how it shrinks</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Growth and inheritance: plants, rivers, family trees, institutions that copy themselves, a document that cites a document.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>The textbook fern or tree. Write rules from your identity's condition, and decide what happens when growth is blocked.</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>Excellent: clean strokes, and depth shows in line weight or pen.</div><div><b>Resin</b>Branches become printable forms if you give them thickness.</div><div><b>Print</b>Works; consider whether the line needs the pen.</div></div>
+      <p class="look"><b>Look at:</b> Aristid Lindenmayer, who devised L-systems (1968); Prusinkiewicz and Lindenmayer, <i>The Algorithmic Beauty of Plants</i> (1990).</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md. Build a minimal L-system: an axiom, rules I define in the config, a turtle that draws them, and SVG export. Keep randomness seeded and optional. Show me the rewritten string for the first two generations so I can check it by hand.</pre></div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="section" id="agents">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Agents and simulation</h2></div></div>
+    <div class="body">
+      <p class="intro">Many small actors, each following simple local rules. No one draws the whole picture; it emerges from their decisions.</p>
+      <div class="sketch" data-demo="agents">
+        <canvas aria-label="Live sketch: trails left by wandering agents"></canvas>
+        <div class="controls"><label>Restlessness <input type="range" min="0" max="20" value="6"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Place agents, each with a position and a heading.</li><li>Every step, each agent looks around and decides: turn, slow down, follow, avoid.</li><li>Move them all, and record the trails.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>count</dt><dd>how many agents</dd><dt>turn</dt><dd>how freely they change direction</dd><dt>sense</dt><dd>how far they look</dd><dt>rules</dt><dd>what attracts or repels them</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Behaviour: migration, work, foraging, traffic, people moving through a city, or anything shaped by many decisions.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>Flocking "boids" with nothing at stake. Give the agents a reason to move that comes from the condition: water, a wage, a border.</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>Trails plot well; cap the number of steps so lines don't pile up.</div><div><b>Resin</b>Stack trails over time as layers to make a form.</div><div><b>Print</b>Good for density maps and many thousands of agents.</div></div>
+      <p class="look"><b>Look at:</b> Craig Reynolds's Boids (1986); Casey Reas's <i>Process</i> series.</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md. Build a minimal agent simulation: agents with a position and heading, one rule at a time from my list, trails recorded and exported as SVG. Seeded. Start with one agent so I can see a single trail, then scale up.</pre></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="section" id="automata">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Cellular automata</h2></div></div>
+    <div class="body">
+      <p class="intro">A grid of cells, each on or off. At every step a cell changes according to its neighbours. Simple rules can make order, chaos or something between.</p>
+      <div class="sketch" data-demo="automata">
+        <canvas aria-label="Live sketch: an elementary cellular automaton"></canvas>
+        <div class="controls"><label>Rule <input type="range" min="0" max="5" value="0"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Start with a row of cells, some on.</li><li>For each cell, look at it and its two neighbours: eight possible patterns.</li><li>The rule says which patterns turn the cell on in the next row.</li><li>Draw each new row under the last.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>rule</dt><dd>which of the 256 rules</dd><dt>start</dt><dd>one cell, or a random row</dd><dt>size</dt><dd>cell size and grid width</dd><dt>steps</dt><dd>how many generations</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Spread and neighbourhood: settlement, infection, rumour, land use, a decision that passes from house to house.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>Rule 30 or the Game of Life shown for their own sake. Seed the grid from real data, or let the identity's rules decide what a neighbour is.</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>Cells become hatched squares or marks; plot time grows with cell count.</div><div><b>Resin</b>Each generation becomes a layer: the automaton grows a solid.</div><div><b>Print</b>Natural for large grids and fine cells.</div></div>
+      <p class="look"><b>Look at:</b> John Conway's Game of Life (1970); Stephen Wolfram's elementary automata, including Rule 30 (1983).</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md. Build a minimal one-dimensional cellular automaton: a rule number and starting row in the config, each generation drawn below the last, SVG export. Then show me how to start it from a row of real data instead of random cells.</pre></div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="section" id="data">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Data as material</h2></div></div>
+    <div class="body">
+      <p class="intro">Real records from the condition drive the form. The choices are what to measure, how to map a value to a mark, and what the mapping leaves out.</p>
+      <div class="sketch" data-demo="data">
+        <canvas aria-label="Live sketch: rows of lines whose weight follows a series of values"></canvas>
+        <div class="controls"><label>Emphasis <input type="range" min="5" max="30" value="10"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+        <div class="caption">The values here are illustrative, generated from the seed. In your work, use real records and cite them.</div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Find and clean the records: one row per thing measured.</li><li>Choose which column drives which visual quality: length, weight, spacing, angle, density.</li><li>Decide the mapping: straight, squared, inverted, stepped.</li><li>Draw, then label the source.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>range</dt><dd>which years, places or rows</dd><dt>mapping</dt><dd>how a value becomes a mark</dd><dt>emphasis</dt><dd>how strongly differences show</dd><dt>gaps</dt><dd>how missing values are drawn</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Evidence and testimony: anything your identity measures, counts, or knows has gone uncounted.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>A chart with the axes taken off. Make the mapping a position: say why this quality, and draw what's missing as well as what's there.</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>Strong: repeated passes or pen weight make quantity physical.</div><div><b>Resin</b>Values become heights, thicknesses or a stacked form you can hold.</div><div><b>Print</b>Best for many fine values and tone.</div></div>
+      <p class="look"><b>Look at:</b> Giorgia Lupi and Stefanie Posavec, <i>Dear Data</i>; Ryoji Ikeda's data works.</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md and data/[file]. First, describe the data back to me: columns, ranges, missing values. Don't draw anything yet. Then build a minimal sketch that maps [column] to [visual quality] using the mapping in my config, and draws missing values in a way I choose.</pre></div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="section" id="geometry">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Geometry and tiling</h2></div></div>
+    <div class="body">
+      <p class="intro">Grids, subdivisions and repeated shapes, and the rules for how they bend. The handbook's own Mondrian mark is one: a rectangle split again and again.</p>
+      <div class="sketch" data-demo="geometry">
+        <canvas aria-label="Live sketch: a grid of squares that grows disordered row by row"></canvas>
+        <div class="controls"><label>Disorder <input type="range" min="0" max="20" value="8"><output></output></label><button type="button" class="btn">New seed</button><span class="seed"></span></div>
+      </div>
+      <div class="facts4">
+        <div><h3><i style="background:var(--m-red)"></i>How it works</h3><ol><li>Lay down a structure: a grid, a tiling, a subdivision.</li><li>Decide what each cell holds.</li><li>Add a rule that changes cells by position, time or data.</li><li>Draw, keeping the structure visible.</li></ol></div>
+        <div><h3><i style="background:var(--m-yellow)"></i>Parameters</h3><dl><dt>cells</dt><dd>rows and columns</dd><dt>split</dt><dd>how cells divide</dd><dt>disorder</dt><dd>how far each cell may move</dd><dt>gradient</dt><dd>where the rule is strongest</dd></dl></div>
+        <div><h3><i style="background:var(--m-blue)"></i>Good for</h3><p>Order and its failure: property, planning, the survey grid, bureaucracy, a system breaking down at its edges.</p></div>
+        <div><h3><i style="background:var(--paper)"></i>The default to avoid</h3><p>Decorative pattern. The grid should mean something: whose order is it, and where does it give way?</p></div>
+      </div>
+      <div class="media"><div><b>Plot</b>The classic plotter subject; crisp and fast to draw.</div><div><b>Resin</b>Extrude cells to different heights for relief.</div><div><b>Print</b>Good where fills and colour carry meaning.</div></div>
+      <p class="look"><b>Look at:</b> Georg Nees, <i>Schotter</i> (1968), which this sketch nods to; Vera Molnár; Manfred Mohr; Sol LeWitt's wall drawings.</p>
+      <div class="prompt"><div class="k">Codex · collaborator</div><button type="button" class="btn" data-copy>Copy</button><pre>You're my collaborator. Read system.md. Build a minimal grid sketch: rows and columns in the config, one rule that changes each cell by its position, seeded randomness, SVG export. Then add a second rule from my list, and show me the two side by side.</pre></div>
+    </div>
+  </section>
+
+  <section class="section" id="combining">
+    <div class="label"><div class="sticky"><div class="num">—</div><h2>Combining</h2></div></div>
+    <div class="body">
+      <p class="intro">Two techniques can work together when each does a different job, such as a grid for order and data for what fills it. More than two usually means the rules aren't settled yet.</p>
+      <p class="note">Record your choice and your reasons in the <a href="system.html#technique">system worksheet, Part C</a>, and use the <a href="codex.html#role-researcher">researcher prompts</a> to find more on your technique.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-techniques" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="schedule.html#week-2">Week 2</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=4" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script>
+(function () {
+  // ---- seeded randomness ----
+  function rng(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  // ---- smooth value noise ----
+  function makeNoise(r) {
+    var N = 64, g = [];
+    for (var i = 0; i < N * N; i++) g.push(r());
+    function v(x, y) { return g[((y % N + N) % N) * N + ((x % N + N) % N)]; }
+    function s(t) { return t * t * (3 - 2 * t); }
+    return function (x, y) {
+      var xi = Math.floor(x), yi = Math.floor(y), xf = s(x - xi), yf = s(y - yi);
+      var a = v(xi, yi), b = v(xi + 1, yi), c = v(xi, yi + 1), d = v(xi + 1, yi + 1);
+      return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+    };
+  }
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  var DEMOS = {
+    flow: {
+      label: function (v) { return v; },
+      draw: function (c, w, h, r, v) {
+        var noise = makeNoise(r), sc = v / 400;
+        c.strokeStyle = css("--ink"); c.lineWidth = 1;
+        for (var i = 0; i < 180; i++) {
+          var x = r() * w, y = r() * h;
+          c.beginPath(); c.moveTo(x, y);
+          for (var s = 0; s < 70; s++) {
+            var a = noise(x * sc, y * sc) * Math.PI * 4;
+            x += Math.cos(a) * 2.2; y += Math.sin(a) * 2.2;
+            if (x < 0 || y < 0 || x > w || y > h) break;
+            c.lineTo(x, y);
+          }
+          c.stroke();
+        }
+      }
+    },
+    lsystem: {
+      label: function (v) { return v; },
+      draw: function (c, w, h, r, v) {
+        var rules = { X: "F+[[X]-X]-F[-FX]+X", F: "FF" }, s = "X";
+        for (var g = 0; g < v; g++) { var o = ""; for (var i = 0; i < s.length; i++) o += rules[s[i]] || s[i]; s = o; }
+        var ang = (22 + r() * 8) * Math.PI / 180, jit = 0.12;
+        function walk(drawIt, len, ox, oy) {
+          var x = 0, y = 0, a = -Math.PI / 2, st = [], b = [0, 0, 0, 0];
+          var rr = rng(7);
+          for (var i = 0; i < s.length; i++) {
+            var ch = s[i];
+            if (ch === "F") {
+              var nx = x + Math.cos(a) * len, ny = y + Math.sin(a) * len;
+              if (drawIt) { c.moveTo(ox + x, oy + y); c.lineTo(ox + nx, oy + ny); }
+              x = nx; y = ny;
+              b[0] = Math.min(b[0], x); b[1] = Math.max(b[1], x); b[2] = Math.min(b[2], y); b[3] = Math.max(b[3], y);
+            } else if (ch === "+") a += ang * (1 + (rr() - 0.5) * jit);
+            else if (ch === "-") a -= ang * (1 + (rr() - 0.5) * jit);
+            else if (ch === "[") st.push([x, y, a]);
+            else if (ch === "]") { var p = st.pop(); x = p[0]; y = p[1]; a = p[2]; }
+          }
+          return b;
+        }
+        var b = walk(false, 1, 0, 0), bw = b[1] - b[0] || 1, bh = b[3] - b[2] || 1;
+        var len = Math.min((w - 24) / bw, (h - 24) / bh);
+        c.strokeStyle = css("--ink"); c.lineWidth = 1; c.beginPath();
+        walk(true, len, (w - bw * len) / 2 - b[0] * len, h - 12 - b[3] * len);
+        c.stroke();
+      }
+    },
+    agents: {
+      label: function (v) { return v; },
+      draw: function (c, w, h, r, v) {
+        var turn = v / 40;
+        c.strokeStyle = css("--ink"); c.lineWidth = 0.8;
+        for (var i = 0; i < 40; i++) {
+          var x = w / 2 + (r() - 0.5) * w * 0.3, y = h / 2 + (r() - 0.5) * h * 0.3, a = r() * Math.PI * 2;
+          c.beginPath(); c.moveTo(x, y);
+          for (var s = 0; s < 260; s++) {
+            a += (r() - 0.5) * turn;
+            x += Math.cos(a) * 1.6; y += Math.sin(a) * 1.6;
+            if (x < 4 || x > w - 4) a = Math.PI - a;
+            if (y < 4 || y > h - 4) a = -a;
+            c.lineTo(x, y);
+          }
+          c.stroke();
+        }
+        c.fillStyle = css("--m-red");
+        c.fillRect(w / 2 - 3, h / 2 - 3, 6, 6);
+      }
+    },
+    automata: {
+      RULES: [30, 90, 110, 150, 184, 73],
+      label: function (v) { return DEMOS.automata.RULES[v]; },
+      draw: function (c, w, h, r, v) {
+        var rule = this.RULES[v], size = 4, cols = Math.floor(w / size), rows = Math.floor(h / size);
+        var row = []; for (var i = 0; i < cols; i++) row.push(r() < 0.5 ? 1 : 0);
+        c.fillStyle = css("--ink");
+        for (var y = 0; y < rows; y++) {
+          for (var x = 0; x < cols; x++) if (row[x]) c.fillRect(x * size, y * size, size - 0.6, size - 0.6);
+          var nx = [];
+          for (var k = 0; k < cols; k++) {
+            var idx = (row[(k - 1 + cols) % cols] << 2) | (row[k] << 1) | row[(k + 1) % cols];
+            nx.push((rule >> idx) & 1);
+          }
+          row = nx;
+        }
+      }
+    },
+    data: {
+      label: function (v) { return (v / 10).toFixed(1); },
+      draw: function (c, w, h, r, v) {
+        var n = 30, vals = [], walk = 0.5;
+        for (var i = 0; i < n; i++) { walk = Math.min(1, Math.max(0, walk + (r() - 0.5) * 0.35)); vals.push(walk); }
+        var gap = h / n, ex = v / 10;
+        c.strokeStyle = css("--ink"); c.fillStyle = css("--ink-3");
+        c.font = "9px " + css("--mono");
+        for (var j = 0; j < n; j++) {
+          var y = gap * (j + 0.5), wt = 0.3 + Math.pow(vals[j], ex) * (gap * 0.85);
+          c.lineWidth = wt;
+          c.beginPath(); c.moveTo(48, y); c.lineTo(w - 10, y); c.stroke();
+          if (j % 5 === 0) c.fillText(String(j + 1).padStart(2, "0"), 10, y + 3);
+        }
+      }
+    },
+    geometry: {
+      label: function (v) { return v; },
+      draw: function (c, w, h, r, v) {
+        var cols = 22, size = Math.min((w - 20) / cols, 18), rows = Math.floor((h - 16) / size);
+        var ox = (w - cols * size) / 2, oy = (h - rows * size) / 2, k = v / 20;
+        c.strokeStyle = css("--ink"); c.lineWidth = 1;
+        for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+          var t = (x / (cols - 1)) * k;
+          c.save();
+          c.translate(ox + (x + 0.5) * size + (r() - 0.5) * size * t, oy + (y + 0.5) * size + (r() - 0.5) * size * t);
+          c.rotate((r() - 0.5) * Math.PI * 0.6 * t);
+          c.strokeRect(-size / 2 + 1, -size / 2 + 1, size - 2, size - 2);
+          c.restore();
+        }
+      }
+    }
+  };
+
+  document.querySelectorAll("[data-demo]").forEach(function (el) {
+    var demo = DEMOS[el.dataset.demo];
+    var cv = el.querySelector("canvas"), ctx = cv.getContext("2d");
+    var range = el.querySelector("input[type=range]"), out = el.querySelector("output");
+    var seedEl = el.querySelector(".seed"), btn = el.querySelector(".btn");
+    var seed = 1 + Math.floor(Math.random() * 99999);
+    function render() {
+      var dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+      if (!w) return;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = css("--paper"); ctx.fillRect(0, 0, w, h);
+      demo.draw(ctx, w, h, rng(seed), +range.value);
+      out.textContent = demo.label(+range.value);
+      seedEl.textContent = "seed " + seed;
+    }
+    range.addEventListener("input", render);
+    btn.addEventListener("click", function () { seed = 1 + Math.floor(Math.random() * 99999); render(); });
+    if ("ResizeObserver" in window) new ResizeObserver(render).observe(cv); else render();
+    var mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq && mq.addEventListener) mq.addEventListener("change", render);
+  });
+
+  function copy(text, btn) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () { copy(b.parentElement.querySelector("pre").textContent, b); });
+  });
+})();
+</script>
+</body>
+</html>
