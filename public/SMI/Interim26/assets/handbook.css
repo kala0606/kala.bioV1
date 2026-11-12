@@ -178,7 +178,7 @@ footer.colophon { font-size: 13px; color: var(--ink-2); }
 footer.colophon .strip { height: 14px; }
 footer.colophon .wrap.row { display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; padding-top: 28px; padding-bottom: 64px; }
 
-code { font: 400 0.88em/1 var(--mono); background: var(--paper-2); padding: 2px 5px; border-radius: 3px; }
+code { font: 400 0.88em/1 var(--mono); background: var(--paper-2); padding: 2px 5px; border-radius: 3px; overflow-wrap: anywhere; }
 
 /* ---------- tiered menu (assets/nav.js) ---------- */
 .masthead .wrap { flex-direction: row !important; align-items: center !important; }

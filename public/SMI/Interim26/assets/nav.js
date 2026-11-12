@@ -671,6 +671,44 @@
         "05 · The workflow"
       ]
     ]
+  },
+  {
+    "href": "opening.html",
+    "n": "19",
+    "t": "Opening checklist",
+    "s": [
+      [
+        "day",
+        "01 · The day"
+      ],
+      [
+        "checklist",
+        "02 · Your checklist"
+      ],
+      [
+        "sixty",
+        "03 · Sixty seconds"
+      ],
+      [
+        "studio",
+        "04 · For the studio"
+      ]
+    ]
+  },
+  {
+    "href": "submission.html",
+    "n": "20",
+    "t": "Final submission checklist",
+    "s": [
+      [
+        "list",
+        "01 · The checklist"
+      ],
+      [
+        "copy",
+        "02 · In your repository"
+      ]
+    ]
   }
 ];
 
