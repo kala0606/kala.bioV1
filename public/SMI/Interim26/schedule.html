@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twenty Days · Computationally Yours</title>
+<meta name="description" content="The 20-day studio schedule for Computationally Yours: Out of One's Place, Srishti Manipal Interim 2026. 23 November to 18 December, 9:30 to 3:30.">
+<meta property="og:title" content="Twenty Days · Computationally Yours">
+<meta property="og:description" content="Identity, computation, materialisation, exhibition. The day-by-day schedule for Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  /* ---------- at a glance ---------- */
+  .glance { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .glance .wk { padding: 18px 18px 22px 0; border-right: 1px solid var(--rule); display: flex; flex-direction: column; }
+  .glance .wk + .wk { padding-left: 18px; }
+  .glance .wk:last-child { border-right: 0; }
+  .glance h3 { font: 400 30px/1 var(--serif); margin: 10px 0 4px; }
+  .glance .tagline { font: italic 400 18px/1.2 var(--serif); color: var(--ink-2); margin: 0 0 18px; }
+  .glance .days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .glance .days a {
+    display: grid; place-items: center; aspect-ratio: 1; text-decoration: none;
+    font: 500 13px/1 var(--mono); border: 1px solid var(--rule); color: var(--ink-2);
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .glance .days a:hover { border-color: var(--ink); color: var(--ink); }
+  .glance .days a.crit { border-color: var(--ink); color: var(--ink); background: var(--hatch); }
+  .glance .days a.open { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+  .glance .days a.today { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .glance .out { font-size: 14.5px; margin: 0 0 18px; flex: 1; }
+  .glance .gate { font: 500 11px/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; border-top: 1px solid var(--rule); padding-top: 12px; }
+  .glance .gate b { display: block; font: italic 400 17px/1.3 var(--serif); letter-spacing: 0; text-transform: none; margin-top: 4px; }
+  .glance .wk:last-child .gate { color: var(--accent); }
+  @media (max-width: 860px) {
+    .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .glance .wk:nth-child(2) { border-right: 0; }
+    .glance .wk:nth-child(3) { padding-left: 0; border-top: 1px solid var(--rule); }
+    .glance .wk:nth-child(4) { border-top: 1px solid var(--rule); }
+  }
+  @media (max-width: 520px) {
+    .glance { grid-template-columns: 1fr; }
+    .glance .wk { padding-left: 0 !important; border-right: 0; border-top: 1px solid var(--rule); }
+    .glance .wk:first-child { border-top: 0; }
+  }
+
+  /* ---------- the day ---------- */
+  .daybar { display: grid; grid-template-columns: minmax(120px, 45fr) 135fr minmax(84px, 45fr) 90fr minmax(150px, 45fr); border: 1px solid var(--ink); }
+  .daybar > div { padding: 14px 12px 16px; border-right: 1px solid var(--ink); min-width: 0; }
+  .daybar > div:last-child { border-right: 0; }
+  .daybar .t { font: 500 11.5px/1.2 var(--mono); color: var(--ink-2); }
+  .daybar .b { font: 400 22px/1.1 var(--serif); margin: 8px 0 8px; }
+  .daybar p { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+  .daybar .lunch { background: repeating-linear-gradient(135deg, var(--hatch) 0 6px, transparent 6px 12px); }
+  .daybar .studio { background: var(--accent-soft); }
+  .scale { display: flex; justify-content: space-between; font: 400 11px/1 var(--mono); color: var(--ink-3); margin-top: 8px; }
+  @media (max-width: 760px) {
+    .daybar { grid-template-columns: 1fr; }
+    .daybar > div { border-right: 0; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: 92px 1fr; column-gap: 12px; }
+    .daybar > div:last-child { border-bottom: 0; }
+    .daybar .t { grid-row: span 2; padding-top: 4px; }
+    .daybar .b { margin-top: 0; }
+    .scale { display: none; }
+  }
+
+  /* ---------- machines ---------- */
+  .gantt-scroll { overflow-x: auto; margin: 0 0 8px; -webkit-overflow-scrolling: touch; }
+  .gantt { display: grid; grid-template-columns: 150px repeat(10, minmax(44px, 1fr)); min-width: 620px; border-top: 1px solid var(--ink); }
+  .gantt .h { font: 500 11px/1 var(--mono); color: var(--ink-3); padding: 10px 0 10px 6px; border-left: 1px solid var(--rule); }
+  .gantt .h.crit { color: var(--ink); }
+  .gantt .h.inst { color: var(--accent); }
+  .gantt .corner { font: 500 11px/1 var(--mono); color: var(--ink-3); padding: 10px 0; letter-spacing: .04em; text-transform: uppercase; }
+  .gantt .row-label { font: 500 14px/1.25 var(--sans); padding: 14px 10px 14px 0; border-top: 1px solid var(--rule); }
+  .gantt .row-label small { display: block; font: 400 12px/1.3 var(--mono); color: var(--ink-3); margin-top: 3px; }
+  .gantt .cell { border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  .gantt .cell.inst { background: repeating-linear-gradient(135deg, var(--accent-soft) 0 5px, transparent 5px 10px); }
+  .gantt .bar {
+    align-self: center; margin: 0 3px; padding: 7px 8px; border-radius: 2px; z-index: 1;
+    font: 500 11.5px/1.2 var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .gantt .bar.test { border: 1px solid var(--ink); background: var(--paper); }
+  .gantt .bar.final { background: var(--ink); color: var(--paper); }
+  .gantt .bar.mark { border: 1px dashed var(--ink-2); color: var(--ink-2); background: transparent; text-align: center; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font: 400 12px/1 var(--mono); color: var(--ink-2); margin: 14px 0 36px; }
+  .legend span::before { content: ""; display: inline-block; width: 18px; height: 10px; margin-right: 7px; vertical-align: -1px; border-radius: 1px; }
+  .legend .l-test::before { border: 1px solid var(--ink); }
+  .legend .l-final::before { background: var(--ink); }
+  .legend .l-inst::before { background: repeating-linear-gradient(135deg, var(--accent) 0 2px, transparent 2px 5px); }
+
+  .machines { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .machines article { padding: 18px 18px 8px 0; border-right: 1px solid var(--rule); }
+  .machines article + article { padding-left: 18px; }
+  .machines article:last-child { border-right: 0; }
+  .machines h3 { font: 400 24px/1.1 var(--serif); margin: 0 0 14px; }
+  .machines dl { margin: 0; }
+  .machines dt { font: 500 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 12px; }
+  .machines dd { margin: 5px 0 0; font-size: 14.5px; }
+  @media (max-width: 860px) {
+    .machines { grid-template-columns: 1fr; }
+    .machines article { padding-left: 0 !important; border-right: 0; border-top: 1px solid var(--rule); padding-bottom: 18px; }
+    .machines article:first-child { border-top: 0; }
+  }
+
+  /* ---------- weeks ---------- */
+  .week-head { display: grid; grid-template-columns: auto 1fr; gap: 0 24px; align-items: end; margin-bottom: 28px; }
+  .week-head .big { font: 400 clamp(88px, 12vw, 148px)/0.78 var(--serif); color: var(--accent); grid-row: span 2; }
+  .week-head h3 { font: 400 clamp(34px, 4.5vw, 52px)/1 var(--serif); margin: 0; letter-spacing: -0.01em; }
+  .week-head h3 em { color: var(--ink-2); }
+  .week-head .when { font: 500 12px/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); margin-top: 10px; }
+  .week-out { font-size: 18px; line-height: 1.5; max-width: 56ch; margin: 0 0 28px; }
+
+  .days-list { border-top: 1px solid var(--ink); }
+  .day {
+    display: grid; grid-template-columns: 120px minmax(0, 1fr) 230px; gap: 8px 28px;
+    padding: 22px 0 24px; border-bottom: 1px solid var(--rule); scroll-margin-top: 16px;
+  }
+  .day .d { font: 400 44px/0.9 var(--serif); }
+  .day .d small { display: block; font: 500 11.5px/1.3 var(--mono); letter-spacing: .03em; color: var(--ink-2); margin-top: 8px; }
+  .day h4 { font: 600 16.5px/1.35 var(--sans); margin: 2px 0 8px; }
+  .day p { margin: 0; font-size: 15px; color: var(--ink); }
+  .day p + p { margin-top: 8px; }
+  .day .due { font-size: 14px; border-left: 1px solid var(--rule); padding-left: 16px; align-self: start; }
+  .day .due .eyebrow { font-size: 10.5px; margin-bottom: 6px; display: block; }
+  .day.crit { background: linear-gradient(90deg, var(--accent-soft), transparent 70%); box-shadow: inset 3px 0 0 var(--accent); padding-left: 16px; }
+  .day.crit .d { color: var(--accent); }
+  .day.today { box-shadow: inset 3px 0 0 var(--accent); padding-left: 16px; }
+  .today-pill { display: none; }
+  .day.today .today-pill { display: inline-block; margin-left: 6px; }
+  @media (max-width: 860px) {
+    .day { grid-template-columns: 76px minmax(0, 1fr); }
+    .day .due { grid-column: 2; border-left: 0; padding-left: 0; border-top: 1px dashed var(--rule); padding-top: 10px; margin-top: 6px; }
+    .day .d { font-size: 36px; }
+  }
+
+  /* ---------- critiques ---------- */
+  .crits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); counter-reset: c; }
+  .crits article { padding: 18px 18px 22px 0; border-right: 1px solid var(--rule); }
+  .crits article + article { padding-left: 18px; }
+  .crits article:last-child { border-right: 0; }
+  .crits .q { font: 400 26px/1.15 var(--serif); margin: 12px 0 18px; }
+  .crits .brings { font-size: 14px; color: var(--ink-2); margin: 0; }
+  .crits .brings b { color: var(--ink); font-weight: 500; }
+  .timing { display: flex; height: 34px; border: 1px solid var(--ink); margin: 0 0 8px; max-width: 520px; }
+  .timing span { display: grid; place-items: center; font: 500 11.5px/1 var(--mono); border-right: 1px solid var(--ink); }
+  .timing span:last-child { border-right: 0; }
+  @media (max-width: 860px) {
+    .crits { grid-template-columns: 1fr; }
+    .crits article { padding-left: 0 !important; border-right: 0; border-top: 1px solid var(--rule); }
+    .crits article:first-child { border-top: 0; }
+  }
+
+  /* ---------- open questions ---------- */
+  .qs { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--ink); counter-reset: q; }
+  .qs li { counter-increment: q; display: grid; grid-template-columns: 48px 1fr; padding: 16px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+  .qs li::before { content: "Q" counter(q); font: 500 12px/1.8 var(--mono); color: var(--accent); }
+  .qs em { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="./">Computationally Yours · Handbook</a>
+    <nav aria-label="Schedule sections">
+      <a href="#glance">Glance</a>
+      <a href="#day">Day</a>
+      <a href="#machines">Machines</a>
+      <a href="#week-1">Weeks</a>
+      <a href="#critiques">Critiques</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Handbook · 02 · Srishti Manipal Interim 2026 · Out of One's Place</div>
+    <h1>Twenty <em>days</em></h1>
+    <p class="lede">Each student authors an identity, builds the generative system through which it speaks, and carries that system into an exhibition-quality artefact.</p>
+    <dl class="facts">
+      <div><dt>Dates</dt><dd>23 Nov – 18 Dec 2026</dd></div>
+      <div><dt>Hours</dt><dd>9:30 – 3:30, Mon–Fri</dd></div>
+      <div><dt>Cohort</dt><dd>20 students</dd></div>
+      <div><dt>Facilitator</dt><dd>Ujjwal Agarwal</dd></div>
+      <div><dt>Opening</dt><dd>Fri 18 Dec</dd></div>
+    </dl>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="glance">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>At a glance</h2></div></div>
+    <div class="body">
+      <p class="intro">Four weeks, each ending on a Friday. Critiques close the first three weeks; the opening closes the fourth. Select a day to jump to it.</p>
+      <div class="glance">
+        <div class="wk">
+          <div class="eyebrow">Week 1 · 23–27 Nov</div>
+          <h3>Identity</h3>
+          <p class="tagline">Take a position</p>
+          <ol class="days">
+            <li><a href="#day-1" data-day="1">1</a></li><li><a href="#day-2" data-day="2">2</a></li><li><a href="#day-3" data-day="3">3</a></li><li><a href="#day-4" data-day="4">4</a></li><li><a href="#day-5" data-day="5" class="crit">5</a></li>
+          </ol>
+          <p class="out">One authored identity, a manifesto and an identity card.</p>
+          <div class="gate">Critique 1 · Fri 27 Nov<b>Who is speaking, and why?</b></div>
+        </div>
+        <div class="wk">
+          <div class="eyebrow">Week 2 · 30 Nov–4 Dec</div>
+          <h3>Computation</h3>
+          <p class="tagline">Write the rules</p>
+          <ol class="days">
+            <li><a href="#day-6" data-day="6">6</a></li><li><a href="#day-7" data-day="7">7</a></li><li><a href="#day-8" data-day="8">8</a></li><li><a href="#day-9" data-day="9">9</a></li><li><a href="#day-10" data-day="10" class="crit">10</a></li>
+          </ol>
+          <p class="out">A working system and twenty outputs.</p>
+          <div class="gate">Critique 2 · Fri 4 Dec<b>Is the system its voice?</b></div>
+        </div>
+        <div class="wk">
+          <div class="eyebrow">Week 3 · 7–11 Dec</div>
+          <h3>Materialisation</h3>
+          <p class="tagline">Give it a body</p>
+          <ol class="days">
+            <li><a href="#day-11" data-day="11">11</a></li><li><a href="#day-12" data-day="12">12</a></li><li><a href="#day-13" data-day="13">13</a></li><li><a href="#day-14" data-day="14">14</a></li><li><a href="#day-15" data-day="15" class="crit">15</a></li>
+          </ol>
+          <p class="out">A locked production file and a physical prototype.</p>
+          <div class="gate">Critique 3 · Fri 11 Dec<b>Does the body carry it?</b></div>
+        </div>
+        <div class="wk">
+          <div class="eyebrow">Week 4 · 14–18 Dec</div>
+          <h3>Exhibition</h3>
+          <p class="tagline">Stand behind it</p>
+          <ol class="days">
+            <li><a href="#day-16" data-day="16">16</a></li><li><a href="#day-17" data-day="17">17</a></li><li><a href="#day-18" data-day="18">18</a></li><li><a href="#day-19" data-day="19">19</a></li><li><a href="#day-20" data-day="20" class="open">20</a></li>
+          </ol>
+          <p class="out">Twenty zones and the Collective Atlas.</p>
+          <div class="gate">Opening · Fri 18 Dec<b>An Atlas of Elsewhere</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="day">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>The day</h2></div></div>
+    <div class="body">
+      <p class="intro">Every day has the same shape: talk in the morning, make through the middle, and end at the wall.</p>
+      <div class="daybar" role="list">
+        <div role="listitem"><div class="t">9:30–10:15</div><div class="b">Gathering</div><p>A talk, demo or reading.</p></div>
+        <div role="listitem" class="studio"><div class="t">10:15–12:30</div><div class="b">Studio</div><p>Individual work with Codex while the facilitator circulates. Week 2 technique clinics run here.</p></div>
+        <div role="listitem" class="lunch"><div class="t">12:30–1:15</div><div class="b">Lunch</div><p>&nbsp;</p></div>
+        <div role="listitem"><div class="t">1:15–2:45</div><div class="b">Making</div><p>Experimentation, tests and fabrication. Machine slots are booked from Week 3.</p></div>
+        <div role="listitem"><div class="t">2:45–3:30</div><div class="b">Pin-up</div><p>Outputs on the wall. Peer review in fours. Commit to the repo and log the day.</p></div>
+      </div>
+      <div class="scale" aria-hidden="true"><span>9:30</span><span>12:30</span><span>3:30</span></div>
+      <p class="note" style="margin-top:24px">The wall builds up across the month. By Day 15 it should show every identity's direction, so the cohort reads as one archive, not twenty separate projects.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="machines">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Machines</h2></div></div>
+    <div class="body">
+      <p class="intro">Twenty students share one A2 plotter, one resin printer and the in-house archival printer. Students choose a pathway at Critique 2 on Day 10. From Day 11 every machine is booked through a shared queue.</p>
+
+      <div class="gantt-scroll">
+        <div class="gantt" role="img" aria-label="Machine queues, Days 10 to 19: A2 plotter Days 11 to 18; resin tests Days 11 to 14 and finals Days 15 to 18; archival proofs Days 12 to 13 and finals Days 16 to 17; installation Day 19.">
+          <div class="corner">Day</div>
+          <div class="h crit">10</div><div class="h">11</div><div class="h">12</div><div class="h">13</div><div class="h">14</div><div class="h crit">15</div><div class="h">16</div><div class="h">17</div><div class="h">18</div><div class="h inst">19</div>
+
+          <!-- row 2: pathway -->
+          <div class="row-label" style="grid-row:2">Pathway<small>Critique 2</small></div>
+          <div class="cell" style="grid-row:2;grid-column:2"></div><div class="cell" style="grid-row:2;grid-column:3 / 11"></div><div class="cell inst" style="grid-row:2;grid-column:11"></div>
+          <div class="bar mark" style="grid-row:2;grid-column:2">choose</div>
+
+          <!-- row 3: A2 plotter -->
+          <div class="row-label" style="grid-row:3">A2 plotter<small>one machine</small></div>
+          <div class="cell" style="grid-row:3;grid-column:2 / 11"></div><div class="cell inst" style="grid-row:3;grid-column:11"></div>
+          <div class="bar test" style="grid-row:3;grid-column:3 / 11">2 slots a day · test + final per student · 16 slots</div>
+
+          <!-- row 4: resin -->
+          <div class="row-label" style="grid-row:4">Resin printer<small>1 print/day, 2 max</small></div>
+          <div class="cell" style="grid-row:4;grid-column:2 / 11"></div><div class="cell inst" style="grid-row:4;grid-column:11"></div>
+          <div class="bar test" style="grid-row:4;grid-column:3 / 7">tests</div>
+          <div class="bar final" style="grid-row:4;grid-column:7 / 11">finals</div>
+
+          <!-- row 5: archival -->
+          <div class="row-label" style="grid-row:5">Archival printer<small>in-house</small></div>
+          <div class="cell" style="grid-row:5;grid-column:2 / 11"></div><div class="cell inst" style="grid-row:5;grid-column:11"></div>
+          <div class="bar test" style="grid-row:5;grid-column:4 / 6">proofs</div>
+          <div class="bar final" style="grid-row:5;grid-column:8 / 10">finals</div>
+        </div>
+      </div>
+      <div class="legend"><span class="l-test">Tests and proofs</span><span class="l-final">Finals</span><span class="l-inst">Day 19 · installation</span></div>
+
+      <div class="machines">
+        <article>
+          <h3>A2 pen plotter</h3>
+          <dl>
+            <dt>Available</dt><dd>One machine. Arrives on campus in Week 2. Demo on Day 11.</dd>
+            <dt>Capacity</dt><dd>One plot at a time.</dd>
+            <dt>Queue</dt><dd>Two slots a day (morning and afternoon) on Days 11–18, so 16 slots. That covers one test and one final for each of 6–8 plotter students.</dd>
+          </dl>
+        </article>
+        <article>
+          <h3>Resin printer</h3>
+          <dl>
+            <dt>Available</dt><dd>From Day 11.</dd>
+            <dt>Capacity</dt><dd>One print a day, two at most.</dd>
+            <dt>Queue</dt><dd>Days 11–14: one test print per resin student. Days 15–18: finals. Four students fit at one print a day; six need two prints a day. Day 18 is the last day a final can print, so washing and curing finish before installation.</dd>
+          </dl>
+        </article>
+        <article>
+          <h3>Archival printer</h3>
+          <dl>
+            <dt>Available</dt><dd>In-house, throughout.</dd>
+            <dt>Capacity</dt><dd>Fast; not the bottleneck.</dd>
+            <dt>Queue</dt><dd>Test strips and proofs on Days 12–13, finals on Days 16–17. All 20 hero prints, so every student has a finished piece.</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="week-1">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Week 1</h2></div></div>
+    <div class="body">
+      <div class="week-head">
+        <div class="big" aria-hidden="true">I</div>
+        <h3>Identity <em>— take a position</em></h3>
+        <div class="when">Days 1–5 · Mon 23 – Fri 27 Nov</div>
+      </div>
+      <p class="week-out">By Friday every student speaks from one authored identity: a named practitioner tied to a real condition of the world they will graduate into. Displacement is used as a lens on that world, not a way out of it.</p>
+      <div class="days-list">
+        <article class="day" id="day-1" data-day="1">
+          <div class="d">1<small>Mon 23 Nov</small></div>
+          <div><h4>Enter the theme and see what the studio can make. <span class="tag accent today-pill">Today</span></h4>
+            <p>Opening talk: <em>Out of One's Place</em>. A walk through the plotter, resin printer and archival printer, with past work. Clone the starter repo.</p>
+            <p><b>Coordinates</b> exercise: list the places, languages, roles and routes you already hold.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Coordinates sheet. Repo set up with README.</div>
+        </article>
+        <article class="day" id="day-2" data-day="2">
+          <div class="d">2<small>Tue 24 Nov</small></div>
+          <div><h4>Read displacement as a critical lens. <span class="tag accent today-pill">Today</span></h4>
+            <p>Reading: Pessoa's heteronyms and Duchamp's Rrose Sélavy, authored selves with full bodies of work.</p>
+            <p><b>Conditions</b> exercise: choose a real condition (water, labour, migration, language, automation, the city, care) and ask who is shaped by it.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Three candidate identities, a paragraph each, each tied to a condition.</div>
+        </article>
+        <article class="day" id="day-3" data-day="3">
+          <div class="d">3<small>Wed 25 Nov</small></div>
+          <div><h4>Commit to one identity and give it facts. <span class="tag accent today-pill">Today</span></h4>
+            <p>Alter ego worksheet: name, origin, what it attends to, what it refuses, what it would build. Pair interviews: a partner questions the identity for 20 minutes.</p>
+            <p>Codex as <b>interlocutor</b>: five computational metaphors, no code yet.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Identity worksheet. Codex metaphor log in the repo.</div>
+        </article>
+        <article class="day" id="day-4" data-day="4">
+          <div class="d">4<small>Thu 26 Nov</small></div>
+          <div><h4>Write in the identity's voice. <span class="tag accent today-pill">Today</span></h4>
+            <p>Manifesto workshop: 150 words, read aloud, edited by cutting.</p>
+            <p>Field research: real archives, materials, sites and data from the identity's world, not a style moodboard.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Manifesto draft. <code>references.md</code> with at least 15 references.</div>
+        </article>
+        <article class="day crit" id="day-5" data-day="5">
+          <div class="d">5<small>Fri 27 Nov</small></div>
+          <div><h4>Defend the identity. <span class="tag solid">Critique 1</span> <span class="tag accent today-pill">Today</span></h4>
+            <p>Critique runs all day. Students not presenting revise and draft the identity card and a one-page proposal with an initial generative concept.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Identity card draft, manifesto v2 and one-page proposal.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="week-2">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Week 2</h2></div></div>
+    <div class="body">
+      <div class="week-head">
+        <div class="big" aria-hidden="true">II</div>
+        <h3>Computation <em>— write the rules</em></h3>
+        <div class="when">Days 6–10 · Mon 30 Nov – Fri 4 Dec</div>
+      </div>
+      <p class="week-out">By Friday every identity has a working system. The system needs parameters, constraints and controlled randomness, and must produce at least 20 outputs. It should not be possible to mistake its rules for someone else's.</p>
+      <div class="days-list">
+        <article class="day" id="day-6" data-day="6">
+          <div class="d">6<small>Mon 30 Nov</small></div>
+          <div><h4>Turn a metaphor into rules. <span class="tag accent today-pill">Today</span></h4>
+            <p>Talk: what a generative system is (inputs, rules, parameters, randomness, seed). Codex as <b>researcher</b>: the algorithms behind your chosen metaphor.</p>
+            <p>Clinics: noise and flow fields; recursion and L-systems.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>System diagram on paper: inputs, rules, parameters, outputs. Technique chosen.</div>
+        </article>
+        <article class="day" id="day-7" data-day="7">
+          <div class="d">7<small>Tue 1 Dec</small></div>
+          <div><h4>Get a first working system. <span class="tag accent today-pill">Today</span></h4>
+            <p>Clinics: agents and simulation; cellular automata; data as material, using real datasets from the identity's condition.</p>
+            <p>Codex as <b>collaborator</b>: propose the architecture before writing code. Seeds and reproducibility.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>The system runs and exports. Seed logged.</div>
+        </article>
+        <article class="day" id="day-8" data-day="8">
+          <div class="d">8<small>Wed 2 Dec</small></div>
+          <div><h4>Map the parameter space. <span class="tag accent today-pill">Today</span></h4>
+            <p><b>Twenty Variations of Myself</b>: twenty seeds or settings. How far can the system change and still be this identity?</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>20 outputs in <code>outputs/digital</code>. Parameter table in the README.</div>
+        </article>
+        <article class="day" id="day-9" data-day="9">
+          <div class="d">9<small>Thu 3 Dec</small></div>
+          <div><h4>Take critique, including the machine's. <span class="tag accent today-pill">Today</span></h4>
+            <p>Codex as <b>critic</b>: analyse the outputs without erasing the voice. Authorship log: what Codex suggested, what you rejected and why.</p>
+            <p>Peer-group review in fours.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Authorship log entry. Three promising directions.</div>
+        </article>
+        <article class="day crit" id="day-10" data-day="10">
+          <div class="d">10<small>Fri 4 Dec</small></div>
+          <div><h4>Show that the system speaks for the identity. <span class="tag solid">Critique 2</span> <span class="tag accent today-pill">Today</span></h4>
+            <p>Critique runs all day. Students not presenting choose a fabrication pathway and book machine time.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Pathway chosen (plotter, resin or archival) with a one-page production plan.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="week-3">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Week 3</h2></div></div>
+    <div class="body">
+      <div class="week-head">
+        <div class="big" aria-hidden="true">III</div>
+        <h3>Materialisation <em>— give it a body</em></h3>
+        <div class="when">Days 11–15 · Mon 7 – Fri 11 Dec</div>
+      </div>
+      <p class="week-out">By Friday every student has a locked production file and a physical prototype. Target allocation: 6–8 A2 plots and 4–6 resin objects. All 20 students get an archival hero print, so everyone has a finished piece.</p>
+      <div class="days-list">
+        <article class="day" id="day-11" data-day="11">
+          <div class="d">11<small>Mon 7 Dec</small></div>
+          <div><h4>Learn the constraints of each medium. <span class="tag accent today-pill">Today</span></h4>
+            <p>Demos in rotation. <b>Plotter</b>: A2 is 420 × 594 mm; covers SVG, path ordering, pen lifts, nibs and paper. <b>Resin</b>: watertight meshes, wall thickness, supports, safe handling. <b>Archival</b>: 300 PPI at final size, colour profiles, TIFF or PDF.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Production spec sheet for your medium.</div>
+        </article>
+        <article class="day" id="day-12" data-day="12">
+          <div class="d">12<small>Tue 8 Dec</small></div>
+          <div><h4>Make a production-ready file. <span class="tag accent today-pill">Today</span></h4>
+            <p>Codex as <b>fabricator</b>: export pipeline (SVG optimisation, STL repair, high-resolution TIFF). Resin test prints begin, one a day.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>First file passes its checks: path-optimised, watertight or 300 PPI.</div>
+        </article>
+        <article class="day" id="day-13" data-day="13">
+          <div class="d">13<small>Wed 9 Dec</small></div>
+          <div><h4>Test material against the idea. <span class="tag accent today-pill">Today</span></h4>
+            <p>Test plots on two papers and two nibs. Resin test washed and cured. Archival colour proof and test strip.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Test log with photos and notes.</div>
+        </article>
+        <article class="day" id="day-14" data-day="14">
+          <div class="d">14<small>Thu 10 Dec</small></div>
+          <div><h4>Build a prototype. <span class="tag accent today-pill">Today</span></h4>
+            <p>The hero piece at reduced scale or as a section. Draft <code>process.md</code>, explaining the computational logic in your own words.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Prototype and a <code>process.md</code> draft.</div>
+        </article>
+        <article class="day crit" id="day-15" data-day="15">
+          <div class="d">15<small>Fri 11 Dec</small></div>
+          <div><h4>Show that the material carries the system. <span class="tag solid">Critique 3</span> <span class="tag accent today-pill">Today</span></h4>
+            <p>Critique runs all day. Students not presenting lock the production file and write an exhibition proposal (what is shown in the zone and how).</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Final production file locked. Exhibition proposal.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="week-4">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>Week 4</h2></div></div>
+    <div class="body">
+      <div class="week-head">
+        <div class="big" aria-hidden="true">IV</div>
+        <h3>Exhibition <em>— stand behind it</em></h3>
+        <div class="when">Days 16–20 · Mon 14 – Fri 18 Dec</div>
+      </div>
+      <p class="week-out">By Thursday all twenty zones are installed. By Friday the archive opens as <em>An Atlas of Elsewhere</em>: twenty identities connected through the Collective Atlas.</p>
+      <div class="days-list">
+        <article class="day" id="day-16" data-day="16">
+          <div class="d">16<small>Mon 14 Dec</small></div>
+          <div><h4>Begin final production. <span class="tag accent today-pill">Today</span></h4>
+            <p>Final archival prints. A2 and resin finals continue in their queues. Artist statement workshop. Each student gets coordinates on the Collective Atlas.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Production under way. Statement draft.</div>
+        </article>
+        <article class="day" id="day-17" data-day="17">
+          <div class="d">17<small>Tue 15 Dec</small></div>
+          <div><h4>Finish the artefact and frame the identity. <span class="tag accent today-pill">Today</span></h4>
+            <p>Resin post-processing, print checks, mounting (framing to be confirmed). Identity cards, labels and QR codes linking to each repo.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Identity card, label and QR code, each tested by scanning.</div>
+        </article>
+        <article class="day" id="day-18" data-day="18">
+          <div class="d">18<small>Wed 16 Dec</small></div>
+          <div><h4>Document the work. <span class="tag accent today-pill">Today</span></h4>
+            <p>Photograph the artefacts. Finish the repo: README, <code>process.md</code>, <code>final-statement.md</code> and the authorship reflection. Gallery layout fixed on the floor plan. Collective Atlas entries submitted.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Repo complete. Work photographed.</div>
+        </article>
+        <article class="day" id="day-19" data-day="19">
+          <div class="d">19<small>Thu 17 Dec</small></div>
+          <div><h4>Install. <span class="tag accent today-pill">Today</span></h4>
+            <p>Hang the hero works and set out the zones (identity card, manifesto, QR code, artefact). Assemble the Collective Atlas. Lighting and technical tests.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Zone installed and checked against the installation checklist.</div>
+        </article>
+        <article class="day crit" id="day-20" data-day="20">
+          <div class="d">20<small>Fri 18 Dec</small></div>
+          <div><h4>Open. <span class="tag solid">Opening</span> <span class="tag accent today-pill">Today</span></h4>
+            <p>Morning: walkthrough, label and QR check, a 60-second introduction for each identity. Opening in the evening. The exhibition stays open Sat 19 Dec.</p></div>
+          <div class="due"><span class="eyebrow">Due by 3:30</span>Final submission checklist complete.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="critiques">
+    <div class="label"><div class="sticky"><div class="num">08</div><h2>Critiques</h2></div></div>
+    <div class="body">
+      <p class="intro">Each critique takes the full day with one facilitator: 9:30–12:30 and 1:15–2:45, about 13 minutes per student. The student's peer group of four sits in. Students who aren't presenting keep working in the studio.</p>
+      <div class="timing" aria-label="13 minutes per student: 3 to present, 8 for questions, 2 to write notes">
+        <span style="flex:3">3 present</span><span style="flex:8">8 questions</span><span style="flex:2">2 notes</span>
+      </div>
+      <p class="note" style="margin:0 0 32px">13 minutes per student, 20 students, one room.</p>
+      <div class="crits">
+        <article>
+          <div class="eyebrow">Critique 1 · Day 5 · Fri 27 Nov</div>
+          <p class="q">Who is speaking? What do they care about? Would this voice matter outside the studio?</p>
+          <p class="brings"><b>Bring</b> identity worksheet, manifesto, references, the condition it answers to.</p>
+        </article>
+        <article>
+          <div class="eyebrow">Critique 2 · Day 10 · Fri 4 Dec</div>
+          <p class="q">Does the system speak in the identity's voice, or could anyone's rules have made this?</p>
+          <p class="brings"><b>Bring</b> running system, 20 outputs, parameter table, authorship log.</p>
+        </article>
+        <article>
+          <div class="eyebrow">Critique 3 · Day 15 · Fri 11 Dec</div>
+          <p class="q">Does the physical work embody the system, and does the material carry the identity's position?</p>
+          <p class="brings"><b>Bring</b> prototype, test log, production file, exhibition proposal.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <section class="section" id="open">
+    <div class="label"><div class="sticky"><div class="num">09</div><h2>Still open</h2></div></div>
+    <div class="body">
+      <ol class="qs">
+        <li><span>How are archival prints framed or mounted, and who does it? <em>To be updated.</em></span></li>
+        <li><span>How long does one A2 plot run? This sets whether two slots a day are enough.</span></li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a></span>
+  </div>
+</footer>
+
+<script>
+  // Mark today's studio day (Day 1 = Mon 23 Nov 2026, weekdays only).
+  (function () {
+    var start = Date.UTC(2026, 10, 23);
+    var now = new Date();
+    var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var diff = Math.round((today - start) / 864e5);
+    if (diff < 0 || diff > 25) return;
+    var week = Math.floor(diff / 7), dow = diff % 7;
+    if (dow > 4) return;
+    var day = week * 5 + dow + 1;
+    if (day > 20) return;
+    document.querySelectorAll('[data-day="' + day + '"]').forEach(function (el) { el.classList.add('today'); });
+  })();
+</script>
+</body>
+</html>
