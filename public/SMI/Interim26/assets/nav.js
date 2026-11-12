@@ -575,23 +575,27 @@
   {
     "href": "assessment.html",
     "n": "15",
-    "t": "Final assessment rubric",
+    "t": "Assessment: A1, A2, A3",
     "s": [
       [
-        "what",
-        "What is assessed"
+        "overview",
+        "Three submissions"
       ],
       [
         "requirements",
         "Requirements"
       ],
       [
-        "weights",
-        "Weighting"
+        "a1",
+        "A1 · Identity"
       ],
       [
-        "rubric",
-        "The rubric"
+        "a2",
+        "A2 · System"
+      ],
+      [
+        "a3",
+        "A3 · Final"
       ],
       [
         "integrity",
@@ -698,15 +702,23 @@
   {
     "href": "submission.html",
     "n": "20",
-    "t": "Final submission checklist",
+    "t": "Submission checklists",
     "s": [
       [
-        "list",
-        "01 · The checklist"
+        "a1",
+        "A1 · Identity"
+      ],
+      [
+        "a2",
+        "A2 · System"
+      ],
+      [
+        "a3",
+        "A3 · Final"
       ],
       [
         "copy",
-        "02 · In your repository"
+        "In your repository"
       ]
     ]
   }
