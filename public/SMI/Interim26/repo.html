@@ -36,17 +36,62 @@
     </div>
     <dl class="facts">
       <div><dt>Set up</dt><dd>Day 1 · Mon 23 Nov</dd></div>
-      <div><dt>Hosted on</dt><dd>GitHub</dd></div>
+      <div><dt>Hosted on</dt><dd>GitHub, via gh</dd></div>
       <div><dt>Tells Codex</dt><dd>AGENTS.md</dd></div>
-      <div><dt>Commit</dt><dd>At least daily</dd></div>
+      <div><dt>Push</dt><dd>At least daily</dd></div>
       <div><dt>Read by</dt><dd>Visitors, via QR</dd></div>
     </dl>
   </section>
 
-<section class="section" id="structure">
-    <div class="label"><div class="sticky"><div class="num">01</div><h2>The structure</h2></div></div>
+<section class="section" id="github">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>GitHub, one way</h2></div></div>
     <div class="body">
-      <p class="intro">Clone the starter repository on Day 1. By Day 18 it should look like this. Files appear as the month goes on.</p>
+      <p class="intro">Your work lives on GitHub, and you move it there from the terminal with two tools: <b>git</b>, which keeps the history, and <b>gh</b>, GitHub's own command-line tool, which signs you in and creates the repository. Use this one way all month.</p>
+      <div class="kit-warn"><b>Don't upload through the website</b>Dragging files into github.com, or editing them there, splits your work into two versions that disagree. Everything goes through the terminal, or through Codex running these same commands.</div>
+
+      <h3 class="eyebrow" style="margin:28px 0 10px">Once, on Day 1</h3>
+      <ol class="kit-steps">
+        <li><div><b>Make a GitHub account.</b><p>At github.com, before Day 1 if you can. Use a username you'd be happy to see on an exhibition label.</p></div></li>
+        <li><div><b>Install git and gh.</b><p>On a Mac with Homebrew, one line. On Windows, use winget. Check both answer with a version number.</p><code class="kit-cmd">brew install git gh            # Mac
+winget install --id GitHub.cli # Windows (git: winget install --id Git.Git)
+git --version
+gh --version</code></div></li>
+        <li><div><b>Tell git who you are.</b><p>Once per computer. Use the email of your GitHub account.</p><code class="kit-cmd">git config --global user.name "Your Name"
+git config --global user.email "you@example.com"</code></div></li>
+        <li><div><b>Sign in with gh.</b><p>Choose GitHub.com, then HTTPS, then <i>Login with a web browser</i>. Say yes when it asks to authenticate git. This means you never type a password in the terminal.</p><code class="kit-cmd">gh auth login
+gh auth status</code></div></li>
+        <li><div><b>Create your repository from the studio starter.</b><p>This makes a public copy of the starter under your account and downloads it in one go. The facilitator gives you the starter's name on Day 1.</p><code class="kit-cmd">cd ~/Documents
+gh repo create your-project --public --template [studio]/computationally-yours-starter --clone
+cd your-project</code></div></li>
+        <li><div><b>Check it worked.</b><p>This opens your repository in the browser.</p><code class="kit-cmd">gh repo view --web</code></div></li>
+      </ol>
+
+      <h3 class="eyebrow" style="margin:28px 0 10px">Every day</h3>
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>1 · Stage</div><h3>git add -A</h3><p>Gather every change in the folder.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>2 · Commit</div><h3>git commit -m "…"</h3><p>Save a named step in the history, saying what changed.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>3 · Push</div><h3>git push</h3><p>Send the commits to GitHub. Do this at least at 3:30.</p></div>
+      </div>
+      <p class="note">Unsure what's happening? <code>git status</code> tells you what has changed and whether you're up to date, and is always safe to run. You can also ask Codex to commit and push for you; read the commands it proposes before approving them.</p>
+
+      <h3 class="eyebrow" style="margin:28px 0 10px">If something goes wrong</h3>
+      <table class="kit-table stack">
+        <thead><tr><th>You see</th><th>What it means, and what to do</th></tr></thead>
+        <tbody>
+          <tr><th><code>rejected … fetch first</code></th><td data-h="Do">GitHub has a change you don't, usually from editing on the website. Run <code>git pull</code>, then <code>git push</code>.</td></tr>
+          <tr><th><code>Authentication failed</code></th><td data-h="Do">Run <code>gh auth login</code> again and choose to authenticate git.</td></tr>
+          <tr><th><code>nothing to commit</code></th><td data-h="Do">Nothing has changed since the last commit. Fine.</td></tr>
+          <tr><th>A file over 100 MB</th><td data-h="Do">GitHub refuses it. Add it to <code>.gitignore</code>, keep it on the studio drive, and ask the facilitator if it's already committed.</td></tr>
+          <tr><th><code>CONFLICT</code></th><td data-h="Do">Two versions of the same file disagree. Stop and ask; don't delete things to make it go away.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="structure">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>The structure</h2></div></div>
+    <div class="body">
+      <p class="intro">Create your repository from the starter on Day 1 (above). By Day 18 it should look like this. Files appear as the month goes on.</p>
 <div class="kit-tree">your-project/
 ├── README.md           <span>what this is, how to run it, the parameter table</span>
 ├── <em>AGENTS.md</em>           <span>who you are and how Codex should work with you</span>
@@ -58,7 +103,6 @@
 ├── system.md           <span>Week 2 · the system worksheet</span>
 ├── process.md          <span>Day 14 · how the system works, in your words</span>
 ├── final-statement.md  <span>Day 16 · the artist statement</span>
-├── reflection.md       <span>Day 18 · the authorship reflection</span>
 ├── log.md              <span>every day · the daily log</span>
 ├── authorship.md       <span>every day · what Codex suggested, kept, rejected</span>
 ├── config/
@@ -78,7 +122,7 @@
   </section>
 
   <section class="section" id="readme">
-    <div class="label"><div class="sticky"><div class="num">02</div><h2>README</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>README</h2></div></div>
     <div class="body">
       <p class="intro">The README is the front door. A visitor scanning the QR code lands here, so it should make sense to someone who has never met you.</p>
       <div class="kit-tpl"><div class="cap">README.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># [Identity name]
@@ -120,7 +164,7 @@ See [manifesto.md](manifesto.md).
   </section>
 
   <section class="section" id="agents">
-    <div class="label"><div class="sticky"><div class="num">03</div><h2>AGENTS.md</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>AGENTS.md</h2></div></div>
     <div class="body">
       <p class="intro">Codex reads <code>AGENTS.md</code> before it works in your folder. Use it to tell Codex who it's working for, what it must never do, and how your project is built.</p>
       <div class="kit-tpl"><div class="cap">AGENTS.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Working on this project
@@ -164,7 +208,7 @@ Read identity.md and manifesto.md before suggesting anything creative.
   </section>
 
   <section class="section" id="git">
-    <div class="label"><div class="sticky"><div class="num">04</div><h2>Git habits</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Git habits</h2></div></div>
     <div class="body">
       <p class="intro">Git is your undo button and your record. Four habits cover the month.</p>
       <ol class="kit-steps">
@@ -179,7 +223,7 @@ git commit -m "before: line weight from deficit"</code></div></li>
   </section>
 
   <section class="section" id="gitignore">
-    <div class="label"><div class="sticky"><div class="num">05</div><h2>.gitignore</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>.gitignore</h2></div></div>
     <div class="body">
       <p class="intro">Start with this and add to it.</p>
       <div class="kit-tpl"><div class="cap">.gitignore</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># system files
@@ -205,7 +249,7 @@ raw/</pre></div>
   </section>
 
   <section class="section" id="public">
-    <div class="label"><div class="sticky"><div class="num">06</div><h2>Going public</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>Going public</h2></div></div>
     <div class="body">
       <p class="intro">From Day 17 the repository is linked from the exhibition, so anyone can read it.</p>
       <ul class="kit-list">
@@ -227,7 +271,7 @@ raw/</pre></div>
   </div>
 </footer>
 
-<script src="assets/nav.js?v=7" defer></script>
+<script src="assets/nav.js?v=8" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
 

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundations · Computationally Yours</title>
+<meta name="description" content="Foundations for Computationally Yours: how code becomes an image, coordinates, pixels and vectors, resolution, colour, CPU and GPU, rendering, and the file formats you&#x27;ll meet.">
+<meta property="og:title" content="Foundations · Computationally Yours">
+<meta property="og:description" content="The basics behind every generative work: pixels, vectors, CPU, GPU, rendering, files. Srishti Manipal Interim 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/handbook.css?v=6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+.demo { border: 2px solid var(--rule-ink); margin: 0 0 20px; }
+.demo .panes { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--rule-ink); }
+.demo .pane { background: var(--paper); position: relative; }
+.demo .pane canvas { display: block; width: 100%; height: 260px; }
+.demo .pane .tag { position: absolute; top: 10px; left: 10px; background: var(--paper); }
+.demo .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 10px 14px; border-top: 2px solid var(--rule-ink); background: var(--paper-2); }
+.demo .controls label { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; font: 500 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+.demo .controls input[type=range] { flex: 1; accent-color: var(--m-red); min-width: 80px; }
+.demo .controls output, .demo .controls .read { font: 500 11px/1.3 var(--mono); color: var(--ink); min-width: 6ch; }
+.demo .cap { padding: 8px 14px; border-top: 1px solid var(--rule); font-size: 13.5px; color: var(--ink-2); }
+@media (max-width: 640px) { .demo .panes { grid-template-columns: 1fr; } .demo .pane canvas { height: 220px; } }
+.calc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin: 0 0 8px; }
+.calc > div { background: var(--paper); padding: 12px 14px; }
+.calc label { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.calc input, .calc select { width: 100%; font: 400 17px/1.4 var(--sans); color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 7px 9px; }
+.calc .out { grid-column: 1 / -1; font: 400 24px/1.3 var(--serif); }
+.calc .out small { display: block; font: 400 14px/1.4 var(--sans); color: var(--ink-2); margin-top: 4px; }
+@media (max-width: 640px) { .calc { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./"><i data-mondrian data-seed="cy-mark" data-depth="2" data-colors="1" data-gap="1.5" data-motion="still"></i>Computationally Yours · Handbook</a>
+    <nav aria-label="Handbook"><a href="./#contents">Contents</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Handbook · Foundations · Read in Week 1 · Srishti Manipal Interim 2026</div>
+        <h1>Pixels, vectors, <em>machines</em></h1>
+        <p class="lede">Foundations. You don't need to be a programmer to start, but you do need a picture of what the computer is doing. This page covers the ideas that come up every day, with small things to try.</p>
+      </div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-foundations" data-depth="6" data-colors="3"></div><div class="mond-caption">seed foundations · depth 6</div></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Read</dt><dd>Before Day 6</dd></div>
+      <div><dt>Talk</dt><dd>Day 6, 9:30</dd></div>
+      <div><dt>No code</dt><dd>Needed to read it</dd></div>
+      <div><dt>Try</dt><dd>Three live demos</dd></div>
+      <div><dt>Back to</dt><dd>Techniques, Codex</dd></div>
+    </dl>
+  </section>
+
+<section class="section" id="code">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>From code to image</h2></div></div>
+    <div class="body">
+      <p class="intro">Code is a list of instructions. A program reads them in order, does the arithmetic, and writes the result somewhere: to the screen, or to a file.</p>
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>1 · Write</div><h3>Source</h3><p>Plain text files in <code>src/</code>. You and Codex write these.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>2 · Run</div><h3>Execute</h3><p>A program (a browser, Python, Node) reads the source and carries it out, line by line.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>3 · Output</div><h3>Draw or save</h3><p>The result appears on screen, or is written to a file: SVG, PNG, STL.</p></div>
+      </div>
+      <p class="note">Most creative-coding tools give you two places to write: <b>setup</b>, which runs once at the start, and <b>draw</b>, which runs again and again, many times a second, for animation. A still image for printing usually only needs setup, then a save.</p>
+    </div>
+  </section>
+
+  <section class="section" id="coordinates">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Coordinates</h2></div></div>
+    <div class="body">
+      <p class="intro">Every mark has a position: x across, y down. On screens the origin (0, 0) is the <b>top-left</b> corner, and y grows downwards, the opposite of school graphs.</p>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Units.</b> Screens count pixels. Plotters and printers think in millimetres. Decide early which your system uses, and convert once, at export.</span></li>
+        <li><i class="y"></i><span><b>Angles</b> are usually in radians, not degrees: a full turn is about 6.283 (2π), not 360.</span></li>
+        <li><i class="b"></i><span><b>Size independence.</b> Write positions as fractions of the width and height (0.5 × width is always the middle), so the same system works on screen and on A2.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="vector">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>Pixels and vectors</h2></div></div>
+    <div class="body">
+      <p class="intro">A <b>raster</b> image is a grid of coloured pixels. A <b>vector</b> image is a set of instructions: draw a line from here to there, a circle this big. Zoom in and see the difference.</p>
+      <div class="demo" id="demo-zoom">
+        <div class="panes">
+          <div class="pane"><span class="tag">Raster · PNG</span><canvas aria-label="A shape stored as pixels, enlarged"></canvas></div>
+          <div class="pane"><span class="tag accent">Vector · SVG</span><canvas aria-label="The same shape stored as vector paths, enlarged"></canvas></div>
+        </div>
+        <div class="controls"><label>Zoom <input type="range" min="1" max="16" value="1" step="0.5"><output></output></label></div>
+        <div class="cap">The raster was saved at 64 × 64 pixels: enlarging it only makes the squares bigger. The vector is redrawn sharply at any size.</div>
+      </div>
+      <table class="kit-table stack">
+        <thead><tr><th></th><th>Raster</th><th>Vector</th></tr></thead>
+        <tbody>
+          <tr><th>Stores</th><td data-h="Raster">Pixels in a grid</td><td data-h="Vector">Points, lines, curves, shapes</td></tr>
+          <tr><th>Enlarged</th><td data-h="Raster">Blurs or turns blocky</td><td data-h="Vector">Stays sharp</td></tr>
+          <tr><th>Good for</th><td data-h="Raster">Tone, texture, colour fields, millions of marks</td><td data-h="Vector">Lines, geometry, anything a pen will draw</td></tr>
+          <tr><th>Files</th><td data-h="Raster">PNG, JPG, TIFF</td><td data-h="Vector">SVG, PDF</td></tr>
+          <tr><th>Machine</th><td data-h="Raster">Archival printer</td><td data-h="Vector">Pen plotter (and laser cutters)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">A pen plotter can only follow vectors. A printer needs pixels. If you might do both, keep your system's output as vectors and render pixels from them at the size you need.</p>
+    </div>
+  </section>
+
+  <section class="section" id="resolution">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>Resolution</h2></div></div>
+    <div class="body">
+      <p class="intro">A pixel has no size until you print it. <b>PPI</b> (pixels per inch) says how many pixels fit into each inch of paper. Prints need about 300 PPI to look sharp up close.</p>
+      <div class="calc" id="calc">
+        <div><label for="calc-w">Width (mm)</label><input id="calc-w" type="number" value="420" min="1"></div>
+        <div><label for="calc-h">Height (mm)</label><input id="calc-h" type="number" value="594" min="1"></div>
+        <div><label for="calc-ppi">PPI</label><select id="calc-ppi"><option>150</option><option selected>300</option><option>600</option></select></div>
+        <div class="out" id="calc-out"></div>
+      </div>
+      <p class="note">One inch is 25.4 mm, so pixels = millimetres ÷ 25.4 × PPI. Your screen shows far fewer pixels than an A2 print needs, so render the print file at full size from the system, never by enlarging a screenshot.</p>
+    </div>
+  </section>
+
+  <section class="section" id="colour">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Colour</h2></div></div>
+    <div class="body">
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Screen</div><h3>Light: RGB</h3><p>Red, green and blue light added together; all three at full is white. Written in code as <code>rgb(219, 38, 31)</code> or the hex code <code>#db261f</code>.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Paper</div><h3>Ink: subtractive</h3><p>Inks absorb light; more ink is darker. Some bright screen colours can't be printed, which is why prints can look duller than the screen.</p></div>
+      </div>
+      <p class="note">A colour profile (ICC) describes how a device shows colour. Using the printer and paper's profile lets you preview the print on screen before you spend paper on it: see the <a href="archival.html#file">archival guide</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="cpu-gpu">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>CPU and GPU</h2></div></div>
+    <div class="body">
+      <p class="intro">The <b>CPU</b> is a few powerful workers that do tasks one after another. The <b>GPU</b> is thousands of simple workers that each do the same small job at the same moment, which is exactly what filling millions of pixels needs.</p>
+      <div class="demo" id="demo-gpu">
+        <div class="panes">
+          <div class="pane"><span class="tag">CPU · one worker</span><canvas aria-label="Cells filled one at a time"></canvas></div>
+          <div class="pane"><span class="tag accent">GPU · a worker per cell</span><canvas aria-label="All cells filled at once"></canvas></div>
+        </div>
+        <div class="controls"><button type="button" class="kit-btn primary" id="gpu-run">Run both</button><span class="read" id="gpu-read">384 cells to colour</span></div>
+        <div class="cap">Both compute the same colour for each cell. The CPU visits cells in turn; the GPU colours every cell in the same step. Real GPUs have thousands of cores; the CPU in your laptop has a handful.</div>
+      </div>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Most of your system runs on the CPU:</b> reading data, following rules, building paths. That's fine for drawings of thousands of lines.</span></li>
+        <li><i class="y"></i><span><b>The GPU matters for pixels:</b> live animation, shaders, very large images, 3D previews.</span></li>
+        <li><i class="b"></i><span><b>Slow isn't broken.</b> A complex system may take minutes to render one A2 file. Render a small preview while you work, and the full size only for export.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="rendering">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>Rendering</h2></div></div>
+    <div class="body">
+      <p class="intro">Rendering is the work of turning your system's instructions into a finished image or file.</p>
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>While you work</div><h3>Real-time</h3><p>Drawn fast enough to watch, often 60 frames a second, at screen size. Good for exploring parameters.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>For production</div><h3>Offline</h3><p>Drawn once, as long as it takes, at full size: an A2 SVG, a 300 PPI TIFF, an STL. This is the file the machine uses.</p></div>
+      </div>
+      <p class="note">Keep the two apart in your code: a preview mode that's quick, and an export mode that's exact. The same seed must give the same result in both.</p>
+    </div>
+  </section>
+
+  <section class="section" id="chance">
+    <div class="label"><div class="sticky"><div class="num">08</div><h2>Chance and seeds</h2></div></div>
+    <div class="body">
+      <p class="intro">Computers can't really be random. They use a formula that produces numbers that look random, starting from a number called the <b>seed</b>. Same seed, same sequence, same artwork.</p>
+      <p class="note">That's what makes a generative work reproducible: the seed and the parameters are its recipe. Name every output by its seed; the <a href="system.html#architecture">system worksheet</a> shows how. Noise, the smooth kind of randomness behind flow fields, is explained with a live sketch in <a href="techniques.html#noise">Techniques</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="files">
+    <div class="label"><div class="sticky"><div class="num">09</div><h2>Files you'll meet</h2></div></div>
+    <div class="body">
+      <table class="kit-table stack">
+        <thead><tr><th>Format</th><th>Kind</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><th><code>.svg</code></th><td data-h="Kind">Vector</td><td data-h="Used for">Plotter files, line drawings, anything that must stay sharp</td></tr>
+          <tr><th><code>.png</code></th><td data-h="Kind">Raster, lossless</td><td data-h="Used for">Screen outputs, log images, contact sheets</td></tr>
+          <tr><th><code>.jpg</code></th><td data-h="Kind">Raster, compressed</td><td data-h="Used for">Photographs of the work; not for final art</td></tr>
+          <tr><th><code>.tif</code></th><td data-h="Kind">Raster, print quality</td><td data-h="Used for">Archival print files with a colour profile</td></tr>
+          <tr><th><code>.pdf</code></th><td data-h="Kind">Vector or raster</td><td data-h="Used for">Documents, sometimes print files</td></tr>
+          <tr><th><code>.stl</code> / <code>.obj</code></th><td data-h="Kind">3D mesh</td><td data-h="Used for">Resin printing; a surface made of triangles</td></tr>
+          <tr><th><code>.json</code></th><td data-h="Kind">Text data</td><td data-h="Used for">Your parameters in <code>config/params.json</code></td></tr>
+          <tr><th><code>.csv</code></th><td data-h="Kind">Text table</td><td data-h="Used for">Datasets: one row per record, columns separated by commas</td></tr>
+          <tr><th><code>.md</code></th><td data-h="Kind">Text</td><td data-h="Used for">Markdown: your README, manifesto, log</td></tr>
+        </tbody>
+      </table>
+      <p class="note">A <b>mesh</b> describes a 3D form as many small triangles joined at their corners. For resin printing it must be <b>watertight</b>: closed all round, with no gaps, so the printer knows what's inside and outside. See the <a href="resin.html#prepare">resin guide</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="strip" data-mondrian data-seed="footer-foundations" data-depth="5" data-colors="3" data-gap="2"></div>
+  <div class="wrap row">
+    <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="techniques.html">Techniques</a></span>
+  </div>
+</footer>
+
+<script src="assets/nav.js?v=8" defer></script>
+<script src="assets/mondrian.js" defer></script>
+<script src="assets/kit.js?v=1" defer></script>
+<script>
+(function () {
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function fit(cv) {
+    var d = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+    cv.width = Math.round(w * d); cv.height = Math.round(h * d);
+    var c = cv.getContext("2d"); c.setTransform(d, 0, 0, d, 0, 0); return [c, w, h];
+  }
+  // ---- zoom: raster vs vector ----
+  var Z = document.getElementById("demo-zoom");
+  var cvs = Z.querySelectorAll("canvas"), range = Z.querySelector("input"), out = Z.querySelector("output");
+  var S = 64, off = document.createElement("canvas"); off.width = off.height = S;
+  function shape(c, k) { // draws in a 64-unit space
+    c.lineWidth = 1.5 * k; c.strokeStyle = css("--ink"); c.fillStyle = css("--m-red");
+    c.beginPath(); c.arc(28 * k, 30 * k, 16 * k, 0, Math.PI * 2); c.stroke();
+    c.beginPath(); c.moveTo(6 * k, 56 * k); c.lineTo(58 * k, 8 * k); c.stroke();
+    c.fillRect(40 * k, 38 * k, 14 * k, 14 * k);
+  }
+  function drawZoom() {
+    var z = +range.value; out.textContent = z + "×";
+    var oc = off.getContext("2d"); oc.clearRect(0, 0, S, S); oc.fillStyle = css("--paper"); oc.fillRect(0, 0, S, S); shape(oc, 1);
+    var a = fit(cvs[0]), c = a[0], w = a[1], h = a[2];
+    c.fillStyle = css("--paper"); c.fillRect(0, 0, w, h);
+    var base = Math.min(w, h) / S * 0.9, k = base * z;
+    c.imageSmoothingEnabled = false;
+    var fx = 32 + (42 - 32) * Math.min(1, (z - 1) / 3), fy = 32 + (36 - 32) * Math.min(1, (z - 1) / 3);
+    c.drawImage(off, w / 2 - fx * k, h / 2 - fy * k, S * k, S * k);
+    var b = fit(cvs[1]), v = b[0];
+    v.fillStyle = css("--paper"); v.fillRect(0, 0, b[1], b[2]);
+    v.save(); v.translate(b[1] / 2 - fx * k, b[2] / 2 - fy * k); shape(v, k); v.restore();
+  }
+  range.addEventListener("input", drawZoom);
+  // ---- CPU vs GPU ----
+  var G = document.getElementById("demo-gpu"), gc = G.querySelectorAll("canvas"), cols = 24, rows = 16, running = false;
+  function colourAt(x, y) { var t = (Math.sin(x * 0.45) + Math.cos(y * 0.6) + 2) / 4; return t; }
+  function paint(cv, n) {
+    var a = fit(cv), c = a[0], w = a[1], h = a[2], cw = w / cols, ch = h / rows;
+    c.fillStyle = css("--paper"); c.fillRect(0, 0, w, h);
+    for (var i = 0; i < cols * rows; i++) {
+      var x = i % cols, y = Math.floor(i / cols);
+      if (i < n) { var t = colourAt(x, y); c.fillStyle = t > 0.66 ? css("--m-blue") : t > 0.4 ? css("--ink") : css("--paper-2"); c.fillRect(x * cw, y * ch, cw - 1, ch - 1); }
+    }
+    c.strokeStyle = css("--rule"); c.lineWidth = 1;
+    for (var gx = 0; gx <= cols; gx++) { c.beginPath(); c.moveTo(gx * cw, 0); c.lineTo(gx * cw, h); c.stroke(); }
+    for (var gy = 0; gy <= rows; gy++) { c.beginPath(); c.moveTo(0, gy * ch); c.lineTo(w, gy * ch); c.stroke(); }
+  }
+  function idle() { paint(gc[0], 0); paint(gc[1], 0); }
+  document.getElementById("gpu-run").addEventListener("click", function () {
+    if (running) return; running = true;
+    var total = cols * rows, n = 0, read = document.getElementById("gpu-read"), t0 = performance.now(), gpuDone = false;
+    paint(gc[1], 0);
+    setTimeout(function () { paint(gc[1], total); gpuDone = true; }, 120);
+    (function step() {
+      n = Math.min(total, n + 3); paint(gc[0], n);
+      read.textContent = "CPU: " + n + " of " + total + " cells · GPU: " + (gpuDone ? "all " + total + " in one step" : "working…");
+      if (n < total) requestAnimationFrame(step); else running = false;
+    })();
+  });
+  // ---- resolution calculator ----
+  var w = document.getElementById("calc-w"), h = document.getElementById("calc-h"), p = document.getElementById("calc-ppi"), o = document.getElementById("calc-out");
+  function calc() {
+    var ppi = +p.value, pw = Math.round(+w.value / 25.4 * ppi), ph = Math.round(+h.value / 25.4 * ppi);
+    var mp = (pw * ph / 1e6).toFixed(1);
+    o.innerHTML = pw.toLocaleString() + " × " + ph.toLocaleString() + " pixels<small>" + mp + " megapixels. A typical laptop screen is about 2 to 5 megapixels.</small>";
+  }
+  [w, h, p].forEach(function (el) { el.addEventListener("input", calc); });
+  function all() { drawZoom(); idle(); calc(); }
+  if ("ResizeObserver" in window) { var ro = new ResizeObserver(function () { drawZoom(); if (!running) idle(); }); ro.observe(cvs[0]); ro.observe(gc[0]); }
+  all();
+})();
+</script>
+</body>
+</html>

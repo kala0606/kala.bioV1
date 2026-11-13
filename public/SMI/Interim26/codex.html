@@ -153,16 +153,17 @@
   <section class="section" id="setup">
     <div class="label"><div class="sticky"><div class="num">02</div><h2>Setup</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-setup" data-depth="2" data-colors="1"></div></div></div></div>
     <div class="body">
-      <p class="intro"><b>Day 1, after you clone the starter repo.</b> About twenty minutes. If a step fails, stop and ask; don't work around it.</p>
+      <p class="intro"><b>Day 1, after you've set up GitHub and created your repository</b> (<a href="repo.html#github">Repository, part 01</a>). About twenty minutes. If a step fails, stop and ask; don't work around it.</p>
       <ol class="steps">
         <li><div><b>Open a terminal.</b><p>Terminal on a Mac, or the terminal inside VS Code. If you've never used one, that's fine; you'll only need a few commands.</p></div></li>
         <li><div><b>Install the Codex command-line tool.</b><p>This needs Node.js. If the command isn't found, ask before installing anything else.</p><code class="cmd">npm install -g @openai/codex</code></div></li>
-        <li><div><b>Go to your project folder and start Codex.</b><p>Always start Codex from inside your project, so it works on your files and nothing else.</p><code class="cmd">cd ~/computationally-yours/your-project
+        <li><div><b>Go to your project folder and start Codex.</b><p>Always start Codex from inside your project, so it works on your files and nothing else.</p><code class="cmd">cd ~/Documents/your-project
 codex</code></div></li>
         <li><div><b>Sign in with the studio account.</b><p>Use the account the studio gives you, not a personal one. Never paste a password or key into a prompt.</p></div></li>
         <li><div><b>Ask your first question, read-only.</b><p>This checks that it can see your folder, and that you can read what it says.</p><code class="cmd">Read this folder and tell me, in plain language, what is in it. Don't change anything.</code></div></li>
-        <li><div><b>Make your first commit.</b><p>Git is your undo button. Commit before every change you ask Codex for, so you can always go back.</p><code class="cmd">git add -A
-git commit -m "start"</code></div></li>
+        <li><div><b>Make your first commit and push it.</b><p>Git is your undo button. Commit before every change you ask Codex for, so you can always go back, and push to GitHub at the end of every day.</p><code class="cmd">git add -A
+git commit -m "start"
+git push</code></div></li>
       </ol>
       <p class="note" style="margin-top:16px">If you prefer working in an editor, Codex is also available as a VS Code extension, using the same account. Keep approvals on, so Codex asks before it edits files or runs commands, until you're confident reading its changes. Your project's <code>AGENTS.md</code> tells Codex about you and your identity; <a href="repo.html#agents">section 09 of the handbook</a> covers it.</p>
     </div>
@@ -444,7 +445,7 @@ Explain what it means in plain words and where it comes from in my code. Then pr
   </div>
 </footer>
 
-<script src="assets/nav.js?v=7" defer></script>
+<script src="assets/nav.js?v=8" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script>
 (function () {

@@ -55,6 +55,49 @@
     ]
   },
   {
+    "href": "foundations.html",
+    "n": "01·1",
+    "t": "Foundations: pixels, vectors, machines",
+    "s": [
+      [
+        "code",
+        "01 · From code to image"
+      ],
+      [
+        "coordinates",
+        "02 · Coordinates"
+      ],
+      [
+        "vector",
+        "03 · Pixels and vectors"
+      ],
+      [
+        "resolution",
+        "04 · Resolution"
+      ],
+      [
+        "colour",
+        "05 · Colour"
+      ],
+      [
+        "cpu-gpu",
+        "06 · CPU and GPU"
+      ],
+      [
+        "rendering",
+        "07 · Rendering"
+      ],
+      [
+        "chance",
+        "08 · Chance and seeds"
+      ],
+      [
+        "files",
+        "09 · Files you'll meet"
+      ]
+    ]
+  },
+  {
     "href": "schedule.html",
     "n": "02",
     "t": "Twenty days: the schedule",
@@ -349,28 +392,32 @@
     "t": "Repository and AGENTS.md template",
     "s": [
       [
+        "github",
+        "01 · GitHub, one way"
+      ],
+      [
         "structure",
-        "01 · The structure"
+        "02 · The structure"
       ],
       [
         "readme",
-        "02 · README"
+        "03 · README"
       ],
       [
         "agents",
-        "03 · AGENTS.md"
+        "04 · AGENTS.md"
       ],
       [
         "git",
-        "04 · Git habits"
+        "05 · Git habits"
       ],
       [
         "gitignore",
-        "05 · .gitignore"
+        "06 · .gitignore"
       ],
       [
         "public",
-        "06 · Going public"
+        "07 · Going public"
       ]
     ]
   },
