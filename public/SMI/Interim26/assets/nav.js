@@ -393,7 +393,7 @@
     "s": [
       [
         "github",
-        "01 · GitHub, one way"
+        "01 · GitHub, by asking"
       ],
       [
         "structure",
@@ -409,7 +409,7 @@
       ],
       [
         "git",
-        "05 · Git habits"
+        "05 · Saving habits"
       ],
       [
         "gitignore",
@@ -418,6 +418,37 @@
       [
         "public",
         "07 · Going public"
+      ]
+    ]
+  },
+  {
+    "href": "press.html",
+    "n": "09·1",
+    "t": "Your press",
+    "s": [
+      [
+        "what",
+        "01 · What it is"
+      ],
+      [
+        "parts",
+        "02 · The parts"
+      ],
+      [
+        "say",
+        "03 · What to say"
+      ],
+      [
+        "dials",
+        "04 · Dials"
+      ],
+      [
+        "output",
+        "05 · Downloads"
+      ],
+      [
+        "online",
+        "06 · Online"
       ]
     ]
   },

@@ -235,21 +235,19 @@
   <section class="section" id="architecture" data-part="D · Architecture with Codex">
     <div class="label"><div class="sticky"><div class="num">D</div><h2>Architecture</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="system-d" data-depth="3" data-colors="2"></div></div></div></div>
     <div class="body">
-      <p class="intro"><b>Day 7.</b> Codex as collaborator: ask for a plan before any code. Paste your Parts A and B where marked.</p>
+      <p class="intro"><b>Day 7.</b> Your system lives inside your <a href="press.html">press</a>: the rules in <code>src/system.js</code>, the dials in <code>config/params.json</code>. Seeds, file names, downloads and the contact sheet are already built. Ask Codex for a plan before any code. Paste your Parts A and B where marked.</p>
       <div class="tpl">
         <button type="button" class="btn" data-copy="arch-prompt">Copy</button>
-<pre id="arch-prompt">I'm building a generative art system. Here is what it must do:
+<pre id="arch-prompt">I'm building a generative art system in this project's press. Here is what it must do:
 
 [paste Parts A and B]
 
-Before writing any code, propose an architecture:
-- the files and what each one is for,
-- every parameter in a single config, with a sensible default and range,
-- one seeded random number generator used for every random choice,
-- an export that saves each output with its seed and parameters in the filename,
-- a way to make many outputs in one run.
+Before writing any code, propose a plan:
+- the steps of draw() in src/system.js, one per rule, in order,
+- the dials to add to config/params.json, each with a range, a default and a space for the identity's reason,
+- where chance enters (always from `chance`, never Math.random()), and where it must not.
 
-Explain how each of my rules maps to the code. Keep it small enough that I can read and explain all of it. Wait for my go-ahead before you write code.</pre>
+Show how each of my rules maps to a step. Keep it small enough that I can read and explain all of it. Wait for my go-ahead, then build it one step at a time.</pre>
       </div>
       <div class="seedrule">
         <div><h3>Same seed, same work</h3><code>seed 41822 + params.json
@@ -407,7 +405,7 @@ Don't suggest new features. Don't rewrite my voice.</pre>
   </div>
 </footer>
 
-<script src="assets/nav.js?v=8" defer></script>
+<script src="assets/nav.js?v=10" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script>
 (function () {

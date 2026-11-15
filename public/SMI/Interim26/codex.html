@@ -153,19 +153,18 @@
   <section class="section" id="setup">
     <div class="label"><div class="sticky"><div class="num">02</div><h2>Setup</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="codex-setup" data-depth="2" data-colors="1"></div></div></div></div>
     <div class="body">
-      <p class="intro"><b>Day 1, after you've set up GitHub and created your repository</b> (<a href="repo.html#github">Repository, part 01</a>). About twenty minutes. If a step fails, stop and ask; don't work around it.</p>
+      <p class="intro"><b>Day 1.</b> About thirty minutes. These are the only commands you'll ever type; from here on, everything else (including git) is something you ask Codex for. If a step fails, stop and ask; don't work around it.</p>
       <ol class="steps">
-        <li><div><b>Open a terminal.</b><p>Terminal on a Mac, or the terminal inside VS Code. If you've never used one, that's fine; you'll only need a few commands.</p></div></li>
-        <li><div><b>Install the Codex command-line tool.</b><p>This needs Node.js. If the command isn't found, ask before installing anything else.</p><code class="cmd">npm install -g @openai/codex</code></div></li>
-        <li><div><b>Go to your project folder and start Codex.</b><p>Always start Codex from inside your project, so it works on your files and nothing else.</p><code class="cmd">cd ~/Documents/your-project
+        <li><div><b>Open a terminal.</b><p>Terminal on a Mac, or the terminal inside VS Code. If you've never used one, that's fine.</p></div></li>
+        <li><div><b>Install Codex.</b><p>This needs Node.js. If the command isn't found, ask before installing anything else.</p><code class="cmd">npm install -g @openai/codex</code></div></li>
+        <li><div><b>Start Codex in your Documents folder.</b><p>Type these two lines.</p><code class="cmd">cd ~/Documents
 codex</code></div></li>
         <li><div><b>Sign in with the studio account.</b><p>Use the account the studio gives you, not a personal one. Never paste a password or key into a prompt.</p></div></li>
-        <li><div><b>Ask your first question, read-only.</b><p>This checks that it can see your folder, and that you can read what it says.</p><code class="cmd">Read this folder and tell me, in plain language, what is in it. Don't change anything.</code></div></li>
-        <li><div><b>Make your first commit and push it.</b><p>Git is your undo button. Commit before every change you ask Codex for, so you can always go back, and push to GitHub at the end of every day.</p><code class="cmd">git add -A
-git commit -m "start"
-git push</code></div></li>
+        <li><div><b>Paste the GitHub setup prompt.</b><p>It's on the <a href="repo.html#github">Repository page</a>. Codex signs you in to GitHub, creates your project from the studio starter, and tells you the one line to type to restart inside it.</p></div></li>
+        <li><div><b>Ask your first question, read-only.</b><p>Now inside your project. This checks that Codex can see your files and that you can read what it says.</p><code class="cmd">Read this folder and tell me, in plain language, what is in it. Don't change anything.</code></div></li>
+        <li><div><b>Say "push".</b><p>Codex saves your work and puts it on GitHub, then gives you the link. Say it whenever something works, and every day at 3:30. Say "checkpoint" before a big change, and "go back" if something breaks.</p></div></li>
       </ol>
-      <p class="note" style="margin-top:16px">If you prefer working in an editor, Codex is also available as a VS Code extension, using the same account. Keep approvals on, so Codex asks before it edits files or runs commands, until you're confident reading its changes. Your project's <code>AGENTS.md</code> tells Codex about you and your identity; <a href="repo.html#agents">section 09 of the handbook</a> covers it.</p>
+      <p class="note" style="margin-top:16px">If you prefer working in an editor, Codex is also available as a VS Code extension, using the same account. Keep approvals on, so Codex asks before it edits files or runs commands, until you're confident reading its changes. Your project's <code>AGENTS.md</code> tells Codex about you, your identity, and how to handle git for you; <a href="repo.html#agents">section 09</a> covers it.</p>
     </div>
   </section>
 
@@ -253,7 +252,7 @@ seed 41822 and tell me the thinnest and thickest weights.</pre>
         <article class="card" data-role="setup">
           <div class="meta"><span class="role"><i class="r-setup"></i>Setup</span><span class="no">03</span></div>
           <h3>Go back safely</h3>
-<pre>Something broke after your last change. Show me exactly what changed since my last commit, in plain language, and tell me how to return to that commit. Don't run anything until I say yes.</pre>
+<pre>Go back. Something broke after your last change. Show me exactly what changed since my last checkpoint, in plain language, and return to it only when I say yes.</pre>
           <p class="watch"><b>Watch for:</b> it trying to "fix forward" with more changes. Going back is usually faster.</p>
           <div class="foot"><span class="when">Any day</span><button type="button" class="btn" data-copy>Copy</button></div>
         </article>
@@ -301,8 +300,8 @@ seed 41822 and tell me the thinnest and thickest weights.</pre>
         <article class="card" data-role="collaborator">
           <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">09</span></div>
           <h3>Architecture first</h3>
-<pre>You're my collaborator. Read identity.md, manifesto.md and system.md. Before writing any code, propose an architecture: the files and what each is for; every parameter in one config with a default and range; one seeded random generator for every random choice; an export that names each file by its seed and parameters. Show how each of my rules maps to the code. Wait for my go-ahead.</pre>
-          <p class="watch"><b>Watch for:</b> more files than you can read. Ask for it smaller.</p>
+<pre>You're my collaborator. Read identity.md, manifesto.md, system.md and the press section of AGENTS.md. Before writing any code, plan draw() in src/system.js as one step per rule, and the dials to add to config/params.json with ranges, defaults and a space for the identity's reason. Show how each rule maps to a step. Wait for my go-ahead.</pre>
+          <p class="watch"><b>Watch for:</b> changes to press/. Your rules belong in src/system.js only.</p>
           <div class="foot"><span class="when">Day 7</span><button type="button" class="btn" data-copy>Copy</button></div>
         </article>
 
@@ -310,14 +309,14 @@ seed 41822 and tell me the thinnest and thickest weights.</pre>
           <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">10</span></div>
           <h3>One step at a time</h3>
 <pre>Implement only step [n] of the plan we agreed. Keep every value that might change in the config. When you're done, show me what changed and explain it in plain language. Don't start the next step.</pre>
-          <p class="watch"><b>Watch for:</b> it doing two steps at once. Commit after each step.</p>
+          <p class="watch"><b>Watch for:</b> it doing two steps at once. Say "checkpoint" after each step that works.</p>
           <div class="foot"><span class="when">Days 7–8</span><button type="button" class="btn" data-copy>Copy</button></div>
         </article>
 
         <article class="card" data-role="collaborator">
           <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">11</span></div>
           <h3>Make it reproducible</h3>
-<pre>Make every random choice in the system come from one seeded random generator. Put the seed and the key parameters in each output's filename. Then prove it: render seed [n] twice and confirm the two files are identical.</pre>
+<pre>Check that every random choice in src/system.js comes from `chance`, not Math.random(). Then prove it: render seed [n] twice with the batch renderer and confirm the two files are identical.</pre>
           <p class="watch"><b>Watch for:</b> hidden randomness, such as a library call that uses its own random source.</p>
           <div class="foot"><span class="when">Day 7</span><button type="button" class="btn" data-copy>Copy</button></div>
         </article>
@@ -325,8 +324,8 @@ seed 41822 and tell me the thinnest and thickest weights.</pre>
         <article class="card" data-role="collaborator">
           <div class="meta"><span class="role"><i class="r-collaborator"></i>Collaborator</span><span class="no">12</span></div>
           <h3>Twenty at once</h3>
-<pre>Add a way to render twenty outputs in one run, with seeds [1–20] or a list I give you, into outputs/digital. Write a contact sheet image showing all twenty with their seeds underneath. Don't change how a single output is drawn.</pre>
-          <p class="watch"><b>Watch for:</b> the contact sheet. It's the fastest way to see the system's range.</p>
+<pre>Render twenty: seeds [1–20] into outputs/digital with the press's batch renderer, and tell me what was written. Then I'll look at the same twenty on the press's Sheet tab.</pre>
+          <p class="watch"><b>Watch for:</b> the Sheet tab in your press. It's the fastest way to see the system's range.</p>
           <div class="foot"><span class="when">Day 8</span><button type="button" class="btn" data-copy>Copy</button></div>
         </article>
 
@@ -425,7 +424,7 @@ Explain what it means in plain words and where it comes from in my code. Then pr
     <div class="label"><div class="sticky"><div class="num">07</div><h2>When it goes wrong</h2></div></div>
     <div class="body">
       <ul class="trouble">
-        <li><b>It changed far more than you asked.</b><span>Don't accept it. Go back to your last commit (prompt 03) and ask again with tighter limits.</span></li>
+        <li><b>It changed far more than you asked.</b><span>Don't accept it. Say "go back" (prompt 03) and ask again with tighter limits.</span></li>
         <li><b>It's going round in circles.</b><span>Start a fresh session. Give it a three-line summary: what works, what doesn't, the one thing to fix.</span></li>
         <li><b>It says it's done, but the output is wrong.</b><span>Ask it to run the code and show you the result, then describe what you expected to see.</span></li>
         <li><b>It used a library or source you can't find.</b><span>Assume it doesn't exist until you've found it yourself.</span></li>
@@ -445,7 +444,7 @@ Explain what it means in plain words and where it comes from in my code. Then pr
   </div>
 </footer>
 
-<script src="assets/nav.js?v=8" defer></script>
+<script src="assets/nav.js?v=10" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script>
 (function () {

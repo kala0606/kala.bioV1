@@ -30,70 +30,73 @@
       <div>
         <div class="eyebrow">Handbook · 09 · From Day 1 · Srishti Manipal Interim 2026</div>
         <h1>One <em>folder</em></h1>
-        <p class="lede">Repository and AGENTS.md template. Everything you make this month lives in one repository: the identity, the system, the outputs, the record of decisions. The QR code in the exhibition points here.</p>
+        <p class="lede">Repository and AGENTS.md template. Everything you make this month lives in one repository on GitHub. You never type git commands: Codex keeps it saved and online when you say "push". The QR code in the exhibition points here.</p>
       </div>
       <div class="hero-art"><div data-mondrian data-seed="handbook-09-repo" data-depth="5" data-colors="3"></div><div class="mond-caption">seed repo · depth 5</div></div>
     </div>
     <dl class="facts">
       <div><dt>Set up</dt><dd>Day 1 · Mon 23 Nov</dd></div>
-      <div><dt>Hosted on</dt><dd>GitHub, via gh</dd></div>
+      <div><dt>Hosted on</dt><dd>GitHub</dd></div>
+      <div><dt>Git commands</dt><dd>None: say "push"</dd></div>
       <div><dt>Tells Codex</dt><dd>AGENTS.md</dd></div>
-      <div><dt>Push</dt><dd>At least daily</dd></div>
       <div><dt>Read by</dt><dd>Visitors, via QR</dd></div>
     </dl>
   </section>
 
 <section class="section" id="github">
-    <div class="label"><div class="sticky"><div class="num">01</div><h2>GitHub, one way</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>GitHub, by asking</h2></div></div>
     <div class="body">
-      <p class="intro">Your work lives on GitHub, and you move it there from the terminal with two tools: <b>git</b>, which keeps the history, and <b>gh</b>, GitHub's own command-line tool, which signs you in and creates the repository. Use this one way all month.</p>
-      <div class="kit-warn"><b>Don't upload through the website</b>Dragging files into github.com, or editing them there, splits your work into two versions that disagree. Everything goes through the terminal, or through Codex running these same commands.</div>
+      <p class="intro">Your work lives on GitHub, but you never type git commands. <b>Codex does all of it.</b> When you want your work saved and online, you say one word: <b>"push"</b>.</p>
+      <div class="kit-warn"><b>Two things never to do</b>Don't type git commands yourself, and don't upload or edit files on github.com. Both make two versions of your work that disagree. Ask Codex instead.</div>
 
       <h3 class="eyebrow" style="margin:28px 0 10px">Once, on Day 1</h3>
       <ol class="kit-steps">
         <li><div><b>Make a GitHub account.</b><p>At github.com, before Day 1 if you can. Use a username you'd be happy to see on an exhibition label.</p></div></li>
-        <li><div><b>Install git and gh.</b><p>On a Mac with Homebrew, one line. On Windows, use winget. Check both answer with a version number.</p><code class="kit-cmd">brew install git gh            # Mac
-winget install --id GitHub.cli # Windows (git: winget install --id Git.Git)
-git --version
-gh --version</code></div></li>
-        <li><div><b>Tell git who you are.</b><p>Once per computer. Use the email of your GitHub account.</p><code class="kit-cmd">git config --global user.name "Your Name"
-git config --global user.email "you@example.com"</code></div></li>
-        <li><div><b>Sign in with gh.</b><p>Choose GitHub.com, then HTTPS, then <i>Login with a web browser</i>. Say yes when it asks to authenticate git. This means you never type a password in the terminal.</p><code class="kit-cmd">gh auth login
-gh auth status</code></div></li>
-        <li><div><b>Create your repository from the studio starter.</b><p>This makes a public copy of the starter under your account and downloads it in one go. The starter is <code>kala0606/computationally-yours-starter</code>.</p><code class="kit-cmd">cd ~/Documents
-gh repo create your-project --public --template kala0606/computationally-yours-starter --clone
-cd your-project</code></div></li>
-        <li><div><b>Check it worked.</b><p>This opens your repository in the browser.</p><code class="kit-cmd">gh repo view --web</code></div></li>
+        <li><div><b>Start Codex in your Documents folder.</b><p>Following <a href="codex.html#setup">Codex setup</a>.</p></div></li>
+        <li><div><b>Paste the setup prompt.</b><p>Fill in the two brackets first. Codex checks what's installed, signs you in to GitHub through your browser, creates your project from the studio starter, and puts your <a href="press.html">press</a> online. Approve each step it asks about.</p>
+          <div class="kit-tpl" style="margin:12px 0 0"><div class="cap">Setup prompt</div><button type="button" class="kit-btn" data-copy>Copy</button><pre>Set me up for Computationally Yours. My GitHub username is [username] and I'd like my project folder called [project-name].
+
+1. Check that git and the GitHub CLI (gh) are installed. If not, tell me what you'll install and wait for my yes.
+2. Check that I'm signed in to GitHub with gh. If not, start the browser sign-in and tell me exactly what to click or copy.
+3. Create my public repository from the template kala0606/computationally-yours-starter and download it here.
+4. Set my git name and email from my GitHub account (use the GitHub noreply email if mine is private).
+5. Turn on GitHub Pages for the repository (main branch, root folder).
+6. Give me the link to my repository and to my press (https://[username].github.io/[project-name]/), and tell me exactly what to type to restart Codex inside the project folder.
+
+Don't ask me to type any git commands.</pre></div></div></li>
+        <li><div><b>Restart Codex inside your project.</b><p>Codex tells you the one line to type. From then on it reads the project's <code>AGENTS.md</code>, which tells it to handle every git step for you.</p></div></li>
       </ol>
 
-      <h3 class="eyebrow" style="margin:28px 0 10px">Every day</h3>
-      <div class="kit-cells" style="--cols:3">
-        <div><div class="k"><i style="background:var(--m-red)"></i>1 · Stage</div><h3>git add -A</h3><p>Gather every change in the folder.</p></div>
-        <div><div class="k"><i style="background:var(--m-yellow)"></i>2 · Commit</div><h3>git commit -m "…"</h3><p>Save a named step in the history, saying what changed.</p></div>
-        <div><div class="k"><i style="background:var(--m-blue)"></i>3 · Push</div><h3>git push</h3><p>Send the commits to GitHub. Do this at least at 3:30.</p></div>
-      </div>
-      <p class="note">Unsure what's happening? <code>git status</code> tells you what has changed and whether you're up to date, and is always safe to run. You can also ask Codex to commit and push for you; read the commands it proposes before approving them.</p>
-
-      <h3 class="eyebrow" style="margin:28px 0 10px">If something goes wrong</h3>
+      <h3 class="eyebrow" style="margin:28px 0 10px">What to say, every day</h3>
       <table class="kit-table stack">
-        <thead><tr><th>You see</th><th>What it means, and what to do</th></tr></thead>
+        <thead><tr><th>Say</th><th>Codex</th><th>When</th></tr></thead>
         <tbody>
-          <tr><th><code>rejected … fetch first</code></th><td data-h="Do">GitHub has a change you don't, usually from editing on the website. Run <code>git pull</code>, then <code>git push</code>.</td></tr>
-          <tr><th><code>Authentication failed</code></th><td data-h="Do">Run <code>gh auth login</code> again and choose to authenticate git.</td></tr>
-          <tr><th><code>nothing to commit</code></th><td data-h="Do">Nothing has changed since the last commit. Fine.</td></tr>
-          <tr><th>A file over 100 MB</th><td data-h="Do">GitHub refuses it. Add it to <code>.gitignore</code>, keep it on the studio drive, and ask the facilitator if it's already committed.</td></tr>
-          <tr><th><code>CONFLICT</code></th><td data-h="Do">Two versions of the same file disagree. Stop and ask; don't delete things to make it go away.</td></tr>
+          <tr><th>"push"</th><td data-h="Codex">Saves everything with a message saying what changed, and puts it on GitHub. Tells you what it saved and gives the link.</td><td data-h="When">At least at 3:30, and whenever something works.</td></tr>
+          <tr><th>"checkpoint"</th><td data-h="Codex">Saves a point you can return to, without putting it online.</td><td data-h="When">Before you ask for a big change.</td></tr>
+          <tr><th>"go back"</th><td data-h="Codex">Shows what changed since the last save, and returns to it only when you say yes.</td><td data-h="When">When a change broke something.</td></tr>
+          <tr><th>"status"</th><td data-h="Codex">Tells you what's changed and whether everything is online.</td><td data-h="When">Whenever you're unsure.</td></tr>
+          <tr><th>"is it online?"</th><td data-h="Codex">Checks your repository on GitHub and says what a visitor sees.</td><td data-h="When">Before a critique or a deadline.</td></tr>
         </tbody>
       </table>
+      <p class="note">Codex shows you, in one short line, what it ran. You don't need to understand it, but read it before approving, as with any change.</p>
+
+      <h3 class="eyebrow" style="margin:28px 0 10px">If something goes wrong</h3>
+      <ul class="kit-list">
+        <li><i class="r"></i><span><b>Codex says the push was rejected.</b> Say "fix it and push". It fetches what's on GitHub and merges it.</span></li>
+        <li><i class="y"></i><span><b>Codex says there's a conflict.</b> Stop. Don't let it delete anything; call the facilitator over.</span></li>
+        <li><i class="b"></i><span><b>Codex says a file is too big.</b> Let it add the file to <code>.gitignore</code>, and keep the file on the studio drive.</span></li>
+        <li><i></i><span><b>Signed out of GitHub.</b> Say "sign me in to GitHub again".</span></li>
+      </ul>
     </div>
   </section>
 
   <section class="section" id="structure">
     <div class="label"><div class="sticky"><div class="num">02</div><h2>The structure</h2></div></div>
     <div class="body">
-      <p class="intro">Create your repository from the starter on Day 1 (above). By Day 18 it should look like this. Files appear as the month goes on.</p>
+      <p class="intro">Codex creates this from the starter on Day 1 (above). By Day 18 it should look like this. Files appear as the month goes on.</p>
 <div class="kit-tree">your-project/
-├── README.md           <span>what this is, how to run it, the parameter table</span>
+├── index.html          <span>your press: see <a href="press.html">Your press</a></span>
+├── README.md           <span>what this is, the press link, the parameter table</span>
 ├── <em>AGENTS.md</em>           <span>who you are and how Codex should work with you</span>
 ├── identity.md         <span>Day 3 · the identity worksheet</span>
 ├── candidates.md       <span>Day 2 · three candidate identities</span>
@@ -106,8 +109,9 @@ cd your-project</code></div></li>
 ├── log.md              <span>every day · the daily log</span>
 ├── authorship.md       <span>every day · what Codex suggested, kept, rejected</span>
 ├── config/
-│   └── params.json     <span>every parameter, in one place</span>
-├── src/                <span>the system's code</span>
+│   └── params.json     <span>your dials: every parameter, in one place</span>
+├── src/system.js       <span>your rules</span>
+├── press/              <span>the press itself: leave it alone</span>
 ├── data/               <span>real data, with its source in data/SOURCES.md</span>
 ├── diagram/            <span>Day 6 · the hand-drawn system diagram</span>
 ├── log/                <span>one image per day</span>
@@ -132,6 +136,8 @@ cd your-project</code></div></li>
 Made by [your name] in Computationally Yours: Out of One's Place,
 Srishti Manipal Institute, Interim 2026.
 
+**The press:** https://[username].github.io/[repository]/
+
 ## The work
 
 [Two or three sentences on what the system makes and the artefact in the exhibition.]
@@ -152,7 +158,7 @@ See [manifesto.md](manifesto.md).
 
 ## Run it
 
-[The exact commands to install and run the system, and to render a seed.]
+Open the press link above. The rules are in src/system.js; the dials are in config/params.json.
 
 ## Files
 
@@ -166,66 +172,34 @@ See [manifesto.md](manifesto.md).
   <section class="section" id="agents">
     <div class="label"><div class="sticky"><div class="num">04</div><h2>AGENTS.md</h2></div></div>
     <div class="body">
-      <p class="intro">Codex reads <code>AGENTS.md</code> before it works in your folder. Use it to tell Codex who it's working for, what it must never do, and how your project is built.</p>
-      <div class="kit-tpl"><div class="cap">AGENTS.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Working on this project
-
-## Who this is for
-
-This is a student project in a generative art studio. The student writes as an
-authored identity, [identity name], who [one line: position and condition].
-Read identity.md and manifesto.md before suggesting anything creative.
-
-## Authorship rules
-
-- Propose; don't decide. Explain options and wait for the student to choose.
-- Never write or rewrite manifesto.md, final-statement.md, log.md or the
-  "I rejected, and why" lines in authorship.md. You may question them.
-- Ask for a plan to be agreed before writing code. Then work one step at a time.
-- Explain every change in plain language, as if to an artist new to code.
-- Don't use AI image generation in the system.
-- If you're unsure a library, dataset or reference exists, say so.
-
-## How the code is built
-
-- Language and setup: [e.g. JavaScript with p5.js / Python with ...]
-- Every parameter lives in config/params.json, with a default and a range.
-- All randomness comes from one seeded generator. Same seed and params, same output.
-- Outputs are saved to outputs/digital/ as NNN_seed-SEED_[key params].svg (or .png).
-- Keep the code small enough for the student to read and explain.
-
-## Don't touch
-
-- data/ (raw data is read, never modified)
-- outputs/ (never delete outputs)
-- docs/photos/
-
-## Run
-
-[the command to run the system]
-[the command to render a batch of seeds]</pre></div>
-      <p class="note">Fill in the brackets on Day 1 with what you know, and update it as the identity and the system settle. A short, true AGENTS.md is better than a long, generic one.</p>
+      <p class="intro">Codex reads <code>AGENTS.md</code> before it works in your folder. The starter's version already teaches Codex three things; you add the fourth.</p>
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Already there</div><h3>Authorship rules</h3><p>Propose, don't decide; never write the manifesto, statement or log; plan before code; explain every change.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Already there</div><h3>The press</h3><p>Rules in <code>src/system.js</code>, dials in <code>config/params.json</code>, seeded chance only, and the words "preview", "render twenty", "make a dial", "publish".</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Already there</div><h3>Git, by asking</h3><p>"push", "checkpoint", "go back", "status", with safe defaults: no force-push, no secrets, no huge files.</p></div>
+        <div><div class="k"><i style="background:var(--paper)"></i>You add</div><h3>Who it's for</h3><p>On Day 3, once the identity exists, ask Codex to fill in the first section from <code>identity.md</code>.</p></div>
+      </div>
+      <p class="note">Read the whole file in <a href="https://github.com/kala0606/computationally-yours-starter/blob/main/AGENTS.md" target="_blank" rel="noopener">the starter</a>. A short, true AGENTS.md is better than a long, generic one; keep it updated as the identity settles.</p>
     </div>
   </section>
 
   <section class="section" id="git">
-    <div class="label"><div class="sticky"><div class="num">05</div><h2>Git habits</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Saving habits</h2></div></div>
     <div class="body">
-      <p class="intro">Git is your undo button and your record. Four habits cover the month.</p>
+      <p class="intro">Three habits cover the month. All of them are things you say to Codex.</p>
       <ol class="kit-steps">
-        <li><div><b>Commit before you ask Codex for a change.</b><p>Then you can always return to a version that worked.</p><code class="kit-cmd">git add -A
-git commit -m "before: line weight from deficit"</code></div></li>
-        <li><div><b>Commit after every step that works.</b><p>Small commits are easier to read and to undo.</p></div></li>
-        <li><div><b>Say what changed, not that something changed.</b><p>"line weight follows deficit" tells a story; "update" doesn't. Log entries use <code>log: day 07</code>.</p></div></li>
-        <li><div><b>Push at the end of every day.</b><p>Your laptop is not a backup. Pushing also lets the facilitator see the work.</p><code class="kit-cmd">git push</code></div></li>
+        <li><div><b>Say "checkpoint" before you ask for a big change.</b><p>Then "go back" always has somewhere safe to return to.</p></div></li>
+        <li><div><b>Say "push" when something works, and every day at 3:30.</b><p>Your laptop is not a backup, and pushing lets the facilitator see your work.</p></div></li>
+        <li><div><b>Check the message Codex saved with.</b><p>It should say what changed, like "line weight follows deficit", not "update". Ask it to reword it if not.</p></div></li>
       </ol>
-      <div class="kit-warn" style="margin-top:20px"><b>Large files</b>GitHub refuses single files over 100 MB and warns above 50 MB. Keep raw scans, videos and large meshes out of the repository: put them in <code>.gitignore</code> and store them on the studio drive, then link to them from the README.</div>
+      <div class="kit-warn" style="margin-top:20px"><b>Large files</b>GitHub refuses single files over 100 MB. Keep raw scans, videos and large meshes on the studio drive. Codex will warn you before saving anything over 50 MB.</div>
     </div>
   </section>
 
   <section class="section" id="gitignore">
     <div class="label"><div class="sticky"><div class="num">06</div><h2>.gitignore</h2></div></div>
     <div class="body">
-      <p class="intro">Start with this and add to it.</p>
+      <p class="intro">The starter already has this file. You don't need to edit it; Codex adds to it when a file shouldn't go online.</p>
       <div class="kit-tpl"><div class="cap">.gitignore</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># system files
 .DS_Store
 Thumbs.db
@@ -244,7 +218,7 @@ __pycache__/
 *.mp4
 *.zip
 raw/</pre></div>
-      <p class="note">If you ever commit a password or key by mistake, tell the facilitator straight away. Deleting the file doesn't remove it from the history.</p>
+      <p class="note">If a password or key ever goes online by mistake, tell the facilitator straight away. Deleting the file doesn't remove it from the history.</p>
     </div>
   </section>
 
@@ -271,7 +245,7 @@ raw/</pre></div>
   </div>
 </footer>
 
-<script src="assets/nav.js?v=8" defer></script>
+<script src="assets/nav.js?v=10" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
 

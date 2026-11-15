@@ -48,7 +48,7 @@
       <div class="hero-art"><div data-mondrian data-seed="handbook-18-qr" data-depth="4" data-colors="3"></div><div class="mond-caption">seed qr · depth 4</div></div>
     </div>
     <dl class="facts">
-      <div><dt>Links to</dt><dd>Your repository</dd></div>
+      <div><dt>Links to</dt><dd>Your press</dd></div>
       <div><dt>Made</dt><dd>Day 17 · Tue 15 Dec</dd></div>
       <div><dt>Print size</dt><dd>At least 3 cm</dd></div>
       <div><dt>Tested on</dt><dd>Three phones</dd></div>
@@ -59,11 +59,11 @@
 <section class="section" id="where">
     <div class="label"><div class="sticky"><div class="num">01</div><h2>Where it points</h2></div></div>
     <div class="body">
-      <p class="intro">The code opens your repository's front page, where the README introduces the identity and the system. That page has to be ready before the code is printed.</p>
+      <p class="intro">The code opens your <a href="press.html">press</a>: the live system, its dials, and the About tab with the manifesto. The press links on to the repository for anyone who wants the code. It has to be ready before the code is printed.</p>
       <ul class="kit-list">
-        <li><i class="r"></i><span><b>Use the full repository address,</b> for example <code>https://github.com/[account]/[repository]</code>. Don't use a link shortener: free short links can expire or track visitors.</span></li>
-        <li><i class="y"></i><span><b>Make the repository public</b> and open the address in a private browser window to check it works without signing in.</span></li>
-        <li><i class="b"></i><span><b>Read the README on a phone.</b> That's how almost every visitor will see it. See <a href="repo.html#readme">the README template</a>.</span></li>
+        <li><i class="r"></i><span><b>Use the full press address,</b> for example <code>https://username.github.io/project/</code>. Don't use a link shortener: free short links can expire or track visitors.</span></li>
+        <li><i class="y"></i><span><b>Check it in a private browser window</b>, so you see what a stranger sees, without being signed in.</span></li>
+        <li><i class="b"></i><span><b>Use it on a phone.</b> That's how almost every visitor will see it: try the dials, open About, read the manifesto.</span></li>
       </ul>
     </div>
   </section>
@@ -71,17 +71,17 @@
   <section class="section" id="make">
     <div class="label"><div class="sticky"><div class="num">02</div><h2>Make the code</h2></div></div>
     <div class="body">
-      <p class="intro">Paste your repository address. The code is drawn in your browser; nothing is sent anywhere.</p>
+      <p class="intro">Paste your press address. The code is drawn in your browser; nothing is sent anywhere.</p>
       <div class="maker">
         <div>
-          <div class="row"><label for="qr-url">Repository address</label><input type="url" id="qr-url" placeholder="https://github.com/account/repository" autocomplete="off" spellcheck="false"></div>
-          <div class="row"><label for="qr-name">File name</label><input type="text" id="qr-name" value="qr-repository" spellcheck="false"></div>
+          <div class="row"><label for="qr-url">Press address</label><input type="url" id="qr-url" placeholder="https://username.github.io/project/" autocomplete="off" spellcheck="false"></div>
+          <div class="row"><label for="qr-name">File name</label><input type="text" id="qr-name" value="qr-press" spellcheck="false"></div>
           <p class="msg" id="qr-msg" aria-live="polite">Error correction level M, with a four-module quiet border.</p>
           <div class="qractions">
             <button type="button" class="kit-btn primary" id="qr-svg">Download SVG</button>
             <button type="button" class="kit-btn" id="qr-png">Download PNG</button>
           </div>
-          <p class="note" style="margin-top:16px">Use the SVG for print: it stays sharp at any size. Prefer to make it with code? Ask Codex: <i>"Make an SVG QR code for [address] with error correction M and a quiet zone of four modules, using a well-known library."</i></p>
+          <p class="note" style="margin-top:16px">Use the SVG for print: it stays sharp at any size. Prefer to make it with code? Ask Codex: <i>"Make an SVG QR code for my press link with error correction M and a quiet zone of four modules."</i></p>
         </div>
         <div><div class="qrbox" id="qr-box"><p class="note">Waiting for an address.</p></div><p class="qrcap" id="qr-cap"></p></div>
       </div>
@@ -106,12 +106,12 @@
       <p class="intro"><b>Day 17, due by 3:30, and again on Day 19 under the exhibition light.</b></p>
       <div class="kit-progress" data-progress="qrtest"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="qrtest">Reset</button></div>
       <div class="kit-checks" data-store="qrtest">
-        <label><input type="checkbox"><span>Scanned with an iPhone camera, and it opens the repository.</span></label>
-        <label><input type="checkbox"><span>Scanned with an Android phone camera, and it opens the repository.</span></label>
+        <label><input type="checkbox"><span>Scanned with an iPhone camera, and it opens the press.</span></label>
+        <label><input type="checkbox"><span>Scanned with an Android phone camera, and it opens the press.</span></label>
         <label><input type="checkbox"><span>Scanned with a third phone, ideally an older one.</span></label>
         <label><input type="checkbox"><span>Scanned from where a visitor will stand, not from close up.</span></label>
         <label><input type="checkbox"><span>Scanned under the exhibition lighting, at its final height on the wall.</span></label>
-        <label><input type="checkbox"><span>The page it opens is public and readable on a phone.</span></label>
+        <label><input type="checkbox"><span>The press works on a phone: the dials respond and About shows the manifesto.</span></label>
       </div>
     </div>
   </section>
@@ -123,8 +123,8 @@
       <ol class="kit-steps">
         <li><div><b>Photograph the work.</b><p>Following <a href="docs.html#photos">the shot list</a>, into <code>docs/photos/</code>.</p></div></li>
         <li><div><b>Finish the documents.</b><p><code>process.md</code>, <code>final-statement.md</code>, <code>reflection.md</code>, and the README with its parameter table.</p></div></li>
-        <li><div><b>Put a photograph at the top of the README.</b><p>Visitors scanning the code should see the work they're standing in front of.</p></div></li>
-        <li><div><b>Push, and check it as a stranger.</b><p>Private browser window, on a phone.</p></div></li>
+        <li><div><b>Set the press to the exhibited seed.</b><p>Ask Codex to make the exhibited work's seed and dials the press's defaults, so a visitor first sees the piece in front of them.</p></div></li>
+        <li><div><b>Say "publish", and check it as a stranger.</b><p>Private browser window, on a phone.</p></div></li>
         <li><div><b>Make and test the QR code.</b><p>Above.</p></div></li>
         <li><div><b>Print the card, label and code together.</b><p>From <a href="statement.html">the card builder</a>, at 100% scale.</p></div></li>
       </ol>
@@ -141,7 +141,7 @@
   </div>
 </footer>
 
-<script src="assets/nav.js?v=8" defer></script>
+<script src="assets/nav.js?v=10" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
 <script>
