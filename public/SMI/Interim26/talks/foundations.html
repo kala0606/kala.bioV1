@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixels, vectors, machines · Computationally Yours</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck.css?v=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111110'/%3E%3Crect x='3' y='3' width='14' height='26' fill='%23f2eee2'/%3E%3Crect x='19' y='3' width='10' height='12' fill='%23db261f'/%3E%3Crect x='19' y='17' width='10' height='12' fill='%23f2eee2'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="deck" data-title="Pixels, vectors, machines">
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker"><b>Day 6 · morning</b> · Computationally Yours · Interim 2026</p>
+    <h1>Pixels, vectors, <em>machines</em>.</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">What the computer is doing when your identity's rules become an image, and then a thing.</p>
+    <div class="meta"><span>30 minutes</span><span>Companion: handbook · Foundations</span></div>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">Before we start</p>
+  <p class="big">This week your rules become <em>code</em>. What do you think happens between a line of code and a mark on paper?</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">01 · From code to image</p>
+  <figure class="fig">
+    <svg class="dg" viewBox="0 0 1000 250" aria-label="Write source, run it, get an output on screen or in a file">
+      <g stroke="#111" stroke-width="3"><rect x="0" y="40" width="260" height="130" fill="#db261f"/><rect x="370" y="40" width="260" height="130" fill="#f4c20d"/><rect x="740" y="40" width="260" height="130" fill="#2454c7"/></g>
+      <g stroke="#111" stroke-width="3"><path d="M260 105 H362 M630 105 H732"/></g>
+      <g class="serif" font-size="34"><text x="22" y="98" class="serif" style="fill:#fff">Write</text><text x="392" y="98" class="serif">Run</text><text x="762" y="98" class="serif" style="fill:#fff">Output</text></g>
+      <g font-size="16"><text x="22" y="135" style="fill:#fde4e2">src/system.js: plain text</text><text x="392" y="135">the browser follows it, line by line</text><text x="762" y="135" style="fill:#dfe6fb">screen, SVG, PNG, STL</text></g>
+      <text x="0" y="225" font-size="19" class="serif">Code is a list of instructions. Running it is the computer doing the arithmetic, in order.</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide">
+  <p class="kicker">02 · Coordinates</p>
+  <div class="cols">
+    <div class="stack"><h2>(0, 0) is the <em>top-left</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">x goes across, y goes down: the opposite of school graphs. Screens count pixels; plotters count millimetres.</p><p class="small step">Write positions as fractions: half the width is always the middle, on a phone or on A2.</p></div>
+    <svg class="dg" viewBox="-30 -30 460 330" aria-label="A coordinate grid with the origin at the top left and y increasing downwards">
+      <rect x="0" y="0" width="400" height="280" fill="#fff" stroke="#111" stroke-width="3"/>
+      <g stroke="#d5cfbf" stroke-width="1"><path d="M80 0V280M160 0V280M240 0V280M320 0V280M0 70H400M0 140H400M0 210H400"/></g>
+      <g stroke="#db261f" stroke-width="4" fill="none"><path d="M0 0 H120" marker-end="url(#ax)"/><path d="M0 0 V100" marker-end="url(#ax)"/></g>
+      <defs><marker id="ax" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#db261f"/></marker></defs>
+      <text x="-26" y="-10" font-size="15">(0, 0)</text><text x="132" y="22" font-size="18" style="fill:#db261f">x →</text><text x="10" y="130" font-size="18" style="fill:#db261f">y ↓</text>
+      <circle cx="200" cy="140" r="9" fill="#2454c7"/><text x="214" y="134" font-size="15">(width/2, height/2)</text>
+    </svg>
+  </div>
+</section>
+
+<section class="slide" data-demo="zoom">
+  <p class="kicker">03 · Pixels and vectors</p>
+  <div class="cols wide-right">
+    <div class="stack"><h2>A grid of dots, or <em>a set of instructions</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Enlarge a raster and the squares grow. Enlarge a vector and it redraws, sharp. Click to zoom in.</p></div>
+    <div class="cells" style="grid-template-columns:1fr 1fr">
+      <div style="padding:0;position:relative"><canvas class="zc" style="display:block;width:100%;height:calc(var(--u)*24)"></canvas><span class="k" style="position:absolute;left:8px;top:8px;background:var(--paper);padding:2px 6px">Raster · PNG</span></div>
+      <div style="padding:0;position:relative"><canvas class="zc" style="display:block;width:100%;height:calc(var(--u)*24)"></canvas><span class="k" style="position:absolute;left:8px;top:8px;background:var(--paper);padding:2px 6px">Vector · SVG</span></div>
+    </div>
+  </div>
+  <span class="step zoomstep" data-z="4"></span><span class="step zoomstep" data-z="12"></span>
+</section>
+
+<section class="slide">
+  <p class="kicker">Which machine wants which</p>
+  <div class="cells" style="grid-template-columns:1fr 1fr">
+    <div class="on-blue"><div class="k">Vector · SVG</div><h3 style="font-size:calc(var(--u)*3.4)">The pen plotter</h3><p>Follows paths. Lines only: no fills, no gradients. Tone comes from density.</p></div>
+    <div class="on-yellow"><div class="k" style="color:#111">Raster · PNG, TIFF</div><h3 style="font-size:calc(var(--u)*3.4)">The archival printer</h3><p style="color:#111">Lays down ink dot by dot. Tone, colour, millions of marks.</p></div>
+  </div>
+  <p class="lede step">Keep your system's output as vectors; render pixels from them when you need a print. Your press does both.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">04 · Resolution</p>
+  <div class="cols">
+    <div class="stack"><h2>A pixel has no size <em>until you print it</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">PPI: pixels per inch of paper. Prints need about 300 to look sharp up close.</p></div>
+    <div class="stack">
+      <p class="big step" style="font-size:calc(var(--u)*5.4)">A2 at 300 PPI = <em>4961 × 7016</em></p>
+      <p class="small step">About 35 megapixels. A laptop screen shows 2 to 5. Never enlarge a screenshot: render the print at full size.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">05 · Colour</p>
+  <div class="cols">
+    <div class="stack"><h2>Light adds. <em>Ink takes away.</em></h2><p class="lede" style="font-size:calc(var(--u)*2)">A screen mixes red, green and blue light; all three is white. Paper absorbs light; more ink is darker. Some screen colours can't be printed at all.</p></div>
+    <svg class="dg" viewBox="0 0 420 300" aria-label="Additive RGB circles overlapping to white on black, subtractive CMY circles overlapping to dark on white">
+      <rect x="0" y="0" width="200" height="300" fill="#111"/><rect x="220" y="0" width="200" height="300" fill="#fff" stroke="#111" stroke-width="2"/>
+      <g style="isolation:isolate"><circle cx="80" cy="120" r="55" fill="#ff0000" style="mix-blend-mode:screen"/><circle cx="120" cy="120" r="55" fill="#00ff00" style="mix-blend-mode:screen"/><circle cx="100" cy="155" r="55" fill="#0000ff" style="mix-blend-mode:screen"/></g>
+      <g style="isolation:isolate"><circle cx="300" cy="120" r="55" fill="#00ffff" style="mix-blend-mode:multiply"/><circle cx="340" cy="120" r="55" fill="#ff00ff" style="mix-blend-mode:multiply"/><circle cx="320" cy="155" r="55" fill="#ffff00" style="mix-blend-mode:multiply"/></g>
+      <text x="16" y="285" font-size="14" style="fill:#fff">screen · RGB</text><text x="236" y="285" font-size="14">paper · ink</text>
+    </svg>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">Ask</p>
+  <ol>
+    <li>Does your identity's work want lines, or tone?</li>
+    <li>Which of its colours would survive the move from screen to paper?</li>
+  </ol>
+</section>
+
+<section class="slide">
+  <p class="kicker">06 · CPU and GPU</p>
+  <div class="cols">
+    <div class="stack"><h2>A few strong workers, or <em>thousands of simple ones</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">The CPU does tasks one after another, very fast. The GPU does the same small task everywhere at once: exactly what millions of pixels need.</p></div>
+    <div class="cells" style="grid-template-columns:1fr">
+      <div class="on-red"><div class="k">CPU</div><h3>a few cores · in order</h3><p>reading data, following rules, building paths</p></div>
+      <div class="on-blue"><div class="k">GPU</div><h3>thousands of cores · all at once</h3><p>shaders, live animation, huge images, 3D</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide do">
+  <p class="kicker">Be the machine · three minutes</p>
+  <p class="big" style="font-size:calc(var(--u)*5)">One volunteer colours twenty squares on the board. <em>Twenty of you</em> colour one square each, at the same moment.</p>
+  <p class="lede" style="color:#e9e4d4">Who finishes first? Now: what if each square depended on the one before it?</p>
+  <p class="timer">3:00</p>
+</section>
+
+<section class="slide" data-demo="gpu">
+  <p class="kicker">The same race, on screen</p>
+  <div class="cells" style="grid-template-columns:1fr 1fr">
+    <div style="padding:0;position:relative"><canvas class="gc" style="display:block;width:100%;height:calc(var(--u)*26)"></canvas><span class="k" style="position:absolute;left:8px;top:8px;background:var(--paper);padding:2px 6px">CPU · one worker</span></div>
+    <div style="padding:0;position:relative"><canvas class="gc" style="display:block;width:100%;height:calc(var(--u)*26)"></canvas><span class="k" style="position:absolute;left:8px;top:8px;background:var(--paper);padding:2px 6px">GPU · a worker per cell</span></div>
+  </div>
+  <p class="small" style="margin-top:calc(var(--u)*1.4)">Click to run. Both compute the same colour for each cell.</p>
+  <span class="step gpustep"></span>
+</section>
+
+<section class="slide">
+  <p class="kicker">07 · Rendering</p>
+  <div class="cells" style="grid-template-columns:1fr 1fr">
+    <div class="on-yellow"><div class="k" style="color:#111">While you work</div><h3 style="font-size:calc(var(--u)*3.4)">Real-time</h3><p style="color:#111">Fast enough to watch, at screen size. Each frame has about 16.7 milliseconds at 60 frames a second.</p></div>
+    <div><div class="k">For the machine</div><h3 style="font-size:calc(var(--u)*3.4)">Offline</h3><p>Drawn once, as long as it takes, at full size: the A2 SVG, the 300 PPI TIFF, the STL.</p></div>
+  </div>
+  <p class="lede step">Slow isn't broken. Preview small; export big. The same seed must give the same work in both.</p>
+</section>
+
+<section class="slide" data-demo="seeds">
+  <p class="kicker">08 · Chance and seeds</p>
+  <div class="cols wide-right">
+    <div class="stack"><h2>Computers can't really be random. <em>That's the point.</em></h2><p class="lede" style="font-size:calc(var(--u)*2)">A formula makes numbers that look random, starting from a seed. Same seed, same sequence, same work.</p><p class="small step">Click: seed 7 drawn again on the right. Identical. The seed is the recipe.</p></div>
+    <div class="cells" style="grid-template-columns:1fr 1fr">
+      <div style="padding:0"><svg class="dg sd" viewBox="0 0 200 260"></svg><div class="k" style="padding:6px 10px">seed 7</div></div>
+      <div style="padding:0"><svg class="dg sd" viewBox="0 0 200 260"></svg><div class="k sdlabel" style="padding:6px 10px">seed 8</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">09 · Files you'll meet</p>
+  <table class="t">
+    <thead><tr><th>File</th><th>What it holds</th><th>Goes to</th></tr></thead>
+    <tbody>
+      <tr><th>.svg</th><td>lines and shapes, in millimetres</td><td>the plotter</td></tr>
+      <tr><th>.png · .tif</th><td>pixels; TIFF with a colour profile</td><td>the screen · the archival printer</td></tr>
+      <tr><th>.stl</th><td>a surface of triangles, closed all round</td><td>the resin printer</td></tr>
+      <tr><th>.json</th><td>your dials: config/params.json</td><td>your press</td></tr>
+      <tr><th>.csv</th><td>a dataset: one row per record</td><td>your system's inputs</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide red">
+  <p class="kicker">Now: what a generative system is</p>
+  <figure class="fig">
+    <svg class="dg" viewBox="0 0 1000 200" aria-label="Inputs, rules, parameters, chance, outputs">
+      <g stroke="#111" stroke-width="3"><rect x="0" y="40" width="176" height="100" fill="#f2eee2"/><rect x="206" y="40" width="176" height="100" fill="#f2eee2"/><rect x="412" y="40" width="176" height="100" fill="#f4c20d"/><rect x="618" y="40" width="176" height="100" fill="#2454c7"/><rect x="824" y="40" width="176" height="100" fill="#f2eee2"/></g>
+      <g class="serif" font-size="27" text-anchor="middle"><text x="88" y="98" class="serif">Inputs</text><text x="294" y="98" class="serif">Rules</text><text x="500" y="98" class="serif">Dials</text><text x="706" y="98" class="serif" style="fill:#fff">Chance</text><text x="912" y="98" class="serif">Outputs</text></g>
+      <text x="0" y="185" font-size="18" style="fill:#fff" class="serif">The rules come from the manifesto. Everything on this deck is how they reach paper.</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">To take into today</p>
+  <ol>
+    <li>What goes into your identity's system: data, a drawing, a text, nothing?</li>
+    <li>Which rule, from the manifesto, must the machine obey first?</li>
+    <li>Where should chance enter, and where must it never?</li>
+  </ol>
+</section>
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker">Today</p>
+    <h1 style="font-size:calc(var(--u)*6)">Metaphor to <em>rules</em>.</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">System worksheet, Parts A and B; a diagram drawn by hand; two technique clinics. Handbook: Foundations, and section 06.</p>
+  </div>
+</section>
+
+</div>
+<script>
+(function () {
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function fit(cv) { var d = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight; cv.width = Math.round(w * d); cv.height = Math.round(h * d); var c = cv.getContext("2d"); c.setTransform(d, 0, 0, d, 0, 0); return [c, w, h]; }
+  // zoom: raster vs vector
+  var S = 64, off = document.createElement("canvas"); off.width = off.height = S;
+  function shape(c, k) { c.lineWidth = 1.5 * k; c.strokeStyle = "#111110"; c.fillStyle = "#db261f"; c.beginPath(); c.arc(28 * k, 30 * k, 16 * k, 0, Math.PI * 2); c.stroke(); c.beginPath(); c.moveTo(6 * k, 56 * k); c.lineTo(58 * k, 8 * k); c.stroke(); c.fillRect(40 * k, 38 * k, 14 * k, 14 * k); }
+  function drawZoom(slide, z) {
+    var oc = off.getContext("2d"); oc.fillStyle = "#fff"; oc.fillRect(0, 0, S, S); shape(oc, 1);
+    var cvs = slide.querySelectorAll(".zc");
+    [0, 1].forEach(function (n) {
+      var a = fit(cvs[n]), c = a[0], w = a[1], h = a[2]; c.fillStyle = "#fff"; c.fillRect(0, 0, w, h);
+      var k = Math.min(w, h) / S * 0.85 * z, f = Math.min(1, (z - 1) / 3), fx = 32 + 10 * f, fy = 32 + 4 * f;
+      if (n === 0) { c.imageSmoothingEnabled = false; c.drawImage(off, w / 2 - fx * k, h / 2 - fy * k, S * k, S * k); }
+      else { c.save(); c.translate(w / 2 - fx * k, h / 2 - fy * k); shape(c, k); c.restore(); }
+    });
+  }
+  // gpu race
+  var cols = 24, rows = 14;
+  function paint(cv, n) {
+    var a = fit(cv), c = a[0], w = a[1], h = a[2], cw = w / cols, ch = h / rows;
+    c.fillStyle = "#fff"; c.fillRect(0, 0, w, h);
+    for (var i = 0; i < n; i++) { var x = i % cols, y = Math.floor(i / cols), t = (Math.sin(x * .45) + Math.cos(y * .6) + 2) / 4; c.fillStyle = t > .66 ? "#2454c7" : t > .4 ? "#111110" : "#e9e4d4"; c.fillRect(x * cw, y * ch, cw - 1, ch - 1); }
+  }
+  // seeds
+  function rng(seed) { var a = seed >>> 0; return function () { a = (a + 0x6d2b79f5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function walk(svg, seed) {
+    var r = rng(seed * 9973 + 1), d = "";
+    for (var l = 0; l < 14; l++) { var x = 10, y = 20 + l * 17; d += "M" + x + " " + y; while (x < 190) { x += 6; y += (r() - .5) * 10; d += "L" + x.toFixed(1) + " " + y.toFixed(1); } }
+    svg.innerHTML = '<rect width="200" height="260" fill="#fff"/><path d="' + d + '" stroke="#111" stroke-width="1.2" fill="none"/>';
+  }
+  window.deckDemos = {
+    zoom: function (slide) {
+      drawZoom(slide, 1);
+      if (!slide.__obs) {
+        slide.__obs = new MutationObserver(function () {
+          var shown = slide.querySelectorAll(".zoomstep.shown"), z = shown.length ? +shown[shown.length - 1].dataset.z : 1;
+          drawZoom(slide, z);
+        });
+        slide.querySelectorAll(".zoomstep").forEach(function (s) { slide.__obs.observe(s, { attributes: true, attributeFilter: ["class"] }); });
+      }
+    },
+    gpu: function (slide) {
+      var g = slide.querySelectorAll(".gc"); paint(g[0], 0); paint(g[1], 0);
+      if (!slide.__obs) {
+        var st = slide.querySelector(".gpustep");
+        slide.__obs = new MutationObserver(function () {
+          if (!st.classList.contains("shown")) { paint(g[0], 0); paint(g[1], 0); return; }
+          var total = cols * rows, n = 0; setTimeout(function () { paint(g[1], total); }, 90);
+          (function step() { n = Math.min(total, n + 2); paint(g[0], n); if (n < total && st.classList.contains("shown")) requestAnimationFrame(step); })();
+        });
+        slide.__obs.observe(st, { attributes: true, attributeFilter: ["class"] });
+      }
+    },
+    seeds: function (slide) {
+      var s = slide.querySelectorAll("svg.sd"), lab = slide.querySelector(".sdlabel"), st = slide.querySelector(".step");
+      function draw() { var same = st.classList.contains("shown"); walk(s[0], 7); walk(s[1], same ? 7 : 8); lab.textContent = same ? "seed 7, again" : "seed 8"; }
+      draw();
+      if (!slide.__obs) { slide.__obs = new MutationObserver(draw); slide.__obs.observe(st, { attributes: true, attributeFilter: ["class"] }); }
+    }
+  };
+})();
+</script>
+<script src="deck.js?v=2"></script>
+</body>
+</html>
