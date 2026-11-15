@@ -345,3 +345,11 @@ code { font: 400 0.88em/1 var(--mono); background: var(--paper-2); padding: 2px 
   .kit-btn, .kit-progress .bar { display: none !important; }
   .kit-cells, .kit-rubric, .kit-example { break-inside: avoid; }
 }
+
+/* source links inside cells */
+.kit-cells ul.links { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--rule); }
+.kit-cells ul.links li { padding: 5px 0; font-size: 14px; line-height: 1.35; }
+.kit-cells ul.links a { color: var(--ink); text-decoration-color: var(--rule); }
+.kit-cells ul.links a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.kit-cells ul.links a::after { content: " ↗"; font-size: .85em; color: var(--ink-3); }
+.kit-cells ul.links span { display: block; font: 400 12px/1.4 var(--mono); color: var(--ink-3); margin-top: 2px; }
