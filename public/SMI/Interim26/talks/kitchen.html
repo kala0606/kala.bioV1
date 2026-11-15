@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who cooks the sketch? · Computationally Yours</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck.css?v=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111110'/%3E%3Crect x='3' y='3' width='14' height='26' fill='%23f2eee2'/%3E%3Crect x='19' y='3' width='10' height='12' fill='%23db261f'/%3E%3Crect x='19' y='17' width='10' height='12' fill='%23f2eee2'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="deck" data-title="Who cooks the sketch?">
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker"><b>Day 7 · morning</b> · Computationally Yours · Interim 2026</p>
+    <h1>Who cooks the <em>sketch</em>?</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">Frontend, backend, servers and your press, explained with one restaurant.</p>
+    <div class="meta"><span>30 minutes</span><span>Companion: Who cooks the sketch?</span></div>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">One question sorts it all out</p>
+  <p class="big">When a web page runs, <em>whose computer</em> is doing the work?</p>
+  <p class="lede step">The visitor's browser: the frontend. A machine you control: the backend.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">The restaurant</p>
+  <figure class="fig">
+    <svg class="dg" viewBox="0 0 1000 400" aria-label="Table is the browser, kitchen is the server, pantry is the database, bakery depot is the CDN">
+      <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#111"/></marker></defs>
+      <g stroke="#111" stroke-width="3">
+        <rect x="0" y="0" width="330" height="80" fill="#2454c7"/>
+        <rect x="0" y="130" width="330" height="170" fill="#f4c20d"/>
+        <rect x="480" y="130" width="300" height="170" fill="#f2eee2"/>
+        <rect x="820" y="210" width="180" height="90" fill="#f2eee2"/>
+      </g>
+      <g stroke="#111" stroke-width="3" fill="none">
+        <path d="M330 185 H472" marker-end="url(#a3)"/><path d="M480 250 H338" marker-end="url(#a3)"/>
+        <path d="M780 255 H812"/><path d="M165 80 V122" marker-end="url(#a3)"/>
+      </g>
+      <g font-size="26" class="serif"><text x="20" y="40" class="serif" style="fill:#fff">Bakery depot</text><text x="20" y="172" class="serif">Your table</text><text x="500" y="172" class="serif">The kitchen</text><text x="838" y="248" class="serif">The pantry</text></g>
+      <g font-size="14"><text x="20" y="66" style="fill:#dfe6fb">a CDN · the same bread everywhere</text>
+      <text x="20" y="205">the browser · the frontend</text><text x="20" y="230">p5 cooks every frame here,</text><text x="20" y="253">on your own CPU and GPU</text>
+      <text x="500" y="205">a server · the backend</text><text x="500" y="230">always on, waiting for orders</text>
+      <text x="838" y="278">the database</text>
+      <text x="345" y="175">order: request</text><text x="345" y="272">plate: response</text></g>
+      <text x="0" y="360" font-size="19" class="serif">A page is a meal. Some meals are cooked in a kitchen far away; some at your table.</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide">
+  <p class="kicker">The words, in the restaurant</p>
+  <table class="t">
+    <thead><tr><th>Web word</th><th>In the restaurant</th><th>In your press</th></tr></thead>
+    <tbody>
+      <tr><th>Browser</th><td>the diner at the table</td><td>Chrome or Safari showing your press</td></tr>
+      <tr><th>Server</th><td>a kitchen that's open</td><td>GitHub Pages; your laptop when you say "preview"</td></tr>
+      <tr><th>Request, response</th><td>order ticket in, plate out</td><td>"give me system.js" · the file</td></tr>
+      <tr><th>localhost</th><td>a restaurant inside your house</td><td>http://localhost:8000, only you can enter</td></tr>
+      <tr><th>Static file</th><td>a packed sandwich, same for all</td><td>index.html, press.js, params.json</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide">
+  <p class="kicker">A server is a kitchen that's open</p>
+  <p class="big">Not a special box. <em>Any computer</em> waiting for orders.</p>
+  <p class="lede">Your laptop becomes one the moment Codex runs <code>python3 -m http.server 8000</code> in your folder. Close it and the kitchen closes.</p>
+  <p class="lede step">That's all "preview" does.</p>
+</section>
+
+<section class="slide red">
+  <p class="kicker">The point for this studio</p>
+  <p class="big">Generative art is <em>cooked at your table</em>.</p>
+  <p class="lede" style="color:#fff">GitHub Pages only hands over packed files. The drawing happens in each visitor's browser, on their machine, from your rules and their seed.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Do I need a server?</p>
+  <div class="cells" style="grid-template-columns:repeat(3,1fr)">
+    <div><div class="k"><i></i>Level 1 · no server</div><h3>A recipe card in your pocket</h3><p>Double-click the HTML. Everything is in one file. <code>file://</code></p></div>
+    <div class="on-yellow"><div class="k" style="color:#111"><i></i>Level 2 · static server</div><h3>A takeaway counter</h3><p style="color:#111">Hands out packed boxes, never cooks. Needed for modules, loaded files, a web address. <b>Your press lives here.</b></p></div>
+    <div><div class="k"><i class="r"></i>Level 3 · backend</div><h3>A real kitchen</h3><p>Secrets, shared galleries, logins, heavy jobs. Most generative work never needs it.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Which level does my sketch need?</p>
+  <figure class="fig">
+    <svg class="dg" viewBox="0 0 1000 300" aria-label="Decision flow: secrets or shared memory means level 3; loading files or modules or a web address means level 2; otherwise level 1">
+      <g stroke="#111" stroke-width="3">
+        <rect x="0" y="40" width="300" height="90" fill="#f2eee2"/><rect x="0" y="180" width="300" height="90" fill="#f2eee2"/>
+        <rect x="420" y="40" width="200" height="90" fill="#db261f"/><rect x="420" y="180" width="200" height="90" fill="#f4c20d"/><rect x="740" y="180" width="200" height="90" fill="#f2eee2"/>
+      </g>
+      <g stroke="#111" stroke-width="3" fill="none"><path d="M300 85 H412"/><path d="M150 130 V172"/><path d="M300 225 H412"/><path d="M620 225 H732"/></g>
+      <g font-size="17"><text x="18" y="80">A secret key? Shared</text><text x="18" y="104">memory between visitors?</text><text x="18" y="220">Loads files or modules,</text><text x="18" y="244">or needs a web address?</text></g>
+      <g font-size="14" fill="#57544c" style="fill:#57544c"><text x="320" y="76">yes</text><text x="160" y="160">no</text><text x="320" y="216">yes</text><text x="640" y="216">no</text></g>
+      <g font-size="22" class="serif" text-anchor="middle"><text x="520" y="92" style="fill:#fff">Level 3</text><text x="520" y="232">Level 2</text><text x="840" y="232">Level 1</text></g>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide">
+  <p class="kicker">Reading what an AI agent did</p>
+  <table class="t">
+    <thead><tr><th>You see</th><th>It means</th><th>Level</th></tr></thead>
+    <tbody>
+      <tr><th>one .html file</th><td>a self-contained sketch, library from a CDN</td><td class="mono">1</td></tr>
+      <tr><th>http.server · npx serve</th><td>the sketch loads files or modules</td><td class="mono">2</td></tr>
+      <tr><th>npm install · npm run dev</th><td>a prep kitchen that bundles; still static in the end</td><td class="mono">2</td></tr>
+      <tr><th>server.js · app.py · .env</th><td>a real kitchen you control</td><td class="mono" style="color:var(--red)">3</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">Ask</p>
+  <ol>
+    <li>Open the last thing Codex made for you. Which level is it?</li>
+    <li>Which file or line decided that?</li>
+    <li>Did you ask for that level, or did it choose?</li>
+  </ol>
+</section>
+
+<section class="slide">
+  <p class="kicker">Your press, end to end</p>
+  <figure class="fig">
+    <svg class="dg" viewBox="0 0 1000 260" aria-label="Your folder, then say push, then GitHub, then Pages, then a visitor's browser">
+      <g stroke="#111" stroke-width="3">
+        <rect x="0" y="60" width="170" height="100" fill="#f2eee2"/><rect x="210" y="60" width="150" height="100" fill="#db261f"/><rect x="400" y="60" width="170" height="100" fill="#f2eee2"/><rect x="610" y="60" width="170" height="100" fill="#f4c20d"/><rect x="820" y="60" width="180" height="100" fill="#2454c7"/>
+      </g>
+      <g stroke="#111" stroke-width="3"><path d="M170 110 H202 M360 110 H392 M570 110 H602 M780 110 H812"/></g>
+      <g font-size="20" text-anchor="middle" class="serif"><text x="85" y="104" class="serif">your folder</text><text x="285" y="104" class="serif" style="fill:#fff">"push"</text><text x="485" y="104" class="serif">GitHub</text><text x="695" y="104" class="serif">Pages</text><text x="910" y="104" class="serif" style="fill:#fff">a visitor</text></g>
+      <g font-size="13" text-anchor="middle" fill="#57544c" style="fill:#57544c"><text x="85" y="134">system.js, params</text><text x="285" y="134" style="fill:#fde4e2">Codex does git</text><text x="485" y="134">the record</text><text x="695" y="134">the counter</text><text x="910" y="134" style="fill:#dfe6fb">cooks it, at the table</text></g>
+      <text x="0" y="230" font-size="16" class="serif">username.github.io/project · updates about a minute after each push</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide">
+  <p class="kicker">When the canvas goes blank</p>
+  <div class="cells" style="grid-template-columns:repeat(2,1fr)">
+    <div><div class="k"><i class="r"></i>Opened as a file</div><h3>file:// can't load modules</h3><p>Say "preview" and use the link Codex gives you.</p></div>
+    <div><div class="k"><i class="y"></i>A name that doesn't match</div><h3>Particle.js is not particle.js</h3><p>Your Mac forgives capital letters; GitHub's machines don't.</p></div>
+    <div><div class="k"><i class="b"></i>A path that points nowhere</div><h3>The 404 in the console</h3><p>Ask Codex to open the console and read you the first red line.</p></div>
+    <div><div class="k"><i></i>Old files in the browser</div><h3>The cache</h3><p>Reload hard. Pages takes about a minute after a push.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Platforms where the code is the work</p>
+  <p class="big">On some platforms <em>the collector's browser</em> cooks every edition.</p>
+  <p class="lede">fx(hash) takes a zip of the built project; Art Blocks stores a single script. Level 1 or 2, by design: the work is the recipe, not the plate.</p>
+</section>
+
+<section class="slide blue">
+  <p class="kicker">Back to your identity</p>
+  <p class="big">A print is cooked once. <em>A press is cooked at every table.</em></p>
+  <p class="lede" style="color:#fff">Your exhibition holds both: a fixed artefact on the wall, and a live system anyone can run from the QR code.</p>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">To take with you</p>
+  <ol>
+    <li>Should your identity's work be the same for every visitor, or different at every table?</li>
+    <li>Which dials should a visitor be allowed to touch?</li>
+    <li>What would your identity never let anyone else cook?</li>
+  </ol>
+</section>
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker">Today</p>
+    <h1 style="font-size:calc(var(--u)*6)">Your first rule, <em>online</em>.</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">Plan the rules with Codex, build one step, and say "publish" by 3:30. The full module: ujjwalagarwal.com/CCGA/SMI26/kitchen.html</p>
+  </div>
+</section>
+
+</div>
+<script src="deck.js?v=2"></script>
+</body>
+</html>

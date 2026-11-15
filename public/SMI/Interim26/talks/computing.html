@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is computing? · Computationally Yours</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck.css?v=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111110'/%3E%3Crect x='3' y='3' width='14' height='26' fill='%23f2eee2'/%3E%3Crect x='19' y='3' width='10' height='12' fill='%23db261f'/%3E%3Crect x='19' y='17' width='10' height='12' fill='%23f2eee2'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="deck" data-title="What is computing?">
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker"><b>Day 3 · morning</b> · Computationally Yours · Interim 2026</p>
+    <h1>What is <em>computing</em>?</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">From sand to sites: the machine under your identity's rules.</p>
+    <div class="meta"><span>30 minutes</span><span>Companion: From Sand to Sites</span></div>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">Before we start</p>
+  <p class="big">Point at every computer in this room.</p>
+  <p class="lede step">Phones, the projector, the fan's regulator, the lift, the card reader, your watch. Most computers don't look like computers.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">A definition to argue with</p>
+  <p class="big">Computing is <em>changing symbols by rules</em>.</p>
+  <p class="lede step">Until the 1950s, "computer" was a job title: people, very often women, who calculated by hand from written procedures. The machine took the name from them.</p>
+</section>
+
+<section class="slide">
+  <div class="cols wide-right">
+    <div class="stack">
+      <p class="kicker">The tower</p>
+      <h2>Eleven simple ideas, <em>stacked</em>.</h2>
+      <p class="lede" style="font-size:calc(var(--u)*2)">Each floor understands only the floor below. Your sketch sits at the very top.</p>
+    </div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 520 470" aria-label="The tower of abstraction from sand to your sketch">
+        <g font-size="15">
+          <rect x="0" y="0" width="520" height="40" fill="#db261f" stroke="#111" stroke-width="3"/><text x="16" y="26" fill="#fff" style="fill:#fff">11 · your sketch · circle(200, 200, 50)</text>
+          <rect x="0" y="40" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="66">10 · the browser paints pixels</text>
+          <rect x="0" y="80" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="106">09 · the network moves packets</text>
+          <rect x="0" y="120" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="146">08 · the operating system takes turns</text>
+          <rect x="0" y="160" width="520" height="40" fill="#f4c20d" stroke="#111" stroke-width="3"/><text x="16" y="186">07 · the machine: CPU, memory, storage</text>
+          <rect x="0" y="200" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="226">06 · the CPU: fetch, decode, execute</text>
+          <rect x="0" y="240" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="266">05 · memory and the clock</text>
+          <rect x="0" y="280" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="306">04 · adders: arithmetic from logic</text>
+          <rect x="0" y="320" width="520" height="40" fill="#2454c7" stroke="#111" stroke-width="3"/><text x="16" y="346" style="fill:#fff">03 · gates: AND, OR, NOT</text>
+          <rect x="0" y="360" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="386">02 · transistors: switches made of sand</text>
+          <rect x="0" y="400" width="520" height="40" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="16" y="426">01 · bits: on and off</text>
+          <text x="0" y="465" font-size="13" fill="#57544c" style="fill:#57544c">sand · copper · light</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide red">
+  <p class="kicker">Out of one's place</p>
+  <p class="big">Every floor keeps a small promise <em>and hides how</em>.</p>
+  <p class="lede step" style="color:#fff">That's abstraction. A web page doesn't know about transistors. This month you'll do something similar: speak from one floor of the world while knowing what's underneath.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floor 01 · bits</p>
+  <div class="cols">
+    <div class="stack"><h2>Everything is <em>switches</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Eight switches make a byte: 256 patterns. Give each column a value, doubling right to left, and add the ones that are on.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 480 220" aria-label="01000001 is 64 plus 1 equals 65, the letter A">
+        <g font-size="15" text-anchor="middle">
+          <g><rect x="0" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="28" y="76" font-size="24">0</text><text x="28" y="24">128</text></g>
+          <g><rect x="60" y="40" width="56" height="56" fill="#f4c20d" stroke="#111" stroke-width="3"/><text x="88" y="76" font-size="24">1</text><text x="88" y="24">64</text></g>
+          <g><rect x="120" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="148" y="76" font-size="24">0</text><text x="148" y="24">32</text></g>
+          <g><rect x="180" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="208" y="76" font-size="24">0</text><text x="208" y="24">16</text></g>
+          <g><rect x="240" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="268" y="76" font-size="24">0</text><text x="268" y="24">8</text></g>
+          <g><rect x="300" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="328" y="76" font-size="24">0</text><text x="328" y="24">4</text></g>
+          <g><rect x="360" y="40" width="56" height="56" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="388" y="76" font-size="24">0</text><text x="388" y="24">2</text></g>
+          <g><rect x="420" y="40" width="56" height="56" fill="#f4c20d" stroke="#111" stroke-width="3"/><text x="448" y="76" font-size="24">1</text><text x="448" y="24">1</text></g>
+        </g>
+        <g class="step"><text x="0" y="150" font-size="28" class="serif">64 + 1 = 65</text></g>
+        <g class="step"><text x="0" y="198" font-size="28" class="serif">65 means <tspan fill="#db261f" style="fill:#db261f">A</tspan>, because we agreed (ASCII, 1963).</text></g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Meaning is an agreement</p>
+  <div class="cols">
+    <div class="stack"><h2>A colour is <em>three bytes</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Red, green and blue light, each 0 to 255. A screen adds light; paint takes it away.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 460 260" aria-label="Red 255 plus green 255 plus blue 0 makes yellow light">
+        <g font-size="15">
+          <rect x="0" y="0" width="300" height="44" fill="#f2eee2" stroke="#111" stroke-width="3"/><rect x="0" y="0" width="300" height="44" fill="#db261f"/><text x="12" y="28" style="fill:#fff">R 255</text>
+          <rect x="0" y="60" width="300" height="44" fill="#f2eee2" stroke="#111" stroke-width="3"/><rect x="0" y="60" width="300" height="44" fill="#2fa84f"/><text x="12" y="88" style="fill:#fff">G 255</text>
+          <rect x="0" y="120" width="300" height="44" fill="#f2eee2" stroke="#111" stroke-width="3"/><text x="12" y="148">B 0</text>
+          <rect x="340" y="0" width="120" height="164" fill="#ffff00" stroke="#111" stroke-width="3"/>
+          <text x="0" y="210" font-size="22" class="serif">fill(255, 255, 0) is yellow light.</text>
+          <text x="0" y="244" font-size="15" fill="#57544c" style="fill:#57544c">Mix the same in paint and you get mud.</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide do">
+  <p class="kicker">Two minutes, on paper</p>
+  <p class="big">Write your initials <em>in binary</em>.</p>
+  <p class="lede" style="color:#e9e4d4">A = 65, B = 66 … Z = 90. Then read them as a colour: what colour is your name?</p>
+  <p class="timer">2:00</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floor 02 · transistors</p>
+  <div class="cols wide-left">
+    <div class="stack"><h2>A switch made of <em>sand</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Silicon, doped. A voltage on the gate opens a channel; take it away and the channel closes. The output of one switch can flip the next.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 420 260" aria-label="A transistor: source, gate, drain over silicon">
+        <rect x="0" y="120" width="420" height="120" fill="#e9e4d4" stroke="#111" stroke-width="3"/>
+        <rect x="20" y="120" width="120" height="60" fill="#2454c7" stroke="#111" stroke-width="3"/>
+        <rect x="280" y="120" width="120" height="60" fill="#2454c7" stroke="#111" stroke-width="3"/>
+        <rect x="150" y="100" width="120" height="12" fill="#f2eee2" stroke="#111" stroke-width="2"/>
+        <rect x="150" y="60" width="120" height="40" fill="#f4c20d" stroke="#111" stroke-width="3"/>
+        <rect class="step" x="140" y="120" width="140" height="14" fill="#db261f"/>
+        <g font-size="15" text-anchor="middle"><text x="80" y="210">source</text><text x="340" y="210">drain</text><text x="210" y="50">gate</text><text x="210" y="232">silicon</text></g>
+        <text class="step" x="210" y="22" text-anchor="middle" font-size="16" style="fill:#db261f">voltage on: a channel, current flows = 1</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">How small, how many</p>
+  <div class="tl">
+    <div><b>1945</b><span>ENIAC: 17,468 vacuum tubes. Fills a room.</span></div>
+    <div><b>1947</b><span>The transistor, Bell Labs. Thumb-sized.</span></div>
+    <div><b>1958–59</b><span>The integrated circuit: many on one chip.</span></div>
+    <div><b>1971</b><span>Intel 4004: about 2,300 transistors.</span></div>
+    <div><b>Today</b><span>Tens of billions on a laptop chip, each a few dozen nanometres.</span></div>
+  </div>
+  <p class="lede step" style="margin-top:calc(var(--u)*5)">Chips are made by photolithography: light through a stencil, etched in layers. <em style="color:var(--red);font-style:normal">A chip is a print.</em> Printmaking, at the scale of atoms.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floor 03 · gates</p>
+  <div class="cols">
+    <div class="stack"><h2>Switches that <em>decide</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">In a row: both must be on (AND). Side by side: either will do (OR). Boole wrote the algebra in 1854; Shannon saw circuits obey it in 1937.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 460 280" aria-label="Switches in series make AND, in parallel make OR">
+        <g stroke="#111" stroke-width="3" fill="none">
+          <path d="M10 60 H90 M150 60 H210 M270 60 H340"/>
+          <path d="M90 60 L140 40" /><path d="M210 60 L260 40"/>
+          <circle cx="380" cy="60" r="26" fill="#f4c20d"/>
+          <path d="M10 200 H60 M60 160 V240 M60 160 H110 M60 240 H110 M170 160 H230 M170 240 H230 M230 160 V240 M230 200 H340"/>
+          <path d="M110 160 L160 140"/><path d="M110 240 L160 220"/>
+          <circle cx="380" cy="200" r="26" fill="#f4c20d"/>
+        </g>
+        <g font-size="15"><text x="90" y="92">A</text><text x="210" y="92">B</text><text x="370" y="110">AND</text>
+        <text x="120" y="190">A</text><text x="120" y="272">B</text><text x="372" y="250">OR</text></g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">Ask</p>
+  <p class="big">Every <code style="background:none;font-size:.8em">if</code> you write is a gate.</p>
+  <ol>
+    <li>What is the first <i>if</i> your identity would ask of the world?</li>
+    <li>What would it refuse with a <i>not</i>?</li>
+  </ol>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floor 04 · adders</p>
+  <div class="cols">
+    <div class="stack"><h2>Arithmetic out of <em>logic</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Add two bits and there are four cases. The sum is XOR; the carry is AND. Chain 64 of these and you have the adder in your laptop.</p></div>
+    <table class="t" style="font-size:calc(var(--u)*2.2)">
+      <thead><tr><th>A</th><th>B</th><th>sum</th><th>carry</th></tr></thead>
+      <tbody class="mono">
+        <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td style="color:var(--red)">0</td><td style="color:var(--red)">1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floors 05–06 · memory, clock, CPU</p>
+  <div class="cols wide-right">
+    <div class="stack"><h2>Fetch, decode, execute. <em>Forever.</em></h2><p class="lede" style="font-size:calc(var(--u)*2)">Instructions live in the same memory as data (von Neumann, 1945). A clock ticks about three billion times a second, and everything steps together.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 440 340" aria-label="The fetch, decode, execute cycle">
+        <g stroke="#111" stroke-width="3">
+          <rect x="140" y="10" width="160" height="80" fill="#db261f"/>
+          <rect x="300" y="200" width="140" height="80" fill="#f4c20d"/>
+          <rect x="0" y="200" width="140" height="80" fill="#2454c7"/>
+        </g>
+        <g font-size="20" text-anchor="middle"><text x="220" y="58" style="fill:#fff">fetch</text><text x="370" y="248">decode</text><text x="70" y="248" style="fill:#fff">execute</text></g>
+        <g stroke="#111" stroke-width="3" fill="none"><path d="M300 70 Q380 100 370 196" marker-end="url(#ah)"/><path d="M296 260 H146" marker-end="url(#ah)"/><path d="M70 196 Q60 100 136 66" marker-end="url(#ah)"/></g>
+        <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#111"/></marker></defs>
+        <text x="220" y="325" font-size="14" text-anchor="middle" fill="#57544c" style="fill:#57544c">about 3,000,000,000 times a second</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floors 07–08 · the machine and the OS</p>
+  <p class="big">Far is slow, <em>so everything caches</em>.</p>
+  <p class="lede">One trip to memory costs hundreds of ticks of waiting. The operating system lets programs take turns so fast it looks simultaneous.</p>
+  <p class="lede step"><b>For you:</b> your whole <code>draw()</code> has about 16.7 milliseconds per frame at 60 fps.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Floors 09–10 · the network, the browser</p>
+  <h2 style="max-width:none">What happens when you press <em>Enter</em>.</h2>
+  <figure class="fig" style="margin-top:calc(var(--u)*3.5)">
+    <svg class="dg" viewBox="0 0 1000 170" aria-label="DNS, then TCP and TLS, then HTTP, then the browser paints">
+      <g stroke="#111" stroke-width="3">
+        <rect x="0" y="20" width="200" height="90" fill="#f2eee2"/><rect x="260" y="20" width="200" height="90" fill="#f4c20d"/><rect x="520" y="20" width="200" height="90" fill="#f2eee2"/><rect x="780" y="20" width="220" height="90" fill="#db261f"/>
+      </g>
+      <g stroke="#111" stroke-width="3"><path d="M200 65 H252"/><path d="M460 65 H512"/><path d="M720 65 H772"/></g>
+      <g font-size="22" text-anchor="middle"><text x="100" y="62">DNS</text><text x="360" y="62">TCP + TLS</text><text x="620" y="62">HTTP</text><text x="890" y="62" style="fill:#fff">paint</text></g>
+      <g font-size="13" text-anchor="middle" fill="#57544c" style="fill:#57544c"><text x="100" y="92">name → address</text><text x="360" y="92">a sealed, numbered line</text><text x="620" y="92">ask for the files</text><text x="890" y="92" style="fill:#fde4e2">text → pixels</text></g>
+      <text x="0" y="160" font-size="15" fill="#57544c" style="fill:#57544c">Packets of about 1,500 bytes, passed router to router. Nobody knows the whole route. All of it in about half a second.</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="slide blue">
+  <p class="kicker">The leaks</p>
+  <p class="big">The layers <em>leak</em>.</p>
+  <ul class="lede" style="list-style:none;padding:0;color:#fff;margin-top:calc(var(--u)*3)">
+    <li class="step">255 + 1 can give 0: a byte has run out of switches.</li>
+    <li class="step">A loop over pixels is slow; a shader is fast: CPU against GPU.</li>
+    <li class="step">Your sketch looks different on a phone: a different floor 07.</li>
+    <li class="step">Glitch art, data bending, net art: artists working the leaks on purpose.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">This studio, on the tower</p>
+  <div class="cols wide-right">
+    <div class="stack"><h2>From sand, <em>back to ink</em>.</h2><p class="lede" style="font-size:calc(var(--u)*2)">Your identity's rules live on the top floor. The press runs them in a browser. The plotter turns the numbers back into matter.</p></div>
+    <figure class="fig">
+      <svg class="dg" viewBox="0 0 460 320" aria-label="Identity to rules to press to machine to ink, a loop back to matter">
+        <g stroke="#111" stroke-width="3">
+          <rect x="0" y="0" width="200" height="60" fill="#db261f"/><rect x="260" y="0" width="200" height="60" fill="#f2eee2"/>
+          <rect x="260" y="130" width="200" height="60" fill="#f4c20d"/><rect x="0" y="130" width="200" height="60" fill="#f2eee2"/>
+          <rect x="0" y="260" width="460" height="60" fill="#2454c7"/>
+        </g>
+        <g stroke="#111" stroke-width="3" fill="none"><path d="M200 30 H252"/><path d="M360 60 V122"/><path d="M260 160 H208"/><path d="M100 190 V252"/></g>
+        <g font-size="17" text-anchor="middle"><text x="100" y="36" style="fill:#fff">identity</text><text x="360" y="36">rules: system.js</text><text x="360" y="166">the press, in a browser</text><text x="100" y="166">a seed, an SVG</text><text x="230" y="296" style="fill:#fff">pen on paper · resin · ink: matter again</text></g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="slide ask">
+  <p class="kicker">To take with you</p>
+  <ol>
+    <li>Which floor of the tower does your identity's condition live on?</li>
+    <li>What would a computer made of something else look like: water, threads, people?</li>
+    <li>What gets lost between the floors, and who notices?</li>
+  </ol>
+</section>
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker">Next</p>
+    <h1 style="font-size:calc(var(--u)*6)">Codex as <em>interlocutor</em>.</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2)">Five computational metaphors for your identity. No code yet. The full module: From Sand to Sites, ujjwalagarwal.com/CCGA/SMI26/machine.html</p>
+  </div>
+</section>
+
+</div>
+<script src="deck.js?v=2"></script>
+</body>
+</html>
