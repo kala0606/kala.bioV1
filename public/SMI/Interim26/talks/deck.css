@@ -115,3 +115,20 @@ svg.dg .serif { font-family: var(--serif); }
 #blank { position: fixed; inset: 0; background: #000; z-index: 30; display: none; }
 body.blanked #blank { display: block; }
 @media (prefers-reduced-motion: reduce) { .step { transition: none; } }
+
+/* phone remote */
+.rdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rule); margin-left: 10px; vertical-align: 1px; }
+.rdot.on { background: #2fa84f; }
+.pair-open { margin-top: 26px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 10px 14px; cursor: pointer; }
+.pair-open:hover { background: var(--paper); color: var(--ink); }
+.pair { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; background: rgba(17,17,16,.92); color: var(--paper); cursor: default; }
+body.pairing .pair { display: grid; }
+.pair > div:last-child { display: flex; flex-direction: column; gap: 10px; max-width: 360px; font: 400 14px/1.5 var(--sans); }
+.pair { grid-template-columns: auto; }
+body.pairing .pair { grid-auto-flow: column; gap: 40px; justify-content: center; align-content: center; }
+.pair-q { width: 260px; height: 260px; background: #fff; padding: 10px; }
+.pair-q svg { width: 100%; height: 100%; display: block; }
+.pair b { font: 400 34px/1.1 var(--serif); }
+.pair code { background: none; color: var(--yellow); font-size: 12px; word-break: break-all; }
+.pair .code { font: 500 13px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); }
+.pair-x { align-self: flex-start; margin-top: 8px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 9px 12px; cursor: pointer; }

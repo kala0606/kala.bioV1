@@ -88,6 +88,7 @@
     var demo = slides[i].dataset.demo;
     if (demo && window.deckDemos && window.deckDemos[demo]) window.deckDemos[demo](slides[i]);
     setCover();
+    sendState();
   }
   function go(n, fromEnd) {
     if (n < 0 || n >= slides.length || n === i || busy) return;
@@ -107,18 +108,18 @@
   }
   function next() {
     var hidden = steps(slides[i]).filter(function (s) { return !s.classList.contains("shown"); });
-    if (hidden.length) { hidden[0].classList.add("shown"); return; }
+    if (hidden.length) { hidden[0].classList.add("shown"); sendState(); return; }
     go(i + 1, false);
   }
   function prev() {
     var shown = steps(slides[i]).filter(function (s) { return s.classList.contains("shown"); });
-    if (shown.length) { shown[shown.length - 1].classList.remove("shown"); return; }
+    if (shown.length) { shown[shown.length - 1].classList.remove("shown"); sendState(); return; }
     go(i - 1, true);
   }
 
   // ---------- start, fullscreen, input ----------
   var start = document.createElement("div"); start.id = "start";
-  start.innerHTML = "<div><b>" + (deck.dataset.title || "Talk") + "</b>Click to start, full screen<small>Click or → next · right-click or ← back · F full screen · B blank · T clock</small></div>";
+  start.innerHTML = "<div><b>" + (deck.dataset.title || "Talk") + "</b>Click to start, full screen<small>Click right half or → next · left half or ← back · F full screen · B blank · T clock · R phone remote</small></div>";
   document.body.appendChild(start);
   var blank = document.createElement("div"); blank.id = "blank"; document.body.appendChild(blank);
   var t1 = 0;
@@ -126,13 +127,14 @@
     var d = document.documentElement;
     if (!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen().catch(function () {});
   }
-  function begin() { if (started) return; started = true; start.remove(); fs(); t1 = Date.now(); }
-  start.addEventListener("click", function (e) { e.stopPropagation(); begin(); });
+  function begin(noFs) { if (started) return; started = true; start.remove(); if (!noFs) fs(); t1 = Date.now(); sendState(); }
+  start.addEventListener("click", function (e) { if (e.target.closest(".pair")) return; e.stopPropagation(); begin(); });
 
   document.addEventListener("click", function (e) {
     if (!started || e.target.closest("a, button, input, select")) return;
     if (document.body.classList.contains("blanked")) { document.body.classList.remove("blanked"); return; }
-    next();
+    // left half of the screen goes back, right half goes forward
+    if (e.clientX < window.innerWidth / 2) prev(); else next();
   });
   document.addEventListener("contextmenu", function (e) { e.preventDefault(); if (started) prev(); });
   var lastWheel = 0;
@@ -147,7 +149,8 @@
     else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace", "p"].indexOf(k) > -1) { e.preventDefault(); prev(); }
     else if (k === "Home") go(0); else if (k === "End") go(slides.length - 1);
     else if (k === "f" || k === "F") { document.fullscreenElement ? document.exitFullscreen() : fs(); }
-    else if (k === "b" || k === "B" || k === "." || k === "w") document.body.classList.toggle("blanked");
+    else if (k === "b" || k === "B" || k === "." || k === "w") { document.body.classList.toggle("blanked"); sendState(); }
+    else if (k === "r" || k === "R") togglePair();
     else if (k === "t" || k === "T") document.body.classList.toggle("showclock");
   });
   var tx = null;
@@ -158,6 +161,64 @@
   }, { passive: true });
   var idleT; document.addEventListener("mousemove", function () { document.body.classList.remove("idle"); clearTimeout(idleT); idleT = setTimeout(function () { document.body.classList.add("idle"); }, 2200); });
   setInterval(function () { if (!t1) return; var s = Math.floor((Date.now() - t1) / 1000); clockEl.textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }, 1000);
+
+
+  // ---------- phone remote ----------
+  // The laptop and phone may be on different networks, so they talk through a
+  // public relay (ntfy.sh). Only slide numbers and commands pass through it.
+  var RELAY = "https://ntfy.sh/", deckId = location.pathname.split("/").pop().replace(".html", "") || "index";
+  var room = null; try { room = localStorage.getItem("cy-room"); } catch (e) {}
+  if (!room || !/^[a-z0-9]{8,}$/.test(room)) {
+    var al = "abcdefghjkmnpqrstuvwxyz23456789", rb = crypto.getRandomValues(new Uint8Array(10));
+    room = Array.prototype.map.call(rb, function (b) { return al[b % al.length]; }).join("");
+    try { localStorage.setItem("cy-room", room); } catch (e) {}
+  }
+  var CMD = "cy26-" + room + "-c", STATE = "cy26-" + room + "-s", lastPhone = 0, stT;
+  function sendState() {
+    clearTimeout(stT);
+    stT = setTimeout(function () {
+      var st = steps(slides[i]);
+      var msg = { deck: deckId, title: deck.dataset.title || "", i: i, total: slides.length, step: st.filter(function (x) { return x.classList.contains("shown"); }).length, steps: st.length, blank: document.body.classList.contains("blanked"), started: started, t: Date.now() };
+      fetch(RELAY + STATE, { method: "POST", body: JSON.stringify(msg) }).catch(function () {});
+    }, 150);
+  }
+  var dotEl = document.createElement("span"); dotEl.className = "rdot"; dotEl.title = "Phone remote"; chrome.querySelector(".num").parentNode.appendChild(dotEl);
+  function dot() { dotEl.classList.toggle("on", Date.now() - lastPhone < 75000); }
+  setInterval(dot, 5000);
+  function listen() {
+    if (!window.EventSource) return;
+    var es = new EventSource(RELAY + CMD + "/sse");
+    es.onmessage = function (ev) {
+      var m; try { m = JSON.parse(JSON.parse(ev.data).message); } catch (e) { return; }
+      if (!m || !m.cmd || (m.t && Date.now() - m.t > 20000)) return;
+      lastPhone = Date.now(); dot();
+      if (m.cmd === "next") { if (!started) begin(true); else next(); }
+      else if (m.cmd === "prev") prev();
+      else if (m.cmd === "goto") { if (!started) begin(true); go(Math.max(0, Math.min(slides.length - 1, m.n | 0)), false); }
+      else if (m.cmd === "blank") { document.body.classList.toggle("blanked", !!m.on); }
+      else if (m.cmd === "deck" && m.deck && m.deck !== deckId && /^[a-z0-9-]+$/.test(m.deck)) { location.href = m.deck + ".html#1"; return; }
+      sendState();
+    };
+  }
+  listen();
+  var pairBox = document.createElement("div"); pairBox.className = "pair";
+  var remoteURL = new URL("remote.html#room=" + room + "&deck=" + deckId, location.href).href;
+  pairBox.innerHTML = '<div class="pair-q"></div><div><b>Phone remote</b><span>Scan with your phone, or open<br><code>' + remoteURL.replace(/^https?:\/\//, "") + '</code></span><span class="code">Room ' + room + '</span><button type="button" class="pair-x">Close</button></div>';
+  function drawQR() {
+    var box = pairBox.querySelector(".pair-q"); if (box.firstChild) return;
+    function make() { try { var q = qrcode(0, "M"); q.addData(remoteURL); q.make(); box.innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); } catch (e) {} }
+    if (window.qrcode) make(); else { var sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"; sc.onload = make; document.head.appendChild(sc); }
+  }
+  function togglePair(force) {
+    var on = force != null ? force : !document.body.classList.contains("pairing");
+    document.body.classList.toggle("pairing", on); if (on) drawQR();
+  }
+  pairBox.querySelector(".pair-x").addEventListener("click", function (e) { e.stopPropagation(); togglePair(false); });
+  pairBox.addEventListener("click", function (e) { e.stopPropagation(); });
+  document.body.appendChild(pairBox);
+  var pairLink = document.createElement("button"); pairLink.type = "button"; pairLink.className = "pair-open"; pairLink.textContent = "Pair phone";
+  pairLink.addEventListener("click", function (e) { e.stopPropagation(); togglePair(true); });
+  start.querySelector("div").appendChild(pairLink);
 
   var h = parseInt(location.hash.slice(1), 10);
   show(h > 0 && h <= slides.length ? h - 1 : 0, false);

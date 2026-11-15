@@ -48,7 +48,7 @@
         "care",
         "07 · Speaking with care"
       ],
-      ["read", "08 · Read and watch"],
+      ["read", "08 · Watch"],
       [
         "month",
         "09 · What the month asks"
