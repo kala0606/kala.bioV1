@@ -142,6 +142,18 @@
     ]
   },
   {
+    "href": "selfstudy.html",
+    "n": "02·1",
+    "t": "Self-study days: Thu 26 – Fri 27 Nov",
+    "s": [
+      ["groups", "01 · Your group"],
+      ["day-4", "02 · Thursday"],
+      ["day-5", "03 · Friday"],
+      ["stuck", "04 · If you're stuck"],
+      ["monday", "05 · Monday"]
+    ]
+  },
+  {
     "href": "briefs.html",
     "n": "03",
     "t": "Weekly assignment briefs",
