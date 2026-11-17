@@ -4,15 +4,74 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Exhibition · Computationally Yours</title>
-<meta name="description" content="Exhibition planning and installation for An Atlas of Elsewhere: the zone, the Collective Atlas, the exhibition proposal, and installation day.">
+<meta name="description" content="An Atlas of Elsewhere: the zone, the identity card and statement, QR codes, installation and the opening.">
 <meta property="og:title" content="Exhibition · Computationally Yours">
-<meta property="og:description" content="Planning and installing An Atlas of Elsewhere. Srishti Manipal Interim 2026.">
+<meta property="og:description" content="An Atlas of Elsewhere: the zone, the identity card and statement, QR codes, installation and the opening.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/handbook.css?v=7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+.builder { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 960px) { .builder { grid-template-columns: 1fr; } }
+.bfields { border-top: 1px solid var(--ink); }
+.bfield { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.bfield label { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.bfield label small { text-transform: none; letter-spacing: 0; font-family: var(--sans); color: var(--ink-3); font-size: 12.5px; margin-left: 6px; }
+.bfield input, .bfield textarea { width: 100%; font: 400 15.5px/1.5 var(--sans); color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 8px 10px; }
+.bfield textarea { min-height: 64px; resize: vertical; }
+.bfield input:focus, .bfield textarea:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+.bfield .wc { font: 500 10.5px/1 var(--mono); color: var(--ink-3); float: right; letter-spacing: .04em; }
+.bfield .wc.over { color: var(--accent); }
+.previews { position: sticky; top: 16px; display: grid; gap: 20px; }
+.previews .cap { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 
+/* The card: A6 portrait, printed at true size */
+.idcard { aspect-ratio: 105 / 148; width: min(100%, 360px); background: #f7f4ea; color: #111110; border: 2px solid #111110; display: grid; grid-template-rows: auto 1fr auto; font-family: var(--sans); }
+.idcard .band { display: grid; grid-template-columns: 2fr 1fr 1fr; height: 22px; border-bottom: 2px solid #111110; }
+.idcard .band i { border-right: 2px solid #111110; } .idcard .band i:last-child { border-right: 0; }
+.idcard .band i:nth-child(2) { background: #db261f; } .idcard .band i:nth-child(3) { background: #f4c20d; }
+.idcard .main { padding: 14px 16px 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; }
+.idcard .kick { font: 500 8.5px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #57544c; }
+.idcard .name { font: 400 26px/1.02 var(--serif); margin: 0; overflow-wrap: anywhere; }
+.idcard .practice { font: italic 400 13px/1.3 var(--serif); color: #57544c; margin: 0; }
+.idcard dl { margin: 4px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; font-size: 10.5px; line-height: 1.35; }
+.idcard dt { font: 500 8px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: #8a8679; }
+.idcard dd { margin: 0; overflow-wrap: anywhere; }
+.idcard .position { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #111110; font: 400 13.5px/1.3 var(--serif); }
+.idcard .foot { display: flex; justify-content: space-between; gap: 8px; padding: 7px 16px; border-top: 2px solid #111110; font: 500 8px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+.label-card { width: min(100%, 360px); aspect-ratio: 105 / 50; background: #f7f4ea; color: #111110; border: 2px solid #111110; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; }
+.label-card .t { font: italic 400 17px/1.15 var(--serif); margin: 0; }
+.label-card .by { font: 400 12.5px/1.3 var(--sans); margin: 3px 0 0; }
+.label-card .m { font: 400 10.5px/1.4 var(--sans); color: #57544c; margin: 0; }
+.label-card .s { font: 500 8.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #8a8679; }
+
+@media print {
+  @page { size: A4; margin: 15mm; }
+  body * { visibility: hidden !important; }
+  #print-area, #print-area * { visibility: visible !important; }
+  #print-area { position: absolute; left: 0; top: 0; display: flex; gap: 10mm; align-items: flex-start; }
+  #print-area .idcard { width: 105mm; height: 148mm; aspect-ratio: auto; }
+  #print-area .label-card { width: 105mm; height: 50mm; aspect-ratio: auto; }
+  .previews .cap { display: none !important; }
+}
+
+
+.maker { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .maker { grid-template-columns: 1fr; } }
+.maker label { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.maker input[type=url], .maker input[type=text] { width: 100%; font: 400 15px/1.5 var(--mono); color: var(--ink); background: var(--paper-2); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-ink); border-radius: 0; padding: 10px 12px; }
+.maker input:focus { outline: none; border-color: var(--rule-ink); background: var(--paper); }
+.maker .row { margin: 0 0 16px; }
+.maker .msg { font-size: 14px; color: var(--ink-2); min-height: 1.4em; margin: 8px 0 0; }
+.maker .msg.bad { color: var(--accent); }
+.qrbox { border: 2px solid var(--rule-ink); background: #fff; padding: 18px; display: grid; place-items: center; aspect-ratio: 1; max-width: 340px; }
+.qrbox svg { width: 100%; height: auto; display: block; }
+.qrcap { font: 500 11px/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 0; word-break: break-all; }
+.qractions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+</style>
 </head>
 <body>
 
@@ -28,26 +87,26 @@
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Handbook · 16 · Days 15–20 · Srishti Manipal Interim 2026</div>
+        <div class="eyebrow">Handbook · 11 · Srishti Manipal Interim 2026</div>
         <h1>An Atlas of <em>Elsewhere</em></h1>
-        <p class="lede">Exhibition planning and installation. Twenty identities, twenty zones, and one atlas that connects them. This is how a month of work becomes a show a stranger can walk through.</p>
+        <p class="lede">Twenty identities, twenty zones, read together as one atlas. What goes in your zone, the card and statement, the QR code, installing, and the opening.</p>
       </div>
-      <div class="hero-art"><div data-mondrian data-seed="handbook-16-exhibition" data-depth="6" data-colors="3"></div><div class="mond-caption">seed exhibition · depth 6</div></div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-exhibition" data-depth="3" data-colors="3"></div><div class="mond-caption">seed exhibition · depth 3</div></div>
     </div>
     <dl class="facts">
-      <div><dt>Proposal</dt><dd>Day 15 · Fri 11 Dec</dd></div>
-      <div><dt>Floor plan</dt><dd>Day 18 · Wed 16 Dec</dd></div>
-      <div><dt>Install</dt><dd>Day 19 · Thu 17 Dec</dd></div>
-      <div><dt>Opening</dt><dd>Fri 18 Dec, evening</dd></div>
-      <div><dt>Open</dt><dd>Sat 19 Dec</dd></div>
+      <div><dt>Opens</dt><dd>Fri 18 Dec, morning</dd></div>
+      <div><dt>Also open</dt><dd>Sat 19 Dec</dd></div>
+      <div><dt>Install</dt><dd>Thu 17 Dec</dd></div>
+      <div><dt>Each zone</dt><dd>Five things</dd></div>
+      <div><dt>Card</dt><dd>Built here</dd></div>
     </dl>
   </section>
 
-<section class="section" id="show">
+  <section class="section" id="show">
     <div class="label"><div class="sticky"><div class="num">01</div><h2>The show</h2></div></div>
     <div class="body">
       <p class="intro">The exhibition reads as one archive, not twenty separate projects: a set of positions on the world you're about to enter, each placed in relation to the others.</p>
-      <p class="note">It opens on the evening of Day 20, Friday 18 December, and stays open on Saturday 19 December, in the studio's usual exhibition space. Take-down times will be confirmed. <span class="kit-pending">To be confirmed</span></p>
+      <p class="note">It opens on the morning of Day 20, Friday 18 December, and stays open on Saturday 19 December, in the studio's usual exhibition space. Take-down times will be confirmed. <span class="kit-pending">To be confirmed</span></p>
     </div>
   </section>
 
@@ -70,8 +129,139 @@
     </div>
   </section>
 
+  <section class="section" id="card">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>The identity card</h2></div></div>
+    <div class="body">
+      <p class="intro">Fill in the fields; the card and the label redraw as you type. A draft is due with A1 on Day 5, the final on Day 17. Print at 100% scale on card stock.</p>
+      <div class="builder">
+        <div class="bfields" id="bfields">
+          <div class="bfield"><label for="f-name">Identity name</label><input id="f-name" data-k="name" placeholder="Anjana Rao"></div>
+          <div class="bfield"><label for="f-practice">Practice <small>one line</small></label><input id="f-practice" data-k="practice" placeholder="Surveyor of tank beds"></div>
+          <div class="bfield"><label for="f-origin">Origin</label><input id="f-origin" data-k="origin" placeholder="Born 1999 in a village whose tank was built over in 2004"></div>
+          <div class="bfield"><label for="f-coord">Coordinates <small>where it stands</small></label><input id="f-coord" data-k="coord" placeholder="Role and time · a government surveyor, 2041"></div>
+          <div class="bfield"><label for="f-cond">Condition</label><input id="f-cond" data-k="cond" placeholder="The loss of Bengaluru's irrigation tanks"></div>
+          <div class="bfield"><label for="f-pos">Position <small>one sentence it would sign</small><span class="wc" data-wc="f-pos" data-max="25"></span></label><textarea id="f-pos" data-k="pos" placeholder="Every map records what the city owns. I draw what it has lost."></textarea></div>
+          <div class="bfield"><label for="f-medium">Medium and materials</label><input id="f-medium" data-k="medium" placeholder="Pen plot, fineliner on cotton paper"></div>
+          <div class="bfield"><label for="f-title">Title of the work</label><input id="f-title" data-k="title" placeholder="Deficit Survey, Tank No. 14"></div>
+          <div class="bfield"><label for="f-size">Dimensions</label><input id="f-size" data-k="size" placeholder="420 × 594 mm"></div>
+          <div class="bfield"><label for="f-seed">Seed</label><input id="f-seed" data-k="seed" placeholder="41822"></div>
+          <div class="bfield"><label for="f-author">Authored by <small>your name</small></label><input id="f-author" data-k="author" placeholder="Your name"></div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; padding:14px 0"><button type="button" class="kit-btn primary" id="print-card">Print card and label</button><button type="button" class="kit-btn" id="clear-card">Clear</button></div>
+        </div>
+        <div class="previews" id="print-area">
+          <div><div class="cap"><span>Card · A6 · 105 × 148 mm</span></div>
+            <article class="idcard" aria-label="Identity card preview">
+              <div class="band"><i></i><i></i><i></i></div>
+              <div class="main">
+                <div class="kick">An Atlas of Elsewhere · Identity</div>
+                <h3 class="name" data-out="name"></h3>
+                <p class="practice" data-out="practice"></p>
+                <dl>
+                  <dt>Origin</dt><dd data-out="origin"></dd>
+                  <dt>Stands</dt><dd data-out="coord"></dd>
+                  <dt>Condition</dt><dd data-out="cond"></dd>
+                  <dt>Works in</dt><dd data-out="medium"></dd>
+                </dl>
+                <p class="position" data-out="pos"></p>
+              </div>
+              <div class="foot"><span>Computationally Yours</span><span data-out="author"></span></div>
+            </article>
+          </div>
+          <div><div class="cap"><span>Label · 105 × 50 mm</span></div>
+            <div class="label-card" aria-label="Label preview">
+              <div><p class="t" data-out="title"></p><p class="by"><span data-out="name"></span>, 2026</p></div>
+              <p class="m"><span data-out="medium"></span><br><span data-out="size"></span></p>
+              <div class="s">Seed <span data-out="seed"></span> · Authored by <span data-out="author"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:16px">The QR code sits on the label or beside it; make it on the <a href="#qr-make">QR codes page</a>. Fields save in this browser only, so copy what matters into <code>identity.md</code>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="statement">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>The statement</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 16.</b> 100–150 words for visitors, in <code>final-statement.md</code>. Where the manifesto is the identity speaking, the statement is you, introducing the work.</p>
+      <div class="kit-cells" style="--cols:2">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Manifesto</div><h3>The identity speaks</h3><p>First person, as the identity. A position, refusals, rules.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Statement</div><h3>You introduce the work</h3><p>Third person about the identity. What a visitor is looking at, how it was made, why.</p></div>
+      </div>
+      <div class="kit-tpl"><div class="cap">final-statement.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># [Title of the work]
+
+[Identity name] is [practice], [one phrase on the position and the condition].
+
+[What the visitor is looking at: the object, its material, its scale.]
+
+[How it was made: the system's key rule in plain words, and the data or input it reads.]
+
+[Why: what the work asks the visitor to see or reconsider.]
+
+[Your name], 2026. Made in Computationally Yours: Out of One's Place.</pre></div>
+      <article class="kit-example">
+        <header><h3>Deficit Survey, Tank No. 14</h3><span class="tag accent">Example</span></header>
+        <div class="text">
+          <p>Anjana Rao is a surveyor of tank beds, measuring the irrigation tanks Bengaluru has built over since the 1970s.</p>
+          <p>This A2 pen plot is a survey of one lost tank. Each row of lines is a year of rainfall from 1990 to 2024; the heavier the line, the greater that year's deficit. Nothing is drawn outside the tank's recorded boundary.</p>
+          <p>The plotter drew every line from a system that reads the rainfall record and obeys three rules from Rao's manifesto. Its heaviest passes put the most ink where the most water is missing.</p>
+          <p>The work asks what a map of the city would look like if it recorded loss as carefully as ownership.</p>
+        </div>
+        <footer>About 110 words</footer>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="qr-make">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Make the code</h2></div></div>
+    <div class="body">
+      <p class="intro">Paste your press address. The code is drawn in your browser; nothing is sent anywhere.</p>
+      <div class="maker">
+        <div>
+          <div class="row"><label for="qr-url">Press address</label><input type="url" id="qr-url" placeholder="https://username.github.io/project/" autocomplete="off" spellcheck="false"></div>
+          <div class="row"><label for="qr-name">File name</label><input type="text" id="qr-name" value="qr-press" spellcheck="false"></div>
+          <p class="msg" id="qr-msg" aria-live="polite">Error correction level M, with a four-module quiet border.</p>
+          <div class="qractions">
+            <button type="button" class="kit-btn primary" id="qr-svg">Download SVG</button>
+            <button type="button" class="kit-btn" id="qr-png">Download PNG</button>
+          </div>
+          <p class="note" style="margin-top:16px">Use the SVG for print: it stays sharp at any size. Prefer to make it with code? Ask Codex: <i>"Make an SVG QR code for my press link with error correction M and a quiet zone of four modules."</i></p>
+        </div>
+        <div><div class="qrbox" id="qr-box"><p class="note">Waiting for an address.</p></div><p class="qrcap" id="qr-cap"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="qr-print">
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>Print it</h2></div></div>
+    <div class="body">
+      <div class="kit-cells" style="--cols:3">
+        <div><div class="k"><i style="background:var(--m-red)"></i>Size</div><h3>At least 3 cm</h3><p>Square, for scanning from about arm's length. Bigger if visitors will stand further back.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Contrast</div><h3>Black on white</h3><p>Dark modules on a light ground. No colour inversions, gradients or logos in the middle.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Border</div><h3>Keep the margin</h3><p>Don't crop the white border around the code; scanners need it.</p></div>
+      </div>
+      <p class="note">Print on matte paper or card: gloss reflects the exhibition lights straight into the phone's camera.</p>
+    </div>
+  </section>
+
+  <section class="section" id="qr-test">
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>Test it</h2></div></div>
+    <div class="body">
+      <p class="intro"><b>Day 17, and again on Day 19 under the exhibition light.</b></p>
+      <div class="kit-progress" data-progress="qrtest"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="qrtest">Reset</button></div>
+      <div class="kit-checks" data-store="qrtest">
+        <label><input type="checkbox"><span>Scanned with an iPhone camera, and it opens the press.</span></label>
+        <label><input type="checkbox"><span>Scanned with an Android phone camera, and it opens the press.</span></label>
+        <label><input type="checkbox"><span>Scanned with a third phone, ideally an older one.</span></label>
+        <label><input type="checkbox"><span>Scanned from where a visitor will stand, not from close up.</span></label>
+        <label><input type="checkbox"><span>Scanned under the exhibition lighting, at its final height on the wall.</span></label>
+        <label><input type="checkbox"><span>The press works on a phone: the dials respond and About shows the manifesto.</span></label>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="atlas">
-    <div class="label"><div class="sticky"><div class="num">03</div><h2>The Collective Atlas</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">08</div><h2>The Collective Atlas</h2></div></div>
     <div class="body">
       <p class="intro">The atlas places all twenty identities on one shared map: where each one stands, and which conditions connect them.</p>
       <ol class="kit-steps">
@@ -91,9 +281,9 @@ Zone: [number on the floor plan]</pre></div>
   </section>
 
   <section class="section" id="proposal">
-    <div class="label"><div class="sticky"><div class="num">04</div><h2>The proposal</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">09</div><h2>The proposal</h2></div></div>
     <div class="body">
-      <p class="intro"><b>Day 15, due by 3:30.</b> One page: what is shown in your zone, and how.</p>
+      <p class="intro"><b>Day 15, by the end of the day.</b> One page: what is shown in your zone, and how.</p>
       <div class="kit-tpl"><div class="cap">exhibition-proposal.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Exhibition proposal · [identity name]
 
 ## What's shown
@@ -116,7 +306,7 @@ Zone: [number on the floor plan]</pre></div>
   </section>
 
   <section class="section" id="plan">
-    <div class="label"><div class="sticky"><div class="num">05</div><h2>Floor plan</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">10</div><h2>Floor plan</h2></div></div>
     <div class="body">
       <p class="intro"><b>Day 18.</b> The gallery layout is fixed on the floor plan together, so neighbouring zones talk to each other.</p>
       <ul class="kit-list">
@@ -128,15 +318,15 @@ Zone: [number on the floor plan]</pre></div>
   </section>
 
   <section class="section" id="install">
-    <div class="label"><div class="sticky"><div class="num">06</div><h2>Installation day</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">11</div><h2>Installation day</h2></div></div>
     <div class="body">
-      <p class="intro"><b>Day 19, Thursday 17 December.</b> The whole day, and every zone checked by 3:30.</p>
-      <ol class="kit-timeline">
-        <li><span class="t">9:30</span><div><b>Walkthrough of the floor plan.</b><p>Zones marked out; tools, fixings and plinths shared out.</p></div></li>
-        <li><span class="t">10:00–12:30</span><div><b>Hang the hero works and set out the zones.</b><p>Work first, then card, manifesto, label and QR code.</p></div></li>
-        <li><span class="t">1:15–2:15</span><div><b>Assemble the Collective Atlas.</b><p>Everyone together; connections drawn.</p></div></li>
-        <li><span class="t">2:15–3:00</span><div><b>Lighting and technical tests.</b><p>Scan every QR code under the exhibition light.</p></div></li>
-        <li><span class="t">3:00–3:30</span><div><b>Check against the list.</b><p>Each zone ticked off below, then photographed.</p></div></li>
+      <p class="intro"><b>Day 19, Thursday 17 December.</b> The whole day, in this order. The show opens the next morning, so every zone is finished and checked before anyone leaves.</p>
+      <ol class="kit-steps">
+        <li><div><b>Walk the floor plan.</b><p>Zones marked out; tools, fixings and plinths shared out.</p></div></li>
+        <li><div><b>Hang the hero works and set out the zones.</b><p>Work first, then card, manifesto, label and QR code.</p></div></li>
+        <li><div><b>Assemble the Collective Atlas.</b><p>Everyone together; connections drawn.</p></div></li>
+        <li><div><b>Light and test.</b><p>Scan every QR code under the exhibition light.</p></div></li>
+        <li><div><b>Check against the list.</b><p>Each zone ticked off below, then photographed. This is also when A3 is in.</p></div></li>
       </ol>
       <div class="kit-progress" data-progress="install" style="margin-top:24px"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="install">Reset</button></div>
       <div class="kit-checks" data-store="install">
@@ -152,19 +342,168 @@ Zone: [number on the floor plan]</pre></div>
     </div>
   </section>
 
+  <section class="section" id="checklist">
+    <div class="label"><div class="sticky"><div class="num">12</div><h2>Your checklist</h2></div></div>
+    <div class="body">
+      <div class="kit-progress" data-progress="opening"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="opening">Reset</button></div>
+      <div class="kit-checks" data-store="opening">
+        <h3>Before you leave · Day 19</h3>
+        <label><input type="checkbox"><span>My zone passed the <a href="#install">installation checklist</a>.</span></label>
+        <label><input type="checkbox"><span>The repository is pushed, public, and opens from the QR code.</span></label>
+        <label><input type="checkbox"><span>I've rehearsed my sixty-second introduction out loud, timed.</span></label>
+        <h3>Friday morning, before the doors open</h3>
+        <label><input type="checkbox"><span>The work is clean, straight and undamaged.<small>Check for dust, fingerprints, lifted corners, loose fixings.</small></span></label>
+        <label><input type="checkbox"><span>Card, manifesto and label are straight and correct.<small>Read every word: names, title, medium, dimensions, seed.</small></span></label>
+        <label><input type="checkbox"><span>The QR code scans under the exhibition light.</span></label>
+        <label><input type="checkbox"><span>My atlas entry is in place and its connections are drawn.</span></label>
+        <label><input type="checkbox"><span>I've walked the atlas once, zone by zone, the way a visitor will.</span></label>
+        <h3>During the opening</h3>
+        <label><input type="checkbox"><span>I'm at or near my zone for the first hour.</span></label>
+        <label><input type="checkbox"><span>I speak about the identity in the third person, as its author, and explain the system without a screen.</span></label>
+        <label><input type="checkbox"><span>I ask before photographing visitors.</span></label>
+        <label><input type="checkbox"><span>I note good questions from visitors in my log.</span></label>
+        <h3>Saturday 19 December</h3>
+        <label><input type="checkbox"><span>I checked the zone when the show opened: nothing moved, damaged or missing.</span></label>
+        <label><input type="checkbox"><span>I took the final photographs of the installed zone in daylight.</span></label>
+        <h3>Afterwards</h3>
+        <label><input type="checkbox"><span>I took down my zone when told to, and left the wall and floor as I found them.<small>Take-down times will be confirmed.</small></span></label>
+        <label><input type="checkbox"><span>Studio tools, pens, plinths and fixings returned.</span></label>
+        <label><input type="checkbox"><span>Exhibition photographs added to <code>docs/photos/</code> and pushed.</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sixty">
+    <div class="label"><div class="sticky"><div class="num">13</div><h2>Sixty seconds</h2></div></div>
+    <div class="body">
+      <p class="intro">You'll say this many times on opening day. Write it, time it, and then say it without the paper.</p>
+      <div class="kit-tpl"><div class="cap">Sixty-second introduction</div><button type="button" class="kit-btn" data-copy>Copy</button><pre>1 · Who: "This is [identity], a [practice] who [position, in one line]."  (10 s)
+2 · Why: "[The condition], and why it matters now."                        (15 s)
+3 · How: "The work is made by a system that [the key rule, plainly]."       (15 s)
+4 · What: "What you're looking at is [the object], and [what to notice]."  (15 s)
+5 · Invitation: "The code and the whole process are behind the QR code."   (5 s)</pre></div>
+      <p class="note">Speak as the author, not in costume. Visitors want to know who is speaking and why it matters; let the identity's own voice stay in the manifesto.</p>
+    </div>
+  </section>
+
+  <section class="section" id="studio">
+    <div class="label"><div class="sticky"><div class="num">14</div><h2>For the studio</h2></div></div>
+    <div class="body">
+      <p class="intro">Shared tasks for the whole cohort, agreed and assigned in Week 4.</p>
+      <div class="kit-progress" data-progress="studio"><b>0 of 0</b><span class="bar"><i></i></span><button type="button" class="kit-btn" data-reset="studio">Reset</button></div>
+      <div class="kit-checks" data-store="studio">
+        <label><input type="checkbox"><span>Title wall up: <i>An Atlas of Elsewhere</i>, the studio, the dates.</span></label>
+        <label><input type="checkbox"><span>A floor plan or map of the zones at the entrance.</span></label>
+        <label><input type="checkbox"><span>The route through the atlas is clear and step-free where possible.</span></label>
+        <label><input type="checkbox"><span>Lighting checked on every zone; no glare on prints or QR codes.</span></label>
+        <label><input type="checkbox"><span>Power, extension leads and cables taped down for any screens.</span></label>
+        <label><input type="checkbox"><span>Invitations sent, with the time and place.</span></label>
+        <label><input type="checkbox"><span>Someone photographing the opening, with visitors' permission.</span></label>
+        <label><input type="checkbox"><span>Somewhere safe for bags and coats.</span></label>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="colophon">
   <div class="strip" data-mondrian data-seed="footer-exhibition" data-depth="5" data-colors="3" data-gap="2"></div>
   <div class="wrap row">
     <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
-    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="opening.html">Opening checklist</a></span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="#checklist">Opening checklist</a></span>
   </div>
 </footer>
 
-<script src="assets/nav.js?v=12" defer></script>
+<script src="assets/nav.js?v=13" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
+<script>
+(function () {
+(function () {
+  var KEY = "cy-card-v1", data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  var inputs = [].slice.call(document.querySelectorAll("#bfields [data-k]"));
+  function words(s) { var m = (s || "").trim().match(/\S+/g); return m ? m.length : 0; }
+  function render() {
+    inputs.forEach(function (inp) {
+      var k = inp.dataset.k, v = inp.value.trim() || inp.placeholder;
+      document.querySelectorAll('[data-out="' + k + '"]').forEach(function (o) {
+        o.textContent = v; o.style.opacity = inp.value.trim() ? 1 : 0.45;
+      });
+    });
+    document.querySelectorAll("[data-wc]").forEach(function (w) {
+      var t = document.getElementById(w.dataset.wc), n = words(t.value), max = +w.dataset.max;
+      w.textContent = n + " / " + max + " words"; w.classList.toggle("over", n > max);
+    });
+  }
+  inputs.forEach(function (inp) {
+    if (data[inp.dataset.k]) inp.value = data[inp.dataset.k];
+    inp.addEventListener("input", function () {
+      data[inp.dataset.k] = inp.value;
+      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+      render();
+    });
+  });
+  document.getElementById("print-card").addEventListener("click", function () { window.print(); });
+  document.getElementById("clear-card").addEventListener("click", function () {
+    if (!confirm("Clear every field on the card?")) return;
+    inputs.forEach(function (i) { i.value = ""; }); data = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    render();
+  });
+  render();
+})();
+})();
+</script>
+<script>
+(function () {
+(function () {
+  var url = document.getElementById("qr-url"), name = document.getElementById("qr-name");
+  var box = document.getElementById("qr-box"), cap = document.getElementById("qr-cap"), msg = document.getElementById("qr-msg");
+  var KEY = "cy-qr-v1", current = null;
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || "{}"); if (saved.url) url.value = saved.url; if (saved.name) name.value = saved.name; } catch (e) {}
 
+  function svgFor(qr) {
+    var n = qr.getModuleCount(), q = 4, size = n + q * 2, d = "";
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (qr.isDark(r, c)) d += "M" + (c + q) + " " + (r + q) + "h1v1h-1z";
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges"><rect width="' + size + '" height="' + size + '" fill="#ffffff"/><path d="' + d + '" fill="#000000"/></svg>';
+  }
+  function draw() {
+    var v = url.value.trim();
+    try { localStorage.setItem(KEY, JSON.stringify({ url: v, name: name.value })); } catch (e) {}
+    current = null;
+    if (!v) { box.innerHTML = '<p class="note">Waiting for an address.</p>'; cap.textContent = ""; return; }
+    if (typeof qrcode !== "function") { msg.textContent = "The QR library didn't load. Check your connection, or use the Codex prompt."; msg.className = "msg bad"; return; }
+    var ok = /^https?:\/\/[^\s]+\.[^\s]+/.test(v);
+    msg.textContent = ok ? "Error correction level M, with a four-module quiet border." : "That doesn't look like a full web address. Start it with https://";
+    msg.className = ok ? "msg" : "msg bad";
+    var qr = qrcode(0, "M"); qr.addData(v); qr.make();
+    current = svgFor(qr);
+    box.innerHTML = current;
+    cap.textContent = v + " · " + qr.getModuleCount() + " × " + qr.getModuleCount() + " modules";
+  }
+  function save(blob, ext) {
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = (name.value.trim() || "qr") + "." + ext; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  document.getElementById("qr-svg").addEventListener("click", function () { if (current) save(new Blob([current], { type: "image/svg+xml" }), "svg"); });
+  document.getElementById("qr-png").addEventListener("click", function () {
+    if (!current) return;
+    var img = new Image(), px = 1200;
+    img.onload = function () {
+      var cv = document.createElement("canvas"); cv.width = cv.height = px;
+      var cx = cv.getContext("2d"); cx.imageSmoothingEnabled = false; cx.drawImage(img, 0, 0, px, px);
+      cv.toBlob(function (b) { save(b, "png"); }, "image/png");
+    };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(current);
+  });
+  url.addEventListener("input", draw); name.addEventListener("input", draw);
+  var s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+  s.onload = draw; s.onerror = draw; document.head.appendChild(s);
+})();
+})();
+</script>
 </body>
 </html>

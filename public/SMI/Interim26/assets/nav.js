@@ -7,7 +7,7 @@
   {
     "href": "./",
     "n": "—",
-    "t": "Handbook cover",
+    "t": "Cover",
     "s": [
       [
         "contents",
@@ -18,7 +18,7 @@
   {
     "href": "intro.html",
     "n": "01",
-    "t": "Introduction and conceptual framing",
+    "t": "Start here",
     "s": [
       [
         "premise",
@@ -48,60 +48,32 @@
         "care",
         "07 · Speaking with care"
       ],
-      ["read", "08 · Watch"],
       [
-        "month",
-        "09 · What the month asks"
-      ]
-    ]
-  },
-  {
-    "href": "foundations.html",
-    "n": "01·1",
-    "t": "Foundations: pixels, vectors, machines",
-    "s": [
-      [
-        "code",
-        "01 · From code to image"
+        "read",
+        "08 · Watch"
       ],
       [
-        "coordinates",
-        "02 · Coordinates"
+        "week-1",
+        "09 · Week 1"
       ],
       [
-        "vector",
-        "03 · Pixels and vectors"
+        "week-2",
+        "10 · Week 2"
       ],
       [
-        "resolution",
-        "04 · Resolution"
+        "week-3",
+        "11 · Week 3"
       ],
       [
-        "colour",
-        "05 · Colour"
-      ],
-      [
-        "cpu-gpu",
-        "06 · CPU and GPU"
-      ],
-      [
-        "rendering",
-        "07 · Rendering"
-      ],
-      [
-        "chance",
-        "08 · Chance and seeds"
-      ],
-      [
-        "files",
-        "09 · Files you'll meet"
+        "week-4",
+        "12 · Week 4"
       ]
     ]
   },
   {
     "href": "schedule.html",
     "n": "02",
-    "t": "Twenty days: the schedule",
+    "t": "Schedule",
     "s": [
       [
         "glance",
@@ -109,81 +81,57 @@
       ],
       [
         "day",
-        "02 · The day"
-      ],
-      [
-        "machines",
-        "03 · Machines"
+        "02 · How a day goes"
       ],
       [
         "week-1",
-        "04 · Week 1"
+        "03 · Week 1"
       ],
       [
         "week-2",
-        "05 · Week 2"
+        "04 · Week 2"
       ],
       [
         "week-3",
-        "06 · Week 3"
+        "05 · Week 3"
       ],
       [
         "week-4",
-        "07 · Week 4"
-      ],
-      [
-        "critiques",
-        "08 · Critiques"
-      ],
-      [
-        "open",
-        "09 · Still open"
+        "06 · Week 4"
       ]
     ]
   },
   {
     "href": "selfstudy.html",
     "n": "02·1",
-    "t": "Self-study days: Thu 26 – Fri 27 Nov",
-    "s": [
-      ["groups", "01 · Your group"],
-      ["day-4", "02 · Thursday"],
-      ["day-5", "03 · Friday"],
-      ["stuck", "04 · If you're stuck"],
-      ["monday", "05 · Monday"]
-    ]
-  },
-  {
-    "href": "briefs.html",
-    "n": "03",
-    "t": "Weekly assignment briefs",
+    "t": "Self-study days",
     "s": [
       [
-        "how",
-        "How briefs work"
+        "groups",
+        "01 · Your group"
       ],
       [
-        "week-1",
-        "01 · Week 1"
+        "day-4",
+        "02 · Thursday"
       ],
       [
-        "week-2",
-        "02 · Week 2"
+        "day-5",
+        "03 · Friday"
       ],
       [
-        "week-3",
-        "03 · Week 3"
+        "stuck",
+        "04 · If you're stuck"
       ],
       [
-        "week-4",
-        "04 · Week 4"
+        "monday",
+        "05 · Monday"
       ]
     ]
   },
   {
     "href": "identity.html",
-    "n": "04",
-    "t": "Identity development worksheet",
+    "n": "03",
+    "t": "Identity worksheet",
     "s": [
       [
         "condition",
@@ -229,7 +177,7 @@
   },
   {
     "href": "manifesto.html",
-    "n": "05",
+    "n": "04",
     "t": "Manifesto worksheet",
     "s": [
       [
@@ -276,8 +224,8 @@
   },
   {
     "href": "system.html",
-    "n": "06",
-    "t": "Generative system worksheet",
+    "n": "05",
+    "t": "System worksheet",
     "s": [
       [
         "what",
@@ -326,13 +274,13 @@
     ]
   },
   {
-    "href": "codex.html",
-    "n": "07",
-    "t": "Codex onboarding and prompt library",
+    "href": "repo.html",
+    "n": "06",
+    "t": "Your repo and press",
     "s": [
       [
-        "what",
-        "01 · What Codex is here"
+        "github",
+        "01 · GitHub, by asking"
       ],
       [
         "setup",
@@ -347,51 +295,131 @@
         "04 · How to ask"
       ],
       [
+        "structure",
+        "05 · The structure"
+      ],
+      [
+        "readme",
+        "06 · README"
+      ],
+      [
+        "agents",
+        "07 · AGENTS.md"
+      ],
+      [
+        "git",
+        "08 · Saving habits"
+      ],
+      [
+        "press",
+        "09 · What it is"
+      ],
+      [
+        "parts",
+        "10 · The parts"
+      ],
+      [
+        "say",
+        "11 · What to say"
+      ],
+      [
+        "dials",
+        "12 · Dials"
+      ],
+      [
+        "output",
+        "13 · Downloads"
+      ],
+      [
+        "online",
+        "14 · Online"
+      ],
+      [
         "library",
-        "05 · Prompt library"
+        "15 · Prompt library"
       ],
       [
         "authorship",
-        "06 · Authorship log"
+        "16 · Authorship log"
       ],
       [
         "trouble",
-        "07 · When it goes wrong"
+        "17 · When it goes wrong"
+      ],
+      [
+        "public",
+        "18 · Going public"
       ]
     ]
   },
   {
     "href": "techniques.html",
-    "n": "08",
-    "t": "Computational techniques",
+    "n": "07",
+    "t": "Techniques and foundations",
     "s": [
+      [
+        "code",
+        "01 · From code to image"
+      ],
+      [
+        "coordinates",
+        "02 · Coordinates"
+      ],
+      [
+        "vector",
+        "03 · Pixels and vectors"
+      ],
+      [
+        "resolution",
+        "04 · Resolution"
+      ],
+      [
+        "colour",
+        "05 · Colour"
+      ],
+      [
+        "cpu-gpu",
+        "06 · CPU and GPU"
+      ],
+      [
+        "rendering",
+        "07 · Rendering"
+      ],
+      [
+        "chance",
+        "08 · Chance and seeds"
+      ],
+      [
+        "files",
+        "09 · Files you'll meet"
+      ],
       [
         "choose",
         "How to choose"
       ],
       [
         "noise",
-        "01 · Noise and flow fields"
+        "10 · Noise and flow fields"
       ],
       [
         "recursion",
-        "02 · Recursion and L-systems"
+        "11 · Recursion and L-systems"
       ],
       [
         "agents",
-        "03 · Agents and simulation"
+        "12 · Agents and simulation"
       ],
       [
         "automata",
-        "04 · Cellular automata"
+        "13 · Cellular automata"
       ],
       [
         "data",
-        "05 · Data as material"
+        "14 · Data as material"
       ],
       [
         "geometry",
-        "06 · Geometry and tiling"
+        "15 · Geometry and tiling"
       ],
       [
         "combining",
@@ -400,273 +428,147 @@
     ]
   },
   {
-    "href": "repo.html",
-    "n": "09",
-    "t": "Repository and AGENTS.md template",
+    "href": "machines.html",
+    "n": "08",
+    "t": "Machines",
     "s": [
-      [
-        "github",
-        "01 · GitHub, by asking"
-      ],
-      [
-        "structure",
-        "02 · The structure"
-      ],
-      [
-        "readme",
-        "03 · README"
-      ],
-      [
-        "agents",
-        "04 · AGENTS.md"
-      ],
-      [
-        "git",
-        "05 · Saving habits"
-      ],
-      [
-        "gitignore",
-        "06 · .gitignore"
-      ],
-      [
-        "public",
-        "07 · Going public"
-      ]
-    ]
-  },
-  {
-    "href": "press.html",
-    "n": "09·1",
-    "t": "Your press",
-    "s": [
-      [
-        "what",
-        "01 · What it is"
-      ],
-      [
-        "parts",
-        "02 · The parts"
-      ],
-      [
-        "say",
-        "03 · What to say"
-      ],
-      [
-        "dials",
-        "04 · Dials"
-      ],
-      [
-        "output",
-        "05 · Downloads"
-      ],
-      [
-        "online",
-        "06 · Online"
-      ]
-    ]
-  },
-  {
-    "href": "plotter.html",
-    "n": "10",
-    "t": "Pen plotter production guide",
-    "s": [
-      [
-        "machine",
-        "01 · The machine"
-      ],
       [
         "booking",
-        "02 · Booking"
+        "01 · Machines"
       ],
       [
-        "prepare",
-        "03 · Preparing the SVG"
-      ],
-      [
-        "pens",
-        "04 · Pens and paper"
-      ],
-      [
-        "test",
-        "05 · The test plot"
-      ],
-      [
-        "run",
-        "06 · Running the final"
-      ],
-      [
-        "spec",
-        "07 · Spec sheet"
-      ],
-      [
-        "trouble",
-        "08 · When it goes wrong"
-      ]
-    ]
-  },
-  {
-    "href": "resin.html",
-    "n": "11",
-    "t": "Resin printing production guide",
-    "s": [
-      [
-        "safety",
-        "01 · Safety first"
-      ],
-      [
-        "machine",
+        "plotter-machine",
         "02 · The machine"
       ],
       [
-        "booking",
-        "03 · Booking"
+        "plotter-prepare",
+        "03 · Preparing the SVG"
       ],
       [
-        "prepare",
-        "04 · Preparing the model"
+        "plotter-pens",
+        "04 · Pens and paper"
       ],
       [
-        "after",
-        "05 · Wash, cure, finish"
+        "plotter-test",
+        "05 · The test plot"
       ],
       [
-        "spec",
-        "06 · Spec sheet"
+        "plotter-run",
+        "06 · Running the final"
       ],
       [
-        "trouble",
-        "07 · When it goes wrong"
-      ]
-    ]
-  },
-  {
-    "href": "archival.html",
-    "n": "12",
-    "t": "Archival printing production guide",
-    "s": [
-      [
-        "why",
-        "01 · Why a print"
+        "plotter-spec",
+        "07 · Spec sheet"
       ],
       [
-        "file",
-        "02 · The file"
+        "plotter-trouble",
+        "08 · When it goes wrong"
       ],
       [
-        "paper",
-        "03 · Paper"
+        "resin-safety",
+        "09 · Safety first"
       ],
       [
-        "proof",
-        "04 · Test strips and proofs"
+        "resin-machine",
+        "10 · The machine"
       ],
       [
-        "handling",
-        "05 · Handling"
+        "resin-prepare",
+        "11 · Preparing the model"
       ],
       [
-        "spec",
-        "06 · Spec sheet"
+        "resin-after",
+        "12 · Wash, cure, finish"
       ],
       [
-        "trouble",
-        "07 · When it goes wrong"
+        "resin-spec",
+        "13 · Spec sheet"
+      ],
+      [
+        "resin-trouble",
+        "14 · When it goes wrong"
+      ],
+      [
+        "archival-why",
+        "15 · Why a print"
+      ],
+      [
+        "archival-file",
+        "16 · The file"
+      ],
+      [
+        "archival-paper",
+        "17 · Paper"
+      ],
+      [
+        "archival-proof",
+        "18 · Test strips and proofs"
+      ],
+      [
+        "archival-handling",
+        "19 · Handling"
+      ],
+      [
+        "archival-spec",
+        "20 · Spec sheet"
+      ],
+      [
+        "archival-trouble",
+        "21 · When it goes wrong"
       ]
     ]
   },
   {
     "href": "docs.html",
-    "n": "13",
-    "t": "Documentation and submission templates",
+    "n": "09",
+    "t": "Keeping a record",
     "s": [
       [
         "overview",
         "What the record holds"
       ],
       [
-        "tests",
-        "01 · The test log"
-      ],
-      [
-        "process",
-        "02 · process.md"
-      ],
-      [
-        "photos",
-        "03 · Photographing the work"
-      ],
-      [
-        "reflection",
-        "04 · Authorship reflection"
-      ]
-    ]
-  },
-  {
-    "href": "log.html",
-    "n": "13·1",
-    "t": "The daily log",
-    "s": [
-      [
         "entry",
-        "02 · The entry"
+        "01 · The entry"
       ],
       [
         "where",
-        "03 · Where it lives"
+        "02 · Where it lives"
       ],
       [
         "form",
-        "04 · The 3:25 form"
+        "03 · The daily form"
       ],
       [
         "critique",
-        "05 · At critique"
+        "04 · At critique"
       ],
       [
         "examples",
-        "06 · Examples"
-      ]
-    ]
-  },
-  {
-    "href": "critiques.html",
-    "n": "14",
-    "t": "Critique rubrics",
-    "s": [
-      [
-        "format",
-        "How they run"
+        "05 · Examples"
       ],
       [
-        "present",
-        "Three minutes"
+        "tests",
+        "06 · The test log"
       ],
       [
-        "notes",
-        "Peer notes"
+        "process",
+        "07 · process.md"
       ],
       [
-        "c1",
-        "01 · Critique 1"
+        "photos",
+        "08 · Photographing the work"
       ],
       [
-        "c2",
-        "02 · Critique 2"
-      ],
-      [
-        "c3",
-        "03 · Critique 3"
-      ],
-      [
-        "after",
-        "After the critique"
+        "reflection",
+        "09 · Authorship reflection"
       ]
     ]
   },
   {
     "href": "assessment.html",
-    "n": "15",
-    "t": "Assessment: A1, A2, A3",
+    "n": "10",
+    "t": "Assessment and critiques",
     "s": [
       [
         "overview",
@@ -678,15 +580,55 @@
       ],
       [
         "a1",
-        "A1 · Identity"
+        "01 · Identity"
       ],
       [
         "a2",
-        "A2 · System"
+        "02 · System"
       ],
       [
         "a3",
-        "A3 · Final"
+        "03 · Final"
+      ],
+      [
+        "present",
+        "How critiques run"
+      ],
+      [
+        "notes",
+        "Peer notes"
+      ],
+      [
+        "c1",
+        "04 · Critique 1"
+      ],
+      [
+        "c2",
+        "05 · Critique 2"
+      ],
+      [
+        "c3",
+        "06 · Critique 3"
+      ],
+      [
+        "after",
+        "After the critique"
+      ],
+      [
+        "check-a1",
+        "07 · Identity"
+      ],
+      [
+        "check-a2",
+        "08 · System"
+      ],
+      [
+        "check-a3",
+        "09 · Final"
+      ],
+      [
+        "copy",
+        "In your repository"
       ],
       [
         "integrity",
@@ -696,8 +638,8 @@
   },
   {
     "href": "exhibition.html",
-    "n": "16",
-    "t": "Exhibition planning and installation",
+    "n": "11",
+    "t": "Exhibition",
     "s": [
       [
         "show",
@@ -708,112 +650,56 @@
         "02 · The zone"
       ],
       [
-        "atlas",
-        "03 · The Collective Atlas"
-      ],
-      [
-        "proposal",
-        "04 · The proposal"
-      ],
-      [
-        "plan",
-        "05 · Floor plan"
-      ],
-      [
-        "install",
-        "06 · Installation day"
-      ]
-    ]
-  },
-  {
-    "href": "statement.html",
-    "n": "17",
-    "t": "Artist statement and identity card",
-    "s": [
-      [
         "card",
-        "01 · The identity card"
+        "03 · The identity card"
       ],
       [
         "statement",
-        "02 · The statement"
-      ]
-    ]
-  },
-  {
-    "href": "qr.html",
-    "n": "18",
-    "t": "QR codes and documentation workflow",
-    "s": [
-      [
-        "where",
-        "01 · Where it points"
+        "04 · The statement"
       ],
       [
-        "make",
-        "02 · Make the code"
+        "qr-make",
+        "05 · Make the code"
       ],
       [
-        "print",
-        "03 · Print it"
+        "qr-print",
+        "06 · Print it"
       ],
       [
-        "test",
-        "04 · Test it"
+        "qr-test",
+        "07 · Test it"
       ],
       [
-        "workflow",
-        "05 · The workflow"
-      ]
-    ]
-  },
-  {
-    "href": "opening.html",
-    "n": "19",
-    "t": "Opening checklist",
-    "s": [
+        "atlas",
+        "08 · The Collective Atlas"
+      ],
       [
-        "day",
-        "01 · The day"
+        "proposal",
+        "09 · The proposal"
+      ],
+      [
+        "plan",
+        "10 · Floor plan"
+      ],
+      [
+        "install",
+        "11 · Installation day"
       ],
       [
         "checklist",
-        "02 · Your checklist"
+        "12 · Your checklist"
       ],
       [
         "sixty",
-        "03 · Sixty seconds"
+        "13 · Sixty seconds"
       ],
       [
         "studio",
-        "04 · For the studio"
-      ]
-    ]
-  },
-  {
-    "href": "submission.html",
-    "n": "20",
-    "t": "Submission checklists",
-    "s": [
-      [
-        "a1",
-        "A1 · Identity"
-      ],
-      [
-        "a2",
-        "A2 · System"
-      ],
-      [
-        "a3",
-        "A3 · Final"
-      ],
-      [
-        "copy",
-        "In your repository"
+        "14 · For the studio"
       ]
     ]
   }
-];
+]
 
   var here = location.pathname.split("/").pop() || "./";
   if (here === "index.html") here = "./";
@@ -891,7 +777,7 @@
     });
     drawer.appendChild(list);
 
-    var all = el("a", "hb-all", "All twenty sections →");
+    var all = el("a", "hb-all", "All sections →");
     all.href = here === "./" ? "#contents" : "./#contents";
     if (here === "./") all.addEventListener("click", function () { hide(false); });
     drawer.appendChild(all);

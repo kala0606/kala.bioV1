@@ -3,16 +3,60 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documentation · Computationally Yours</title>
-<meta name="description" content="Documentation and submission templates for Computationally Yours: process.md, the test log, the authorship reflection and photographing the work.">
-<meta property="og:title" content="Documentation · Computationally Yours">
-<meta property="og:description" content="The templates that turn a month of work into a record. Srishti Manipal Interim 2026.">
+<title>Keeping a record · Computationally Yours</title>
+<meta name="description" content="The daily log, the test log, process notes, photographs and the authorship reflection.">
+<meta property="og:title" content="Keeping a record · Computationally Yours">
+<meta property="og:description" content="The daily log, the test log, process notes, photographs and the authorship reflection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/handbook.css?v=7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  /* The entry: four fields as a ruled card. */
+  .entry { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); }
+  .entry > div { background: var(--paper); padding: 18px 20px 20px; }
+  .entry .k { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
+  .entry .k i { width: 10px; height: 10px; display: inline-block; outline: 2px solid var(--rule-ink); }
+  .entry h3 { font: 400 30px/1.05 var(--serif); margin: 10px 0 8px; }
+  .entry p { margin: 0; font-size: 15px; color: var(--ink-2); }
+  @media (max-width: 640px) { .entry { grid-template-columns: 1fr; } }
 
+  .tpl { position: relative; margin: 28px 0 0; }
+  .tpl pre { margin: 0; padding: 20px 22px; background: var(--paper-2); border: 1px solid var(--rule); font: 400 14px/1.7 var(--mono); overflow-x: auto; }
+  .tpl button {
+    position: absolute; top: 10px; right: 10px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 7px 9px 6px; cursor: pointer;
+  }
+  .tpl button:hover { background: var(--ink); color: var(--paper); }
+
+  .steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .steps li::before { content: counter(s, decimal-leading-zero); font: 400 15px/1.5 var(--mono); color: var(--accent); }
+  .steps b { font-weight: 600; }
+  .steps p { margin: 4px 0 0; color: var(--ink-2); font-size: 15px; }
+
+  .tree { font: 400 14px/1.75 var(--mono); padding: 18px 22px; border-left: 3px solid var(--rule-ink); background: var(--paper-2); margin: 24px 0 0; white-space: pre; overflow-x: auto; }
+  .tree em { font-style: normal; color: var(--accent); }
+
+  .compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .compare article { padding: 18px 22px 22px 0; border-right: 1px solid var(--rule); }
+  .compare article + article { padding-left: 22px; border-right: 0; }
+  .compare dl { margin: 14px 0 0; font-size: 15px; }
+  .compare dt { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 12px; }
+  .compare dd { margin: 4px 0 0; }
+  .compare .thin dd { color: var(--ink-2); }
+  .compare .why { margin: 18px 0 0; font-size: 14px; color: var(--ink-2); border-top: 1px dashed var(--rule); padding-top: 12px; }
+  @media (max-width: 760px) {
+    .compare { grid-template-columns: 1fr; }
+    .compare article { padding-left: 0 !important; border-right: 0; }
+    .compare article + article { border-top: 1px solid var(--rule); }
+  }
+
+  .rules { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+  .rules li { padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+</style>
 </head>
 <body>
 
@@ -28,33 +72,33 @@
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Handbook · 13 · Throughout · Srishti Manipal Interim 2026</div>
-        <h1>The <em>record</em></h1>
-        <p class="lede">Documentation and submission templates. The work in the exhibition is half of what you hand in; the other half is the record of how it was made, in your own words.</p>
+        <div class="eyebrow">Handbook · 09 · Srishti Manipal Interim 2026</div>
+        <h1>Keeping a <em>record</em></h1>
+        <p class="lede">A short entry every day, and a few documents by the end, so a stranger can follow who is speaking, what the system does, and what you decided along the way.</p>
       </div>
-      <div class="hero-art"><div data-mondrian data-seed="handbook-13-docs" data-depth="5" data-colors="3"></div><div class="mond-caption">seed docs · depth 5</div></div>
+      <div class="hero-art"><div data-mondrian data-seed="handbook-docs" data-depth="3" data-colors="3"></div><div class="mond-caption">seed docs · depth 3</div></div>
     </div>
     <dl class="facts">
-      <div><dt>Daily</dt><dd>log.md</dd></div>
-      <div><dt>Day 13</dt><dd>Test log</dd></div>
-      <div><dt>Day 14</dt><dd>process.md draft</dd></div>
-      <div><dt>Day 18</dt><dd>Photos and reflection</dd></div>
-      <div><dt>Checked by</dt><dd>Final submission list</dd></div>
+      <div><dt>Every day</dt><dd>log.md</dd></div>
+      <div><dt>Tests</dt><dd>tests/TESTS.md</dd></div>
+      <div><dt>Process</dt><dd>process.md</dd></div>
+      <div><dt>Reflection</dt><dd>reflection.md</dd></div>
+      <div><dt>Complete</dt><dd>Day 18</dd></div>
     </dl>
   </section>
 
-<section class="section" id="overview">
+  <section class="section" id="overview">
     <div class="label"><div class="sticky"><div class="num">—</div><h2>What the record holds</h2></div></div>
     <div class="body">
       <p class="intro">By Day 18 your repository should let a stranger understand who is speaking, what the system does, how it became an object, and what you decided along the way.</p>
       <table class="kit-table stack">
         <thead><tr><th>File</th><th>What it is</th><th>When</th><th>Template</th></tr></thead>
         <tbody>
-          <tr><th><code>log.md</code></th><td data-h="What">One entry a day: did, decided, image, stuck.</td><td data-h="When" class="num">Every day</td><td data-h="Template"><a href="log.html">The daily log</a></td></tr>
-          <tr><th><code>authorship.md</code></th><td data-h="What">What Codex suggested, what you kept and rejected.</td><td data-h="When" class="num">Every day</td><td data-h="Template"><a href="codex.html#authorship">Codex page</a></td></tr>
+          <tr><th><code>log.md</code></th><td data-h="What">One entry a day: did, decided, image, stuck.</td><td data-h="When" class="num">Every day</td><td data-h="Template"><a href="#entry">The daily log</a></td></tr>
+          <tr><th><code>authorship.md</code></th><td data-h="What">What Codex suggested, what you kept and rejected.</td><td data-h="When" class="num">Every day</td><td data-h="Template"><a href="repo.html#authorship">Codex page</a></td></tr>
           <tr><th><code>tests/TESTS.md</code></th><td data-h="What">Every material test, with photographs and notes.</td><td data-h="When" class="num">Day 13</td><td data-h="Template"><a href="#tests">Below</a></td></tr>
           <tr><th><code>process.md</code></th><td data-h="What">How the system works, in your words.</td><td data-h="When" class="num">Day 14</td><td data-h="Template"><a href="#process">Below</a></td></tr>
-          <tr><th><code>final-statement.md</code></th><td data-h="What">The artist statement for visitors.</td><td data-h="When" class="num">Day 16</td><td data-h="Template"><a href="statement.html">Statement and card</a></td></tr>
+          <tr><th><code>final-statement.md</code></th><td data-h="What">The artist statement for visitors.</td><td data-h="When" class="num">Day 16</td><td data-h="Template"><a href="exhibition.html#card">Statement and card</a></td></tr>
           <tr><th><code>docs/photos/</code></th><td data-h="What">Photographs of the finished work.</td><td data-h="When" class="num">Day 18</td><td data-h="Template"><a href="#photos">Below</a></td></tr>
           <tr><th><code>reflection.md</code></th><td data-h="What">The authorship reflection, about 300 words.</td><td data-h="When" class="num">Day 18</td><td data-h="Template"><a href="#reflection">Below</a></td></tr>
         </tbody>
@@ -62,8 +106,104 @@
     </div>
   </section>
 
+  <section class="section" id="entry">
+    <div class="label"><div class="sticky"><div class="num">01</div><h2>The entry</h2><div class="emblem-wrap"><div class="emblem" data-mondrian data-seed="log-entry" data-depth="2" data-colors="3"></div><div class="mond-caption">depth 2</div></div></div></div>
+    <div class="body">
+      <p class="intro">Four fields, every day, in this order.</p>
+      <div class="entry">
+        <div><div class="k"><i style="background:var(--paper)"></i>Field 1</div><h3>Did</h3><p>What changed in the system today. Name the rule, the parameter or the file, not just "worked on code".</p></div>
+        <div><div class="k"><i style="background:var(--m-red)"></i>Field 2</div><h3>Decided</h3><p>One choice you made, and why your identity would make it. This is the most important line.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Field 3</div><h3>Image</h3><p>One output from today, saved as <code>log/day-07.png</code>. A photo of a test or a plot counts.</p></div>
+        <div><div class="k"><i style="background:var(--m-blue)"></i>Field 4</div><h3>Stuck</h3><p>One open question to start tomorrow with. If nothing is stuck, write what you are least sure of.</p></div>
+      </div>
+      <div class="tpl">
+        <button type="button" data-copy="tpl-md">Copy</button>
+<pre id="tpl-md">## Day 07 · Tue 1 Dec
+
+**Did:**
+**Decided:**
+**Image:** log/day-07.png
+**Stuck:** </pre>
+      </div>
+      <p class="note" style="margin-top:16px">Write it yourself. You can ask Codex what changed in the repo today to jog your memory, but the Decided line has to be yours, in a sentence you could defend at critique.</p>
+    </div>
+  </section>
+
+  <section class="section" id="where">
+    <div class="label"><div class="sticky"><div class="num">02</div><h2>Where it lives</h2></div></div>
+    <div class="body">
+      <p class="intro">The log sits in the same folder as your system, so you write it where you work.</p>
+<div class="tree">your-identity/
+├── README.md
+├── AGENTS.md
+├── <em>log.md</em>            one file, newest day at the bottom
+├── <em>log/</em>
+│   ├── day-01.png
+│   └── day-07.png
+├── src/
+└── outputs/</div>
+      <p class="note" style="margin-top:16px">Add the day's entry during pin-up, then say "push" to Codex. It saves with the message <code>log: day 07</code>, so the history shows when each entry was written.</p>
+    </div>
+  </section>
+
+  <section class="section" id="form">
+    <div class="label"><div class="sticky"><div class="num">03</div><h2>The daily form</h2></div></div>
+    <div class="body">
+      <p class="intro">Before you leave, paste the same entry into the daily form. That is how the facilitator reads all twenty.</p>
+      <ol class="steps">
+        <li><div><b>Open the form.</b><p>The link is pinned in the studio WhatsApp group. Sign in with your @learner.manipal.edu account so your name is recorded.</p></div></li>
+        <li><div><b>Pick the day, paste the four fields.</b><p>Copy the text straight from <code>log.md</code>. Don't rewrite it for the form.</p></div></li>
+        <li><div><b>Attach the image.</b><p>The same file as <code>log/day-NN.png</code>.</p></div></li>
+        <li><div><b>Submit it before you leave.</b><p>If you miss a day, file it the next morning, dated for the day it describes. Don't save up a week and write it all at once; that record is worth less to you.</p></div></li>
+      </ol>
+      <p class="note" style="margin-top:20px">Only you and the facilitator see form entries. Three missing days in a row means a conversation, not a penalty.</p>
+    </div>
+  </section>
+
+  <section class="section" id="critique">
+    <div class="label"><div class="sticky"><div class="num">04</div><h2>At critique</h2></div></div>
+    <div class="body">
+      <p class="intro">On critique Fridays, bring the week's five entries printed on one A4 sheet, with the images small, and pin it beside your work.</p>
+      <ul class="rules">
+        <li><b>Critique 1 · Day 6:</b> Days 1–5. How the identity was found.</li>
+        <li><b>Critique 2 · Day 10:</b> Days 6–10. How the system came to speak in that voice.</li>
+        <li><b>Critique 3 · Day 15:</b> Days 11–15. What the material taught the system.</li>
+      </ul>
+      <p class="note" style="margin-top:16px">Reviewers read the sheet before you present, so your three minutes can go on the work itself.</p>
+    </div>
+  </section>
+
+  <section class="section" id="examples">
+    <div class="label"><div class="sticky"><div class="num">05</div><h2>Examples</h2></div></div>
+    <div class="body">
+      <p class="intro">The same day, logged two ways.</p>
+      <div class="compare">
+        <article>
+          <div class="eyebrow"><span class="tag accent">Useful</span></div>
+          <dl>
+            <dt>Did</dt><dd>Replaced the random walk with a flow field driven by Bengaluru rainfall, 1990–2024, one row of lines per year.</dd>
+            <dt>Decided</dt><dd>Line weight follows the rainfall deficit, not the total. The surveyor I am authoring records what is missing from the land, so thicker lines mean less water.</dd>
+            <dt>Image</dt><dd><code>log/day-07.png</code></dd>
+            <dt>Stuck</dt><dd>The plots read as weather, not loss. How do I make absence visible on the page?</dd>
+          </dl>
+          <p class="why">A reader can follow the decision back to the identity's position, and tomorrow has a clear starting point.</p>
+        </article>
+        <article class="thin">
+          <div class="eyebrow"><span class="tag">Thin</span></div>
+          <dl>
+            <dt>Did</dt><dd>Worked on the code. Tried some data.</dd>
+            <dt>Decided</dt><dd>Changed the colours, looks better.</dd>
+            <dt>Image</dt><dd>None</dd>
+            <dt>Stuck</dt><dd>Nothing.</dd>
+          </dl>
+          <p class="why">Nothing here could be recovered in three weeks, and "looks better" is a reaction, not a reason the identity holds.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="tests">
-    <div class="label"><div class="sticky"><div class="num">01</div><h2>The test log</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">06</div><h2>The test log</h2></div></div>
     <div class="body">
       <p class="intro"><b>Day 13.</b> One entry per test, with a photograph. Failures are worth as much as successes.</p>
       <div class="kit-tpl"><div class="cap">tests/TESTS.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Test log
@@ -80,7 +220,7 @@
   </section>
 
   <section class="section" id="process">
-    <div class="label"><div class="sticky"><div class="num">02</div><h2>process.md</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">07</div><h2>process.md</h2></div></div>
     <div class="body">
       <p class="intro"><b>Draft on Day 14, final on Day 18.</b> Explain the computational logic in your own words, for a curious visitor who doesn't code. Codex may suggest an outline (prompt 19); the sentences are yours.</p>
       <div class="kit-tpl"><div class="cap">process.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># How [identity name]'s work is made
@@ -115,7 +255,7 @@
   </section>
 
   <section class="section" id="photos">
-    <div class="label"><div class="sticky"><div class="num">03</div><h2>Photographing the work</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">08</div><h2>Photographing the work</h2></div></div>
     <div class="body">
       <p class="intro"><b>Day 18, before installation.</b> These photographs are how the work will be seen after the show closes.</p>
       <div class="kit-cells" style="--cols:2">
@@ -139,7 +279,7 @@
   </section>
 
   <section class="section" id="reflection">
-    <div class="label"><div class="sticky"><div class="num">04</div><h2>Authorship reflection</h2></div></div>
+    <div class="label"><div class="sticky"><div class="num">09</div><h2>Authorship reflection</h2></div></div>
     <div class="body">
       <p class="intro"><b>Day 18.</b> About 300 words, written by you, on what working with a machine did to your authorship.</p>
       <div class="kit-tpl"><div class="cap">reflection.md</div><button type="button" class="kit-btn" data-copy>Copy</button><pre># Authorship reflection
@@ -167,13 +307,23 @@
   <div class="strip" data-mondrian data-seed="footer-docs" data-depth="5" data-colors="3" data-gap="2"></div>
   <div class="wrap row">
     <span>Computationally Yours · Out of One's Place · Srishti Manipal Institute of Art, Design and Technology · Interim 2026</span>
-    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="submission.html">Submission</a></span>
+    <span>Facilitated by <a href="https://www.ujjwalagarwal.com">Ujjwal Agarwal</a> · <a href="./">Handbook index</a> · <a href="assessment.html#check-a1">Submission</a></span>
   </div>
 </footer>
 
-<script src="assets/nav.js?v=12" defer></script>
+<script src="assets/nav.js?v=13" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
-
+<script>
+(function () {
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var text = document.getElementById(b.dataset.copy).textContent;
+      var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1600); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+    });
+  });
+})();
+</script>
 </body>
 </html>
