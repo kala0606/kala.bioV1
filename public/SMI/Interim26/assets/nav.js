@@ -536,8 +536,8 @@
         "02 · Where it lives"
       ],
       [
-        "form",
-        "03 · The daily form"
+        "handin",
+        "03 · Handing it in"
       ],
       [
         "critique",
@@ -699,7 +699,7 @@
       ]
     ]
   }
-]
+];
 
   var here = location.pathname.split("/").pop() || "./";
   if (here === "index.html") here = "./";

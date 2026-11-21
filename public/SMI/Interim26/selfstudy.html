@@ -14,12 +14,12 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161513'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f2efe7' stroke-width='1.5'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23c8401c' stroke-width='1.5'/%3E%3C/svg%3E">
 
 <style>
-  .grp { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin-top: 24px; }
+  .grp { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2px; background: var(--rule-ink); border: 2px solid var(--rule-ink); margin-top: 24px; }
   .grp > div { background: var(--paper); padding: 14px 16px 18px; min-height: 150px; }
   .grp .k { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
   .grp ol { margin: 10px 0 0; padding-left: 20px; font-size: 15px; color: var(--ink-3); }
   .grp li { border-bottom: 1px dashed var(--rule); padding: 4px 0; }
-  @media (max-width: 760px) { .grp { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 760px) { .grp { grid-template-columns: 1fr; } }
   @media print { .hero-art, .masthead, footer { display: none !important; } .section { break-inside: avoid-page; } }
 </style>
 </head>
@@ -55,18 +55,16 @@
   <section class="section" id="groups">
     <div class="label"><div class="sticky"><div class="num">01</div><h2>Your group</h2></div></div>
     <div class="body">
-      <p class="intro">You work in your peer group of four, with a captain. You spend both days with your group: you watch together, write together, and critique each other.</p>
+      <p class="intro">You work in your peer group, one of three, with a captain. You spend both days with your group: you watch together, write together, and critique each other.</p>
       <div class="kit-cells" style="--cols:3">
         <div><div class="k"><i style="background:var(--m-red)"></i>The captain</div><h3>Keeps time</h3><p>Keeps the group moving, keeps the group's notes in one shared document, and at the end of the day posts one line on WhatsApp: who has pushed.</p></div>
-        <div><div class="k"><i style="background:var(--m-yellow)"></i>Everyone</div><h3>Shows up</h3><p>Start at 9:30 as on any studio day. Fill in the <a href="docs.html#form">daily form</a> both days: it's the attendance record.</p></div>
+        <div><div class="k"><i style="background:var(--m-yellow)"></i>Everyone</div><h3>Shows up</h3><p>Start at 9:30 as on any studio day, and write your <a href="docs.html#entry">log</a> entry both days.</p></div>
         <div><div class="k"><i style="background:var(--m-blue)"></i>On Monday</div><h3>Brings it back</h3><p>The group's notes from Thursday and every feedback sheet from Friday. Ujjwal reads them before your critique.</p></div>
       </div>
-      <div class="grp" aria-label="The five groups">
+      <div class="grp" aria-label="The three groups">
         <div><div class="k">Group 1</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
         <div><div class="k">Group 2</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
-        <div><div class="k">Group 3</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
-        <div><div class="k">Group 4</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
-        <div><div class="k">Group 5</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
+        <div><div class="k">Group 3</div><ol><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li><li>&nbsp;</li></ol></div>
       </div>
       <p class="note" style="margin-top:12px">The first name in each group is the captain. Groups are your peer groups, written in on Day 3.</p>
     </div>
@@ -81,9 +79,9 @@
         <li><div><b>Five questions, in your group.</b><p>Two minutes of silent writing on each, then talk. The captain writes down the group's best answer to each.</p></div></li>
         <li><div><b>After lunch: manifesto workshop, in your group.</b><p>Follow the <a href="manifesto.html">manifesto worksheet</a>: raw material, a long draft, then the cuts. Each person reads theirs aloud; the group says which line to cut next. Down to 150 words.</p></div></li>
         <li><div><b>Push.</b><p>Tell Codex "push": <code>manifesto.md</code> version 1, and <code>references.md</code> as far as it's got.</p></div></li>
-        <li><div><b>Daily form, before you leave.</b><p>Then field research for your references continues into the evening: 15 are due with A1 tomorrow.</p></div></li>
+        <li><div><b>Log entry, before you leave.</b><p>Then field research for your references continues into the evening: 15 are due with A1 tomorrow.</p></div></li>
       </ol>
-      <div class="kit-tpl"><div class="cap">Five questions · group notes</div><button type="button" class="kit-btn" data-copy>Copy</button><pre>Group [1–5] · Day 4 · captain: [name]
+      <div class="kit-tpl"><div class="cap">Five questions · group notes</div><button type="button" class="kit-btn" data-copy>Copy</button><pre>Group [1/2/3] · Day 4 · captain: [name]
 
 1. Which of the three stories stayed with you, and which scene would you show to explain it?
 2. If every plank of a ship is replaced, is it the same ship? What would have to stay for your identity to still be itself?
@@ -165,7 +163,7 @@ what its rules would do, and what it would put out.]
   </div>
 </footer>
 
-<script src="assets/nav.js?v=13" defer></script>
+<script src="assets/nav.js?v=14" defer></script>
 <script src="assets/mondrian.js" defer></script>
 <script src="assets/kit.js?v=1" defer></script>
 </body>
