@@ -80,6 +80,39 @@
   .sheet button.row.cur { background: var(--bg2); }
   .sheet button.row .n { font: 500 12px/1.6 var(--mono); color: var(--red); }
   .sheet button.row small { color: var(--ink3); font: 500 11px/1.6 var(--mono); }
+
+  /* reader */
+  #lock .alt { background: none; border: 1px solid var(--line); padding: 14px; font: 500 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+  #reader { display: none; min-height: 100%; }
+  body.reading #reader { display: block; } body.reading #lock, body.reading #app { display: none !important; }
+  .rtop { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); padding: calc(10px + env(safe-area-inset-top)) 16px 0; }
+  .rhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; max-width: 760px; margin: 0 auto; }
+  .rhead h1 { font: 400 24px/1.1 var(--serif); margin: 0; }
+  .rhead h1 em { color: var(--red); }
+  .rhead .acts { display: flex; gap: 6px; }
+  .rhead button { background: var(--bg2); border: 1px solid var(--line); padding: 9px 11px; font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .chips { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0 12px; max-width: 760px; margin: 0 auto; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips button { flex: none; background: none; border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+  .chips button b { display: block; font: 500 10px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); }
+  .chips button span { font: 400 15px/1.2 var(--serif); }
+  .chips button.on { border-color: var(--red); background: var(--bg2); }
+  .chips button.on b { color: var(--red); }
+  .rbody { max-width: 760px; margin: 0 auto; padding: 20px 18px calc(40px + env(safe-area-inset-bottom)); }
+  .rdeck { font: 400 36px/1.05 var(--serif); margin: 4px 0 6px; }
+  .rmeta { color: var(--ink2); font-size: 15px; margin-bottom: 18px; }
+  .rslide { border-top: 1px solid var(--line); padding: 16px 0 18px; }
+  .rslide .rn { display: flex; justify-content: space-between; font: 500 12px/1 var(--mono); color: var(--red); }
+  .rslide .rn small { color: var(--ink3); font: inherit; }
+  .rslide h2 { font: 400 24px/1.15 var(--serif); margin: 8px 0 8px; }
+  .rslide .say li { font-size: 17px; }
+  .rslide .cue, .rslide .ask { margin-top: 10px; }
+  @media print {
+    html, body { background: #fff; color: #111; height: auto; }
+    .rtop .acts, .chips { display: none; } .rtop { position: static; border: 0; }
+    .rslide { break-inside: avoid; border-color: #ccc; } .rmeta, .rslide .rn small { color: #555; }
+    .cue, .ask { background: #f3f1ea; } .say li { border-color: #ddd; } .say li::before { background: #888; }
+  }
 </style>
 </head>
 <body>
@@ -90,7 +123,9 @@
   <p>Notes and controls for the morning talks. Pair with the laptop by scanning the code on its start screen (press R on the laptop to show it again).</p>
   <label class="k">Passphrase<input id="pass" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false"></label>
   <label class="k">Room<input id="room" type="text" autocapitalize="off" spellcheck="false" placeholder="from the laptop's code"></label>
-  <button class="go" id="unlock" type="button">Unlock</button>
+  <button class="go" id="unlock" type="button">Unlock remote</button>
+  <button class="alt" id="readOnly" type="button">Just read the notes</button>
+  <p>To read your notes ahead of a talk, you only need the passphrase.</p>
   <div class="msg" id="msg"></div>
 </section>
 
@@ -113,9 +148,18 @@
     <button type="button" id="bList">Slides</button>
     <button type="button" id="bDeck">Talks</button>
     <button type="button" id="bTimer">Reset clock</button>
+    <button type="button" id="bRead">Read</button>
   </nav>
   <div class="pad"><button type="button" class="back" id="bPrev">←</button><button type="button" class="fwd" id="bNext">Next →</button></div>
 </main>
+
+<section id="reader">
+  <header class="rtop">
+    <div class="rhead"><h1>Your <em>notes</em></h1><div class="acts"><button type="button" id="rPrint">Print</button><button type="button" id="rClose">Close</button></div></div>
+    <nav class="chips" id="chips"></nav>
+  </header>
+  <div class="rbody" id="rbody"></div>
+</section>
 
 <div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
 
@@ -125,7 +169,9 @@
   var params = new URLSearchParams(location.hash.slice(1));
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   var notes = null, room = params.get("room") || store.get("cy-remote-room") || "", deck = params.get("deck") || store.get("cy-remote-deck") || "opening";
-  var state = null, lastState = 0, t0 = +(store.get("cy-remote-t0") || 0), blank = false, wake = null;
+  var state = null, lastState = 0, t0 = +(store.get("cy-remote-t0") || 0);
+  if (t0 && Date.now() - t0 > 3 * 3600 * 1000) { t0 = 0; store.set("cy-remote-t0", "0"); }
+  var blank = false, wake = null;
   $("room").value = room; $("pass").value = store.get("cy-remote-pass") || "";
 
   // ---------- decrypt ----------
@@ -137,16 +183,46 @@
     var plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(f.iv) }, key, b64(f.data));
     return JSON.parse(new TextDecoder().decode(plain));
   }
-  async function unlock() {
-    var pass = $("pass").value.trim(); room = $("room").value.trim().toLowerCase();
-    if (!pass) { $("msg").textContent = "Enter the passphrase."; return; }
-    if (!/^[a-z0-9]{8,}$/.test(room)) { $("msg").textContent = "Enter the room code from the laptop."; return; }
+  async function open() {
+    var pass = $("pass").value.trim();
+    if (!pass) { $("msg").textContent = "Enter the passphrase."; return false; }
+    if (notes) return true;
     $("msg").textContent = "Unlocking…";
-    try { notes = await decrypt(pass); } catch (e) { $("msg").textContent = "That passphrase didn't open the notes."; return; }
-    store.set("cy-remote-pass", pass); store.set("cy-remote-room", room);
+    try { notes = await decrypt(pass); } catch (e) { $("msg").textContent = "That passphrase didn't open the notes."; return false; }
+    $("msg").textContent = ""; store.set("cy-remote-pass", pass); return true;
+  }
+  async function unlock() {
+    room = $("room").value.trim().toLowerCase();
+    if (!/^[a-z0-9]{8,}$/.test(room)) { $("msg").textContent = "Enter the room code from the laptop, or just read the notes."; return; }
+    if (!(await open())) return;
+    store.set("cy-remote-room", room);
     document.body.classList.add("ready"); start();
   }
   $("unlock").addEventListener("click", unlock);
+  $("readOnly").addEventListener("click", async function () { if (await open()) reader(params.get("read") || store.get("cy-read-deck") || deck); });
+
+  // ---------- reader ----------
+  var started = false;
+  function reader(key) {
+    if (!notes[key]) key = Object.keys(notes)[0];
+    store.set("cy-read-deck", key);
+    $("chips").innerHTML = Object.keys(notes).map(function (k) {
+      return '<button type="button" data-d="' + k + '" class="' + (k === key ? "on" : "") + '"><b>' + esc((notes[k].day || "").split(" · ")[0]) + "</b><span>" + esc(notes[k].title) + "</span></button>";
+    }).join("");
+    $("chips").querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { reader(b.dataset.d); window.scrollTo(0, 0); }); });
+    var d = notes[key];
+    $("rbody").innerHTML = '<div class="k">' + esc(d.day) + '</div><div class="rdeck">' + esc(d.title) + '</div><div class="rmeta">' + d.slides.length + " slides · about " + d.minutes + " minutes</div>" +
+      d.slides.map(function (s, i) {
+        return '<article class="rslide"><div class="rn"><span>' + String(i + 1).padStart(2, "0") + "</span><small>" + (s.m ? s.m + " min" : "") + "</small></div><h2>" + esc(s.t) + '</h2><ul class="say">' +
+          (s.say || []).map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
+          (s.cue ? '<div class="cue">' + esc(s.cue) + "</div>" : "") + (s.ask ? '<div class="ask">' + esc(s.ask) + "</div>" : "") + "</article>";
+      }).join("");
+    $("rClose").textContent = started ? "Back" : "Lock";
+    document.body.classList.add("reading");
+    var on = $("chips").querySelector(".on"); if (on) $("chips").scrollLeft = on.offsetLeft - ($("chips").clientWidth - on.offsetWidth) / 2;
+  }
+  $("rClose").addEventListener("click", function () { document.body.classList.remove("reading"); window.scrollTo(0, 0); });
+  $("rPrint").addEventListener("click", function () { window.print(); });
   $("pass").addEventListener("keydown", function (e) { if (e.key === "Enter") unlock(); });
 
   // ---------- relay ----------
@@ -219,11 +295,14 @@
   async function keepAwake() { try { if ("wakeLock" in navigator) wake = await navigator.wakeLock.request("screen"); } catch (e) {} }
   document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") { keepAwake(); send("hello"); } });
 
+  $("bRead").addEventListener("click", function () { reader(deck); });
   function start() {
+    started = true;
     render(); listen(); keepAwake(); send("hello");
     setInterval(tick, 1000); setInterval(function () { send("ping"); }, 30000); tick();
   }
-  if ($("pass").value && room) unlock();
+  if (params.has("read") && $("pass").value) $("readOnly").click();
+  else if ($("pass").value && room) unlock();
 })();
 </script>
 </body>
