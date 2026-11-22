@@ -120,12 +120,11 @@
 <section id="lock">
   <div class="k">Computationally Yours</div>
   <h1>Talk <em>remote</em></h1>
-  <p>Notes and controls for the morning talks. Pair with the laptop by scanning the code on its start screen (press R on the laptop to show it again).</p>
+  <p>Enter the passphrase.</p>
   <label class="k">Passphrase<input id="pass" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false"></label>
   <label class="k">Room<input id="room" type="text" autocapitalize="off" spellcheck="false" placeholder="from the laptop's code"></label>
   <button class="go" id="unlock" type="button">Unlock remote</button>
   <button class="alt" id="readOnly" type="button">Just read the notes</button>
-  <p>To read your notes ahead of a talk, you only need the passphrase.</p>
   <div class="msg" id="msg"></div>
 </section>
 
@@ -168,7 +167,7 @@
   var RELAY = "https://ntfy.sh/", $ = function (id) { return document.getElementById(id); };
   var params = new URLSearchParams(location.hash.slice(1));
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-  var notes = null, room = params.get("room") || store.get("cy-remote-room") || "", deck = params.get("deck") || store.get("cy-remote-deck") || "opening";
+  var notes = null, room = params.get("room") || store.get("cy-remote-room") || "", deck = params.get("deck") || store.get("cy-remote-deck") || "introduction";
   var state = null, lastState = 0, t0 = +(store.get("cy-remote-t0") || 0);
   if (t0 && Date.now() - t0 > 3 * 3600 * 1000) { t0 = 0; store.set("cy-remote-t0", "0"); }
   var blank = false, wake = null;

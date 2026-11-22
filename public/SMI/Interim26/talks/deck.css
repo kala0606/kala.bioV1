@@ -117,10 +117,8 @@ body.blanked #blank { display: block; }
 @media (prefers-reduced-motion: reduce) { .step { transition: none; } }
 
 /* phone remote */
-.rdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rule); margin-left: 10px; vertical-align: 1px; }
-.rdot.on { background: #2fa84f; }
-.pair-open { margin-top: 26px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 10px 14px; cursor: pointer; }
-.pair-open:hover { background: var(--paper); color: var(--ink); }
+.rdot { visibility: hidden; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rule); margin-left: 10px; vertical-align: 1px; }
+.rdot.on { visibility: visible; background: #2fa84f; }
 .pair { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; background: rgba(17,17,16,.92); color: var(--paper); cursor: default; }
 body.pairing .pair { display: grid; }
 .pair > div:last-child { display: flex; flex-direction: column; gap: 10px; max-width: 360px; font: 400 14px/1.5 var(--sans); }

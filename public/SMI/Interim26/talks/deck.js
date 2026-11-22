@@ -143,7 +143,9 @@
     lastWheel = now; e.deltaY > 0 ? next() : prev();
   }, { passive: true });
   document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return; // leave browser shortcuts alone (reload is also R)
     var k = e.key;
+    if (document.body.classList.contains("pairing") && k === "Escape") { togglePair(false); return; }
     if (!started && (k === "Enter" || k === " " || k === "ArrowRight" || k === "PageDown")) { begin(); return; }
     if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter", "n"].indexOf(k) > -1) { e.preventDefault(); next(); }
     else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace", "p"].indexOf(k) > -1) { e.preventDefault(); prev(); }
@@ -182,7 +184,7 @@
       fetch(RELAY + STATE, { method: "POST", body: JSON.stringify(msg) }).catch(function () {});
     }, 150);
   }
-  var dotEl = document.createElement("span"); dotEl.className = "rdot"; dotEl.title = "Phone remote"; chrome.querySelector(".num").parentNode.appendChild(dotEl);
+  var dotEl = document.createElement("span"); dotEl.className = "rdot"; chrome.querySelector(".num").parentNode.appendChild(dotEl);
   function dot() { dotEl.classList.toggle("on", Date.now() - lastPhone < 75000); }
   setInterval(dot, 5000);
   function listen() {
@@ -191,7 +193,7 @@
     es.onmessage = function (ev) {
       var m; try { m = JSON.parse(JSON.parse(ev.data).message); } catch (e) { return; }
       if (!m || !m.cmd || (m.t && Date.now() - m.t > 20000)) return;
-      lastPhone = Date.now(); dot();
+      lastPhone = Date.now(); dot(); if (m.cmd === "hello") togglePair(false); // linked: take the code off the screen
       if (m.cmd === "next") { if (!started) begin(true); else next(); }
       else if (m.cmd === "prev") prev();
       else if (m.cmd === "goto") { if (!started) begin(true); go(Math.max(0, Math.min(slides.length - 1, m.n | 0)), false); }
@@ -216,11 +218,6 @@
   pairBox.querySelector(".pair-x").addEventListener("click", function (e) { e.stopPropagation(); togglePair(false); });
   pairBox.addEventListener("click", function (e) { e.stopPropagation(); });
   document.body.appendChild(pairBox);
-  var pairLink = document.createElement("button"); pairLink.type = "button"; pairLink.className = "pair-open"; pairLink.textContent = "Pair phone";
-  pairLink.addEventListener("click", function (e) { e.stopPropagation(); togglePair(true); });
-  // the pairing button only shows with ?present; R opens pairing anywhere
-  if (new URLSearchParams(location.search).has("present")) start.querySelector("div").appendChild(pairLink);
-
   var h = parseInt(location.hash.slice(1), 10);
   show(h > 0 && h <= slides.length ? h - 1 : 0, false);
 })();
