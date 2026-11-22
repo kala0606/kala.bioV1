@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction · Computationally Yours</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111110'/%3E%3Crect x='3' y='3' width='14' height='26' fill='%23f2eee2'/%3E%3Crect x='19' y='3' width='10' height='12' fill='%23db261f'/%3E%3Crect x='19' y='17' width='10' height='12' fill='%23f2eee2'/%3E%3C/svg%3E">
+<style>
+/* this deck only: pictures. Works are shown whole, never cropped. */
+.slide.hero { display: none; flex-direction: row; justify-content: flex-start; align-items: center; gap: calc(var(--u) * 4); padding: 0 calc(var(--u) * 5) calc(var(--u) * 3.2) 0; }
+.slide.hero.on { display: flex; }
+.hero .plate { flex: none; margin: 0; width: calc(var(--u) * var(--w)); height: 100%; background: var(--ink); border-right: 2px solid var(--ink); display: grid; place-items: center; }
+.hero .plate img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hero > .stack { flex: 1; min-width: 0; }
+.hero .stack > h3 { color: var(--ink-2); }
+.hero .cells { margin-top: calc(var(--u) * 3.4); }
+.hero .credit { font: 400 calc(var(--u) * 1.05)/1.3 var(--mono); color: var(--ink-3); letter-spacing: .03em; }
+.hero .cells h3 { margin-bottom: 0; }
+.cells .on-yellow .k, .cells .on-yellow p { color: var(--ink); }
+.work { display: grid; grid-template-columns: 1fr auto; gap: calc(var(--u) * 4); align-items: center; }
+.work h2 { font-size: calc(var(--u) * 4); } .work .lede { font-size: calc(var(--u) * 1.8); margin-top: calc(var(--u) * 1.6); }
+.work .rule { border: 2px solid var(--ink); padding: calc(var(--u) * 1.2) calc(var(--u) * 1.5); margin-top: calc(var(--u) * 2.2); }
+.rule .k { font: 500 calc(var(--u) * 1.05)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.rule p { margin: calc(var(--u) * .5) 0 0; font: 400 calc(var(--u) * 2.2)/1.2 var(--serif); }
+.rule.on-red { background: var(--red); color: #fff; } .rule.on-yellow { background: var(--yellow); } .rule.on-blue { background: var(--blue); color: #fff; }
+.pics { display: flex; gap: calc(var(--u) * .9); } .pics img, .sheet img, .duo img, .masters img { display: block; border: 2px solid var(--ink); background: var(--ink); }
+.pics .lg { height: calc(var(--u) * 36); width: auto; aspect-ratio: var(--ar); }
+.three { display: flex; flex-direction: column; justify-content: space-between; height: calc(var(--u) * 36); } .three img { height: calc(var(--u) * 11.4); width: auto; aspect-ratio: var(--ar); }
+.work.wide .pics { flex-direction: column; } .work.wide .lg { width: calc(var(--u) * 41); height: auto; }
+.work.wide .three { flex-direction: row; height: auto; width: calc(var(--u) * 41); gap: calc(var(--u) * .9); } .work.wide .three img { width: auto; height: auto; min-width: 0; flex: 1; }
+.gridhead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: calc(var(--u) * 2); } .gridhead .kicker { margin: 0; text-align: right; } .gridhead h2 { font-size: calc(var(--u) * 3.6); }
+.sheet { display: grid; grid-template-columns: repeat(var(--c), auto); gap: calc(var(--u) * .9); justify-content: space-between; } .sheet img { height: calc(var(--u) * var(--h, 14)); width: auto; aspect-ratio: var(--ar); }
+.duo { display: grid; grid-template-columns: auto auto 1fr; gap: calc(var(--u) * 1.6); align-items: center; } .duo figure { margin: 0; }
+.duo img { height: calc(var(--u) * var(--h)); width: auto; aspect-ratio: var(--ar); } .duo h2 { font-size: calc(var(--u) * 3.6); padding-left: calc(var(--u) * 1.6); }
+.duo.wide { grid-template-columns: 1fr 1fr; } .duo.wide img { width: 100%; height: auto; } .duo.wide h2 { grid-column: span 2; max-width: none; padding-left: 0; }
+.masters { grid-template-columns: repeat(6, 1fr); } .masters > div { display: flex; flex-direction: column; padding: calc(var(--u) * 1.1); } .masters img { width: 100%; height: calc(var(--u) * 14); object-fit: contain; background: var(--paper-2); margin-bottom: calc(var(--u) * 1.1); } .masters .k { font-size: calc(var(--u) * .9); } .masters h3 { font-size: calc(var(--u) * 1.7); } .masters p { font-size: calc(var(--u) * 1.25); margin-top: auto; }
+.slide.do .cells { border-color: var(--paper); background: var(--paper); gap: 2px; margin-top: calc(var(--u) * 3.4); grid-template-columns: 2fr 1fr 1fr 1fr; } .slide.do .cells > div { background: var(--ink); min-height: calc(var(--u) * 13); }
+.slide.do .cells > .on-red { background: var(--red); } .slide.do .cells > .on-yellow { background: var(--yellow); color: var(--ink); } .slide.do .cells > .on-blue { background: var(--blue); }
+.slide.do .cells p { color: #c9c3b4; } .slide.do .cells .on-red p { color: #fde4e2; } .slide.do .cells .on-blue p { color: #dfe6fb; } .slide.do .cells .on-yellow p, .slide.do .cells .on-yellow .k { color: var(--ink); } .slide.do .cells .k { color: #a5a094; } .slide.do .cells .on-red .k, .slide.do .cells .on-blue .k { color: #fff; }
+.plan > div { padding-right: calc(var(--u) * 2); } .plan b { font-size: calc(var(--u) * 3.1) !important; } .plan .mono { font-size: calc(var(--u) * 1.1); letter-spacing: .04em; margin-top: calc(var(--u) * .9); }
+.pillar { min-height: calc(var(--u) * 30); display: flex; flex-direction: column; } .cells .pillar h3 { font-size: calc(var(--u) * 4); margin-top: auto; } .cells .pillar p { font-size: calc(var(--u) * 1.7); min-height: 7.2em; }
+.assign { min-height: calc(var(--u) * 32); display: flex; flex-direction: column; } .cells .assign h3 { font-size: calc(var(--u) * 3.6); } .cells .assign .due { margin-top: auto; font: 500 calc(var(--u) * 1.15)/1.5 var(--mono); }
+</style>
+</head>
+<body>
+<div class="deck" data-title="Introduction">
+
+<section class="slide cover">
+  <div class="card">
+    <p class="kicker"><b>Day 1</b> · Interim 2026 · Srishti Manipal</p>
+    <h1>Computationally <em>Yours</em>.</h1>
+    <p class="lede" style="font-size:calc(var(--u)*2.6)">Introduction</p>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">The theme</p>
+  <h1>Out of one's <em>place</em></h1>
+  <p class="lede" style="max-width:52ch">The theme "Out of One's Place" addresses societal shifts, ecological fragility and encourages practices that foster difference, adaptation, and deep conviction in identity and freedom of expression.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Twenty days, four weeks</p>
+  <h2 style="margin-bottom:calc(var(--u)*5)">The <em>plan</em></h2>
+  <div class="tl plan">
+    <div><span class="mono">Week 1 · 23–27 Nov</span><b>Identity</b><span>Take a position. One authored identity and its manifesto.</span></div>
+    <div><span class="mono">Week 2 · 30 Nov–4 Dec</span><b>Computation</b><span>Write the rules. A working system and twenty outputs.</span></div>
+    <div><span class="mono">Week 3 · 7–11 Dec</span><b>Material</b><span>Give it a body: plot, resin or print.</span></div>
+    <div><span class="mono">Week 4 · 14–18 Dec</span><b>Exhibition</b><span>Stand behind it. An Atlas of Elsewhere opens on Fri 18 Dec.</span></div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">Three pillars</p>
+  <div class="cells" style="grid-template-columns:repeat(3,1fr)">
+    <div class="on-red pillar"><div class="k">A</div><h3>Displacement</h3><p>Leave your familiar coordinates of place, time, language, role or species, and use the distance to see a real condition more clearly.</p></div>
+    <div class="on-yellow pillar"><div class="k">B</div><h3>Identity</h3><p>An authored identity with a name, an origin, a manifesto, beliefs and rules. A serious authorial position, not a costume.</p></div>
+    <div class="on-blue pillar"><div class="k">C</div><h3>Computation</h3><p>An original system: parameters, rules, constraints and controlled variation, with many outputs in one recognisable language.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker"><b>Masters</b> · six projects from Art Blocks Curated</p>
+  <div class="cells masters">
+    <div><img src="masters/rivers-537-s.jpg" alt="Ancient Courses of Fictional Rivers #537, Robert Hodgin"><div class="k"><i class="r"></i>Displacement</div><h3>Ancient Courses of Fictional Rivers</h3><p>Robert Hodgin</p></div><div><img src="masters/sudfah-329-s.jpg" alt="Sudfah #329, Melissa Wiederrecht"><div class="k"><i class="r"></i>Displacement</div><h3>Sudfah</h3><p>Melissa Wiederrecht</p></div><div><img src="masters/qilin-765-s.jpg" alt="Memories of Qilin #765, Emily Xie"><div class="k"><i class="y"></i>Identity</div><h3>Memories of Qilin</h3><p>Emily Xie</p></div><div><img src="masters/gazers-60-s.jpg" alt="Gazers #60, Matt Kane"><div class="k"><i class="y"></i>Identity</div><h3>Gazers</h3><p>Matt Kane</p></div><div><img src="masters/fidenza-748-s.jpg" alt="Fidenza #748, Tyler Hobbs"><div class="k"><i class="b"></i>Computation</div><h3>Fidenza</h3><p>Tyler Hobbs</p></div><div><img src="masters/ringers-961-s.jpg" alt="Ringers #961, Dmitri Cherniak"><div class="k"><i class="b"></i>Computation</div><h3>Ringers</h3><p>Dmitri Cherniak</p></div>
+  </div>
+  <p class="lede step" style="font-size:calc(var(--u)*2.2);max-width:none">Of each one, ask: what is the rule, and <em style="color:var(--red);font-style:normal">whose position does it carry?</em></p>
+</section>
+
+<!-- 1 · Ancient Courses of Fictional Rivers -->
+<section class="slide hero" style="--w:53.05">
+  <figure class="plate"><img src="masters/rivers-537.jpg" alt="Ancient Courses of Fictional Rivers #537, Robert Hodgin"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 1 of 6</b> · Displacement</p>
+    <h2 style="font-size:calc(var(--u)*4.4)">Ancient Courses of <em>Fictional Rivers</em></h2>
+    <h3>Robert Hodgin</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Mar 2022</h3></div><div><div class="k">Outputs</div><h3>1,000</h3></div><div class="on-red" style="grid-column:span 2"><div class="k">What moves</div><h3>Place</h3></div></div>
+    <p class="credit">#537 · Art Blocks Curated · CC BY-NC 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 1 of 6</b> · Displacement · Ancient Courses of Fictional Rivers</p>
+  <div class="work" style="--ar:1">
+    <div class="stack"><h2>A river that moved, and left every <em>old bed</em> showing.</h2><p class="lede">Each map simulates a river as it meanders across its plain. The courses it abandons stay on the page; roads and towns gather on the banks. Hodgin drew on Harold Fisk's 1944 maps of the Mississippi.</p><div class="rule on-red"><div class="k">The rule, in our words</div><p>Let the river wander. Keep every course it leaves.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/rivers-325.jpg" alt="Ancient Courses of Fictional Rivers #325, Robert Hodgin"><div class="three"><img src="masters/rivers-60-s.jpg" alt="Ancient Courses of Fictional Rivers #60, Robert Hodgin"><img src="masters/rivers-431-s.jpg" alt="Ancient Courses of Fictional Rivers #431, Robert Hodgin"><img src="masters/rivers-696-s.jpg" alt="Ancient Courses of Fictional Rivers #696, Robert Hodgin"></div></div>
+  </div>
+  <p class="src">Robert Hodgin, Ancient Courses of Fictional Rivers #325; #60, #431, #696 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One river, <em>a thousand maps</em>.</h2><p class="kicker"><b>Masters 1 of 6</b> · Displacement</p></div>
+  <div class="sheet" style="--ar:1;--c:6;--h:13.7"><img src="masters/rivers-7-s.jpg" alt="Ancient Courses of Fictional Rivers #7, Robert Hodgin"><img src="masters/rivers-60-s.jpg" alt="Ancient Courses of Fictional Rivers #60, Robert Hodgin"><img src="masters/rivers-113-s.jpg" alt="Ancient Courses of Fictional Rivers #113, Robert Hodgin"><img src="masters/rivers-219-s.jpg" alt="Ancient Courses of Fictional Rivers #219, Robert Hodgin"><img src="masters/rivers-431-s.jpg" alt="Ancient Courses of Fictional Rivers #431, Robert Hodgin"><img src="masters/rivers-484-s.jpg" alt="Ancient Courses of Fictional Rivers #484, Robert Hodgin"><img src="masters/rivers-590-s.jpg" alt="Ancient Courses of Fictional Rivers #590, Robert Hodgin"><img src="masters/rivers-643-s.jpg" alt="Ancient Courses of Fictional Rivers #643, Robert Hodgin"><img src="masters/rivers-696-s.jpg" alt="Ancient Courses of Fictional Rivers #696, Robert Hodgin"><img src="masters/rivers-802-s.jpg" alt="Ancient Courses of Fictional Rivers #802, Robert Hodgin"><img src="masters/rivers-855-s.jpg" alt="Ancient Courses of Fictional Rivers #855, Robert Hodgin"><img src="masters/rivers-908-s.jpg" alt="Ancient Courses of Fictional Rivers #908, Robert Hodgin"></div>
+  <p class="src">Robert Hodgin, Ancient Courses of Fictional Rivers · 12 of 1,000 outputs · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 1 of 6</b> · Displacement · Same rules, two seeds</p>
+  <div class="duo" style="--ar:1;--h:31">
+    <figure class="fig"><img src="masters/rivers-961.jpg" alt="Ancient Courses of Fictional Rivers #961, Robert Hodgin"><figcaption>#961</figcaption></figure>
+    <figure class="fig"><img src="masters/rivers-166.jpg" alt="Ancient Courses of Fictional Rivers #166, Robert Hodgin"><figcaption>#166</figcaption></figure>
+    <h2 class="step">What does your place remember of <em>where it used to be</em>?</h2>
+  </div>
+  <p class="src">Robert Hodgin, Ancient Courses of Fictional Rivers #961, #166 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<!-- 2 · Sudfah -->
+<section class="slide hero wide" style="--w:60">
+  <figure class="plate"><img src="masters/sudfah-329.jpg" alt="Sudfah #329, Melissa Wiederrecht"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 2 of 6</b> · Displacement</p>
+    <h2 style="font-size:calc(var(--u)*6.2)"><em>Sudfah</em></h2>
+    <h3>Melissa Wiederrecht</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Jun 2022</h3></div><div><div class="k">Outputs</div><h3>401</h3></div><div class="on-red" style="grid-column:span 2"><div class="k">What moves</div><h3>Language</h3></div></div>
+    <p class="credit">#329 · Art Blocks Curated · CC BY-NC-ND 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 2 of 6</b> · Displacement · Sudfah</p>
+  <div class="work wide" style="--ar:1.4143">
+    <div class="stack"><h2>A line sets out to say <em>one thing</em>.</h2><p class="lede">Sudfah is Arabic for happy accident. One calligraphic line crosses the page with a story to tell; digital liquid spills on it and carries the ink somewhere the line never meant to go. The accident tells the better story.</p><div class="rule on-red"><div class="k">The rule, in our words</div><p>Draw one line across. Then spill water on it.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/sudfah-122.jpg" alt="Sudfah #122, Melissa Wiederrecht"><div class="three"><img src="masters/sudfah-20-s.jpg" alt="Sudfah #20, Melissa Wiederrecht"><img src="masters/sudfah-76-s.jpg" alt="Sudfah #76, Melissa Wiederrecht"><img src="masters/sudfah-191-s.jpg" alt="Sudfah #191, Melissa Wiederrecht"></div></div>
+  </div>
+  <p class="src">Melissa Wiederrecht, Sudfah #122; #20, #76, #191 · Art Blocks · CC BY-NC-ND 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One line, <em>401 accidents</em>.</h2><p class="kicker"><b>Masters 2 of 6</b> · Displacement</p></div>
+  <div class="sheet" style="--ar:1.4143;--c:5;--h:11.4"><img src="masters/sudfah-7-s.jpg" alt="Sudfah #7, Melissa Wiederrecht"><img src="masters/sudfah-20-s.jpg" alt="Sudfah #20, Melissa Wiederrecht"><img src="masters/sudfah-30-s.jpg" alt="Sudfah #30, Melissa Wiederrecht"><img src="masters/sudfah-43-s.jpg" alt="Sudfah #43, Melissa Wiederrecht"><img src="masters/sudfah-76-s.jpg" alt="Sudfah #76, Melissa Wiederrecht"><img src="masters/sudfah-99-s.jpg" alt="Sudfah #99, Melissa Wiederrecht"><img src="masters/sudfah-145-s.jpg" alt="Sudfah #145, Melissa Wiederrecht"><img src="masters/sudfah-168-s.jpg" alt="Sudfah #168, Melissa Wiederrecht"><img src="masters/sudfah-191-s.jpg" alt="Sudfah #191, Melissa Wiederrecht"><img src="masters/sudfah-237-s.jpg" alt="Sudfah #237, Melissa Wiederrecht"><img src="masters/sudfah-260-s.jpg" alt="Sudfah #260, Melissa Wiederrecht"><img src="masters/sudfah-283-s.jpg" alt="Sudfah #283, Melissa Wiederrecht"><img src="masters/sudfah-306-s.jpg" alt="Sudfah #306, Melissa Wiederrecht"><img src="masters/sudfah-375-s.jpg" alt="Sudfah #375, Melissa Wiederrecht"><img src="masters/sudfah-398-s.jpg" alt="Sudfah #398, Melissa Wiederrecht"></div>
+  <p class="src">Melissa Wiederrecht, Sudfah · 15 of 401 outputs · Art Blocks · CC BY-NC-ND 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 2 of 6</b> · Displacement · Same rules, two seeds</p>
+  <div class="duo wide" style="--ar:1.4143;--h:31">
+    <figure class="fig"><img src="masters/sudfah-53.jpg" alt="Sudfah #53, Melissa Wiederrecht"><figcaption>#53</figcaption></figure>
+    <figure class="fig"><img src="masters/sudfah-214.jpg" alt="Sudfah #214, Melissa Wiederrecht"><figcaption>#214</figcaption></figure>
+    <h2 class="step">What was your line meant to say, <em>before it was moved</em>?</h2>
+  </div>
+  <p class="src">Melissa Wiederrecht, Sudfah #53, #214 · Art Blocks · CC BY-NC-ND 4.0</p>
+</section>
+<!-- 3 · Memories of Qilin -->
+<section class="slide hero" style="--w:37.93">
+  <figure class="plate"><img src="masters/qilin-765.jpg" alt="Memories of Qilin #765, Emily Xie"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 3 of 6</b> · Identity</p>
+    <h2>Memories of <em>Qilin</em></h2>
+    <h3>Emily Xie</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Mar 2022</h3></div><div><div class="k">Outputs</div><h3>1,024</h3></div><div class="on-yellow" style="grid-column:span 2"><div class="k">What moves</div><h3>Inheritance</h3></div></div>
+    <p class="credit">#765 · Art Blocks Curated · CC BY-NC 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 3 of 6</b> · Identity · Memories of Qilin</p>
+  <div class="work tall" style="--ar:0.715">
+    <div class="stack"><h2>Forms that <em>almost</em> become a creature.</h2><p class="lede">The movement of classical Chinese brushwork, with the colours and patterns of ukiyo-e woodblock prints. Shapes come near dragons, phoenixes, flowers and mountains without settling. The qilin is a chimera of East Asian myth; Xie's mother saw it in the work.</p><div class="rule on-yellow"><div class="k">The rule, in our words</div><p>Fill moving forms with inherited pattern. Stop before they become a picture.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/qilin-7.jpg" alt="Memories of Qilin #7, Emily Xie"><div class="three"><img src="masters/qilin-61-s.jpg" alt="Memories of Qilin #61, Emily Xie"><img src="masters/qilin-223-s.jpg" alt="Memories of Qilin #223, Emily Xie"><img src="masters/qilin-549-s.jpg" alt="Memories of Qilin #549, Emily Xie"></div></div>
+  </div>
+  <p class="src">Emily Xie, Memories of Qilin #7; #61, #223, #549 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One memory, <em>1,024 tellings</em>.</h2><p class="kicker"><b>Masters 3 of 6</b> · Identity</p></div>
+  <div class="sheet" style="--ar:0.715;--c:7;--h:16.2"><img src="masters/qilin-12-s.jpg" alt="Memories of Qilin #12, Emily Xie"><img src="masters/qilin-61-s.jpg" alt="Memories of Qilin #61, Emily Xie"><img src="masters/qilin-115-s.jpg" alt="Memories of Qilin #115, Emily Xie"><img src="masters/qilin-169-s.jpg" alt="Memories of Qilin #169, Emily Xie"><img src="masters/qilin-223-s.jpg" alt="Memories of Qilin #223, Emily Xie"><img src="masters/qilin-332-s.jpg" alt="Memories of Qilin #332, Emily Xie"><img src="masters/qilin-386-s.jpg" alt="Memories of Qilin #386, Emily Xie"><img src="masters/qilin-494-s.jpg" alt="Memories of Qilin #494, Emily Xie"><img src="masters/qilin-549-s.jpg" alt="Memories of Qilin #549, Emily Xie"><img src="masters/qilin-603-s.jpg" alt="Memories of Qilin #603, Emily Xie"><img src="masters/qilin-657-s.jpg" alt="Memories of Qilin #657, Emily Xie"><img src="masters/qilin-820-s.jpg" alt="Memories of Qilin #820, Emily Xie"><img src="masters/qilin-928-s.jpg" alt="Memories of Qilin #928, Emily Xie"><img src="masters/qilin-982-s.jpg" alt="Memories of Qilin #982, Emily Xie"></div>
+  <p class="src">Emily Xie, Memories of Qilin · 14 of 1,024 outputs · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 3 of 6</b> · Identity · Same rules, two seeds</p>
+  <div class="duo" style="--ar:0.715;--h:37">
+    <figure class="fig"><img src="masters/qilin-278.jpg" alt="Memories of Qilin #278, Emily Xie"><figcaption>#278</figcaption></figure>
+    <figure class="fig"><img src="masters/qilin-711.jpg" alt="Memories of Qilin #711, Emily Xie"><figcaption>#711</figcaption></figure>
+    <h2 class="step">What have you inherited that you could write <em>as a rule</em>?</h2>
+  </div>
+  <p class="src">Emily Xie, Memories of Qilin #278, #711 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<!-- 4 · Gazers -->
+<section class="slide hero" style="--w:53.05">
+  <figure class="plate"><img src="masters/gazers-60.jpg" alt="Gazers #60, Matt Kane"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 4 of 6</b> · Identity</p>
+    <h2 style="font-size:calc(var(--u)*6.2)"><em>Gazers</em></h2>
+    <h3>Matt Kane</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Dec 2021</h3></div><div><div class="k">Outputs</div><h3>1,000</h3></div><div class="on-yellow" style="grid-column:span 2"><div class="k">What moves</div><h3>Time</h3></div></div>
+    <p class="credit">#60 · Art Blocks Curated · CC BY-NC 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 4 of 6</b> · Identity · Gazers</p>
+  <div class="work" style="--ar:1">
+    <div class="stack"><h2>A self-portrait kept as a <em>lunar calendar</em>.</h2><p class="lede">Each work begins from an Origin Moon: the date of a new moon that shaped Kane's path as an artist. From there it keeps time with the real moon. Every new moon brings a new design, and the motion speeds up for as long as the work exists.</p><div class="rule on-yellow"><div class="k">The rule, in our words</div><p>Begin from a date in a life. Change with every new moon.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/gazers-272.jpg" alt="Gazers #272, Matt Kane"><div class="three"><img src="masters/gazers-14-s.jpg" alt="Gazers #14, Matt Kane"><img src="masters/gazers-325-s.jpg" alt="Gazers #325, Matt Kane"><img src="masters/gazers-696-s.jpg" alt="Gazers #696, Matt Kane"></div></div>
+  </div>
+  <p class="src">Matt Kane, Gazers #272; #14, #325, #696 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One sky, <em>a thousand moons</em>.</h2><p class="kicker"><b>Masters 4 of 6</b> · Identity</p></div>
+  <div class="sheet" style="--ar:1;--c:6;--h:13.7"><img src="masters/gazers-7-s.jpg" alt="Gazers #7, Matt Kane"><img src="masters/gazers-14-s.jpg" alt="Gazers #14, Matt Kane"><img src="masters/gazers-166-s.jpg" alt="Gazers #166, Matt Kane"><img src="masters/gazers-219-s.jpg" alt="Gazers #219, Matt Kane"><img src="masters/gazers-325-s.jpg" alt="Gazers #325, Matt Kane"><img src="masters/gazers-378-s.jpg" alt="Gazers #378, Matt Kane"><img src="masters/gazers-537-s.jpg" alt="Gazers #537, Matt Kane"><img src="masters/gazers-643-s.jpg" alt="Gazers #643, Matt Kane"><img src="masters/gazers-696-s.jpg" alt="Gazers #696, Matt Kane"><img src="masters/gazers-802-s.jpg" alt="Gazers #802, Matt Kane"><img src="masters/gazers-855-s.jpg" alt="Gazers #855, Matt Kane"><img src="masters/gazers-908-s.jpg" alt="Gazers #908, Matt Kane"></div>
+  <p class="src">Matt Kane, Gazers · 12 of 1,000 outputs · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 4 of 6</b> · Identity · Same rules, two seeds</p>
+  <div class="duo" style="--ar:1;--h:31">
+    <figure class="fig"><img src="masters/gazers-431.jpg" alt="Gazers #431, Matt Kane"><figcaption>#431</figcaption></figure>
+    <figure class="fig"><img src="masters/gazers-749.jpg" alt="Gazers #749, Matt Kane"><figcaption>#749</figcaption></figure>
+    <h2 class="step">Which <em>date</em> does your identity begin from?</h2>
+  </div>
+  <p class="src">Matt Kane, Gazers #431, #749 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<!-- 5 · Fidenza -->
+<section class="slide hero" style="--w:44.21">
+  <figure class="plate"><img src="masters/fidenza-748.jpg" alt="Fidenza #748, Tyler Hobbs"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 5 of 6</b> · Computation</p>
+    <h2 style="font-size:calc(var(--u)*6.2)"><em>Fidenza</em></h2>
+    <h3>Tyler Hobbs</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Jun 2021</h3></div><div><div class="k">Outputs</div><h3>999</h3></div><div class="on-blue" style="grid-column:span 2"><div class="k">What moves</div><h3>Dials</h3></div></div>
+    <p class="credit">#748 · Art Blocks Curated · CC BY-NC 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 5 of 6</b> · Computation · Fidenza</p>
+  <div class="work tall" style="--ar:0.8333">
+    <div class="stack"><h2>One program, from <em>calm stripes</em> to storms.</h2><p class="lede">Structured curves and blocks, laid along a flow field: an invisible grid of directions. Scale, turbulence, density, colour and collision are dials, and each combination opens another family of pictures that are still plainly Fidenza.</p><div class="rule on-blue"><div class="k">The rule, in our words</div><p>Follow the field. Mind your distance from your neighbours.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/fidenza-218.jpg" alt="Fidenza #218, Tyler Hobbs"><div class="three"><img src="masters/fidenza-112-s.jpg" alt="Fidenza #112, Tyler Hobbs"><img src="masters/fidenza-430-s.jpg" alt="Fidenza #430, Tyler Hobbs"><img src="masters/fidenza-695-s.jpg" alt="Fidenza #695, Tyler Hobbs"></div></div>
+  </div>
+  <p class="src">Tyler Hobbs, Fidenza #218; #112, #430, #695 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One algorithm, <em>999 weathers</em>.</h2><p class="kicker"><b>Masters 5 of 6</b> · Computation</p></div>
+  <div class="sheet" style="--ar:0.8333;--c:6;--h:16.2"><img src="masters/fidenza-14-s.jpg" alt="Fidenza #14, Tyler Hobbs"><img src="masters/fidenza-112-s.jpg" alt="Fidenza #112, Tyler Hobbs"><img src="masters/fidenza-165-s.jpg" alt="Fidenza #165, Tyler Hobbs"><img src="masters/fidenza-324-s.jpg" alt="Fidenza #324, Tyler Hobbs"><img src="masters/fidenza-430-s.jpg" alt="Fidenza #430, Tyler Hobbs"><img src="masters/fidenza-483-s.jpg" alt="Fidenza #483, Tyler Hobbs"><img src="masters/fidenza-589-s.jpg" alt="Fidenza #589, Tyler Hobbs"><img src="masters/fidenza-642-s.jpg" alt="Fidenza #642, Tyler Hobbs"><img src="masters/fidenza-695-s.jpg" alt="Fidenza #695, Tyler Hobbs"><img src="masters/fidenza-801-s.jpg" alt="Fidenza #801, Tyler Hobbs"><img src="masters/fidenza-907-s.jpg" alt="Fidenza #907, Tyler Hobbs"><img src="masters/fidenza-960-s.jpg" alt="Fidenza #960, Tyler Hobbs"></div>
+  <p class="src">Tyler Hobbs, Fidenza · 12 of 999 outputs · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 5 of 6</b> · Computation · Same rules, two seeds</p>
+  <div class="duo" style="--ar:0.8333;--h:35">
+    <figure class="fig"><img src="masters/fidenza-377.jpg" alt="Fidenza #377, Tyler Hobbs"><figcaption>#377</figcaption></figure>
+    <figure class="fig"><img src="masters/fidenza-536.jpg" alt="Fidenza #536, Tyler Hobbs"><figcaption>#536</figcaption></figure>
+    <h2 class="step">Which dials would your identity <em>refuse to turn</em>?</h2>
+  </div>
+  <p class="src">Tyler Hobbs, Fidenza #377, #536 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<!-- 6 · Ringers -->
+<section class="slide hero" style="--w:53.05">
+  <figure class="plate"><img src="masters/ringers-961.jpg" alt="Ringers #961, Dmitri Cherniak"></figure>
+  <div class="stack">
+    <p class="kicker"><b>Masters 6 of 6</b> · Computation</p>
+    <h2 style="font-size:calc(var(--u)*6.2)"><em>Ringers</em></h2>
+    <h3>Dmitri Cherniak</h3>
+    <div class="cells" style="grid-template-columns:1fr 1fr"><div><div class="k">Released</div><h3>Jan 2021</h3></div><div><div class="k">Outputs</div><h3>1,000</h3></div><div class="on-blue" style="grid-column:span 2"><div class="k">What moves</div><h3>Almost nothing</h3></div></div>
+    <p class="credit">#961 · Art Blocks Curated · CC BY-NC 4.0</p>
+  </div>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 6 of 6</b> · Computation · Ringers</p>
+  <div class="work" style="--ar:1">
+    <div class="stack"><h2>A string, some pegs, <em>no end</em>.</h2><p class="lede">Peg count, size, layout and the direction of the wrap change; the string and the pegs never do. Cherniak calls automation an artistic medium: the variety has to come from the system.</p><div class="rule on-blue"><div class="k">The rule, in our words</div><p>Place some pegs. Wrap a string.</p></div></div>
+    <div class="pics"><img class="lg" src="masters/ringers-166.jpg" alt="Ringers #166, Dmitri Cherniak"><div class="three"><img src="masters/ringers-60-s.jpg" alt="Ringers #60, Dmitri Cherniak"><img src="masters/ringers-272-s.jpg" alt="Ringers #272, Dmitri Cherniak"><img src="masters/ringers-537-s.jpg" alt="Ringers #537, Dmitri Cherniak"></div></div>
+  </div>
+  <p class="src">Dmitri Cherniak, Ringers #166; #60, #272, #537 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <div class="gridhead"><h2>One string, <em>a thousand knots</em>.</h2><p class="kicker"><b>Masters 6 of 6</b> · Computation</p></div>
+  <div class="sheet" style="--ar:1;--c:6;--h:13.7"><img src="masters/ringers-7-s.jpg" alt="Ringers #7, Dmitri Cherniak"><img src="masters/ringers-60-s.jpg" alt="Ringers #60, Dmitri Cherniak"><img src="masters/ringers-113-s.jpg" alt="Ringers #113, Dmitri Cherniak"><img src="masters/ringers-219-s.jpg" alt="Ringers #219, Dmitri Cherniak"><img src="masters/ringers-272-s.jpg" alt="Ringers #272, Dmitri Cherniak"><img src="masters/ringers-325-s.jpg" alt="Ringers #325, Dmitri Cherniak"><img src="masters/ringers-378-s.jpg" alt="Ringers #378, Dmitri Cherniak"><img src="masters/ringers-431-s.jpg" alt="Ringers #431, Dmitri Cherniak"><img src="masters/ringers-537-s.jpg" alt="Ringers #537, Dmitri Cherniak"><img src="masters/ringers-590-s.jpg" alt="Ringers #590, Dmitri Cherniak"><img src="masters/ringers-643-s.jpg" alt="Ringers #643, Dmitri Cherniak"><img src="masters/ringers-855-s.jpg" alt="Ringers #855, Dmitri Cherniak"></div>
+  <p class="src">Dmitri Cherniak, Ringers · 12 of 1,000 outputs · Art Blocks · CC BY-NC 4.0</p>
+</section>
+<section class="slide">
+  <p class="kicker"><b>Masters 6 of 6</b> · Computation · Same rules, two seeds</p>
+  <div class="duo" style="--ar:1;--h:31">
+    <figure class="fig"><img src="masters/ringers-14.jpg" alt="Ringers #14, Dmitri Cherniak"><figcaption>#14</figcaption></figure>
+    <figure class="fig"><img src="masters/ringers-749.jpg" alt="Ringers #749, Dmitri Cherniak"><figcaption>#749</figcaption></figure>
+    <h2 class="step">How <em>short</em> can your identity's rule be?</h2>
+  </div>
+  <p class="src">Dmitri Cherniak, Ringers #14, #749 · Art Blocks · CC BY-NC 4.0</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">Assignments · submitting means pushing</p>
+  <div class="cells" style="grid-template-columns:2fr 3fr 5fr">
+    <div class="on-red assign"><div class="k">A1 · 20%</div><h3>Identity</h3><p>identity.md, manifesto, 15 references, card draft and a one-page proposal.</p><p class="due">Fri 27 Nov<br>Crit 1 · Mon 30 Nov</p></div>
+    <div class="on-yellow assign"><div class="k">A2 · 30%</div><h3>System</h3><p>The running system, twenty outputs named by seed, the parameter table and a production plan.</p><p class="due">Fri 4 Dec<br>Crit 2 · same day</p></div>
+    <div class="on-blue assign"><div class="k">A3 · 50%</div><h3>Final</h3><p>The artefact installed in your zone with its card, manifesto, label and QR code, the complete repository, and a conversation beside the work.</p><p class="due">Thu 17 Dec, install day<br>Opening · Fri 18 Dec</p></div>
+  </div>
+</section>
+
+<section class="slide do">
+  <p class="kicker">The coordinates exercise</p>
+  <p class="big" style="font-size:calc(var(--u)*5);max-width:26ch">List the places, languages, roles and routes <em>you already hold</em>.</p>
+  <div class="cells" style="grid-template-columns:repeat(4,1fr)">
+    <div class="on-red"><div class="k">01</div><h3>Places</h3><p>you have lived in, left, or return to</p></div>
+    <div class="on-yellow"><div class="k">02</div><h3>Languages</h3><p>you speak, half speak, or only overhear</p></div>
+    <div class="on-blue"><div class="k">03</div><h3>Roles</h3><p>you were given, and those you chose</p></div>
+    <div><div class="k">04</div><h3>Routes</h3><p>you travel every day, and those your family took</p></div>
+  </div>
+  <p class="timer">By the end of the day: your coordinates sheet, in your repository.</p>
+</section>
+
+</div>
+<script src="deck.js?v=5"></script>
+</body>
+</html>
